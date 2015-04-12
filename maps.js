@@ -223,7 +223,7 @@ var $wlrMap = {
       $('#map-canvas').css('height', Math.floor((3 * $map_width / 4)) + 'px');
       localStorage.setItem('route1', JSON.stringify({
          routeid: 1,
-         route: '{hdyHmTkQyv@iF_NKeW_Mya@u@or@_D}SuEuA_C}L?al@kQ_UaKa]sCki@_DyJm_@dI^|SjBlEh@~ThCzKsBza@tNpd@~Hl[~D`e@jIbyAi@fg@j^xcB_E~E~BlE~B~oAuCtW_Q~c@kK~Mah@xeAaDsHyEeEu@`GyDtA{JGeH_FdF{RnL_CiAgJePsVwXfByGfC_EbOrBxYjE~Mz^pv@nBz@eBhGzEvaAyC~PgUln@k\yR{KqCjC}L_Ee[_BczBqDo`@zAs@dBe[~Eu_@_C{Ou@aNdS|AnCtAnAcHpFwBtRtAjb@}AjCiCdJ?~KuIjNu^tCcLn@{OeKlBkNzCwr@yF_Cn_@kEf]kHnIcEGbEon@iGcA_Cl_@_CYxC}m@nAi@?uHoGmLuEgCHcDiA}EeAjDyAqCeIdIoIpCxAp~@eEvi@_CdNZpGq@lLi@fo@tInF~Dn\Jhw@~AjfAuGbH~Gfo@i@fQhCzKuFlj@uEdm@Jn\^|gA~E|b@dKfQnLrHv]xFkA|b@jDvy@eElEyBk@uDeM',
+         route: '{hdyHmTkQyv@iF_NKeW_Mya@u@or@_D}SuEuA_C}L?al@kQ_UaKa]sCki@_DyJm_@dI^|SjBlEh@~ThCzKsBza@tNpd@~Hl[~D`e@jIbyAi@fg@j^xcB_E~E~BlE~B~oAuCtW_Q~c@kK~Mah@xeAaDsHyEeEu@`GyDtA{JGeH_FdF{RnL_CiAgJePsVwXfByGfC_EbOrBxYjE~Mz^pv@nBz@eBhGzEvaAyC~PgUln@k\\yR{KqCjC}L_Ee[_BczBqDo`@zAs@dBe[~Eu_@_C{Ou@aNdS|AnCtAnAcHpFwBtRtAjb@}AjCiCdJ?~KuIjNu^tCcLn@{OeKlBkNzCwr@yF_Cn_@kEf]kHnIcEGbEon@iGcA_Cl_@_CYxC}m@nAi@?uHoGmLuEgCHcDiA}EeAjDyAqCeIdIoIpCxAp~@eEvi@_CdNZpGq@lLi@fo@tInF~Dn\\Jhw@~AjfAuGbH~Gfo@i@fQhCzKuFlj@uEdm@Jn\\^|gA~E|b@dKfQnLrHv]xFkA|b@jDvy@eElEyBk@uDeM',
          name: 'London Marathon',
          progress: 0,
          unit: 0,
@@ -255,7 +255,7 @@ var $wlrMap = {
       }));
       localStorage.setItem('route5', JSON.stringify({
          routeid: 5,
-         route: 'obxxEij|sY}Sp|Hr`BvmIurAjdEj_DfoQqnB~aO{ZpxUb~EbeI~ExbHl_D|pCyo@jyNwkAztAzh@jkHp|BldEwkAjdE~E|wFrnBfsDrcC{tAjeFd~EhqJ`lWz_Gf{A~Eja@lz@rcAls@uIv@~\tmAwg@}ZnwDlhAdhBwGal@fn@naAl|CmEwfAe_@v\?gRmE_~@c~E|mDcxGnWmhOr}HugKnpNrnB~bNnyCdsAdzGgoBjdPpxEljZj}BvmIn`Dnr@ndCx{D|mF~aOlbIha@h|FxpN|uD|pCnsAnyC|{HnyClfJp|H|}BvfFqeArqGvaBr|HwhBrtWvhBdvTe[n|SwaBjnXcwMvbSfi@hkSmeAngJcvDjyNatJnnMevMx{Dci@jhCf~@jkH{xEdeI~EzsSc~b@ldE`TtmIkeHbbDalApjOckCfzGaaBlq]aqEpjO`xEvpYdiGzwFtn[|i@t_Fn`Gj}BvdGr^b`EzdBx{DpIldEx}AjfDqW|pCryCrlCnIb~E|jE|nD~kBn`Gu^lbFirDjhCvs@l{BnoBdwBpoBx{D`F`bDs~IzK',
+         route: 'obxxEij|sY}Sp|Hr`BvmIurAjdEj_DfoQqnB~aO{ZpxUb~EbeI~ExbHl_D|pCyo@jyNwkAztAzh@jkHp|BldEwkAjdE~E|wFrnBfsDrcC{tAjeFd~EhqJ`lWz_Gf{A~Eja@lz@rcAls@uIv@~\\tmAwg@}ZnwDlhAdhBwGal@fn@naAl|CmEwfAe_@v\\?gRmE_~@c~E|mDcxGnWmhOr}HugKnpNrnB~bNnyCdsAdzGgoBjdPpxEljZj}BvmIn`Dnr@ndCx{D|mF~aOlbIha@h|FxpN|uD|pCnsAnyC|{HnyClfJp|H|}BvfFqeArqGvaBr|HwhBrtWvhBdvTe[n|SwaBjnXcwMvbSfi@hkSmeAngJcvDjyNatJnnMevMx{Dci@jhCf~@jkH{xEdeI~EzsSc~b@ldE`TtmIkeHbbDalApjOckCfzGaaBlq]aqEpjO`xEvpYdiGzwFtn[|i@t_Fn`Gj}BvdGr^b`EzdBx{DpIldEx}AjfDqW|pCryCrlCnIb~E|jE|nD~kBn`Gu^lbFirDjhCvs@l{BnoBdwBpoBx{D`F`bDs~IzK',
          name: 'Tokyo to Kyoto',
          progress: 0,
          unit: 0,
@@ -263,7 +263,7 @@ var $wlrMap = {
       }));
       localStorage.setItem('route6', JSON.stringify({
          routeid: 6,
-         route: '{_xiGg_sk@kyPmbt@hgCesOsrJcsOtuAogJ_cGceIlnBelLigTswg@sjPdP}uKouPeiUikSsWogJeyQywQa}Rwvn@hKev_@j~C}sHx{Ey}q@j{O}yh@bfHyae@gp@ypNrrHi`]fbVojZ|eT}yh@zyf@yl[~a\ia@znWnyCpeUig`@fpb@yiKf|KnyCx_QihCfuNu{ZqKwok@x}Kyl[roOytAjq@o`Gt|^ka@dhXclLzfMi}L~jAcdf@dv^iqs@d~e@ouPfe@ywQhiW}nr@tqHsia@okEczR',
+         route: '{_xiGg_sk@kyPmbt@hgCesOsrJcsOtuAogJ_cGceIlnBelLigTswg@sjPdP}uKouPeiUikSsWogJeyQywQa}Rwvn@hKev_@j~C}sHx{Ey}q@j{O}yh@bfHyae@gp@ypNrrHi`]fbVojZ|eT}yh@zyf@yl[~a\\ia@znWnyCpeUig`@fpb@yiKf|KnyCx_QihCfuNu{ZqKwok@x}Kyl[roOytAjq@o`Gt|^ka@dhXclLzfMi}L~jAcdf@dv^iqs@d~e@ouPfe@ywQhiW}nr@tqHsia@okEczR',
          name: 'Nice to Rome',
          progress: 0,
          unit: 0,
