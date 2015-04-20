@@ -218,7 +218,7 @@ var $wlrMap = {
       $wlrMap.redrawProgress();
    },
    init: function() {
-      var $map_width = 800;
+      var $map_width = $('main').width();
       $('#map-canvas').css('width', Math.floor($map_width) + 'px');
       $('#map-canvas').css('height', Math.floor((3 * $map_width / 4)) + 'px');
       localStorage.setItem('route1', JSON.stringify({

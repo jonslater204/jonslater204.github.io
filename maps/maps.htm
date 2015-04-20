@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Route Planner</title>
+<link rel="stylesheet" type="text/css" href="maps.css">
+</head>
+<body>
+<header>
+   <h1>Route Planner</h1>
+</header>
+<aside>
+   <h2>Plot a route anywhere.</h2>
+   <p>Drag/zoom the map to find where you would like your route.</p>
+   <p>Click to add points and see your route grow.</p>
+   <p>If you click the hand icon at the top of the map you can edit the line.
+      Drag any of the points to move it. Double click a point to remove it.
+      Dragging the paler circle in the middle of a line segment allows you to
+      add extra points within the line. You can use this to start with a rough route
+      and add more detail later.</p>
+   <p>You can click the Mode button to switch between Edit and View modes.
+      View Mode hides the route markers and control points and prevents
+      accidental edits.</p>
+   <div id="js-routes"></div>
+</aside>
+<main>
+   <button id="js-new">New Route</button>
+   <input type="text" id="js-name" placeholder="Route Name" />
+   <button id="js-save">Save</button>
+   <div id="map-canvas"></div>
+   <p>Distance: <span id="js-distance">0 m</span></p>
+   <button id="js-edit">Edit Mode</button>
+   <button id="js-zoom">Zoom</button>
+   <button id="js-delete">Delete</button>
+   <button id="js-clear">Delete All</button>
+   <span id="js-message"></span>
+   <input type="text" id="js-progress" placeholder="Progress" />
+   <select id="js-unit">
+      <option value="miles">Miles</option>
+      <option value="km">Kilometres</option>
+   </select>
+   <button id="js-view">Show</button>
+</main>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?libraries=geometry,drawing&amp;key=AIzaSyA30RgeEKuIdUx4uqyACo78-EtYTA_Y9U4"></script>
+<script type="text/javascript" src="maps.js"></script>
+</body>
+</html>

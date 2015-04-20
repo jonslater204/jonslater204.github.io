@@ -1,0 +1,10 @@
+aside {
+   float: right;
+   width: calc(30% - 50px);
+   padding: 20px;
+   background: greenyellow;
+}
+
+main {
+   margin-right: calc(30% + 10px);
+}

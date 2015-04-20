@@ -1,5 +1,5 @@
 <?php
-require 'inc.php';
+require '/inc.php';
 $db = new DBi('home');
 
 $op = $_POST['op'];
