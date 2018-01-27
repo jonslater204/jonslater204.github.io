@@ -1,0 +1,1070 @@
+<style>
+   :root {
+      --size: calc(100vw / 24);
+      --rollspeed: 0.25s;
+      --p1col: red;
+      --p2col: blue;
+      --p1name: "red";
+      --p2name: "blue";
+      --boardcol1: cyan;
+      --boardcol2: lightgreen;
+      font-family: sans-serif;
+   }
+   @keyframes diceroll {
+      100% {
+         transform: translateY(calc(var(--size) * -6));
+      }
+   }
+   @keyframes moveroll {
+      100% {
+         transform: translateY(calc(var(--size) * -6));
+      }
+   }
+   body {
+      margin: 0;
+      padding: 0;
+   }
+   [type="radio"],
+   [type="reset"] {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+   }
+   label {
+      display: block;
+      cursor: pointer;
+   }
+   [for="roll1"],
+   [for="roll2"] {
+      position: absolute;
+      top: calc(var(--size) * 0.25);
+      left: calc(var(--size) * 1.5);
+      width: calc(var(--size) * 3);
+      height: calc(var(--size) * 0.5);
+      padding: calc(var(--size) * 0.25);
+      border-radius: calc(var(--size) * 0.125);
+      text-align: center;
+      visibility: hidden;
+      color: white;
+      font-weight: bold;
+      font-size: calc(var(--size) * 0.5);
+      line-height: calc(var(--size) * 0.5);
+      text-transform: uppercase;
+      background: var(--p1col);
+   }
+   [for="roll2"] {
+      position: absolute;
+      left: calc(var(--size) * 19);
+      border-color: var(--p2col);
+      background: var(--p2col);
+   }
+   #dice1:checked ~ [for="roll2"],
+   #dice2:checked ~ [for="roll1"] {
+      visibility: visible;
+   }
+   #dicecontainer1,
+   #dicecontainer2 {
+      position: absolute;
+      top: calc(var(--size) * 0.25);
+      left: calc(var(--size) * 5.5);
+      overflow: hidden;
+      width: var(--size);
+      height: var(--size);
+      background: var(--p1col);
+      border-radius: calc(var(--size) * 0.125);
+   }
+   #dicecontainer2 {
+      position: absolute;
+      left: calc(var(--size) * 17.5);
+      background: var(--p2col);
+   }
+   .diceroll {
+      display: block;
+      position: absolute;
+      width: var(--size);
+      height: calc(var(--size) * 6);
+      animation: diceroll var(--rollspeed) steps(6) infinite;
+      animation-play-state: paused;
+   }
+   [for="dice1"],
+   [for="dice2"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--size);
+      height: var(--size);
+      pointer-events: none;
+   }
+   #roll1:checked ~ #dicecontainer1 [for="dice1"],
+   #roll2:checked ~ #dicecontainer2 [for="dice2"] {
+      pointer-events: auto;
+   }
+   #roll1:checked ~ #dicecontainer1 .diceroll,
+   #roll2:checked ~ #dicecontainer2 .diceroll,
+   #roll1:checked ~ .board #moves1,
+   #roll2:checked ~ .board #moves2 {
+      animation-play-state: running;
+   }
+   .diceroll span {
+      display: block;
+      width: var(--size);
+      height: var(--size);
+   }
+   .diceroll span:before {
+      content: "";
+      display: block;
+      position: relative;
+      top: calc(var(--size) * -0.125);
+      left: calc(var(--size) * -0.125);
+      width: calc(var(--size) * 0.25);
+      height: calc(var(--size) * 0.25);
+      border-radius: 50%;
+   }
+   .diceroll span:nth-of-type(1):before {
+      box-shadow: calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white;
+   }
+   .diceroll span:nth-of-type(2):before {
+      box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white;
+   }
+   .diceroll span:nth-of-type(3):before {
+      box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+         calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white;
+   }
+   .diceroll span:nth-of-type(4):before {
+      box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+   }
+   .diceroll span:nth-of-type(5):before {
+      box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+         calc(var(--size) * 0.5) calc(var(--size) * 0.5) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+   }
+   .diceroll span:nth-of-type(6):before {
+      box-shadow: calc(var(--size) * 0.25) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.25) calc(var(--size) * 0.5) 0 0 white,
+         calc(var(--size) * 0.25) calc(var(--size) * 0.75) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.25) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.5) 0 0 white,
+         calc(var(--size) * 0.75) calc(var(--size) * 0.75) 0 0 white;
+   }
+   [for="help_open"],
+   [for="reset"] {
+      display: block;
+      position: absolute;
+      top: calc(var(--size) * 0.25);
+      left: calc(var(--size) * 7.5);
+      width: calc(var(--size) * 2);
+      height: calc(var(--size) * 0.5 - 4px);
+      padding: calc(var(--size) * 0.25);
+      border: 2px #666 solid;
+      border-radius: calc(var(--size) * 0.125);
+      font-size: calc(var(--size) * 0.5);
+      line-height: calc(var(--size) * 0.5);
+      text-transform: uppercase;
+      text-align: center;
+      color: #666;
+      font-weight: bold;
+      background: white;
+      cursor: pointer;
+   }
+   [for="reset"] {
+      left: calc(var(--size) * 14 - 4px);
+   }
+   #help {
+      position: absolute;
+      top: calc(var(--size) * 0.25);
+      transform: translate(calc(var(--size) * 6.75), -150%);
+      width: calc(var(--size) * 10 - 4px);
+      height: calc(var(--size) * 1.6);
+      padding: calc(var(--size) * 0.25);
+      border: 2px black solid;
+      border-radius: calc(var(--size) * 0.25);
+      background: white;
+      transition: transform 1s linear;
+   }
+   #help p {
+      font-size: calc(var(--size) * 0.4);
+      line-height: calc(var(--size) * 0.4);
+      margin: 0 0 calc(var(--size) * 0.2);
+      padding: 0;
+   }
+   #help_open:checked ~ #help {
+      transform: translate(calc(var(--size) * 6.75), 0);
+   }
+   [for="help_close"] {
+      display: block;
+      position: absolute;
+      top: calc(var(--size) * 0.25);
+      right: calc(var(--size) * 0.25);
+      width: calc(var(--size) * 0.5);
+      height: calc(var(--size) * 0.5);
+      border-radius: 50%;
+      background: grey;
+   }
+   [for="help_close"]:before,
+   [for="help_close"]:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: calc(var(--size) * 0.075);
+      height: calc(var(--size) * 0.3);
+      background: white;
+      border-radius: calc(var(--size) * 0.05);
+      transform: translate(-50%, -50%) rotate(45deg);
+   }
+   [for="help_close"]:after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+   }
+   [for="help_close"]:hover {
+      background: red;
+   }
+   #moves1,
+   #moves2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--size);
+      height: calc(var(--size) * 48);
+      animation: moveroll var(--rollspeed) steps(6) infinite;
+      animation-play-state: paused;
+   }
+   #moves1 label,
+   #moves2 label {
+      width: var(--size);
+      height: var(--size);
+   }
+   .board {
+      position: absolute;
+      top: calc(var(--size) * 1.5);
+      left: calc(var(--size) * 1.5);
+      width: calc(var(--size) * 21 + 1px);
+      height: calc(var(--size) * 7 + 1px);
+   }
+   .spaces {
+      float: left;
+      counter-reset: number 49;
+      width: calc(var(--size) * 21);
+      height: calc(var(--size) * 7);
+      border-top: 1px black solid;
+      border-left: 1px black solid;
+   }
+   #dice1:checked ~ .board #counter1,
+   #dice2:checked ~ .board #counter2 {
+      pointer-events: auto;
+   }
+   .spaces div {
+      float: right;
+      background: var(--boardcol1);
+      width: calc(var(--size) * 3 - 1px);
+      height: calc(var(--size) - 1px);
+      border-right: 1px black solid;
+      border-bottom: 1px black solid;
+   }
+   .spaces div:nth-of-type(2n) {
+      background: var(--boardcol2);
+   }
+   .spaces div:nth-of-type(n+8):nth-of-type(-n+14),
+   .spaces div:nth-of-type(n+22):nth-of-type(-n+28),
+   .spaces div:nth-of-type(n+36):nth-of-type(-n+42) {
+      float: left;
+   }
+   .spaces div:first-of-type {
+      border-left-width: 1px;
+   }
+   .spaces div:before {
+      counter-increment: number -1;
+      content: counter(number);
+      font-size: calc(var(--size) * 0.25);
+   }
+   .spaces div:last-of-type:before {
+      content: 'START';
+   }
+   .spaces div:first-of-type:before {
+      content: 'FINISH';
+   }
+   #counter1,
+   #counter2 {
+      width: var(--size);
+      height: var(--size);
+      position: absolute;
+      top: 0;
+      left: var(--size);
+      transform: translate(0, calc(var(--size) * 6));
+      transition: transform 1s ease;
+      pointer-events: none;
+      overflow: hidden;
+   }
+   #counter2 {
+      left: calc(var(--size) * 2);
+   }
+   #counter1:before,
+   #counter2:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: calc(var(--size) * 0.125);
+      left: calc(var(--size) * 0.125);
+      width: calc(var(--size) * 0.75);
+      height: calc(var(--size) * 0.75);
+      background: var(--p1col);
+      border-radius: 50%;
+   }
+   #counter2:before {
+      background: var(--p2col);
+   }
+   #move1_1:checked ~ .board #counter1,
+   #move2_1:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 3), calc(var(--size) * 6));
+   }
+   #move1_1:checked ~ .board #moves1,
+   #move2_1:checked ~ .board #moves2 {
+      top: calc(var(--size) * -1);
+   }
+   #move1_2:checked ~ .board #counter1,
+   #move2_2:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 6), calc(var(--size) * 6));*/
+      transform: translate(calc(var(--size) * 3), calc(var(--size) * 4));
+   }
+   #move1_2:checked ~ .board #moves1,
+   #move2_2:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -2);*/
+      top: calc(var(--size) * -15);
+   }
+   #move1_3:checked ~ .board #counter1,
+   #move2_3:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 9), calc(var(--size) * 6));
+   }
+   #move1_3:checked ~ .board #moves1,
+   #move2_3:checked ~ .board #moves2 {
+      top: calc(var(--size) * -3);
+   }
+   #move1_4:checked ~ .board #counter1,
+   #move2_4:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 12), calc(var(--size) * 6));
+   }
+   #move1_4:checked ~ .board #moves1,
+   #move2_4:checked ~ .board #moves2 {
+      top: calc(var(--size) * -4);
+   }
+   #move1_5:checked ~ .board #counter1,
+   #move2_5:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 15), calc(var(--size) * 6));
+   }
+   #move1_5:checked ~ .board #moves1,
+   #move2_5:checked ~ .board #moves2 {
+      top: calc(var(--size) * -5);
+   }
+   #move1_6:checked ~ .board #counter1,
+   #move2_6:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 6));
+   }
+   #move1_6:checked ~ .board #moves1,
+   #move2_6:checked ~ .board #moves2 {
+      top: calc(var(--size) * -6);
+   }
+   #move1_7:checked ~ .board #counter1,
+   #move2_7:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 5));
+   }
+   #move1_7:checked ~ .board #moves1,
+   #move2_7:checked ~ .board #moves2 {
+      top: calc(var(--size) * -7);
+   }
+   #move1_8:checked ~ .board #counter1,
+   #move2_8:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 15), WAScalc(var(--size) * 1;))*/
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 2));
+   }
+   #move1_8:checked ~ .board #moves1,
+   #move2_8:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -8);*/
+      top: calc(var(--size) * -34);
+   }
+   #move1_9:checked ~ .board #counter1,
+   #move2_9:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 12), calc(var(--size) * 5));
+   }
+   #move1_9:checked ~ .board #moves1,
+   #move2_9:checked ~ .board #moves2 {
+      top: calc(var(--size) * -9);
+   }
+   #move1_10:checked ~ .board #counter1,
+   #move2_10:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 9), calc(var(--size) * 5));
+   }
+   #move1_10:checked ~ .board #moves1,
+   #move2_10:checked ~ .board #moves2 {
+      top: calc(var(--size) * -10);
+   }
+   #move1_11:checked ~ .board #counter1,
+   #move2_11:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), calc(var(--size) * 5));
+   }
+   #move1_11:checked ~ .board #moves1,
+   #move2_11:checked ~ .board #moves2 {
+      top: calc(var(--size) * -11);
+   }
+   #move1_12:checked ~ .board #counter1,
+   #move2_12:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 3), calc(var(--size) * 5));
+   }
+   #move1_12:checked ~ .board #moves1,
+   #move2_12:checked ~ .board #moves2 {
+      top: calc(var(--size) * -12);
+   }
+   #move1_13:checked ~ .board #counter1,
+   #move2_13:checked ~ .board #counter2 {
+      transform: translate(0, calc(var(--size) * 5));
+   }
+   #move1_13:checked ~ .board #moves1,
+   #move2_13:checked ~ .board #moves2 {
+      top: calc(var(--size) * -13);
+   }
+   #move1_14:checked ~ .board #counter1,
+   #move2_14:checked ~ .board #counter2 {
+      transform: translate(0, calc(var(--size) * 4));
+   }
+   #move1_14:checked ~ .board #moves1,
+   #move2_14:checked ~ .board #moves2 {
+      top: calc(var(--size) * -14);
+   }
+   #move1_15:checked ~ .board #counter1,
+   #move2_15:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 3), calc(var(--size) * 4));
+   }
+   #move1_15:checked ~ .board #moves1,
+   #move2_15:checked ~ .board #moves2 {
+      top: calc(var(--size) * -15);
+   }
+   #move1_16:checked ~ .board #counter1,
+   #move2_16:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), calc(var(--size) * 4));
+   }
+   #move1_16:checked ~ .board #moves1,
+   #move2_16:checked ~ .board #moves2 {
+      top: calc(var(--size) * -16);
+   }
+   #move1_17:checked ~ .board #counter1,
+   #move2_17:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 9), calc(var(--size) * 4));
+   }
+   #move1_17:checked ~ .board #moves1,
+   #move2_17:checked ~ .board #moves2 {
+      top: calc(var(--size) * -17);
+   }
+   #move1_18:checked ~ .board #counter1,
+   #move2_18:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 12), calc(var(--size) * 4));
+   }
+   #move1_18:checked ~ .board #moves1,
+   #move2_18:checked ~ .board #moves2 {
+      top: calc(var(--size) * -18);
+   }
+   #move1_19:checked ~ .board #counter1,
+   #move2_19:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 15), calc(var(--size) * 4));
+   }
+   #move1_19:checked ~ .board #moves1,
+   #move2_19:checked ~ .board #moves2 {
+      top: calc(var(--size) * -19);
+   }
+   #move1_20:checked ~ .board #counter1,
+   #move2_20:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 4));
+   }
+   #move1_20:checked ~ .board #moves1,
+   #move2_20:checked ~ .board #moves2 {
+      top: calc(var(--size) * -20);
+   }
+   #move1_21:checked ~ .board #counter1,
+   #move2_21:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 3));
+   }
+   #move1_21:checked ~ .board #moves1,
+   #move2_21:checked ~ .board #moves2 {
+      top: calc(var(--size) * -21);
+   }
+   #move1_22:checked ~ .board #counter1,
+   #move2_22:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 15), calc(var(--size) * 3));
+   }
+   #move1_22:checked ~ .board #moves1,
+   #move2_22:checked ~ .board #moves2 {
+      top: calc(var(--size) * -22);
+   }
+   #move1_23:checked ~ .board #counter1,
+   #move2_23:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 12), calc(var(--size) * 3));*/
+      transform: translate(calc(var(--size) * 9), calc(var(--size) * 5));
+   }
+   #move1_23:checked ~ .board #moves1,
+   #move2_23:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -23);*/
+      top: calc(var(--size) * -10);
+   }
+   #move1_24:checked ~ .board #counter1,
+   #move2_24:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 9), calc(var(--size) * 3));*/
+      transform: translate(calc(var(--size) * 12), calc(var(--size) * 2));
+   }
+   #move1_24:checked ~ .board #moves1,
+   #move2_24:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -24);*/
+      top: calc(var(--size) * -32);
+   }
+   #move1_25:checked ~ .board #counter1,
+   #move2_25:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), calc(var(--size) * 3));
+   }
+   #move1_25:checked ~ .board #moves1,
+   #move2_25:checked ~ .board #moves2 {
+      top: calc(var(--size) * -25);
+   }
+   #move1_26:checked ~ .board #counter1,
+   #move2_26:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 3), calc(var(--size) * 3));*/
+      transform: translate(0, calc(var(--size) * 4));
+   }
+   #move1_26:checked ~ .board #moves1,
+   #move2_26:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -26);*/
+      top: calc(var(--size) * -14);
+   }
+   #move1_27:checked ~ .board #counter1,
+   #move2_27:checked ~ .board #counter2 {
+      transform: translate(0, calc(var(--size) * 3));
+   }
+   #move1_27:checked ~ .board #moves1,
+   #move2_27:checked ~ .board #moves2 {
+      top: calc(var(--size) * -27);
+   }
+   #move1_28:checked ~ .board #counter1,
+   #move2_28:checked ~ .board #counter2 {
+      /*transform: translate(0, calc(var(--size) * 2));*/
+      transform: translate(calc(var(--size) * 3), var(--size));
+   }
+   #move1_28:checked ~ .board #moves1,
+   #move2_28:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -28);*/
+      top: calc(var(--size) * -40);
+   }
+   #move1_29:checked ~ .board #counter1,
+   #move2_29:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 3), calc(var(--size) * 2));
+   }
+   #move1_29:checked ~ .board #moves1,
+   #move2_29:checked ~ .board #moves2 {
+      top: calc(var(--size) * -29);
+   }
+   #move1_30:checked ~ .board #counter1,
+   #move2_30:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), calc(var(--size) * 2));
+   }
+   #move1_30:checked ~ .board #moves1,
+   #move2_30:checked ~ .board #moves2 {
+      top: calc(var(--size) * -30);
+   }
+   #move1_31:checked ~ .board #counter1,
+   #move2_31:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 9), calc(var(--size) * 2));
+   }
+   #move1_31:checked ~ .board #moves1,
+   #move2_31:checked ~ .board #moves2 {
+      top: calc(var(--size) * -31);
+   }
+   #move1_32:checked ~ .board #counter1,
+   #move2_32:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 12), calc(var(--size) * 2));
+   }
+   #move1_32:checked ~ .board #moves1,
+   #move2_32:checked ~ .board #moves2 {
+      top: calc(var(--size) * -32);
+   }
+   #move1_33:checked ~ .board #counter1,
+   #move2_33:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 15), calc(var(--size) * 2));*/
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 4));
+   }
+   #move1_33:checked ~ .board #moves1,
+   #move2_33:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -33);*/
+      top: calc(var(--size) * -20);
+   }
+   #move1_34:checked ~ .board #counter1,
+   #move2_34:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), calc(var(--size) * 2));
+   }
+   #move1_34:checked ~ .board #moves1,
+   #move2_34:checked ~ .board #moves2 {
+      top: calc(var(--size) * -34);
+   }
+   #move1_35:checked ~ .board #counter1,
+   #move2_35:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), var(--size));
+   }
+   #move1_35:checked ~ .board #moves1,
+   #move2_35:checked ~ .board #moves2 {
+      top: calc(var(--size) * -35);
+   }
+   #move1_36:checked ~ .board #counter1,
+   #move2_36:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 15), var(--size));
+   }
+   #move1_36:checked ~ .board #moves1,
+   #move2_36:checked ~ .board #moves2 {
+      top: calc(var(--size) * -36);
+   }
+   #move1_37:checked ~ .board #counter1,
+   #move2_37:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 12), var(--size));
+   }
+   #move1_37:checked ~ .board #moves1,
+   #move2_37:checked ~ .board #moves2 {
+      top: calc(var(--size) * -37);
+   }
+   #move1_38:checked ~ .board #counter1,
+   #move2_38:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 9), var(--size));*/
+      transform: translate(calc(var(--size) * 9), 0);
+   }
+   #move1_38:checked ~ .board #moves1,
+   #move2_38:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -38);*/
+      top: calc(var(--size) * -45);
+   }
+   #move1_39:checked ~ .board #counter1,
+   #move2_39:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), var(--size));
+   }
+   #move1_39:checked ~ .board #moves1,
+   #move2_39:checked ~ .board #moves2 {
+      top: calc(var(--size) * -39);
+   }
+   #move1_40:checked ~ .board #counter1,
+   #move2_40:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 3), var(--size));
+   }
+   #move1_40:checked ~ .board #moves1,
+   #move2_40:checked ~ .board #moves2 {
+      top: calc(var(--size) * -40);
+   }
+   #move1_41:checked ~ .board #counter1,
+   #move2_41:checked ~ .board #counter2 {
+      transform: translate(0, var(--size));
+   }
+   #move1_41:checked ~ .board #moves1,
+   #move2_41:checked ~ .board #moves2 {
+      top: calc(var(--size) * -41);
+   }
+   #move1_42:checked ~ .board #counter1,
+   #move2_42:checked ~ .board #counter2 {
+      transform: translate(0, 0);
+   }
+   #move1_42:checked ~ .board #moves1,
+   #move2_42:checked ~ .board #moves2 {
+      top: calc(var(--size) * -42);
+   }
+   #move1_43:checked ~ .board #counter1,
+   #move2_43:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 3), 0);*/
+      transform: translate(calc(var(--size) * 6), calc(var(--size) * 2));
+   }
+   #move1_43:checked ~ .board #moves1,
+   #move2_43:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -43);*/
+      top: calc(var(--size) * -30);
+   }
+   #move1_44:checked ~ .board #counter1,
+   #move2_44:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 6), 0);
+   }
+   #move1_44:checked ~ .board #moves1,
+   #move2_44:checked ~ .board #moves2 {
+      top: calc(var(--size) * -44);
+   }
+   #move1_45:checked ~ .board #counter1,
+   #move2_45:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 9), 0);
+   }
+   #move1_45:checked ~ .board #moves1,
+   #move2_45:checked ~ .board #moves2 {
+      top: calc(var(--size) * -45);
+   }
+   #move1_46:checked ~ .board #counter1,
+   #move2_46:checked ~ .board #counter2 {
+      /*transform: translate(calc(var(--size) * 12), 0);*/
+      transform: translate(calc(var(--size) * 12), var(--size));
+   }
+   #move1_46:checked ~ .board #moves1,
+   #move2_46:checked ~ .board #moves2 {
+      /*top: calc(var(--size) * -46);*/
+      top: calc(var(--size) * -37);
+   }
+   #move1_47:checked ~ .board #counter1,
+   #move2_47:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 15), 0);
+   }
+   #move1_47:checked ~ .board #moves1,
+   #move2_47:checked ~ .board #moves2 {
+      top: calc(var(--size) * -47);
+   }
+   #move1_48:checked ~ .board #counter1,
+   #move2_48:checked ~ .board #counter2 {
+      transform: translate(calc(var(--size) * 18), 0);
+   }
+   #move1_48:checked ~ .board #moves1,
+   #move2_48:checked ~ .board #moves2 {
+      top: calc(var(--size) * -48);
+   }
+   #winner {
+      position: absolute;
+      top: calc(var(--size) * 3.5);
+      width: calc(100% - var(--size) * 0.25 * 2);
+      padding: calc(var(--size) * 0.25);
+      color: white;
+      font-weight: bold;
+      font-size: var(--size);
+      line-height: var(--size);
+      text-transform: uppercase;
+      text-align: center;
+      display: none;
+   }
+   #move1_48:checked ~ #winner {
+      display: block;
+      background: var(--p1col);
+   }
+   #move1_48:checked ~ #winner:before {
+      content: var(--p1name);
+   }
+   #move2_48:checked ~ #winner {
+      display: block;
+      background: var(--p2col);
+   }
+   #move2_48:checked ~ #winner:before {
+      content: var(--p2name);
+   }
+   #move1_48:checked ~ [for="roll1"],
+   #move1_48:checked ~ [for="roll2"],
+   #move1_48:checked ~ #dicecontainer1,
+   #move1_48:checked ~ #dicecontainer2,
+   #move2_48:checked ~ [for="roll1"],
+   #move2_48:checked ~ [for="roll2"],
+   #move2_48:checked ~ #dicecontainer1,
+   #move2_48:checked ~ #dicecontainer2 {
+      visibility: hidden;
+   }
+   #move1_48:checked ~ .board #counter1,
+   #move2_48:checked ~ .board #counter2 {
+      pointer-events: none;
+   }
+</style>
+<form>
+   <input type="radio" tabindex="-1" name="help" id="help_open" />
+   <input type="radio" tabindex="-1" name="help" id="help_close" checked="checked" />
+   <input type="radio" tabindex="-1" name="controls" id="roll1" />
+   <input type="radio" tabindex="-1" name="controls" id="dice1" />
+   <input type="radio" tabindex="-1" name="controls" id="roll2" />
+   <input type="radio" tabindex="-1" name="controls" id="dice2" checked="checked" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_0" checked="checked" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_1" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_2" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_3" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_4" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_5" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_6" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_7" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_8" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_9" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_10" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_11" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_12" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_13" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_14" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_15" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_16" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_17" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_18" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_19" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_20" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_21" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_22" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_23" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_24" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_25" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_26" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_27" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_28" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_29" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_30" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_31" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_32" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_33" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_34" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_35" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_36" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_37" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_38" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_39" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_40" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_41" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_42" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_43" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_44" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_45" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_46" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_47" />
+   <input type="radio" tabindex="-1" name="moves1" id="move1_48" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_0" checked="checked" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_1" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_2" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_3" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_4" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_5" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_6" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_7" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_8" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_9" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_10" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_11" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_12" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_13" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_14" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_15" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_16" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_17" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_18" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_19" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_20" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_21" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_22" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_23" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_24" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_25" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_26" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_27" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_28" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_29" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_30" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_31" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_32" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_33" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_34" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_35" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_36" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_37" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_38" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_39" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_40" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_41" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_42" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_43" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_44" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_45" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_46" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_47" />
+   <input type="radio" tabindex="-1" name="moves2" id="move2_48" />
+   <label for="roll1">Roll Dice</label>
+   <label for="roll2">Roll Dice</label>
+   <div id="dicecontainer1">
+      <span class="diceroll">
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+      </span>
+      <label for="dice1"></label>
+   </div>
+   <div id="dicecontainer2">
+      <span class="diceroll">
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+         <span></span>
+      </span>
+      <label for="dice2"></label>
+   </div>
+   <label for="help_open">Help</label>
+   <label for="reset">Reset</label>
+   <button id="reset" type="reset"></button>
+   <div class="board">
+      <div class="spaces">
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+         <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 70" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+         <path stroke="limegreen" fill="none" stroke-width="4" stroke-linecap="round" d="M125 35C155 45,125 65,95 55" />
+         <circle fill="limegreen" cx="125" cy="35" r="4" />
+         <circle fill="black" cx="123" cy="34" r="0.5" stroke="white" stroke-width="0.5" />
+         <circle fill="black" cx="125" cy="34" r="0.5" stroke="white" stroke-width="0.5" />
+         <path stroke="limegreen" fill="none" stroke-width="4" stroke-linecap="round" d="M35 35C5 35,5 35,5 45" />
+         <circle fill="limegreen" cx="35" cy="35" r="4" />
+         <circle fill="black" cx="33" cy="34" r="0.5" stroke="white" stroke-width="0.5" />
+         <circle fill="black" cx="35" cy="34" r="0.5" stroke="white" stroke-width="0.5" />
+         <path stroke="limegreen" fill="none" stroke-width="4" stroke-linecap="round" d="M155 25C215 25,135 45,185 45" />
+         <circle fill="limegreen" cx="155" cy="25" r="4" />
+         <circle fill="black" cx="153" cy="24" r="0.5" stroke="white" stroke-width="0.5" />
+         <circle fill="black" cx="155" cy="24" r="0.5" stroke="white" stroke-width="0.5" />
+         <path stroke="limegreen" fill="none" stroke-width="4" stroke-linecap="round" d="M35 5C65 5,35 25,65 25" />
+         <circle fill="limegreen" cx="35" cy="5" r="4" />
+         <circle fill="black" cx="33" cy="4" r="0.5" stroke="white" stroke-width="0.5" />
+         <circle fill="black" cx="35" cy="4" r="0.5" stroke="white" stroke-width="0.5" />
+         <path stroke="limegreen" fill="none" stroke-width="4" stroke-linecap="round" d="M125 5C145 20,105 0,125 15" />
+         <circle fill="limegreen" cx="125" cy="5" r="4" />
+         <circle fill="black" cx="123" cy="4" r="0.5" stroke="white" stroke-width="0.5" />
+         <circle fill="black" cx="125" cy="4" r="0.5" stroke="white" stroke-width="0.5" />
+         <g transform="rotate(-56 65 65)">
+            <line stroke="white" stroke-width="10" stroke-dasharray="2,4" x1="65" y1="29" x2="65" y2="65" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="60" y1="29" x2="60" y2="65" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="70" y1="29" x2="70" y2="65" />
+         </g>
+         <g transform="rotate(46 155 55)">
+            <line stroke="white" stroke-width="10" stroke-dasharray="2,4" x1="155" y1="13" x2="155" y2="55" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="150" y1="13" x2="150" y2="55" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="160" y1="13" x2="160" y2="55" />
+         </g>
+         <g transform="rotate(70 95 35)">
+            <line stroke="white" stroke-width="10" stroke-dasharray="2,4" x1="95" y1="3" x2="95" y2="35" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="90" y1="3" x2="90" y2="35" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="100" y1="3" x2="100" y2="35" />
+         </g>
+         <g transform="rotate(70 5 25)">
+            <line stroke="white" stroke-width="10" stroke-dasharray="2,4" x1="5" y1="-7" x2="5" y2="25" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="0" y1="-7" x2="0" y2="25" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="10" y1="-7" x2="10" y2="25" />
+         </g>
+         <g transform="rotate(0 95 15)">
+            <line stroke="white" stroke-width="10" stroke-dasharray="2,4" x1="95" y1="5" x2="95" y2="15" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="90" y1="5" x2="90" y2="15" />
+            <line stroke="white" stroke-width="2" stroke-linecap="round" x1="100" y1="5" x2="100" y2="15" />
+         </g>
+      </svg>
+      <div id="counter1">
+         <div id="moves1">
+            <label for="move1_1"></label>
+            <label for="move1_2"></label>
+            <label for="move1_3"></label>
+            <label for="move1_4"></label>
+            <label for="move1_5"></label>
+            <label for="move1_6"></label>
+            <label for="move1_7"></label>
+            <label for="move1_8"></label>
+            <label for="move1_9"></label>
+            <label for="move1_10"></label>
+            <label for="move1_11"></label>
+            <label for="move1_12"></label>
+            <label for="move1_13"></label>
+            <label for="move1_14"></label>
+            <label for="move1_15"></label>
+            <label for="move1_16"></label>
+            <label for="move1_17"></label>
+            <label for="move1_18"></label>
+            <label for="move1_19"></label>
+            <label for="move1_20"></label>
+            <label for="move1_21"></label>
+            <label for="move1_22"></label>
+            <label for="move1_23"></label>
+            <label for="move1_24"></label>
+            <label for="move1_25"></label>
+            <label for="move1_26"></label>
+            <label for="move1_27"></label>
+            <label for="move1_28"></label>
+            <label for="move1_29"></label>
+            <label for="move1_30"></label>
+            <label for="move1_31"></label>
+            <label for="move1_32"></label>
+            <label for="move1_33"></label>
+            <label for="move1_34"></label>
+            <label for="move1_35"></label>
+            <label for="move1_36"></label>
+            <label for="move1_37"></label>
+            <label for="move1_38"></label>
+            <label for="move1_39"></label>
+            <label for="move1_40"></label>
+            <label for="move1_41"></label>
+            <label for="move1_42"></label>
+            <label for="move1_43"></label>
+            <label for="move1_44"></label>
+            <label for="move1_45"></label>
+            <label for="move1_46"></label>
+            <label for="move1_47"></label>
+            <label for="move1_48"></label>
+         </div>
+      </div>
+      <div id="counter2">
+         <div id="moves2">
+            <label for="move2_1"></label>
+            <label for="move2_2"></label>
+            <label for="move2_3"></label>
+            <label for="move2_4"></label>
+            <label for="move2_5"></label>
+            <label for="move2_6"></label>
+            <label for="move2_7"></label>
+            <label for="move2_8"></label>
+            <label for="move2_9"></label>
+            <label for="move2_10"></label>
+            <label for="move2_11"></label>
+            <label for="move2_12"></label>
+            <label for="move2_13"></label>
+            <label for="move2_14"></label>
+            <label for="move2_15"></label>
+            <label for="move2_16"></label>
+            <label for="move2_17"></label>
+            <label for="move2_18"></label>
+            <label for="move2_19"></label>
+            <label for="move2_20"></label>
+            <label for="move2_21"></label>
+            <label for="move2_22"></label>
+            <label for="move2_23"></label>
+            <label for="move2_24"></label>
+            <label for="move2_25"></label>
+            <label for="move2_26"></label>
+            <label for="move2_27"></label>
+            <label for="move2_28"></label>
+            <label for="move2_29"></label>
+            <label for="move2_30"></label>
+            <label for="move2_31"></label>
+            <label for="move2_32"></label>
+            <label for="move2_33"></label>
+            <label for="move2_34"></label>
+            <label for="move2_35"></label>
+            <label for="move2_36"></label>
+            <label for="move2_37"></label>
+            <label for="move2_38"></label>
+            <label for="move2_39"></label>
+            <label for="move2_40"></label>
+            <label for="move2_41"></label>
+            <label for="move2_42"></label>
+            <label for="move2_43"></label>
+            <label for="move2_44"></label>
+            <label for="move2_45"></label>
+            <label for="move2_46"></label>
+            <label for="move2_47"></label>
+            <label for="move2_48"></label>
+         </div>
+      </div>
+   </div>
+   <div id="winner"> Player Wins</div>
+   <div id="help">
+      <label for="help_close"></label>
+      <p>Click the button to roll the dice.</p>
+      <p>Click on the dice to stop it.</p>
+      <p>Then click the counter to move.</p>
+   </div>
+</form>
