@@ -1,0 +1,260 @@
+<style>
+body
+{
+	margin: 0;
+	padding: 0;
+}
+[type="radio"] {
+   position: absolute;
+   top: -999px;
+   left: -999px;
+}
+.sky {
+   background-image: radial-gradient(circle at 40% 40%, yellow 4%, lightblue 8%);
+   background-position: 50% 50%;
+   background-size: 200% 200%;
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 245px;
+   transition: background-position 30s ease-in-out;
+   animation: skytracking 30s ease-in-out 1;
+}
+.road {
+   width: 600px;
+   height: 540px;
+   overflow: hidden;
+}
+.road > div {
+   position: relative;
+   width: 600px;
+   height: 800px;
+   background: lightgreen;
+}
+.road > div > div:not(.sky) {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   perspective: 1000px;
+   perspective-origin: 50% 100px;
+}
+@keyframes movement
+{
+	0%
+	{
+		transform: translateY(0);
+	}
+	100%
+	{
+		transform: translateY(50%);
+	}
+}
+.slices {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   transform: rotateX(95deg);
+}
+.slices > div:before, .slices > div:after
+{
+	content: "";
+	position: absolute;
+	width: 10px;
+	height: 400%;
+	left: 0;
+	bottom: 0;
+	background-image: linear-gradient(white 25%, red 25%, red 50%, white 50%, white 75%, red 75%, red 100%);
+	animation: movement 0.4s linear infinite;
+}
+.slices > div:nth-of-type(2n):before, .slices > div:nth-of-type(2n):after
+{
+	background-image: linear-gradient(red 25%, white 25%, white 50%, red 50%, red 75%, white 75%, white 100%);
+}
+.slices > div
+{
+   position: absolute;
+	overflow: hidden;
+	background: grey;
+	width: 300px;
+	left: 150px;
+	transform: translateX(0) skewX(0deg);
+	transition: transform 3s ease-in-out;
+   animation: bends 30s ease-in-out 1;
+}
+.slices > div:after
+{
+	left: auto;
+	right: 0;
+}
+.slices > div > div
+{
+	content: "";
+	position: absolute;
+	width: 6px;
+	height: 400%;
+	left: 50%;
+	bottom: 0;
+	margin-left: -3px;
+	background-image: linear-gradient(grey 25%, white 25%, white 50%, grey 50%, grey 75%, white 75%, white 100%);
+	animation: movement 0.4s linear infinite;
+}
+.slices > div:nth-of-type(2n) > div
+{
+	background-image: linear-gradient(white 25%, grey 25%, grey 50%, white 50%, white 75%, grey 75%, grey 100%);
+}
+@keyframes bends {
+   10% {
+      transform: translateX(0) skewX(0deg);
+   }
+   15% {
+      transform: translateX(var(--turn2)) skewX(calc(-2deg * var(--skew) - 4deg));
+   }
+   25% {
+      transform: translateX(var(--turn2)) skewX(calc(-2deg * var(--skew) - 4deg));
+   }
+   35% {
+      transform: translateX(0) skewX(0deg);
+   }
+   45% {
+      transform: translateX(0) skewX(0deg);
+   }
+   55% {
+      transform: translateX(calc(var(--turn2) * -1)) skewX(calc(2deg * var(--skew) + 4deg));
+   }
+   60% {
+      transform: translateX(calc(var(--turn2) * -1)) skewX(calc(2deg * var(--skew) + 4deg));
+   }
+   75% {
+      transform: translateX(var(--turn1)) skewX(calc(-1deg * var(--skew) - 1deg));
+   }
+   85% {
+      transform: translateX(var(--turn1)) skewX(calc(-1deg * var(--skew) - 1deg));
+   }
+   95% {
+      transform: translateX(0) skewX(0deg);
+   }
+}
+#turn-2:checked ~ .road .slices > div {
+   transform: translateX(calc(var(--turn2) * -1)) skewX(calc(2deg * var(--skew) + 4deg));
+}
+#turn-1:checked ~ .road .slices > div {
+   transform: translateX(calc(var(--turn1) * -1)) skewX(calc(1deg * var(--skew) + 1deg));
+}
+#turn1:checked ~ .road .slices > div {
+   transform: translateX(var(--turn1)) skewX(calc(-1deg * var(--skew) - 1deg));
+}
+#turn2:checked ~ .road .slices > div {
+   transform: translateX(var(--turn2)) skewX(calc(-2deg * var(--skew) - 4deg));
+}
+@keyframes skytracking {
+   10% {
+      background-position: 50% 50%;
+   }
+   25% {
+      background-position: 100% 50%;
+   }
+   45% {
+      background-position: 50% 50%;
+   }
+   60% {
+      background-position: -100% 50%;
+   }
+   85% {
+      background-position: 100% 50%;
+   }
+   100% {
+      background-position: 50% 50%;
+   }
+}
+#turn-2:checked ~ .road .sky {
+   background-position: -100% 50%;
+   transition-duration: 15s;
+}
+#turn-1:checked ~ .road .sky {
+   background-position: -100% 50%;
+   transition-duration: 30s;
+}
+#turn1:checked ~ .road .sky {
+   background-position: 100% 50%;
+   transition-duration: 30s;
+}
+#turn2:checked ~ .road .sky {
+   background-position: 100% 50%;
+   transition-duration: 15s;
+}
+@keyframes showcontrols {
+   95% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+label {
+   display: inline-block;
+   width: 93px;
+   height: 15px;
+   padding: 5px;
+   margin: 5px;
+   font-family: sans-serif;
+   color: black;
+   font-size: 16px;
+   font-weight: bold;
+   text-align: center;
+   border: 2px black solid;
+   border-radius: 5px;
+   opacity: 0;
+   animation: showcontrols 30s linear 0s 1 normal forwards;
+}
+</style>
+<input type="radio" name="turn" id="turn-2" />
+<input type="radio" name="turn" id="turn-1" />
+<input type="radio" name="turn" id="turn0" checked="checked" />
+<input type="radio" name="turn" id="turn1" />
+<input type="radio" name="turn" id="turn2" />
+<label for="turn-2">&laquo;&laquo;</label>
+<label for="turn-1">&laquo;</label>
+<label for="turn0">||</label>
+<label for="turn1">&raquo;</label>
+<label for="turn2">&raquo;&raquo;</label>
+<div class="road">
+<div>
+<div>
+<div class="slices">
+<div style="height: 272px; bottom: 0px; --skew: 1; --turn1: 5px; --turn2: 14px;"><div></div></div>
+<div style="height: 256px; bottom: 272px; --skew: 2; --turn1: 16px; --turn2: 46px;"><div></div></div>
+<div style="height: 240px; bottom: 528px; --skew: 3; --turn1: 31px; --turn2: 85px;"><div></div></div>
+<div style="height: 225px; bottom: 768px; --skew: 4; --turn1: 49px; --turn2: 130px;"><div></div></div>
+<div style="height: 210px; bottom: 993px; --skew: 5; --turn1: 70px; --turn2: 180px;"><div></div></div>
+<div style="height: 196px; bottom: 1203px; --skew: 6; --turn1: 93px; --turn2: 234px;"><div></div></div>
+<div style="height: 182px; bottom: 1399px; --skew: 7; --turn1: 118px; --turn2: 292px;"><div></div></div>
+<div style="height: 169px; bottom: 1581px; --skew: 8; --turn1: 144px; --turn2: 352px;"><div></div></div>
+<div style="height: 156px; bottom: 1750px; --skew: 9; --turn1: 171px; --turn2: 414px;"><div></div></div>
+<div style="height: 144px; bottom: 1906px; --skew: 10; --turn1: 199px; --turn2: 478px;"><div></div></div>
+<div style="height: 132px; bottom: 2050px; --skew: 11; --turn1: 227px; --turn2: 542px;"><div></div></div>
+<div style="height: 121px; bottom: 2182px; --skew: 12; --turn1: 255px; --turn2: 606px;"><div></div></div>
+<div style="height: 110px; bottom: 2303px; --skew: 13; --turn1: 283px; --turn2: 670px;"><div></div></div>
+<div style="height: 100px; bottom: 2413px; --skew: 14; --turn1: 310px; --turn2: 733px;"><div></div></div>
+<div style="height: 90px; bottom: 2513px; --skew: 15; --turn1: 336px; --turn2: 795px;"><div></div></div>
+<div style="height: 81px; bottom: 2603px; --skew: 16; --turn1: 361px; --turn2: 855px;"><div></div></div>
+<div style="height: 72px; bottom: 2684px; --skew: 17; --turn1: 385px; --turn2: 913px;"><div></div></div>
+<div style="height: 64px; bottom: 2756px; --skew: 18; --turn1: 408px; --turn2: 968px;"><div></div></div>
+<div style="height: 56px; bottom: 2820px; --skew: 19; --turn1: 429px; --turn2: 1020px;"><div></div></div>
+<div style="height: 49px; bottom: 2876px; --skew: 20; --turn1: 449px; --turn2: 1069px;"><div></div></div>
+<div style="height: 42px; bottom: 2925px; --skew: 21; --turn1: 467px; --turn2: 1114px;"><div></div></div>
+<div style="height: 36px; bottom: 2967px; --skew: 22; --turn1: 483px; --turn2: 1156px;"><div></div></div>
+<div style="height: 30px; bottom: 3003px; --skew: 23; --turn1: 497px; --turn2: 1194px;"><div></div></div>
+<div style="height: 25px; bottom: 3033px; --skew: 24; --turn1: 510px; --turn2: 1228px;"><div></div></div>
+<div style="height: 20px; bottom: 3058px; --skew: 25; --turn1: 521px; --turn2: 1258px;"><div></div></div>
+<div style="height: 16px; bottom: 3078px; --skew: 26; --turn1: 530px; --turn2: 1284px;"><div></div></div>
+<div style="height: 12px; bottom: 3094px; --skew: 27; --turn1: 537px; --turn2: 1305px;"><div></div></div>
+<div style="height: 9px; bottom: 3106px; --skew: 28; --turn1: 543px; --turn2: 1322px;"><div></div></div>
+<div style="height: 6px; bottom: 3115px; --skew: 29; --turn1: 547px; --turn2: 1335px;"><div></div></div>
+<div style="height: 4px; bottom: 3121px; --skew: 30; --turn1: 550px; --turn2: 1345px;"><div></div></div>
+<div style="height: 2px; bottom: 3125px; --skew: 31; --turn1: 552px; --turn2: 1351px;"><div></div></div>
+<div style="height: 1px; bottom: 3127px; --skew: 32; --turn1: 553px; --turn2: 1354px;"><div></div></div>
+</div>
+</div>
+<div class="sky"></div>
+</div>
+</div>
