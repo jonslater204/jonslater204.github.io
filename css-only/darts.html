@@ -1,0 +1,5269 @@
+<style>
+body,
+form {
+  margin: 0;
+  padding: 0;
+  background: #999;
+}
+[type="radio"],
+[type="reset"] {
+  position: absolute;
+  top: -999px;
+  left: -999px;
+}
+label {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+.board {
+  position: relative;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle farthest-side at 50% 50%, red 0%, red 2.778%, #090 2.778%, #090 6.944%, #ff9 6.944%, #ff9 41.667%, #090 41.667%, #090 45.833%, #ff9 45.833%, #ff9 69.444%, #090 69.444%, #090 73.611%, black 73.611%, black 95%, white 95%, white 96%, black 96%, black 100%);
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(-9deg);
+}
+.board > div {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 100%;
+  overflow: hidden;
+}
+.board > div:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 100%;
+  transform: skew(72deg);
+}
+.board > div:nth-of-type(2n+1):before {
+  background: radial-gradient(circle farthest-side at 0 100%, red 0%, red 1.389%, #090 1.389%, #090 3.472%, black 3.472%, black 20.833%, red 20.833%, red 22.917%, black 22.917%, black 34.722%, red 34.722%, red 36.806%, black 36.806%, black 47.5%, white 47.5%, white 48%, black 48%, black 50%);
+}
+.board > div:after {
+  position: absolute;
+  top: 83%;
+  color: white;
+  font-family: cursive;
+  font-size: 3vw;
+  transform: skew(72deg) rotate(80deg) translate(3vw);
+}
+.board > div:nth-of-type(2n):after {
+  top: 82.5%;
+}
+.board > div:nth-of-type(n+7):nth-of-type(-n+15):after {
+   transform: skew(72deg) rotate(258deg) translate(-3vw);
+}
+.board > div:nth-of-type(2n):nth-of-type(n+7):nth-of-type(-n+15):after {
+  top: 83.5%;
+}
+.board > div:nth-of-type(1):after {
+  content: "20";
+}
+.board > div:nth-of-type(2):after {
+  content: "1";
+}
+.board > div:nth-of-type(3):after {
+  content: "18";
+}
+.board > div:nth-of-type(4):after {
+  content: "4";
+}
+.board > div:nth-of-type(5):after {
+  content: "13";
+}
+.board > div:nth-of-type(6):after {
+  content: "6";
+}
+.board > div:nth-of-type(7):after {
+  content: "10";
+}
+.board > div:nth-of-type(8):after {
+  content: "15";
+}
+.board > div:nth-of-type(9):after {
+  content: "2";
+}
+.board > div:nth-of-type(10):after {
+  content: "17";
+}
+.board > div:nth-of-type(11):after {
+  content: "3";
+}
+.board > div:nth-of-type(12):after {
+  content: "19";
+}
+.board > div:nth-of-type(13):after {
+  content: "7";
+}
+.board > div:nth-of-type(14):after {
+  content: "16";
+}
+.board > div:nth-of-type(15):after {
+  content: "8";
+}
+.board > div:nth-of-type(16):after {
+  content: "11";
+}
+.board > div:nth-of-type(17):after {
+  content: "14";
+}
+.board > div:nth-of-type(18):after {
+  content: "9";
+}
+.board > div:nth-of-type(19):after {
+  content: "12";
+}
+.board > div:nth-of-type(20):after {
+  content: "5";
+}
+.board > div:nth-of-type(5) {
+  transform: skew(-72deg);
+}
+.board > div:nth-of-type(6) {
+  transform: rotate(18deg) skew(-72deg);
+}
+.board > div:nth-of-type(7) {
+  transform: rotate(36deg) skew(-72deg);
+}
+.board > div:nth-of-type(8) {
+  transform: rotate(54deg) skew(-72deg);
+}
+.board > div:nth-of-type(9) {
+  transform: rotate(72deg) skew(-72deg);
+}
+.board > div:nth-of-type(10) {
+  transform: rotate(90deg) skew(-72deg);
+}
+.board > div:nth-of-type(11) {
+  transform: rotate(108deg) skew(-72deg);
+}
+.board > div:nth-of-type(12) {
+  transform: rotate(126deg) skew(-72deg);
+}
+.board > div:nth-of-type(13) {
+  transform: rotate(144deg) skew(-72deg);
+}
+.board > div:nth-of-type(14) {
+  transform: rotate(162deg) skew(-72deg);
+}
+.board > div:nth-of-type(15) {
+  transform: rotate(180deg) skew(-72deg);
+}
+.board > div:nth-of-type(16) {
+  transform: rotate(198deg) skew(-72deg);
+}
+.board > div:nth-of-type(17) {
+  transform: rotate(216deg) skew(-72deg);
+}
+.board > div:nth-of-type(18) {
+  transform: rotate(234deg) skew(-72deg);
+}
+.board > div:nth-of-type(19) {
+  transform: rotate(252deg) skew(-72deg);
+}
+.board > div:nth-of-type(20) {
+  transform: rotate(270deg) skew(-72deg);
+}
+.board > div:nth-of-type(1) {
+  transform: rotate(288deg) skew(-72deg);
+}
+.board > div:nth-of-type(2) {
+  transform: rotate(306deg) skew(-72deg);
+}
+.board > div:nth-of-type(3) {
+  transform: rotate(324deg) skew(-72deg);
+}
+.board > div:nth-of-type(4) {
+  transform: rotate(342deg) skew(-72deg);
+}
+@keyframes spin {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.spin {
+  visibility: hidden;
+  position: absolute;
+  top: -2vw;
+  left: calc(50% - 2vw);
+  width: 4vw;
+  height: calc(50% + 4vw);
+  transform-origin: 50% calc(100% - 2vw);
+  animation: spin 7.5s linear infinite paused;
+}
+@keyframes move {
+  100% {
+    transform: translateY(25vw);
+  }
+}
+.move {
+  visibility: hidden;
+  position: absolute;
+  width: 4vw;
+  height: 4vw;
+  animation: move 2.5s linear -1s infinite alternate paused;
+}
+@keyframes spinback {
+  100% {
+    transform: rotate(-1turn);
+  }
+}
+.spinback {
+  visibility: hidden;
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: spinback 7.5s linear -7.3s infinite paused;
+}
+@keyframes dart {
+  50% {
+    transform: scale(0.8) translateY(-2.5vw) rotate(0.5turn);
+  }
+  100% {
+    transform: scale(0.6) translateY(0) rotate(0.8turn);
+  }
+}
+.dart,
+.darts label span {
+  display: block;
+  position: absolute;
+  background: slateblue;
+  border-radius: 50%;
+}
+.dart {
+  visibility: hidden;
+  left: 40%;
+  width: 20%;
+  height: 100%;
+  animation: dart 1.5s linear 1 forwards paused;
+}
+.dart:before,
+.darts label span:before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: -200%;
+  width: 500%;
+  height: 20%;
+  background: slateblue;
+  border-radius: 50%;
+}
+.dart:after,
+.darts label span:after {
+  content: "";
+  position: absolute;
+  top: 38%;
+  left: -18%;
+  width: 125%;
+  height: 25%;
+  background: gold;
+  border-radius: 50%;
+}
+.throw {
+  visibility: hidden;
+  position: absolute;
+  top: 25vw;
+  left: 50vw;
+  width: 10vw;
+  height: 10vw;
+  background: red;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.throw:before {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: bold;
+  font-family: sans-serif;
+  font-size: 2.5vw;
+  content: "AIM";
+}
+@keyframes scroll {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+[for="x1"],
+[for="x2"],
+[class^="angle"],
+[class^="radius"],
+.throws1,
+.throws2,
+.score1,
+.score2 {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+[for="x1"],
+[for="x2"] {
+  height: 200vw;
+}
+[class^="angle"] {
+  height: 200vw;
+  animation: scroll 7.5s steps(20) infinite paused;
+}
+[class^="radius"] {
+  height: 360vw;
+  animation: scroll 2.5s steps(72) infinite -1s alternate paused;
+}
+[class^="throws"] {
+  height: 43vw;
+}
+[class^="angle"] label {
+  height: 10vw;
+}
+[class^="radius"] label {
+  height: 5vw;
+}
+.reyDios {
+  position: absolute;
+  top: 15vw;
+  left: 50vw;
+  width: 5vw;
+  height: 5vw;
+  background: #fdb;
+  border-radius: 20% 20% 40% 40%;
+  overflow: hidden;
+}
+.reyDios .eye {
+  position: absolute;
+  top: 20%;
+  left: 15%;
+  width: 25%;
+  height: 25%;
+  background: white;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.reyDios .eye:nth-of-type(2) {
+  left: 60%;
+}
+.reyDios .eye:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25%;
+  height: 25%;
+  transform: translate(-150%, -50%);
+  background: black;
+  border-radius: 50%;
+  transition: transform 1s linear;
+}
+@keyframes blink {
+  98% {
+    transform: translateY(-100%);
+  }
+  99% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.reyDios .eye:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-100%);
+  background: #fdb;
+  animation: blink 20s linear infinite;
+}
+.reyDios .mouth {
+  position: absolute;
+  top: 75%;
+  left: 25%;
+  width: 50%;
+  height: 25%;
+  overflow: hidden;
+}
+@keyframes talk {
+  25% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-100%);
+  }
+  75% {
+    transform: translateY(-50%);
+  }
+}
+.reyDios .mouth:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  border-radius: 50%;
+  transform: translateY(-75%);
+}
+.throws {
+  visibility: hidden;
+  position: absolute;
+  top: 13vw;
+  left: 55vw;
+  width: 14vw;
+  height: 6vw;
+  background: white;
+  border-radius: 2vw 2vw 2vw 0;
+  overflow: hidden;
+  font-family: sans-serif;
+  font-size: 2.5vw;
+  line-height: 5vw;
+  font-weight: bold;
+  text-allign: center;
+}
+.throws:before,
+.throws:after {
+  float: left;
+  padding-left: 1vw;
+}
+.throws label {
+  height: 5vw;
+}
+.score {
+  position: absolute;
+  top: 5vw;
+  left: 70vw;
+  width: 25vw;
+  height: 10vw;
+  background: #333;
+  border-top: 1vw #433 solid;
+  border-right: 1vw #833 solid;
+  border-bottom: 1vw #a33 solid;
+  border-left: 1vw #633 solid;
+  overflow: hidden;
+}
+.score div {
+  transition: top 0.001s linear 0.5s;
+  height: 50200%;
+  pointer-events: none;
+}
+.score label {
+  height: 10vw;
+  font-family: cursive;
+  color: white;
+  font-size: 5vw;
+  line-height: 10vw;
+}
+.score .bust {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+}
+.score .zero {
+  position: absolute;
+  bottom: 0;
+}
+.info {
+  position: absolute;
+  top: 18vw;
+  left: 70vw;
+  width: 27vw;
+  height: 6vw;
+  font-size: 2.5vw;
+  text-align: center;
+}
+.info:before {
+  content: "";
+}
+.darts {
+  position: absolute;
+  top: 25vw;
+  left: 70vw;
+  width: 25vw;
+  height: 8vw;
+  background: white;
+  border: 1vw #333 solid;
+  pointer-events: none;
+  overflow: hidden;
+}
+.darts label {
+  visibility: hidden;
+  height: 8vw;
+  position: absolute;
+}
+.darts label span {
+  width: 0.48vw;
+  height: 2.4vw;
+}
+.darts label:nth-of-type(-n+10) span {
+  top: 1vw;
+}
+.darts label:nth-of-type(n+11) span {
+  top: 4.5vw;
+}
+.darts label:nth-of-type(10n+1) span {
+  left: 1.01vw;
+}
+.darts label:nth-of-type(10n+2) span {
+  left: 3.51vw;
+}
+.darts label:nth-of-type(10n+3) span {
+  left: 6.01vw;
+}
+.darts label:nth-of-type(10n+4) span {
+  left: 8.51vw;
+}
+.darts label:nth-of-type(10n+5) span {
+  left: 11.01vw;
+}
+.darts label:nth-of-type(10n+6) span {
+  left: 13.51vw;
+}
+.darts label:nth-of-type(10n+7) span {
+  left: 16.01vw;
+}
+.darts label:nth-of-type(10n+8) span {
+  left: 18.51vw;
+}
+.darts label:nth-of-type(10n+9) span {
+  left: 21.01vw;
+}
+.darts label:nth-of-type(10n+10) span {
+  left: 23.51vw;
+}
+[for="reset"] {
+  visibility: hidden;
+  position: absolute;
+  top: 40vw;
+  left: 82vw;
+  width: 15vw;
+  height: 3vw;
+  padding-top: 1vw;
+  background: #ccc;
+  border-radius: 1vw;
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 2vw;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+[for="reset"]:hover {
+  background: #666;
+}
+[id^="d1_"]:checked ~ [id^="a2_"]:checked ~ .throw,
+[id^="d1_"]:checked ~ #x2:checked ~ .throw [for="x1"],
+#x1:checked ~ [id^="a2_"]:checked ~ .throw .angle1,
+[id^="a1_"]:checked ~ [id^="r2_"]:checked ~ .reyDios .radius1,
+[id^="r1_"]:checked ~ [id^="t2_"]:checked ~ .throws,
+[id^="r1_"]:checked ~ [id^="t2_"]:checked ~ .throws .throws1,
+[id^="d2_"]:checked ~ [id^="a1_"]:checked ~ .throw,
+[id^="d2_"]:checked ~ #x1:checked ~ .throw [for="x2"],
+#x2:checked ~ [id^="a1_"]:checked ~ .throw .angle2,
+[id^="a2_"]:checked ~ [id^="r1_"]:checked ~ .reyDios .radius2,
+[id^="r2_"]:checked ~ [id^="t1_"]:checked ~ .throws,
+[id^="r2_"]:checked ~ [id^="t1_"]:checked ~ .throws .throws2,
+[id^="d1_"]:checked ~ [id^="t2_"]:checked ~ .board #spin1,
+[id^="d1_"]:checked ~ [id^="t2_"]:checked ~ .board #spinback1,
+[id^="d1_"]:checked ~ [id^="t2_"]:checked ~ .board #move1,
+[id^="d1_"]:checked ~ [id^="t2_"]:checked ~ .board #dart1,
+[id^="d2_"]:checked ~ [id^="t1_"]:checked ~ .board #spin2,
+[id^="d2_"]:checked ~ [id^="t1_"]:checked ~ .board #spinback2,
+[id^="d2_"]:checked ~ [id^="t1_"]:checked ~ .board #move2,
+[id^="d2_"]:checked ~ [id^="t1_"]:checked ~ .board #dart2,
+[id^="d1_"]:checked ~ .score .score2,
+[id^="d2_"]:checked ~ .score .score1,
+[id^="t1_"]:checked ~ [id^="s2_"]:checked ~ .score [for="t1_bust"].bust,
+[id^="t2_"]:checked ~ [id^="s1_"]:checked ~ .score [for="t2_bust"].bust {
+  visibility: visible;
+}
+[id^="d1_"]:checked ~ #x2:checked ~ .board #spin1,
+[id^="d1_"]:checked ~ #x2:checked ~ .throw .angle1,
+[id^="d1_"]:checked ~ #x2:checked ~ .board #spinback1,
+#x1:checked ~ [id^="a2_"]:checked ~ .board #move1,
+#x1:checked ~ [id^="a2_"]:checked ~ .reyDios .radius1,
+[id^="a1_"]:checked ~ [id^="r2_"]:checked ~ .board #dart1,
+[id^="d2_"]:checked ~ #x1:checked ~ .board #spin2,
+[id^="d2_"]:checked ~ #x1:checked ~ .throw .angle2,
+[id^="d2_"]:checked ~ #x1:checked ~ .board #spinback2,
+#x2:checked ~ [id^="a1_"]:checked ~ .board #move2,
+#x2:checked ~ [id^="a1_"]:checked ~ .reyDios .radius2,
+[id^="a2_"]:checked ~ [id^="r1_"]:checked ~ .board #dart2 {
+  animation-play-state: running;
+}
+[id^="a1_"]:checked ~ [id^="r2_"]:checked ~ .reyDios .eye:before,
+[id^="a2_"]:checked ~ [id^="r1_"]:checked ~ .reyDios .eye:before {
+  transform: translateX(-50%);
+}
+[id^="r1_"]:checked ~ [id^="t2_"]:checked ~ .reyDios .eye:before,
+[id^="r2_"]:checked ~ [id^="t1_"]:checked ~ .reyDios .eye:before {
+  transform: translateX(50%);
+}
+[id^="r1_"]:checked ~ [id^="t2_"]:checked ~ .reyDios .mouth:before,
+[id^="r2_"]:checked ~ [id^="t1_"]:checked ~ .reyDios .mouth:before {
+  animation: talk 2s linear 1;
+}
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .board #spin1,
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .board #move1,
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .board #spinback1,
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .board #dart1,
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .throw .angle1,
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ .reyDios .radius1,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .board #spin2,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .board #move2,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .board #spinback2,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .board #dart2,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .throw .angle2,
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ .reyDios .radius2 {
+  animation-name: none;
+}
+[id^="d1_"]:checked ~ [id^="t1_"]:checked ~ [for="reset"],
+[id^="d2_"]:checked ~ [id^="t2_"]:checked ~ [for="reset"] {
+  visibility: visible;
+}
+[id$="_0r"]:checked ~ .throws:before {
+  content: "0";
+}
+[id$="_1r"]:checked ~ .throws:before {
+  content: "Bullseye!";
+}
+[id$="_2r"]:checked ~ .throws:before {
+  content: "25";
+}
+[id$="_4r"]:checked ~ .throws:before {
+  content: "Double";
+}
+[id$="_5r"]:checked ~ .throws:before {
+  content: "Treble";
+}
+[id$="_1a"]:checked ~ .throws:after {
+  content: "1";
+}
+[id$="_2a"]:checked ~ .throws:after {
+  content: "2";
+}
+[id$="_3a"]:checked ~ .throws:after {
+  content: "3";
+}
+[id$="_4a"]:checked ~ .throws:after {
+  content: "4";
+}
+[id$="_5a"]:checked ~ .throws:after {
+  content: "5";
+}
+[id$="_6a"]:checked ~ .throws:after {
+  content: "6";
+}
+[id$="_7a"]:checked ~ .throws:after {
+  content: "7";
+}
+[id$="_8a"]:checked ~ .throws:after {
+  content: "8";
+}
+[id$="_9a"]:checked ~ .throws:after {
+  content: "9";
+}
+[id$="_10a"]:checked ~ .throws:after {
+  content: "10";
+}
+[id$="_11a"]:checked ~ .throws:after {
+  content: "11";
+}
+[id$="_12a"]:checked ~ .throws:after {
+  content: "12";
+}
+[id$="_13a"]:checked ~ .throws:after {
+  content: "13";
+}
+[id$="_14a"]:checked ~ .throws:after {
+  content: "14";
+}
+[id$="_15a"]:checked ~ .throws:after {
+  content: "15";
+}
+[id$="_16a"]:checked ~ .throws:after {
+  content: "16";
+}
+[id$="_17a"]:checked ~ .throws:after {
+  content: "17";
+}
+[id$="_18a"]:checked ~ .throws:after {
+  content: "18";
+}
+[id$="_19a"]:checked ~ .throws:after {
+  content: "19";
+}
+[id$="_20a"]:checked ~ .throws:after {
+  content: "20";
+}
+[id$="_0r"]:checked ~ .throws:after,
+[id$="_1r"]:checked ~ .throws:after,
+[id$="_2r"]:checked ~ .throws:after {
+  content: "";
+}
+[id^="a1_"]:checked ~ [id^="r2_"]:checked ~ .info:before,
+[id^="a2_"]:checked ~ [id^="r1_"]:checked ~ .info:before {
+  content: "Click the announcer for your score";
+}
+[id^="r1_"]:checked ~ [id^="t2_"]:checked ~ .info:before,
+[id^="r2_"]:checked ~ [id^="t1_"]:checked ~ .info:before {
+  content: "Click on the score";
+}
+[id^="t1_"]:checked ~ [id^="s2_"]:checked ~ .info:before,
+[id^="t2_"]:checked ~ [id^="s1_"]:checked ~ .info:before {
+  content: "Update the scoreboard above";
+}
+#t1_bust:checked ~ [id^="s2_"]:checked ~ .info:before,
+#t2_bust:checked ~ [id^="s1_"]:checked ~ .info:before {
+  content: "Bust. You need to end on a double or bullseye. Click scoreboard again to continue";
+  font-size: 2vw;
+}
+[id^="d1_"]:checked ~ [id^="s1_"]:checked ~ .info:before,
+[id^="d2_"]:checked ~ [id^="s2_"]:checked ~ .info:before {
+  content: "Pick another dart from the box below";
+}
+#d1_5:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "9";
+}
+#d2_5:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "10";
+}
+#d1_6:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "11";
+}
+#d2_6:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "12";
+}
+#d1_7:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "13";
+}
+#d2_7:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "14";
+}
+#d1_8:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "15";
+}
+#d2_8:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "16";
+}
+#d1_9:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "17";
+}
+#d2_9:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "18";
+}
+#d1_10:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "19";
+}
+#d2_10:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "20";
+}
+#d1_11:checked ~ [id$="_0s"]:checked ~ .info:before {
+  content: "21";
+}
+[id$="_0s"]:checked ~ .info:after {
+  content: "-dart checkout, well done";
+}
+[id^="t1_"]:checked ~ [id^="s2_"]:checked ~ .score .score1,
+[id^="t2_"]:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  visibility: visible;
+  z-index: 2;
+  pointer-events: auto;
+}
+[id^="t1_"]:checked ~ [id^="s2_"]:checked ~ .score .score1 label,
+[id^="t2_"]:checked ~ [id^="s1_"]:checked ~ .score .score2 label {
+  padding-left: 100%;
+}
+[id^="d1_"]:checked ~ .board .dart,
+[id^="d2_"]:checked ~ .board .dart {
+  animation-name: dart;
+}
+#x1:checked ~ [id^="a2_"]:checked ~ .throw:before,
+#x2:checked ~ [id^="a1_"]:checked ~ .throw:before {
+  content: "THROW";
+}
+[id^="d1_"]:checked ~ [id^="s1_"]:checked ~ .darts,
+[id^="d2_"]:checked ~ [id^="s2_"]:checked ~ .darts {
+  pointer-events: auto;
+}
+[id^="d"]:checked ~ [id$="_0s"]:checked ~ .darts {
+  pointer-events: none;
+}
+[id$="_1r"]:checked ~ .score .zero,
+[id$="_4r"]:checked ~ .score .zero {
+  visibility: hidden;
+}
+[type="radio"]:nth-of-type(-n+1):checked ~ .darts label:nth-of-type(-n+20),
+[type="radio"]:nth-of-type(-n+2):checked ~ .darts label:nth-of-type(-n+19),
+[type="radio"]:nth-of-type(-n+3):checked ~ .darts label:nth-of-type(-n+18),
+[type="radio"]:nth-of-type(-n+4):checked ~ .darts label:nth-of-type(-n+17),
+[type="radio"]:nth-of-type(-n+5):checked ~ .darts label:nth-of-type(-n+16),
+[type="radio"]:nth-of-type(-n+6):checked ~ .darts label:nth-of-type(-n+15),
+[type="radio"]:nth-of-type(-n+7):checked ~ .darts label:nth-of-type(-n+14),
+[type="radio"]:nth-of-type(-n+8):checked ~ .darts label:nth-of-type(-n+13),
+[type="radio"]:nth-of-type(-n+9):checked ~ .darts label:nth-of-type(-n+12),
+[type="radio"]:nth-of-type(-n+10):checked ~ .darts label:nth-of-type(-n+11),
+[type="radio"]:nth-of-type(-n+11):checked ~ .darts label:nth-of-type(-n+10),
+[type="radio"]:nth-of-type(-n+12):checked ~ .darts label:nth-of-type(-n+9),
+[type="radio"]:nth-of-type(-n+13):checked ~ .darts label:nth-of-type(-n+8),
+[type="radio"]:nth-of-type(-n+14):checked ~ .darts label:nth-of-type(-n+7),
+[type="radio"]:nth-of-type(-n+15):checked ~ .darts label:nth-of-type(-n+6),
+[type="radio"]:nth-of-type(-n+16):checked ~ .darts label:nth-of-type(-n+5),
+[type="radio"]:nth-of-type(-n+17):checked ~ .darts label:nth-of-type(-n+4),
+[type="radio"]:nth-of-type(-n+18):checked ~ .darts label:nth-of-type(-n+3),
+[type="radio"]:nth-of-type(-n+19):checked ~ .darts label:nth-of-type(-n+2),
+[type="radio"]:nth-of-type(-n+20):checked ~ .darts label:nth-of-type(-n+1) {
+  visibility: visible;
+}
+[id^="a1_"]:checked ~ #r1_1r:checked ~ .throws .throws1,
+[id^="a2_"]:checked ~ #r2_1r:checked ~ .throws .throws2 {
+  top: -195vw;
+}
+[id^="a1_"]:checked ~ #r1_2r:checked ~ .throws .throws1,
+[id^="a2_"]:checked ~ #r2_2r:checked ~ .throws .throws2 {
+  top: -120vw;
+}
+#a1_1a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_1a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -5vw;
+}
+#a1_1a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_1a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_2a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_2a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -10vw;
+}
+#a1_1a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_1a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_3a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_3a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -15vw;
+}
+#a1_2a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_2a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_4a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_4a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -20vw;
+}
+#a1_5a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_5a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -25vw;
+}
+#a1_2a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_2a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_3a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_3a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_6a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_6a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -30vw;
+}
+#a1_7a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_7a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -35vw;
+}
+#a1_4a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_4a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_8a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_8a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -40vw;
+}
+#a1_3a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_3a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_9a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_9a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -45vw;
+}
+#a1_5a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_5a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_10a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_10a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -50vw;
+}
+#a1_11a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_11a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -55vw;
+}
+#a1_4a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_4a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_6a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_6a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_12a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_12a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -60vw;
+}
+#a1_13a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_13a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -65vw;
+}
+#a1_7a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_7a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_14a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_14a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -70vw;
+}
+#a1_5a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_5a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_15a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_15a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -75vw;
+}
+#a1_8a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_8a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_16a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_16a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -80vw;
+}
+#a1_17a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_17a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -85vw;
+}
+#a1_6a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_6a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_9a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_9a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_18a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_18a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -90vw;
+}
+#a1_19a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_19a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -95vw;
+}
+#a1_10a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_10a:checked ~ #r2_4r:checked ~ .throws .throws2,
+#a1_20a:checked ~ #r1_3r:checked ~ .throws .throws1,
+#a2_20a:checked ~ #r2_3r:checked ~ .throws .throws2 {
+  top: -100vw;
+}
+#a1_7a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_7a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -105vw;
+}
+#a1_11a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_11a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -110vw;
+}
+#a1_8a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_8a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_12a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_12a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -115vw;
+}
+#a1_13a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_13a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -125vw;
+}
+#a1_9a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_9a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -130vw;
+}
+#a1_14a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_14a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -135vw;
+}
+#a1_10a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_10a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_15a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_15a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -140vw;
+}
+#a1_16a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_16a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -145vw;
+}
+#a1_11a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_11a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -150vw;
+}
+#a1_17a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_17a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -155vw;
+}
+#a1_12a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_12a:checked ~ #r2_5r:checked ~ .throws .throws2,
+#a1_18a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_18a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -160vw;
+}
+#a1_19a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_19a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -165vw;
+}
+#a1_13a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_13a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -170vw;
+}
+#a1_20a:checked ~ #r1_4r:checked ~ .throws .throws1,
+#a2_20a:checked ~ #r2_4r:checked ~ .throws .throws2 {
+  top: -175vw;
+}
+#a1_14a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_14a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -180vw;
+}
+#a1_15a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_15a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -185vw;
+}
+#a1_16a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_16a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -190vw;
+}
+#a1_17a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_17a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -200vw;
+}
+#a1_18a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_18a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -205vw;
+}
+#a1_19a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_19a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -210vw;
+}
+#a1_20a:checked ~ #r1_5r:checked ~ .throws .throws1,
+#a2_20a:checked ~ #r2_5r:checked ~ .throws .throws2 {
+  top: -215vw;
+}
+@keyframes wipewrite {
+  40% {
+    transform: translateX(0);
+  }
+  60% {
+    transform: translateX(0);
+  }
+}
+[id^="d1_"]:checked ~ [id^="t1_"]:not(#t1_bust):checked ~ [id^="s1_"]:checked ~ .score:after,
+[id^="d2_"]:checked ~ [id^="t2_"]:not(#t2_bust):checked ~ [id^="s2_"]:checked ~ .score:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  transform: translateX(100%);
+  animation: wipewrite 1.5s linear 1;
+}
+#t1_1:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_1:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -10vw;
+}
+#t1_2:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_2:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -20vw;
+}
+#t1_3:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_3:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -30vw;
+}
+#t1_4:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_4:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -40vw;
+}
+#t1_5:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_5:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -50vw;
+}
+#t1_6:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_6:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -60vw;
+}
+#t1_7:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_7:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -70vw;
+}
+#t1_8:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_8:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -80vw;
+}
+#t1_9:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_9:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -90vw;
+}
+#t1_10:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_10:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -100vw;
+}
+#t1_11:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_11:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -110vw;
+}
+#t1_12:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_12:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -120vw;
+}
+#t1_13:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_13:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -130vw;
+}
+#t1_14:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_14:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -140vw;
+}
+#t1_15:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_15:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -150vw;
+}
+#t1_16:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_16:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -160vw;
+}
+#t1_17:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_17:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -170vw;
+}
+#t1_18:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_18:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -180vw;
+}
+#t1_19:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_19:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -190vw;
+}
+#t1_20:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_20:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -200vw;
+}
+#t1_21:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_21:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -210vw;
+}
+#t1_22:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_22:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -220vw;
+}
+#t1_24:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_24:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -240vw;
+}
+#t1_25:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_25:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -250vw;
+}
+#t1_26:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_26:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -260vw;
+}
+#t1_27:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_27:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -270vw;
+}
+#t1_28:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_28:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -280vw;
+}
+#t1_30:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_30:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -300vw;
+}
+#t1_32:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_32:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -320vw;
+}
+#t1_33:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_33:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -330vw;
+}
+#t1_34:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_34:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -340vw;
+}
+#t1_36:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_36:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -360vw;
+}
+#t1_38:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_38:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -380vw;
+}
+#t1_39:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_39:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -390vw;
+}
+#t1_40:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_40:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -400vw;
+}
+#t1_42:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_42:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -420vw;
+}
+#t1_45:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_45:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -450vw;
+}
+#t1_48:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_48:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -480vw;
+}
+#t1_50:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_50:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -500vw;
+}
+#t1_51:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_51:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -510vw;
+}
+#t1_54:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_54:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -540vw;
+}
+#t1_57:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_57:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -570vw;
+}
+#t1_60:checked ~ [id^="s2_"]:checked ~ .score .score1,
+#t2_60:checked ~ [id^="s1_"]:checked ~ .score .score2 {
+  margin-top: -600vw;
+}
+[id$="_500s"]:checked ~ .score div {
+  top: -10vw;
+}
+[id$="_499s"]:checked ~ .score div {
+  top: -20vw;
+}
+[id$="_498s"]:checked ~ .score div {
+  top: -30vw;
+}
+[id$="_497s"]:checked ~ .score div {
+  top: -40vw;
+}
+[id$="_496s"]:checked ~ .score div {
+  top: -50vw;
+}
+[id$="_495s"]:checked ~ .score div {
+  top: -60vw;
+}
+[id$="_494s"]:checked ~ .score div {
+  top: -70vw;
+}
+[id$="_493s"]:checked ~ .score div {
+  top: -80vw;
+}
+[id$="_492s"]:checked ~ .score div {
+  top: -90vw;
+}
+[id$="_491s"]:checked ~ .score div {
+  top: -100vw;
+}
+[id$="_490s"]:checked ~ .score div {
+  top: -110vw;
+}
+[id$="_489s"]:checked ~ .score div {
+  top: -120vw;
+}
+[id$="_488s"]:checked ~ .score div {
+  top: -130vw;
+}
+[id$="_487s"]:checked ~ .score div {
+  top: -140vw;
+}
+[id$="_486s"]:checked ~ .score div {
+  top: -150vw;
+}
+[id$="_485s"]:checked ~ .score div {
+  top: -160vw;
+}
+[id$="_484s"]:checked ~ .score div {
+  top: -170vw;
+}
+[id$="_483s"]:checked ~ .score div {
+  top: -180vw;
+}
+[id$="_482s"]:checked ~ .score div {
+  top: -190vw;
+}
+[id$="_481s"]:checked ~ .score div {
+  top: -200vw;
+}
+[id$="_480s"]:checked ~ .score div {
+  top: -210vw;
+}
+[id$="_479s"]:checked ~ .score div {
+  top: -220vw;
+}
+[id$="_478s"]:checked ~ .score div {
+  top: -230vw;
+}
+[id$="_477s"]:checked ~ .score div {
+  top: -240vw;
+}
+[id$="_476s"]:checked ~ .score div {
+  top: -250vw;
+}
+[id$="_475s"]:checked ~ .score div {
+  top: -260vw;
+}
+[id$="_474s"]:checked ~ .score div {
+  top: -270vw;
+}
+[id$="_473s"]:checked ~ .score div {
+  top: -280vw;
+}
+[id$="_472s"]:checked ~ .score div {
+  top: -290vw;
+}
+[id$="_471s"]:checked ~ .score div {
+  top: -300vw;
+}
+[id$="_470s"]:checked ~ .score div {
+  top: -310vw;
+}
+[id$="_469s"]:checked ~ .score div {
+  top: -320vw;
+}
+[id$="_468s"]:checked ~ .score div {
+  top: -330vw;
+}
+[id$="_467s"]:checked ~ .score div {
+  top: -340vw;
+}
+[id$="_466s"]:checked ~ .score div {
+  top: -350vw;
+}
+[id$="_465s"]:checked ~ .score div {
+  top: -360vw;
+}
+[id$="_464s"]:checked ~ .score div {
+  top: -370vw;
+}
+[id$="_463s"]:checked ~ .score div {
+  top: -380vw;
+}
+[id$="_462s"]:checked ~ .score div {
+  top: -390vw;
+}
+[id$="_461s"]:checked ~ .score div {
+  top: -400vw;
+}
+[id$="_460s"]:checked ~ .score div {
+  top: -410vw;
+}
+[id$="_459s"]:checked ~ .score div {
+  top: -420vw;
+}
+[id$="_458s"]:checked ~ .score div {
+  top: -430vw;
+}
+[id$="_457s"]:checked ~ .score div {
+  top: -440vw;
+}
+[id$="_456s"]:checked ~ .score div {
+  top: -450vw;
+}
+[id$="_455s"]:checked ~ .score div {
+  top: -460vw;
+}
+[id$="_454s"]:checked ~ .score div {
+  top: -470vw;
+}
+[id$="_453s"]:checked ~ .score div {
+  top: -480vw;
+}
+[id$="_452s"]:checked ~ .score div {
+  top: -490vw;
+}
+[id$="_451s"]:checked ~ .score div {
+  top: -500vw;
+}
+[id$="_450s"]:checked ~ .score div {
+  top: -510vw;
+}
+[id$="_449s"]:checked ~ .score div {
+  top: -520vw;
+}
+[id$="_448s"]:checked ~ .score div {
+  top: -530vw;
+}
+[id$="_447s"]:checked ~ .score div {
+  top: -540vw;
+}
+[id$="_446s"]:checked ~ .score div {
+  top: -550vw;
+}
+[id$="_445s"]:checked ~ .score div {
+  top: -560vw;
+}
+[id$="_444s"]:checked ~ .score div {
+  top: -570vw;
+}
+[id$="_443s"]:checked ~ .score div {
+  top: -580vw;
+}
+[id$="_442s"]:checked ~ .score div {
+  top: -590vw;
+}
+[id$="_441s"]:checked ~ .score div {
+  top: -600vw;
+}
+[id$="_440s"]:checked ~ .score div {
+  top: -610vw;
+}
+[id$="_439s"]:checked ~ .score div {
+  top: -620vw;
+}
+[id$="_438s"]:checked ~ .score div {
+  top: -630vw;
+}
+[id$="_437s"]:checked ~ .score div {
+  top: -640vw;
+}
+[id$="_436s"]:checked ~ .score div {
+  top: -650vw;
+}
+[id$="_435s"]:checked ~ .score div {
+  top: -660vw;
+}
+[id$="_434s"]:checked ~ .score div {
+  top: -670vw;
+}
+[id$="_433s"]:checked ~ .score div {
+  top: -680vw;
+}
+[id$="_432s"]:checked ~ .score div {
+  top: -690vw;
+}
+[id$="_431s"]:checked ~ .score div {
+  top: -700vw;
+}
+[id$="_430s"]:checked ~ .score div {
+  top: -710vw;
+}
+[id$="_429s"]:checked ~ .score div {
+  top: -720vw;
+}
+[id$="_428s"]:checked ~ .score div {
+  top: -730vw;
+}
+[id$="_427s"]:checked ~ .score div {
+  top: -740vw;
+}
+[id$="_426s"]:checked ~ .score div {
+  top: -750vw;
+}
+[id$="_425s"]:checked ~ .score div {
+  top: -760vw;
+}
+[id$="_424s"]:checked ~ .score div {
+  top: -770vw;
+}
+[id$="_423s"]:checked ~ .score div {
+  top: -780vw;
+}
+[id$="_422s"]:checked ~ .score div {
+  top: -790vw;
+}
+[id$="_421s"]:checked ~ .score div {
+  top: -800vw;
+}
+[id$="_420s"]:checked ~ .score div {
+  top: -810vw;
+}
+[id$="_419s"]:checked ~ .score div {
+  top: -820vw;
+}
+[id$="_418s"]:checked ~ .score div {
+  top: -830vw;
+}
+[id$="_417s"]:checked ~ .score div {
+  top: -840vw;
+}
+[id$="_416s"]:checked ~ .score div {
+  top: -850vw;
+}
+[id$="_415s"]:checked ~ .score div {
+  top: -860vw;
+}
+[id$="_414s"]:checked ~ .score div {
+  top: -870vw;
+}
+[id$="_413s"]:checked ~ .score div {
+  top: -880vw;
+}
+[id$="_412s"]:checked ~ .score div {
+  top: -890vw;
+}
+[id$="_411s"]:checked ~ .score div {
+  top: -900vw;
+}
+[id$="_410s"]:checked ~ .score div {
+  top: -910vw;
+}
+[id$="_409s"]:checked ~ .score div {
+  top: -920vw;
+}
+[id$="_408s"]:checked ~ .score div {
+  top: -930vw;
+}
+[id$="_407s"]:checked ~ .score div {
+  top: -940vw;
+}
+[id$="_406s"]:checked ~ .score div {
+  top: -950vw;
+}
+[id$="_405s"]:checked ~ .score div {
+  top: -960vw;
+}
+[id$="_404s"]:checked ~ .score div {
+  top: -970vw;
+}
+[id$="_403s"]:checked ~ .score div {
+  top: -980vw;
+}
+[id$="_402s"]:checked ~ .score div {
+  top: -990vw;
+}
+[id$="_401s"]:checked ~ .score div {
+  top: -1000vw;
+}
+[id$="_400s"]:checked ~ .score div {
+  top: -1010vw;
+}
+[id$="_399s"]:checked ~ .score div {
+  top: -1020vw;
+}
+[id$="_398s"]:checked ~ .score div {
+  top: -1030vw;
+}
+[id$="_397s"]:checked ~ .score div {
+  top: -1040vw;
+}
+[id$="_396s"]:checked ~ .score div {
+  top: -1050vw;
+}
+[id$="_395s"]:checked ~ .score div {
+  top: -1060vw;
+}
+[id$="_394s"]:checked ~ .score div {
+  top: -1070vw;
+}
+[id$="_393s"]:checked ~ .score div {
+  top: -1080vw;
+}
+[id$="_392s"]:checked ~ .score div {
+  top: -1090vw;
+}
+[id$="_391s"]:checked ~ .score div {
+  top: -1100vw;
+}
+[id$="_390s"]:checked ~ .score div {
+  top: -1110vw;
+}
+[id$="_389s"]:checked ~ .score div {
+  top: -1120vw;
+}
+[id$="_388s"]:checked ~ .score div {
+  top: -1130vw;
+}
+[id$="_387s"]:checked ~ .score div {
+  top: -1140vw;
+}
+[id$="_386s"]:checked ~ .score div {
+  top: -1150vw;
+}
+[id$="_385s"]:checked ~ .score div {
+  top: -1160vw;
+}
+[id$="_384s"]:checked ~ .score div {
+  top: -1170vw;
+}
+[id$="_383s"]:checked ~ .score div {
+  top: -1180vw;
+}
+[id$="_382s"]:checked ~ .score div {
+  top: -1190vw;
+}
+[id$="_381s"]:checked ~ .score div {
+  top: -1200vw;
+}
+[id$="_380s"]:checked ~ .score div {
+  top: -1210vw;
+}
+[id$="_379s"]:checked ~ .score div {
+  top: -1220vw;
+}
+[id$="_378s"]:checked ~ .score div {
+  top: -1230vw;
+}
+[id$="_377s"]:checked ~ .score div {
+  top: -1240vw;
+}
+[id$="_376s"]:checked ~ .score div {
+  top: -1250vw;
+}
+[id$="_375s"]:checked ~ .score div {
+  top: -1260vw;
+}
+[id$="_374s"]:checked ~ .score div {
+  top: -1270vw;
+}
+[id$="_373s"]:checked ~ .score div {
+  top: -1280vw;
+}
+[id$="_372s"]:checked ~ .score div {
+  top: -1290vw;
+}
+[id$="_371s"]:checked ~ .score div {
+  top: -1300vw;
+}
+[id$="_370s"]:checked ~ .score div {
+  top: -1310vw;
+}
+[id$="_369s"]:checked ~ .score div {
+  top: -1320vw;
+}
+[id$="_368s"]:checked ~ .score div {
+  top: -1330vw;
+}
+[id$="_367s"]:checked ~ .score div {
+  top: -1340vw;
+}
+[id$="_366s"]:checked ~ .score div {
+  top: -1350vw;
+}
+[id$="_365s"]:checked ~ .score div {
+  top: -1360vw;
+}
+[id$="_364s"]:checked ~ .score div {
+  top: -1370vw;
+}
+[id$="_363s"]:checked ~ .score div {
+  top: -1380vw;
+}
+[id$="_362s"]:checked ~ .score div {
+  top: -1390vw;
+}
+[id$="_361s"]:checked ~ .score div {
+  top: -1400vw;
+}
+[id$="_360s"]:checked ~ .score div {
+  top: -1410vw;
+}
+[id$="_359s"]:checked ~ .score div {
+  top: -1420vw;
+}
+[id$="_358s"]:checked ~ .score div {
+  top: -1430vw;
+}
+[id$="_357s"]:checked ~ .score div {
+  top: -1440vw;
+}
+[id$="_356s"]:checked ~ .score div {
+  top: -1450vw;
+}
+[id$="_355s"]:checked ~ .score div {
+  top: -1460vw;
+}
+[id$="_354s"]:checked ~ .score div {
+  top: -1470vw;
+}
+[id$="_353s"]:checked ~ .score div {
+  top: -1480vw;
+}
+[id$="_352s"]:checked ~ .score div {
+  top: -1490vw;
+}
+[id$="_351s"]:checked ~ .score div {
+  top: -1500vw;
+}
+[id$="_350s"]:checked ~ .score div {
+  top: -1510vw;
+}
+[id$="_349s"]:checked ~ .score div {
+  top: -1520vw;
+}
+[id$="_348s"]:checked ~ .score div {
+  top: -1530vw;
+}
+[id$="_347s"]:checked ~ .score div {
+  top: -1540vw;
+}
+[id$="_346s"]:checked ~ .score div {
+  top: -1550vw;
+}
+[id$="_345s"]:checked ~ .score div {
+  top: -1560vw;
+}
+[id$="_344s"]:checked ~ .score div {
+  top: -1570vw;
+}
+[id$="_343s"]:checked ~ .score div {
+  top: -1580vw;
+}
+[id$="_342s"]:checked ~ .score div {
+  top: -1590vw;
+}
+[id$="_341s"]:checked ~ .score div {
+  top: -1600vw;
+}
+[id$="_340s"]:checked ~ .score div {
+  top: -1610vw;
+}
+[id$="_339s"]:checked ~ .score div {
+  top: -1620vw;
+}
+[id$="_338s"]:checked ~ .score div {
+  top: -1630vw;
+}
+[id$="_337s"]:checked ~ .score div {
+  top: -1640vw;
+}
+[id$="_336s"]:checked ~ .score div {
+  top: -1650vw;
+}
+[id$="_335s"]:checked ~ .score div {
+  top: -1660vw;
+}
+[id$="_334s"]:checked ~ .score div {
+  top: -1670vw;
+}
+[id$="_333s"]:checked ~ .score div {
+  top: -1680vw;
+}
+[id$="_332s"]:checked ~ .score div {
+  top: -1690vw;
+}
+[id$="_331s"]:checked ~ .score div {
+  top: -1700vw;
+}
+[id$="_330s"]:checked ~ .score div {
+  top: -1710vw;
+}
+[id$="_329s"]:checked ~ .score div {
+  top: -1720vw;
+}
+[id$="_328s"]:checked ~ .score div {
+  top: -1730vw;
+}
+[id$="_327s"]:checked ~ .score div {
+  top: -1740vw;
+}
+[id$="_326s"]:checked ~ .score div {
+  top: -1750vw;
+}
+[id$="_325s"]:checked ~ .score div {
+  top: -1760vw;
+}
+[id$="_324s"]:checked ~ .score div {
+  top: -1770vw;
+}
+[id$="_323s"]:checked ~ .score div {
+  top: -1780vw;
+}
+[id$="_322s"]:checked ~ .score div {
+  top: -1790vw;
+}
+[id$="_321s"]:checked ~ .score div {
+  top: -1800vw;
+}
+[id$="_320s"]:checked ~ .score div {
+  top: -1810vw;
+}
+[id$="_319s"]:checked ~ .score div {
+  top: -1820vw;
+}
+[id$="_318s"]:checked ~ .score div {
+  top: -1830vw;
+}
+[id$="_317s"]:checked ~ .score div {
+  top: -1840vw;
+}
+[id$="_316s"]:checked ~ .score div {
+  top: -1850vw;
+}
+[id$="_315s"]:checked ~ .score div {
+  top: -1860vw;
+}
+[id$="_314s"]:checked ~ .score div {
+  top: -1870vw;
+}
+[id$="_313s"]:checked ~ .score div {
+  top: -1880vw;
+}
+[id$="_312s"]:checked ~ .score div {
+  top: -1890vw;
+}
+[id$="_311s"]:checked ~ .score div {
+  top: -1900vw;
+}
+[id$="_310s"]:checked ~ .score div {
+  top: -1910vw;
+}
+[id$="_309s"]:checked ~ .score div {
+  top: -1920vw;
+}
+[id$="_308s"]:checked ~ .score div {
+  top: -1930vw;
+}
+[id$="_307s"]:checked ~ .score div {
+  top: -1940vw;
+}
+[id$="_306s"]:checked ~ .score div {
+  top: -1950vw;
+}
+[id$="_305s"]:checked ~ .score div {
+  top: -1960vw;
+}
+[id$="_304s"]:checked ~ .score div {
+  top: -1970vw;
+}
+[id$="_303s"]:checked ~ .score div {
+  top: -1980vw;
+}
+[id$="_302s"]:checked ~ .score div {
+  top: -1990vw;
+}
+[id$="_301s"]:checked ~ .score div {
+  top: -2000vw;
+}
+[id$="_300s"]:checked ~ .score div {
+  top: -2010vw;
+}
+[id$="_299s"]:checked ~ .score div {
+  top: -2020vw;
+}
+[id$="_298s"]:checked ~ .score div {
+  top: -2030vw;
+}
+[id$="_297s"]:checked ~ .score div {
+  top: -2040vw;
+}
+[id$="_296s"]:checked ~ .score div {
+  top: -2050vw;
+}
+[id$="_295s"]:checked ~ .score div {
+  top: -2060vw;
+}
+[id$="_294s"]:checked ~ .score div {
+  top: -2070vw;
+}
+[id$="_293s"]:checked ~ .score div {
+  top: -2080vw;
+}
+[id$="_292s"]:checked ~ .score div {
+  top: -2090vw;
+}
+[id$="_291s"]:checked ~ .score div {
+  top: -2100vw;
+}
+[id$="_290s"]:checked ~ .score div {
+  top: -2110vw;
+}
+[id$="_289s"]:checked ~ .score div {
+  top: -2120vw;
+}
+[id$="_288s"]:checked ~ .score div {
+  top: -2130vw;
+}
+[id$="_287s"]:checked ~ .score div {
+  top: -2140vw;
+}
+[id$="_286s"]:checked ~ .score div {
+  top: -2150vw;
+}
+[id$="_285s"]:checked ~ .score div {
+  top: -2160vw;
+}
+[id$="_284s"]:checked ~ .score div {
+  top: -2170vw;
+}
+[id$="_283s"]:checked ~ .score div {
+  top: -2180vw;
+}
+[id$="_282s"]:checked ~ .score div {
+  top: -2190vw;
+}
+[id$="_281s"]:checked ~ .score div {
+  top: -2200vw;
+}
+[id$="_280s"]:checked ~ .score div {
+  top: -2210vw;
+}
+[id$="_279s"]:checked ~ .score div {
+  top: -2220vw;
+}
+[id$="_278s"]:checked ~ .score div {
+  top: -2230vw;
+}
+[id$="_277s"]:checked ~ .score div {
+  top: -2240vw;
+}
+[id$="_276s"]:checked ~ .score div {
+  top: -2250vw;
+}
+[id$="_275s"]:checked ~ .score div {
+  top: -2260vw;
+}
+[id$="_274s"]:checked ~ .score div {
+  top: -2270vw;
+}
+[id$="_273s"]:checked ~ .score div {
+  top: -2280vw;
+}
+[id$="_272s"]:checked ~ .score div {
+  top: -2290vw;
+}
+[id$="_271s"]:checked ~ .score div {
+  top: -2300vw;
+}
+[id$="_270s"]:checked ~ .score div {
+  top: -2310vw;
+}
+[id$="_269s"]:checked ~ .score div {
+  top: -2320vw;
+}
+[id$="_268s"]:checked ~ .score div {
+  top: -2330vw;
+}
+[id$="_267s"]:checked ~ .score div {
+  top: -2340vw;
+}
+[id$="_266s"]:checked ~ .score div {
+  top: -2350vw;
+}
+[id$="_265s"]:checked ~ .score div {
+  top: -2360vw;
+}
+[id$="_264s"]:checked ~ .score div {
+  top: -2370vw;
+}
+[id$="_263s"]:checked ~ .score div {
+  top: -2380vw;
+}
+[id$="_262s"]:checked ~ .score div {
+  top: -2390vw;
+}
+[id$="_261s"]:checked ~ .score div {
+  top: -2400vw;
+}
+[id$="_260s"]:checked ~ .score div {
+  top: -2410vw;
+}
+[id$="_259s"]:checked ~ .score div {
+  top: -2420vw;
+}
+[id$="_258s"]:checked ~ .score div {
+  top: -2430vw;
+}
+[id$="_257s"]:checked ~ .score div {
+  top: -2440vw;
+}
+[id$="_256s"]:checked ~ .score div {
+  top: -2450vw;
+}
+[id$="_255s"]:checked ~ .score div {
+  top: -2460vw;
+}
+[id$="_254s"]:checked ~ .score div {
+  top: -2470vw;
+}
+[id$="_253s"]:checked ~ .score div {
+  top: -2480vw;
+}
+[id$="_252s"]:checked ~ .score div {
+  top: -2490vw;
+}
+[id$="_251s"]:checked ~ .score div {
+  top: -2500vw;
+}
+[id$="_250s"]:checked ~ .score div {
+  top: -2510vw;
+}
+[id$="_249s"]:checked ~ .score div {
+  top: -2520vw;
+}
+[id$="_248s"]:checked ~ .score div {
+  top: -2530vw;
+}
+[id$="_247s"]:checked ~ .score div {
+  top: -2540vw;
+}
+[id$="_246s"]:checked ~ .score div {
+  top: -2550vw;
+}
+[id$="_245s"]:checked ~ .score div {
+  top: -2560vw;
+}
+[id$="_244s"]:checked ~ .score div {
+  top: -2570vw;
+}
+[id$="_243s"]:checked ~ .score div {
+  top: -2580vw;
+}
+[id$="_242s"]:checked ~ .score div {
+  top: -2590vw;
+}
+[id$="_241s"]:checked ~ .score div {
+  top: -2600vw;
+}
+[id$="_240s"]:checked ~ .score div {
+  top: -2610vw;
+}
+[id$="_239s"]:checked ~ .score div {
+  top: -2620vw;
+}
+[id$="_238s"]:checked ~ .score div {
+  top: -2630vw;
+}
+[id$="_237s"]:checked ~ .score div {
+  top: -2640vw;
+}
+[id$="_236s"]:checked ~ .score div {
+  top: -2650vw;
+}
+[id$="_235s"]:checked ~ .score div {
+  top: -2660vw;
+}
+[id$="_234s"]:checked ~ .score div {
+  top: -2670vw;
+}
+[id$="_233s"]:checked ~ .score div {
+  top: -2680vw;
+}
+[id$="_232s"]:checked ~ .score div {
+  top: -2690vw;
+}
+[id$="_231s"]:checked ~ .score div {
+  top: -2700vw;
+}
+[id$="_230s"]:checked ~ .score div {
+  top: -2710vw;
+}
+[id$="_229s"]:checked ~ .score div {
+  top: -2720vw;
+}
+[id$="_228s"]:checked ~ .score div {
+  top: -2730vw;
+}
+[id$="_227s"]:checked ~ .score div {
+  top: -2740vw;
+}
+[id$="_226s"]:checked ~ .score div {
+  top: -2750vw;
+}
+[id$="_225s"]:checked ~ .score div {
+  top: -2760vw;
+}
+[id$="_224s"]:checked ~ .score div {
+  top: -2770vw;
+}
+[id$="_223s"]:checked ~ .score div {
+  top: -2780vw;
+}
+[id$="_222s"]:checked ~ .score div {
+  top: -2790vw;
+}
+[id$="_221s"]:checked ~ .score div {
+  top: -2800vw;
+}
+[id$="_220s"]:checked ~ .score div {
+  top: -2810vw;
+}
+[id$="_219s"]:checked ~ .score div {
+  top: -2820vw;
+}
+[id$="_218s"]:checked ~ .score div {
+  top: -2830vw;
+}
+[id$="_217s"]:checked ~ .score div {
+  top: -2840vw;
+}
+[id$="_216s"]:checked ~ .score div {
+  top: -2850vw;
+}
+[id$="_215s"]:checked ~ .score div {
+  top: -2860vw;
+}
+[id$="_214s"]:checked ~ .score div {
+  top: -2870vw;
+}
+[id$="_213s"]:checked ~ .score div {
+  top: -2880vw;
+}
+[id$="_212s"]:checked ~ .score div {
+  top: -2890vw;
+}
+[id$="_211s"]:checked ~ .score div {
+  top: -2900vw;
+}
+[id$="_210s"]:checked ~ .score div {
+  top: -2910vw;
+}
+[id$="_209s"]:checked ~ .score div {
+  top: -2920vw;
+}
+[id$="_208s"]:checked ~ .score div {
+  top: -2930vw;
+}
+[id$="_207s"]:checked ~ .score div {
+  top: -2940vw;
+}
+[id$="_206s"]:checked ~ .score div {
+  top: -2950vw;
+}
+[id$="_205s"]:checked ~ .score div {
+  top: -2960vw;
+}
+[id$="_204s"]:checked ~ .score div {
+  top: -2970vw;
+}
+[id$="_203s"]:checked ~ .score div {
+  top: -2980vw;
+}
+[id$="_202s"]:checked ~ .score div {
+  top: -2990vw;
+}
+[id$="_201s"]:checked ~ .score div {
+  top: -3000vw;
+}
+[id$="_200s"]:checked ~ .score div {
+  top: -3010vw;
+}
+[id$="_199s"]:checked ~ .score div {
+  top: -3020vw;
+}
+[id$="_198s"]:checked ~ .score div {
+  top: -3030vw;
+}
+[id$="_197s"]:checked ~ .score div {
+  top: -3040vw;
+}
+[id$="_196s"]:checked ~ .score div {
+  top: -3050vw;
+}
+[id$="_195s"]:checked ~ .score div {
+  top: -3060vw;
+}
+[id$="_194s"]:checked ~ .score div {
+  top: -3070vw;
+}
+[id$="_193s"]:checked ~ .score div {
+  top: -3080vw;
+}
+[id$="_192s"]:checked ~ .score div {
+  top: -3090vw;
+}
+[id$="_191s"]:checked ~ .score div {
+  top: -3100vw;
+}
+[id$="_190s"]:checked ~ .score div {
+  top: -3110vw;
+}
+[id$="_189s"]:checked ~ .score div {
+  top: -3120vw;
+}
+[id$="_188s"]:checked ~ .score div {
+  top: -3130vw;
+}
+[id$="_187s"]:checked ~ .score div {
+  top: -3140vw;
+}
+[id$="_186s"]:checked ~ .score div {
+  top: -3150vw;
+}
+[id$="_185s"]:checked ~ .score div {
+  top: -3160vw;
+}
+[id$="_184s"]:checked ~ .score div {
+  top: -3170vw;
+}
+[id$="_183s"]:checked ~ .score div {
+  top: -3180vw;
+}
+[id$="_182s"]:checked ~ .score div {
+  top: -3190vw;
+}
+[id$="_181s"]:checked ~ .score div {
+  top: -3200vw;
+}
+[id$="_180s"]:checked ~ .score div {
+  top: -3210vw;
+}
+[id$="_179s"]:checked ~ .score div {
+  top: -3220vw;
+}
+[id$="_178s"]:checked ~ .score div {
+  top: -3230vw;
+}
+[id$="_177s"]:checked ~ .score div {
+  top: -3240vw;
+}
+[id$="_176s"]:checked ~ .score div {
+  top: -3250vw;
+}
+[id$="_175s"]:checked ~ .score div {
+  top: -3260vw;
+}
+[id$="_174s"]:checked ~ .score div {
+  top: -3270vw;
+}
+[id$="_173s"]:checked ~ .score div {
+  top: -3280vw;
+}
+[id$="_172s"]:checked ~ .score div {
+  top: -3290vw;
+}
+[id$="_171s"]:checked ~ .score div {
+  top: -3300vw;
+}
+[id$="_170s"]:checked ~ .score div {
+  top: -3310vw;
+}
+[id$="_169s"]:checked ~ .score div {
+  top: -3320vw;
+}
+[id$="_168s"]:checked ~ .score div {
+  top: -3330vw;
+}
+[id$="_167s"]:checked ~ .score div {
+  top: -3340vw;
+}
+[id$="_166s"]:checked ~ .score div {
+  top: -3350vw;
+}
+[id$="_165s"]:checked ~ .score div {
+  top: -3360vw;
+}
+[id$="_164s"]:checked ~ .score div {
+  top: -3370vw;
+}
+[id$="_163s"]:checked ~ .score div {
+  top: -3380vw;
+}
+[id$="_162s"]:checked ~ .score div {
+  top: -3390vw;
+}
+[id$="_161s"]:checked ~ .score div {
+  top: -3400vw;
+}
+[id$="_160s"]:checked ~ .score div {
+  top: -3410vw;
+}
+[id$="_159s"]:checked ~ .score div {
+  top: -3420vw;
+}
+[id$="_158s"]:checked ~ .score div {
+  top: -3430vw;
+}
+[id$="_157s"]:checked ~ .score div {
+  top: -3440vw;
+}
+[id$="_156s"]:checked ~ .score div {
+  top: -3450vw;
+}
+[id$="_155s"]:checked ~ .score div {
+  top: -3460vw;
+}
+[id$="_154s"]:checked ~ .score div {
+  top: -3470vw;
+}
+[id$="_153s"]:checked ~ .score div {
+  top: -3480vw;
+}
+[id$="_152s"]:checked ~ .score div {
+  top: -3490vw;
+}
+[id$="_151s"]:checked ~ .score div {
+  top: -3500vw;
+}
+[id$="_150s"]:checked ~ .score div {
+  top: -3510vw;
+}
+[id$="_149s"]:checked ~ .score div {
+  top: -3520vw;
+}
+[id$="_148s"]:checked ~ .score div {
+  top: -3530vw;
+}
+[id$="_147s"]:checked ~ .score div {
+  top: -3540vw;
+}
+[id$="_146s"]:checked ~ .score div {
+  top: -3550vw;
+}
+[id$="_145s"]:checked ~ .score div {
+  top: -3560vw;
+}
+[id$="_144s"]:checked ~ .score div {
+  top: -3570vw;
+}
+[id$="_143s"]:checked ~ .score div {
+  top: -3580vw;
+}
+[id$="_142s"]:checked ~ .score div {
+  top: -3590vw;
+}
+[id$="_141s"]:checked ~ .score div {
+  top: -3600vw;
+}
+[id$="_140s"]:checked ~ .score div {
+  top: -3610vw;
+}
+[id$="_139s"]:checked ~ .score div {
+  top: -3620vw;
+}
+[id$="_138s"]:checked ~ .score div {
+  top: -3630vw;
+}
+[id$="_137s"]:checked ~ .score div {
+  top: -3640vw;
+}
+[id$="_136s"]:checked ~ .score div {
+  top: -3650vw;
+}
+[id$="_135s"]:checked ~ .score div {
+  top: -3660vw;
+}
+[id$="_134s"]:checked ~ .score div {
+  top: -3670vw;
+}
+[id$="_133s"]:checked ~ .score div {
+  top: -3680vw;
+}
+[id$="_132s"]:checked ~ .score div {
+  top: -3690vw;
+}
+[id$="_131s"]:checked ~ .score div {
+  top: -3700vw;
+}
+[id$="_130s"]:checked ~ .score div {
+  top: -3710vw;
+}
+[id$="_129s"]:checked ~ .score div {
+  top: -3720vw;
+}
+[id$="_128s"]:checked ~ .score div {
+  top: -3730vw;
+}
+[id$="_127s"]:checked ~ .score div {
+  top: -3740vw;
+}
+[id$="_126s"]:checked ~ .score div {
+  top: -3750vw;
+}
+[id$="_125s"]:checked ~ .score div {
+  top: -3760vw;
+}
+[id$="_124s"]:checked ~ .score div {
+  top: -3770vw;
+}
+[id$="_123s"]:checked ~ .score div {
+  top: -3780vw;
+}
+[id$="_122s"]:checked ~ .score div {
+  top: -3790vw;
+}
+[id$="_121s"]:checked ~ .score div {
+  top: -3800vw;
+}
+[id$="_120s"]:checked ~ .score div {
+  top: -3810vw;
+}
+[id$="_119s"]:checked ~ .score div {
+  top: -3820vw;
+}
+[id$="_118s"]:checked ~ .score div {
+  top: -3830vw;
+}
+[id$="_117s"]:checked ~ .score div {
+  top: -3840vw;
+}
+[id$="_116s"]:checked ~ .score div {
+  top: -3850vw;
+}
+[id$="_115s"]:checked ~ .score div {
+  top: -3860vw;
+}
+[id$="_114s"]:checked ~ .score div {
+  top: -3870vw;
+}
+[id$="_113s"]:checked ~ .score div {
+  top: -3880vw;
+}
+[id$="_112s"]:checked ~ .score div {
+  top: -3890vw;
+}
+[id$="_111s"]:checked ~ .score div {
+  top: -3900vw;
+}
+[id$="_110s"]:checked ~ .score div {
+  top: -3910vw;
+}
+[id$="_109s"]:checked ~ .score div {
+  top: -3920vw;
+}
+[id$="_108s"]:checked ~ .score div {
+  top: -3930vw;
+}
+[id$="_107s"]:checked ~ .score div {
+  top: -3940vw;
+}
+[id$="_106s"]:checked ~ .score div {
+  top: -3950vw;
+}
+[id$="_105s"]:checked ~ .score div {
+  top: -3960vw;
+}
+[id$="_104s"]:checked ~ .score div {
+  top: -3970vw;
+}
+[id$="_103s"]:checked ~ .score div {
+  top: -3980vw;
+}
+[id$="_102s"]:checked ~ .score div {
+  top: -3990vw;
+}
+[id$="_101s"]:checked ~ .score div {
+  top: -4000vw;
+}
+[id$="_100s"]:checked ~ .score div {
+  top: -4010vw;
+}
+[id$="_99s"]:checked ~ .score div {
+  top: -4020vw;
+}
+[id$="_98s"]:checked ~ .score div {
+  top: -4030vw;
+}
+[id$="_97s"]:checked ~ .score div {
+  top: -4040vw;
+}
+[id$="_96s"]:checked ~ .score div {
+  top: -4050vw;
+}
+[id$="_95s"]:checked ~ .score div {
+  top: -4060vw;
+}
+[id$="_94s"]:checked ~ .score div {
+  top: -4070vw;
+}
+[id$="_93s"]:checked ~ .score div {
+  top: -4080vw;
+}
+[id$="_92s"]:checked ~ .score div {
+  top: -4090vw;
+}
+[id$="_91s"]:checked ~ .score div {
+  top: -4100vw;
+}
+[id$="_90s"]:checked ~ .score div {
+  top: -4110vw;
+}
+[id$="_89s"]:checked ~ .score div {
+  top: -4120vw;
+}
+[id$="_88s"]:checked ~ .score div {
+  top: -4130vw;
+}
+[id$="_87s"]:checked ~ .score div {
+  top: -4140vw;
+}
+[id$="_86s"]:checked ~ .score div {
+  top: -4150vw;
+}
+[id$="_85s"]:checked ~ .score div {
+  top: -4160vw;
+}
+[id$="_84s"]:checked ~ .score div {
+  top: -4170vw;
+}
+[id$="_83s"]:checked ~ .score div {
+  top: -4180vw;
+}
+[id$="_82s"]:checked ~ .score div {
+  top: -4190vw;
+}
+[id$="_81s"]:checked ~ .score div {
+  top: -4200vw;
+}
+[id$="_80s"]:checked ~ .score div {
+  top: -4210vw;
+}
+[id$="_79s"]:checked ~ .score div {
+  top: -4220vw;
+}
+[id$="_78s"]:checked ~ .score div {
+  top: -4230vw;
+}
+[id$="_77s"]:checked ~ .score div {
+  top: -4240vw;
+}
+[id$="_76s"]:checked ~ .score div {
+  top: -4250vw;
+}
+[id$="_75s"]:checked ~ .score div {
+  top: -4260vw;
+}
+[id$="_74s"]:checked ~ .score div {
+  top: -4270vw;
+}
+[id$="_73s"]:checked ~ .score div {
+  top: -4280vw;
+}
+[id$="_72s"]:checked ~ .score div {
+  top: -4290vw;
+}
+[id$="_71s"]:checked ~ .score div {
+  top: -4300vw;
+}
+[id$="_70s"]:checked ~ .score div {
+  top: -4310vw;
+}
+[id$="_69s"]:checked ~ .score div {
+  top: -4320vw;
+}
+[id$="_68s"]:checked ~ .score div {
+  top: -4330vw;
+}
+[id$="_67s"]:checked ~ .score div {
+  top: -4340vw;
+}
+[id$="_66s"]:checked ~ .score div {
+  top: -4350vw;
+}
+[id$="_65s"]:checked ~ .score div {
+  top: -4360vw;
+}
+[id$="_64s"]:checked ~ .score div {
+  top: -4370vw;
+}
+[id$="_63s"]:checked ~ .score div {
+  top: -4380vw;
+}
+[id$="_62s"]:checked ~ .score div {
+  top: -4390vw;
+}
+[id$="_61s"]:checked ~ .score div {
+  top: -4400vw;
+}
+[id$="_60s"]:checked ~ .score div {
+  top: -4410vw;
+}
+[id$="_59s"]:checked ~ .score div {
+  top: -4420vw;
+}
+[id$="_58s"]:checked ~ .score div {
+  top: -4430vw;
+}
+[id$="_57s"]:checked ~ .score div {
+  top: -4440vw;
+}
+[id$="_56s"]:checked ~ .score div {
+  top: -4450vw;
+}
+[id$="_55s"]:checked ~ .score div {
+  top: -4460vw;
+}
+[id$="_54s"]:checked ~ .score div {
+  top: -4470vw;
+}
+[id$="_53s"]:checked ~ .score div {
+  top: -4480vw;
+}
+[id$="_52s"]:checked ~ .score div {
+  top: -4490vw;
+}
+[id$="_51s"]:checked ~ .score div {
+  top: -4500vw;
+}
+[id$="_50s"]:checked ~ .score div {
+  top: -4510vw;
+}
+[id$="_49s"]:checked ~ .score div {
+  top: -4520vw;
+}
+[id$="_48s"]:checked ~ .score div {
+  top: -4530vw;
+}
+[id$="_47s"]:checked ~ .score div {
+  top: -4540vw;
+}
+[id$="_46s"]:checked ~ .score div {
+  top: -4550vw;
+}
+[id$="_45s"]:checked ~ .score div {
+  top: -4560vw;
+}
+[id$="_44s"]:checked ~ .score div {
+  top: -4570vw;
+}
+[id$="_43s"]:checked ~ .score div {
+  top: -4580vw;
+}
+[id$="_42s"]:checked ~ .score div {
+  top: -4590vw;
+}
+[id$="_41s"]:checked ~ .score div {
+  top: -4600vw;
+}
+[id$="_40s"]:checked ~ .score div {
+  top: -4610vw;
+}
+[id$="_39s"]:checked ~ .score div {
+  top: -4620vw;
+}
+[id$="_38s"]:checked ~ .score div {
+  top: -4630vw;
+}
+[id$="_37s"]:checked ~ .score div {
+  top: -4640vw;
+}
+[id$="_36s"]:checked ~ .score div {
+  top: -4650vw;
+}
+[id$="_35s"]:checked ~ .score div {
+  top: -4660vw;
+}
+[id$="_34s"]:checked ~ .score div {
+  top: -4670vw;
+}
+[id$="_33s"]:checked ~ .score div {
+  top: -4680vw;
+}
+[id$="_32s"]:checked ~ .score div {
+  top: -4690vw;
+}
+[id$="_31s"]:checked ~ .score div {
+  top: -4700vw;
+}
+[id$="_30s"]:checked ~ .score div {
+  top: -4710vw;
+}
+[id$="_29s"]:checked ~ .score div {
+  top: -4720vw;
+}
+[id$="_28s"]:checked ~ .score div {
+  top: -4730vw;
+}
+[id$="_27s"]:checked ~ .score div {
+  top: -4740vw;
+}
+[id$="_26s"]:checked ~ .score div {
+  top: -4750vw;
+}
+[id$="_25s"]:checked ~ .score div {
+  top: -4760vw;
+}
+[id$="_24s"]:checked ~ .score div {
+  top: -4770vw;
+}
+[id$="_23s"]:checked ~ .score div {
+  top: -4780vw;
+}
+[id$="_22s"]:checked ~ .score div {
+  top: -4790vw;
+}
+[id$="_21s"]:checked ~ .score div {
+  top: -4800vw;
+}
+[id$="_20s"]:checked ~ .score div {
+  top: -4810vw;
+}
+[id$="_19s"]:checked ~ .score div {
+  top: -4820vw;
+}
+[id$="_18s"]:checked ~ .score div {
+  top: -4830vw;
+}
+[id$="_17s"]:checked ~ .score div {
+  top: -4840vw;
+}
+[id$="_16s"]:checked ~ .score div {
+  top: -4850vw;
+}
+[id$="_15s"]:checked ~ .score div {
+  top: -4860vw;
+}
+[id$="_14s"]:checked ~ .score div {
+  top: -4870vw;
+}
+[id$="_13s"]:checked ~ .score div {
+  top: -4880vw;
+}
+[id$="_12s"]:checked ~ .score div {
+  top: -4890vw;
+}
+[id$="_11s"]:checked ~ .score div {
+  top: -4900vw;
+}
+[id$="_10s"]:checked ~ .score div {
+  top: -4910vw;
+}
+[id$="_9s"]:checked ~ .score div {
+  top: -4920vw;
+}
+[id$="_8s"]:checked ~ .score div {
+  top: -4930vw;
+}
+[id$="_7s"]:checked ~ .score div {
+  top: -4940vw;
+}
+[id$="_6s"]:checked ~ .score div {
+  top: -4950vw;
+}
+[id$="_5s"]:checked ~ .score div {
+  top: -4960vw;
+}
+[id$="_4s"]:checked ~ .score div {
+  top: -4970vw;
+}
+[id$="_3s"]:checked ~ .score div {
+  top: -4980vw;
+}
+[id$="_2s"]:checked ~ .score div {
+  top: -4990vw;
+}
+[id$="_1s"]:checked ~ .score div {
+  top: -5000vw;
+}
+[id$="_0s"]:checked ~ .score div {
+  top: -5010vw;
+}
+</style>
+<form>
+<input type="radio" tabindex="-1" name="dart" id="d1_1" checked="checked" />
+<input type="radio" tabindex="-1" name="dart" id="d2_1" />
+<input type="radio" tabindex="-1" name="dart" id="d1_2" />
+<input type="radio" tabindex="-1" name="dart" id="d2_2" />
+<input type="radio" tabindex="-1" name="dart" id="d1_3" />
+<input type="radio" tabindex="-1" name="dart" id="d2_3" />
+<input type="radio" tabindex="-1" name="dart" id="d1_4" />
+<input type="radio" tabindex="-1" name="dart" id="d2_4" />
+<input type="radio" tabindex="-1" name="dart" id="d1_5" />
+<input type="radio" tabindex="-1" name="dart" id="d2_5" />
+<input type="radio" tabindex="-1" name="dart" id="d1_6" />
+<input type="radio" tabindex="-1" name="dart" id="d2_6" />
+<input type="radio" tabindex="-1" name="dart" id="d1_7" />
+<input type="radio" tabindex="-1" name="dart" id="d2_7" />
+<input type="radio" tabindex="-1" name="dart" id="d1_8" />
+<input type="radio" tabindex="-1" name="dart" id="d2_8" />
+<input type="radio" tabindex="-1" name="dart" id="d1_9" />
+<input type="radio" tabindex="-1" name="dart" id="d2_9" />
+<input type="radio" tabindex="-1" name="dart" id="d1_10" />
+<input type="radio" tabindex="-1" name="dart" id="d2_10" />
+<input type="radio" tabindex="-1" name="dart" id="d1_11" />
+<input type="radio" tabindex="-1" name="x" id="x1" />
+<input type="radio" tabindex="-1" name="x" id="x2" checked="checked" />
+<input type="radio" tabindex="-1" name="angle" id="a1_1a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_2a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_3a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_4a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_5a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_6a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_7a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_8a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_9a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_10a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_11a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_12a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_13a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_14a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_15a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_16a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_17a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_18a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_19a" />
+<input type="radio" tabindex="-1" name="angle" id="a1_20a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_1a" checked="checked" />
+<input type="radio" tabindex="-1" name="angle" id="a2_2a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_3a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_4a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_5a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_6a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_7a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_8a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_9a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_10a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_11a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_12a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_13a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_14a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_15a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_16a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_17a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_18a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_19a" />
+<input type="radio" tabindex="-1" name="angle" id="a2_20a" />
+<input type="radio" tabindex="-1" name="radius" id="r1_0r" />
+<input type="radio" tabindex="-1" name="radius" id="r1_1r" />
+<input type="radio" tabindex="-1" name="radius" id="r1_2r" />
+<input type="radio" tabindex="-1" name="radius" id="r1_3r" />
+<input type="radio" tabindex="-1" name="radius" id="r1_4r" />
+<input type="radio" tabindex="-1" name="radius" id="r1_5r" />
+<input type="radio" tabindex="-1" name="radius" id="r2_0r" checked="checked" />
+<input type="radio" tabindex="-1" name="radius" id="r2_1r" />
+<input type="radio" tabindex="-1" name="radius" id="r2_2r" />
+<input type="radio" tabindex="-1" name="radius" id="r2_3r" />
+<input type="radio" tabindex="-1" name="radius" id="r2_4r" />
+<input type="radio" tabindex="-1" name="radius" id="r2_5r" />
+<input type="radio" tabindex="-1" name="throw" id="t1_bust" />
+<input type="radio" tabindex="-1" name="throw" id="t1_0" />
+<input type="radio" tabindex="-1" name="throw" id="t1_1" />
+<input type="radio" tabindex="-1" name="throw" id="t1_2" />
+<input type="radio" tabindex="-1" name="throw" id="t1_3" />
+<input type="radio" tabindex="-1" name="throw" id="t1_4" />
+<input type="radio" tabindex="-1" name="throw" id="t1_5" />
+<input type="radio" tabindex="-1" name="throw" id="t1_6" />
+<input type="radio" tabindex="-1" name="throw" id="t1_7" />
+<input type="radio" tabindex="-1" name="throw" id="t1_8" />
+<input type="radio" tabindex="-1" name="throw" id="t1_9" />
+<input type="radio" tabindex="-1" name="throw" id="t1_10" />
+<input type="radio" tabindex="-1" name="throw" id="t1_11" />
+<input type="radio" tabindex="-1" name="throw" id="t1_12" />
+<input type="radio" tabindex="-1" name="throw" id="t1_13" />
+<input type="radio" tabindex="-1" name="throw" id="t1_14" />
+<input type="radio" tabindex="-1" name="throw" id="t1_15" />
+<input type="radio" tabindex="-1" name="throw" id="t1_16" />
+<input type="radio" tabindex="-1" name="throw" id="t1_17" />
+<input type="radio" tabindex="-1" name="throw" id="t1_18" />
+<input type="radio" tabindex="-1" name="throw" id="t1_19" />
+<input type="radio" tabindex="-1" name="throw" id="t1_20" />
+<input type="radio" tabindex="-1" name="throw" id="t1_21" />
+<input type="radio" tabindex="-1" name="throw" id="t1_22" />
+<input type="radio" tabindex="-1" name="throw" id="t1_24" />
+<input type="radio" tabindex="-1" name="throw" id="t1_25" />
+<input type="radio" tabindex="-1" name="throw" id="t1_26" />
+<input type="radio" tabindex="-1" name="throw" id="t1_27" />
+<input type="radio" tabindex="-1" name="throw" id="t1_28" />
+<input type="radio" tabindex="-1" name="throw" id="t1_30" />
+<input type="radio" tabindex="-1" name="throw" id="t1_32" />
+<input type="radio" tabindex="-1" name="throw" id="t1_33" />
+<input type="radio" tabindex="-1" name="throw" id="t1_34" />
+<input type="radio" tabindex="-1" name="throw" id="t1_36" />
+<input type="radio" tabindex="-1" name="throw" id="t1_38" />
+<input type="radio" tabindex="-1" name="throw" id="t1_39" />
+<input type="radio" tabindex="-1" name="throw" id="t1_40" />
+<input type="radio" tabindex="-1" name="throw" id="t1_42" />
+<input type="radio" tabindex="-1" name="throw" id="t1_45" />
+<input type="radio" tabindex="-1" name="throw" id="t1_48" />
+<input type="radio" tabindex="-1" name="throw" id="t1_50" />
+<input type="radio" tabindex="-1" name="throw" id="t1_51" />
+<input type="radio" tabindex="-1" name="throw" id="t1_54" />
+<input type="radio" tabindex="-1" name="throw" id="t1_57" />
+<input type="radio" tabindex="-1" name="throw" id="t1_60" />
+<input type="radio" tabindex="-1" name="throw" id="t2_bust" />
+<input type="radio" tabindex="-1" name="throw" id="t2_0" checked="checked" />
+<input type="radio" tabindex="-1" name="throw" id="t2_1" />
+<input type="radio" tabindex="-1" name="throw" id="t2_2" />
+<input type="radio" tabindex="-1" name="throw" id="t2_3" />
+<input type="radio" tabindex="-1" name="throw" id="t2_4" />
+<input type="radio" tabindex="-1" name="throw" id="t2_5" />
+<input type="radio" tabindex="-1" name="throw" id="t2_6" />
+<input type="radio" tabindex="-1" name="throw" id="t2_7" />
+<input type="radio" tabindex="-1" name="throw" id="t2_8" />
+<input type="radio" tabindex="-1" name="throw" id="t2_9" />
+<input type="radio" tabindex="-1" name="throw" id="t2_10" />
+<input type="radio" tabindex="-1" name="throw" id="t2_11" />
+<input type="radio" tabindex="-1" name="throw" id="t2_12" />
+<input type="radio" tabindex="-1" name="throw" id="t2_13" />
+<input type="radio" tabindex="-1" name="throw" id="t2_14" />
+<input type="radio" tabindex="-1" name="throw" id="t2_15" />
+<input type="radio" tabindex="-1" name="throw" id="t2_16" />
+<input type="radio" tabindex="-1" name="throw" id="t2_17" />
+<input type="radio" tabindex="-1" name="throw" id="t2_18" />
+<input type="radio" tabindex="-1" name="throw" id="t2_19" />
+<input type="radio" tabindex="-1" name="throw" id="t2_20" />
+<input type="radio" tabindex="-1" name="throw" id="t2_21" />
+<input type="radio" tabindex="-1" name="throw" id="t2_22" />
+<input type="radio" tabindex="-1" name="throw" id="t2_24" />
+<input type="radio" tabindex="-1" name="throw" id="t2_25" />
+<input type="radio" tabindex="-1" name="throw" id="t2_26" />
+<input type="radio" tabindex="-1" name="throw" id="t2_27" />
+<input type="radio" tabindex="-1" name="throw" id="t2_28" />
+<input type="radio" tabindex="-1" name="throw" id="t2_30" />
+<input type="radio" tabindex="-1" name="throw" id="t2_32" />
+<input type="radio" tabindex="-1" name="throw" id="t2_33" />
+<input type="radio" tabindex="-1" name="throw" id="t2_34" />
+<input type="radio" tabindex="-1" name="throw" id="t2_36" />
+<input type="radio" tabindex="-1" name="throw" id="t2_38" />
+<input type="radio" tabindex="-1" name="throw" id="t2_39" />
+<input type="radio" tabindex="-1" name="throw" id="t2_40" />
+<input type="radio" tabindex="-1" name="throw" id="t2_42" />
+<input type="radio" tabindex="-1" name="throw" id="t2_45" />
+<input type="radio" tabindex="-1" name="throw" id="t2_48" />
+<input type="radio" tabindex="-1" name="throw" id="t2_50" />
+<input type="radio" tabindex="-1" name="throw" id="t2_51" />
+<input type="radio" tabindex="-1" name="throw" id="t2_54" />
+<input type="radio" tabindex="-1" name="throw" id="t2_57" />
+<input type="radio" tabindex="-1" name="throw" id="t2_60" />
+<input type="radio" tabindex="-1" name="score" id="s1_501s" />
+<input type="radio" tabindex="-1" name="score" id="s1_500s" />
+<input type="radio" tabindex="-1" name="score" id="s1_499s" />
+<input type="radio" tabindex="-1" name="score" id="s1_498s" />
+<input type="radio" tabindex="-1" name="score" id="s1_497s" />
+<input type="radio" tabindex="-1" name="score" id="s1_496s" />
+<input type="radio" tabindex="-1" name="score" id="s1_495s" />
+<input type="radio" tabindex="-1" name="score" id="s1_494s" />
+<input type="radio" tabindex="-1" name="score" id="s1_493s" />
+<input type="radio" tabindex="-1" name="score" id="s1_492s" />
+<input type="radio" tabindex="-1" name="score" id="s1_491s" />
+<input type="radio" tabindex="-1" name="score" id="s1_490s" />
+<input type="radio" tabindex="-1" name="score" id="s1_489s" />
+<input type="radio" tabindex="-1" name="score" id="s1_488s" />
+<input type="radio" tabindex="-1" name="score" id="s1_487s" />
+<input type="radio" tabindex="-1" name="score" id="s1_486s" />
+<input type="radio" tabindex="-1" name="score" id="s1_485s" />
+<input type="radio" tabindex="-1" name="score" id="s1_484s" />
+<input type="radio" tabindex="-1" name="score" id="s1_483s" />
+<input type="radio" tabindex="-1" name="score" id="s1_482s" />
+<input type="radio" tabindex="-1" name="score" id="s1_481s" />
+<input type="radio" tabindex="-1" name="score" id="s1_480s" />
+<input type="radio" tabindex="-1" name="score" id="s1_479s" />
+<input type="radio" tabindex="-1" name="score" id="s1_478s" />
+<input type="radio" tabindex="-1" name="score" id="s1_477s" />
+<input type="radio" tabindex="-1" name="score" id="s1_476s" />
+<input type="radio" tabindex="-1" name="score" id="s1_475s" />
+<input type="radio" tabindex="-1" name="score" id="s1_474s" />
+<input type="radio" tabindex="-1" name="score" id="s1_473s" />
+<input type="radio" tabindex="-1" name="score" id="s1_472s" />
+<input type="radio" tabindex="-1" name="score" id="s1_471s" />
+<input type="radio" tabindex="-1" name="score" id="s1_470s" />
+<input type="radio" tabindex="-1" name="score" id="s1_469s" />
+<input type="radio" tabindex="-1" name="score" id="s1_468s" />
+<input type="radio" tabindex="-1" name="score" id="s1_467s" />
+<input type="radio" tabindex="-1" name="score" id="s1_466s" />
+<input type="radio" tabindex="-1" name="score" id="s1_465s" />
+<input type="radio" tabindex="-1" name="score" id="s1_464s" />
+<input type="radio" tabindex="-1" name="score" id="s1_463s" />
+<input type="radio" tabindex="-1" name="score" id="s1_462s" />
+<input type="radio" tabindex="-1" name="score" id="s1_461s" />
+<input type="radio" tabindex="-1" name="score" id="s1_460s" />
+<input type="radio" tabindex="-1" name="score" id="s1_459s" />
+<input type="radio" tabindex="-1" name="score" id="s1_458s" />
+<input type="radio" tabindex="-1" name="score" id="s1_457s" />
+<input type="radio" tabindex="-1" name="score" id="s1_456s" />
+<input type="radio" tabindex="-1" name="score" id="s1_455s" />
+<input type="radio" tabindex="-1" name="score" id="s1_454s" />
+<input type="radio" tabindex="-1" name="score" id="s1_453s" />
+<input type="radio" tabindex="-1" name="score" id="s1_452s" />
+<input type="radio" tabindex="-1" name="score" id="s1_451s" />
+<input type="radio" tabindex="-1" name="score" id="s1_450s" />
+<input type="radio" tabindex="-1" name="score" id="s1_449s" />
+<input type="radio" tabindex="-1" name="score" id="s1_448s" />
+<input type="radio" tabindex="-1" name="score" id="s1_447s" />
+<input type="radio" tabindex="-1" name="score" id="s1_446s" />
+<input type="radio" tabindex="-1" name="score" id="s1_445s" />
+<input type="radio" tabindex="-1" name="score" id="s1_444s" />
+<input type="radio" tabindex="-1" name="score" id="s1_443s" />
+<input type="radio" tabindex="-1" name="score" id="s1_442s" />
+<input type="radio" tabindex="-1" name="score" id="s1_441s" />
+<input type="radio" tabindex="-1" name="score" id="s1_440s" />
+<input type="radio" tabindex="-1" name="score" id="s1_439s" />
+<input type="radio" tabindex="-1" name="score" id="s1_438s" />
+<input type="radio" tabindex="-1" name="score" id="s1_437s" />
+<input type="radio" tabindex="-1" name="score" id="s1_436s" />
+<input type="radio" tabindex="-1" name="score" id="s1_435s" />
+<input type="radio" tabindex="-1" name="score" id="s1_434s" />
+<input type="radio" tabindex="-1" name="score" id="s1_433s" />
+<input type="radio" tabindex="-1" name="score" id="s1_432s" />
+<input type="radio" tabindex="-1" name="score" id="s1_431s" />
+<input type="radio" tabindex="-1" name="score" id="s1_430s" />
+<input type="radio" tabindex="-1" name="score" id="s1_429s" />
+<input type="radio" tabindex="-1" name="score" id="s1_428s" />
+<input type="radio" tabindex="-1" name="score" id="s1_427s" />
+<input type="radio" tabindex="-1" name="score" id="s1_426s" />
+<input type="radio" tabindex="-1" name="score" id="s1_425s" />
+<input type="radio" tabindex="-1" name="score" id="s1_424s" />
+<input type="radio" tabindex="-1" name="score" id="s1_423s" />
+<input type="radio" tabindex="-1" name="score" id="s1_422s" />
+<input type="radio" tabindex="-1" name="score" id="s1_421s" />
+<input type="radio" tabindex="-1" name="score" id="s1_420s" />
+<input type="radio" tabindex="-1" name="score" id="s1_419s" />
+<input type="radio" tabindex="-1" name="score" id="s1_418s" />
+<input type="radio" tabindex="-1" name="score" id="s1_417s" />
+<input type="radio" tabindex="-1" name="score" id="s1_416s" />
+<input type="radio" tabindex="-1" name="score" id="s1_415s" />
+<input type="radio" tabindex="-1" name="score" id="s1_414s" />
+<input type="radio" tabindex="-1" name="score" id="s1_413s" />
+<input type="radio" tabindex="-1" name="score" id="s1_412s" />
+<input type="radio" tabindex="-1" name="score" id="s1_411s" />
+<input type="radio" tabindex="-1" name="score" id="s1_410s" />
+<input type="radio" tabindex="-1" name="score" id="s1_409s" />
+<input type="radio" tabindex="-1" name="score" id="s1_408s" />
+<input type="radio" tabindex="-1" name="score" id="s1_407s" />
+<input type="radio" tabindex="-1" name="score" id="s1_406s" />
+<input type="radio" tabindex="-1" name="score" id="s1_405s" />
+<input type="radio" tabindex="-1" name="score" id="s1_404s" />
+<input type="radio" tabindex="-1" name="score" id="s1_403s" />
+<input type="radio" tabindex="-1" name="score" id="s1_402s" />
+<input type="radio" tabindex="-1" name="score" id="s1_401s" />
+<input type="radio" tabindex="-1" name="score" id="s1_400s" />
+<input type="radio" tabindex="-1" name="score" id="s1_399s" />
+<input type="radio" tabindex="-1" name="score" id="s1_398s" />
+<input type="radio" tabindex="-1" name="score" id="s1_397s" />
+<input type="radio" tabindex="-1" name="score" id="s1_396s" />
+<input type="radio" tabindex="-1" name="score" id="s1_395s" />
+<input type="radio" tabindex="-1" name="score" id="s1_394s" />
+<input type="radio" tabindex="-1" name="score" id="s1_393s" />
+<input type="radio" tabindex="-1" name="score" id="s1_392s" />
+<input type="radio" tabindex="-1" name="score" id="s1_391s" />
+<input type="radio" tabindex="-1" name="score" id="s1_390s" />
+<input type="radio" tabindex="-1" name="score" id="s1_389s" />
+<input type="radio" tabindex="-1" name="score" id="s1_388s" />
+<input type="radio" tabindex="-1" name="score" id="s1_387s" />
+<input type="radio" tabindex="-1" name="score" id="s1_386s" />
+<input type="radio" tabindex="-1" name="score" id="s1_385s" />
+<input type="radio" tabindex="-1" name="score" id="s1_384s" />
+<input type="radio" tabindex="-1" name="score" id="s1_383s" />
+<input type="radio" tabindex="-1" name="score" id="s1_382s" />
+<input type="radio" tabindex="-1" name="score" id="s1_381s" />
+<input type="radio" tabindex="-1" name="score" id="s1_380s" />
+<input type="radio" tabindex="-1" name="score" id="s1_379s" />
+<input type="radio" tabindex="-1" name="score" id="s1_378s" />
+<input type="radio" tabindex="-1" name="score" id="s1_377s" />
+<input type="radio" tabindex="-1" name="score" id="s1_376s" />
+<input type="radio" tabindex="-1" name="score" id="s1_375s" />
+<input type="radio" tabindex="-1" name="score" id="s1_374s" />
+<input type="radio" tabindex="-1" name="score" id="s1_373s" />
+<input type="radio" tabindex="-1" name="score" id="s1_372s" />
+<input type="radio" tabindex="-1" name="score" id="s1_371s" />
+<input type="radio" tabindex="-1" name="score" id="s1_370s" />
+<input type="radio" tabindex="-1" name="score" id="s1_369s" />
+<input type="radio" tabindex="-1" name="score" id="s1_368s" />
+<input type="radio" tabindex="-1" name="score" id="s1_367s" />
+<input type="radio" tabindex="-1" name="score" id="s1_366s" />
+<input type="radio" tabindex="-1" name="score" id="s1_365s" />
+<input type="radio" tabindex="-1" name="score" id="s1_364s" />
+<input type="radio" tabindex="-1" name="score" id="s1_363s" />
+<input type="radio" tabindex="-1" name="score" id="s1_362s" />
+<input type="radio" tabindex="-1" name="score" id="s1_361s" />
+<input type="radio" tabindex="-1" name="score" id="s1_360s" />
+<input type="radio" tabindex="-1" name="score" id="s1_359s" />
+<input type="radio" tabindex="-1" name="score" id="s1_358s" />
+<input type="radio" tabindex="-1" name="score" id="s1_357s" />
+<input type="radio" tabindex="-1" name="score" id="s1_356s" />
+<input type="radio" tabindex="-1" name="score" id="s1_355s" />
+<input type="radio" tabindex="-1" name="score" id="s1_354s" />
+<input type="radio" tabindex="-1" name="score" id="s1_353s" />
+<input type="radio" tabindex="-1" name="score" id="s1_352s" />
+<input type="radio" tabindex="-1" name="score" id="s1_351s" />
+<input type="radio" tabindex="-1" name="score" id="s1_350s" />
+<input type="radio" tabindex="-1" name="score" id="s1_349s" />
+<input type="radio" tabindex="-1" name="score" id="s1_348s" />
+<input type="radio" tabindex="-1" name="score" id="s1_347s" />
+<input type="radio" tabindex="-1" name="score" id="s1_346s" />
+<input type="radio" tabindex="-1" name="score" id="s1_345s" />
+<input type="radio" tabindex="-1" name="score" id="s1_344s" />
+<input type="radio" tabindex="-1" name="score" id="s1_343s" />
+<input type="radio" tabindex="-1" name="score" id="s1_342s" />
+<input type="radio" tabindex="-1" name="score" id="s1_341s" />
+<input type="radio" tabindex="-1" name="score" id="s1_340s" />
+<input type="radio" tabindex="-1" name="score" id="s1_339s" />
+<input type="radio" tabindex="-1" name="score" id="s1_338s" />
+<input type="radio" tabindex="-1" name="score" id="s1_337s" />
+<input type="radio" tabindex="-1" name="score" id="s1_336s" />
+<input type="radio" tabindex="-1" name="score" id="s1_335s" />
+<input type="radio" tabindex="-1" name="score" id="s1_334s" />
+<input type="radio" tabindex="-1" name="score" id="s1_333s" />
+<input type="radio" tabindex="-1" name="score" id="s1_332s" />
+<input type="radio" tabindex="-1" name="score" id="s1_331s" />
+<input type="radio" tabindex="-1" name="score" id="s1_330s" />
+<input type="radio" tabindex="-1" name="score" id="s1_329s" />
+<input type="radio" tabindex="-1" name="score" id="s1_328s" />
+<input type="radio" tabindex="-1" name="score" id="s1_327s" />
+<input type="radio" tabindex="-1" name="score" id="s1_326s" />
+<input type="radio" tabindex="-1" name="score" id="s1_325s" />
+<input type="radio" tabindex="-1" name="score" id="s1_324s" />
+<input type="radio" tabindex="-1" name="score" id="s1_323s" />
+<input type="radio" tabindex="-1" name="score" id="s1_322s" />
+<input type="radio" tabindex="-1" name="score" id="s1_321s" />
+<input type="radio" tabindex="-1" name="score" id="s1_320s" />
+<input type="radio" tabindex="-1" name="score" id="s1_319s" />
+<input type="radio" tabindex="-1" name="score" id="s1_318s" />
+<input type="radio" tabindex="-1" name="score" id="s1_317s" />
+<input type="radio" tabindex="-1" name="score" id="s1_316s" />
+<input type="radio" tabindex="-1" name="score" id="s1_315s" />
+<input type="radio" tabindex="-1" name="score" id="s1_314s" />
+<input type="radio" tabindex="-1" name="score" id="s1_313s" />
+<input type="radio" tabindex="-1" name="score" id="s1_312s" />
+<input type="radio" tabindex="-1" name="score" id="s1_311s" />
+<input type="radio" tabindex="-1" name="score" id="s1_310s" />
+<input type="radio" tabindex="-1" name="score" id="s1_309s" />
+<input type="radio" tabindex="-1" name="score" id="s1_308s" />
+<input type="radio" tabindex="-1" name="score" id="s1_307s" />
+<input type="radio" tabindex="-1" name="score" id="s1_306s" />
+<input type="radio" tabindex="-1" name="score" id="s1_305s" />
+<input type="radio" tabindex="-1" name="score" id="s1_304s" />
+<input type="radio" tabindex="-1" name="score" id="s1_303s" />
+<input type="radio" tabindex="-1" name="score" id="s1_302s" />
+<input type="radio" tabindex="-1" name="score" id="s1_301s" />
+<input type="radio" tabindex="-1" name="score" id="s1_300s" />
+<input type="radio" tabindex="-1" name="score" id="s1_299s" />
+<input type="radio" tabindex="-1" name="score" id="s1_298s" />
+<input type="radio" tabindex="-1" name="score" id="s1_297s" />
+<input type="radio" tabindex="-1" name="score" id="s1_296s" />
+<input type="radio" tabindex="-1" name="score" id="s1_295s" />
+<input type="radio" tabindex="-1" name="score" id="s1_294s" />
+<input type="radio" tabindex="-1" name="score" id="s1_293s" />
+<input type="radio" tabindex="-1" name="score" id="s1_292s" />
+<input type="radio" tabindex="-1" name="score" id="s1_291s" />
+<input type="radio" tabindex="-1" name="score" id="s1_290s" />
+<input type="radio" tabindex="-1" name="score" id="s1_289s" />
+<input type="radio" tabindex="-1" name="score" id="s1_288s" />
+<input type="radio" tabindex="-1" name="score" id="s1_287s" />
+<input type="radio" tabindex="-1" name="score" id="s1_286s" />
+<input type="radio" tabindex="-1" name="score" id="s1_285s" />
+<input type="radio" tabindex="-1" name="score" id="s1_284s" />
+<input type="radio" tabindex="-1" name="score" id="s1_283s" />
+<input type="radio" tabindex="-1" name="score" id="s1_282s" />
+<input type="radio" tabindex="-1" name="score" id="s1_281s" />
+<input type="radio" tabindex="-1" name="score" id="s1_280s" />
+<input type="radio" tabindex="-1" name="score" id="s1_279s" />
+<input type="radio" tabindex="-1" name="score" id="s1_278s" />
+<input type="radio" tabindex="-1" name="score" id="s1_277s" />
+<input type="radio" tabindex="-1" name="score" id="s1_276s" />
+<input type="radio" tabindex="-1" name="score" id="s1_275s" />
+<input type="radio" tabindex="-1" name="score" id="s1_274s" />
+<input type="radio" tabindex="-1" name="score" id="s1_273s" />
+<input type="radio" tabindex="-1" name="score" id="s1_272s" />
+<input type="radio" tabindex="-1" name="score" id="s1_271s" />
+<input type="radio" tabindex="-1" name="score" id="s1_270s" />
+<input type="radio" tabindex="-1" name="score" id="s1_269s" />
+<input type="radio" tabindex="-1" name="score" id="s1_268s" />
+<input type="radio" tabindex="-1" name="score" id="s1_267s" />
+<input type="radio" tabindex="-1" name="score" id="s1_266s" />
+<input type="radio" tabindex="-1" name="score" id="s1_265s" />
+<input type="radio" tabindex="-1" name="score" id="s1_264s" />
+<input type="radio" tabindex="-1" name="score" id="s1_263s" />
+<input type="radio" tabindex="-1" name="score" id="s1_262s" />
+<input type="radio" tabindex="-1" name="score" id="s1_261s" />
+<input type="radio" tabindex="-1" name="score" id="s1_260s" />
+<input type="radio" tabindex="-1" name="score" id="s1_259s" />
+<input type="radio" tabindex="-1" name="score" id="s1_258s" />
+<input type="radio" tabindex="-1" name="score" id="s1_257s" />
+<input type="radio" tabindex="-1" name="score" id="s1_256s" />
+<input type="radio" tabindex="-1" name="score" id="s1_255s" />
+<input type="radio" tabindex="-1" name="score" id="s1_254s" />
+<input type="radio" tabindex="-1" name="score" id="s1_253s" />
+<input type="radio" tabindex="-1" name="score" id="s1_252s" />
+<input type="radio" tabindex="-1" name="score" id="s1_251s" />
+<input type="radio" tabindex="-1" name="score" id="s1_250s" />
+<input type="radio" tabindex="-1" name="score" id="s1_249s" />
+<input type="radio" tabindex="-1" name="score" id="s1_248s" />
+<input type="radio" tabindex="-1" name="score" id="s1_247s" />
+<input type="radio" tabindex="-1" name="score" id="s1_246s" />
+<input type="radio" tabindex="-1" name="score" id="s1_245s" />
+<input type="radio" tabindex="-1" name="score" id="s1_244s" />
+<input type="radio" tabindex="-1" name="score" id="s1_243s" />
+<input type="radio" tabindex="-1" name="score" id="s1_242s" />
+<input type="radio" tabindex="-1" name="score" id="s1_241s" />
+<input type="radio" tabindex="-1" name="score" id="s1_240s" />
+<input type="radio" tabindex="-1" name="score" id="s1_239s" />
+<input type="radio" tabindex="-1" name="score" id="s1_238s" />
+<input type="radio" tabindex="-1" name="score" id="s1_237s" />
+<input type="radio" tabindex="-1" name="score" id="s1_236s" />
+<input type="radio" tabindex="-1" name="score" id="s1_235s" />
+<input type="radio" tabindex="-1" name="score" id="s1_234s" />
+<input type="radio" tabindex="-1" name="score" id="s1_233s" />
+<input type="radio" tabindex="-1" name="score" id="s1_232s" />
+<input type="radio" tabindex="-1" name="score" id="s1_231s" />
+<input type="radio" tabindex="-1" name="score" id="s1_230s" />
+<input type="radio" tabindex="-1" name="score" id="s1_229s" />
+<input type="radio" tabindex="-1" name="score" id="s1_228s" />
+<input type="radio" tabindex="-1" name="score" id="s1_227s" />
+<input type="radio" tabindex="-1" name="score" id="s1_226s" />
+<input type="radio" tabindex="-1" name="score" id="s1_225s" />
+<input type="radio" tabindex="-1" name="score" id="s1_224s" />
+<input type="radio" tabindex="-1" name="score" id="s1_223s" />
+<input type="radio" tabindex="-1" name="score" id="s1_222s" />
+<input type="radio" tabindex="-1" name="score" id="s1_221s" />
+<input type="radio" tabindex="-1" name="score" id="s1_220s" />
+<input type="radio" tabindex="-1" name="score" id="s1_219s" />
+<input type="radio" tabindex="-1" name="score" id="s1_218s" />
+<input type="radio" tabindex="-1" name="score" id="s1_217s" />
+<input type="radio" tabindex="-1" name="score" id="s1_216s" />
+<input type="radio" tabindex="-1" name="score" id="s1_215s" />
+<input type="radio" tabindex="-1" name="score" id="s1_214s" />
+<input type="radio" tabindex="-1" name="score" id="s1_213s" />
+<input type="radio" tabindex="-1" name="score" id="s1_212s" />
+<input type="radio" tabindex="-1" name="score" id="s1_211s" />
+<input type="radio" tabindex="-1" name="score" id="s1_210s" />
+<input type="radio" tabindex="-1" name="score" id="s1_209s" />
+<input type="radio" tabindex="-1" name="score" id="s1_208s" />
+<input type="radio" tabindex="-1" name="score" id="s1_207s" />
+<input type="radio" tabindex="-1" name="score" id="s1_206s" />
+<input type="radio" tabindex="-1" name="score" id="s1_205s" />
+<input type="radio" tabindex="-1" name="score" id="s1_204s" />
+<input type="radio" tabindex="-1" name="score" id="s1_203s" />
+<input type="radio" tabindex="-1" name="score" id="s1_202s" />
+<input type="radio" tabindex="-1" name="score" id="s1_201s" />
+<input type="radio" tabindex="-1" name="score" id="s1_200s" />
+<input type="radio" tabindex="-1" name="score" id="s1_199s" />
+<input type="radio" tabindex="-1" name="score" id="s1_198s" />
+<input type="radio" tabindex="-1" name="score" id="s1_197s" />
+<input type="radio" tabindex="-1" name="score" id="s1_196s" />
+<input type="radio" tabindex="-1" name="score" id="s1_195s" />
+<input type="radio" tabindex="-1" name="score" id="s1_194s" />
+<input type="radio" tabindex="-1" name="score" id="s1_193s" />
+<input type="radio" tabindex="-1" name="score" id="s1_192s" />
+<input type="radio" tabindex="-1" name="score" id="s1_191s" />
+<input type="radio" tabindex="-1" name="score" id="s1_190s" />
+<input type="radio" tabindex="-1" name="score" id="s1_189s" />
+<input type="radio" tabindex="-1" name="score" id="s1_188s" />
+<input type="radio" tabindex="-1" name="score" id="s1_187s" />
+<input type="radio" tabindex="-1" name="score" id="s1_186s" />
+<input type="radio" tabindex="-1" name="score" id="s1_185s" />
+<input type="radio" tabindex="-1" name="score" id="s1_184s" />
+<input type="radio" tabindex="-1" name="score" id="s1_183s" />
+<input type="radio" tabindex="-1" name="score" id="s1_182s" />
+<input type="radio" tabindex="-1" name="score" id="s1_181s" />
+<input type="radio" tabindex="-1" name="score" id="s1_180s" />
+<input type="radio" tabindex="-1" name="score" id="s1_179s" />
+<input type="radio" tabindex="-1" name="score" id="s1_178s" />
+<input type="radio" tabindex="-1" name="score" id="s1_177s" />
+<input type="radio" tabindex="-1" name="score" id="s1_176s" />
+<input type="radio" tabindex="-1" name="score" id="s1_175s" />
+<input type="radio" tabindex="-1" name="score" id="s1_174s" />
+<input type="radio" tabindex="-1" name="score" id="s1_173s" />
+<input type="radio" tabindex="-1" name="score" id="s1_172s" />
+<input type="radio" tabindex="-1" name="score" id="s1_171s" />
+<input type="radio" tabindex="-1" name="score" id="s1_170s" />
+<input type="radio" tabindex="-1" name="score" id="s1_169s" />
+<input type="radio" tabindex="-1" name="score" id="s1_168s" />
+<input type="radio" tabindex="-1" name="score" id="s1_167s" />
+<input type="radio" tabindex="-1" name="score" id="s1_166s" />
+<input type="radio" tabindex="-1" name="score" id="s1_165s" />
+<input type="radio" tabindex="-1" name="score" id="s1_164s" />
+<input type="radio" tabindex="-1" name="score" id="s1_163s" />
+<input type="radio" tabindex="-1" name="score" id="s1_162s" />
+<input type="radio" tabindex="-1" name="score" id="s1_161s" />
+<input type="radio" tabindex="-1" name="score" id="s1_160s" />
+<input type="radio" tabindex="-1" name="score" id="s1_159s" />
+<input type="radio" tabindex="-1" name="score" id="s1_158s" />
+<input type="radio" tabindex="-1" name="score" id="s1_157s" />
+<input type="radio" tabindex="-1" name="score" id="s1_156s" />
+<input type="radio" tabindex="-1" name="score" id="s1_155s" />
+<input type="radio" tabindex="-1" name="score" id="s1_154s" />
+<input type="radio" tabindex="-1" name="score" id="s1_153s" />
+<input type="radio" tabindex="-1" name="score" id="s1_152s" />
+<input type="radio" tabindex="-1" name="score" id="s1_151s" />
+<input type="radio" tabindex="-1" name="score" id="s1_150s" />
+<input type="radio" tabindex="-1" name="score" id="s1_149s" />
+<input type="radio" tabindex="-1" name="score" id="s1_148s" />
+<input type="radio" tabindex="-1" name="score" id="s1_147s" />
+<input type="radio" tabindex="-1" name="score" id="s1_146s" />
+<input type="radio" tabindex="-1" name="score" id="s1_145s" />
+<input type="radio" tabindex="-1" name="score" id="s1_144s" />
+<input type="radio" tabindex="-1" name="score" id="s1_143s" />
+<input type="radio" tabindex="-1" name="score" id="s1_142s" />
+<input type="radio" tabindex="-1" name="score" id="s1_141s" />
+<input type="radio" tabindex="-1" name="score" id="s1_140s" />
+<input type="radio" tabindex="-1" name="score" id="s1_139s" />
+<input type="radio" tabindex="-1" name="score" id="s1_138s" />
+<input type="radio" tabindex="-1" name="score" id="s1_137s" />
+<input type="radio" tabindex="-1" name="score" id="s1_136s" />
+<input type="radio" tabindex="-1" name="score" id="s1_135s" />
+<input type="radio" tabindex="-1" name="score" id="s1_134s" />
+<input type="radio" tabindex="-1" name="score" id="s1_133s" />
+<input type="radio" tabindex="-1" name="score" id="s1_132s" />
+<input type="radio" tabindex="-1" name="score" id="s1_131s" />
+<input type="radio" tabindex="-1" name="score" id="s1_130s" />
+<input type="radio" tabindex="-1" name="score" id="s1_129s" />
+<input type="radio" tabindex="-1" name="score" id="s1_128s" />
+<input type="radio" tabindex="-1" name="score" id="s1_127s" />
+<input type="radio" tabindex="-1" name="score" id="s1_126s" />
+<input type="radio" tabindex="-1" name="score" id="s1_125s" />
+<input type="radio" tabindex="-1" name="score" id="s1_124s" />
+<input type="radio" tabindex="-1" name="score" id="s1_123s" />
+<input type="radio" tabindex="-1" name="score" id="s1_122s" />
+<input type="radio" tabindex="-1" name="score" id="s1_121s" />
+<input type="radio" tabindex="-1" name="score" id="s1_120s" />
+<input type="radio" tabindex="-1" name="score" id="s1_119s" />
+<input type="radio" tabindex="-1" name="score" id="s1_118s" />
+<input type="radio" tabindex="-1" name="score" id="s1_117s" />
+<input type="radio" tabindex="-1" name="score" id="s1_116s" />
+<input type="radio" tabindex="-1" name="score" id="s1_115s" />
+<input type="radio" tabindex="-1" name="score" id="s1_114s" />
+<input type="radio" tabindex="-1" name="score" id="s1_113s" />
+<input type="radio" tabindex="-1" name="score" id="s1_112s" />
+<input type="radio" tabindex="-1" name="score" id="s1_111s" />
+<input type="radio" tabindex="-1" name="score" id="s1_110s" />
+<input type="radio" tabindex="-1" name="score" id="s1_109s" />
+<input type="radio" tabindex="-1" name="score" id="s1_108s" />
+<input type="radio" tabindex="-1" name="score" id="s1_107s" />
+<input type="radio" tabindex="-1" name="score" id="s1_106s" />
+<input type="radio" tabindex="-1" name="score" id="s1_105s" />
+<input type="radio" tabindex="-1" name="score" id="s1_104s" />
+<input type="radio" tabindex="-1" name="score" id="s1_103s" />
+<input type="radio" tabindex="-1" name="score" id="s1_102s" />
+<input type="radio" tabindex="-1" name="score" id="s1_101s" />
+<input type="radio" tabindex="-1" name="score" id="s1_100s" />
+<input type="radio" tabindex="-1" name="score" id="s1_99s" />
+<input type="radio" tabindex="-1" name="score" id="s1_98s" />
+<input type="radio" tabindex="-1" name="score" id="s1_97s" />
+<input type="radio" tabindex="-1" name="score" id="s1_96s" />
+<input type="radio" tabindex="-1" name="score" id="s1_95s" />
+<input type="radio" tabindex="-1" name="score" id="s1_94s" />
+<input type="radio" tabindex="-1" name="score" id="s1_93s" />
+<input type="radio" tabindex="-1" name="score" id="s1_92s" />
+<input type="radio" tabindex="-1" name="score" id="s1_91s" />
+<input type="radio" tabindex="-1" name="score" id="s1_90s" />
+<input type="radio" tabindex="-1" name="score" id="s1_89s" />
+<input type="radio" tabindex="-1" name="score" id="s1_88s" />
+<input type="radio" tabindex="-1" name="score" id="s1_87s" />
+<input type="radio" tabindex="-1" name="score" id="s1_86s" />
+<input type="radio" tabindex="-1" name="score" id="s1_85s" />
+<input type="radio" tabindex="-1" name="score" id="s1_84s" />
+<input type="radio" tabindex="-1" name="score" id="s1_83s" />
+<input type="radio" tabindex="-1" name="score" id="s1_82s" />
+<input type="radio" tabindex="-1" name="score" id="s1_81s" />
+<input type="radio" tabindex="-1" name="score" id="s1_80s" />
+<input type="radio" tabindex="-1" name="score" id="s1_79s" />
+<input type="radio" tabindex="-1" name="score" id="s1_78s" />
+<input type="radio" tabindex="-1" name="score" id="s1_77s" />
+<input type="radio" tabindex="-1" name="score" id="s1_76s" />
+<input type="radio" tabindex="-1" name="score" id="s1_75s" />
+<input type="radio" tabindex="-1" name="score" id="s1_74s" />
+<input type="radio" tabindex="-1" name="score" id="s1_73s" />
+<input type="radio" tabindex="-1" name="score" id="s1_72s" />
+<input type="radio" tabindex="-1" name="score" id="s1_71s" />
+<input type="radio" tabindex="-1" name="score" id="s1_70s" />
+<input type="radio" tabindex="-1" name="score" id="s1_69s" />
+<input type="radio" tabindex="-1" name="score" id="s1_68s" />
+<input type="radio" tabindex="-1" name="score" id="s1_67s" />
+<input type="radio" tabindex="-1" name="score" id="s1_66s" />
+<input type="radio" tabindex="-1" name="score" id="s1_65s" />
+<input type="radio" tabindex="-1" name="score" id="s1_64s" />
+<input type="radio" tabindex="-1" name="score" id="s1_63s" />
+<input type="radio" tabindex="-1" name="score" id="s1_62s" />
+<input type="radio" tabindex="-1" name="score" id="s1_61s" />
+<input type="radio" tabindex="-1" name="score" id="s1_60s" />
+<input type="radio" tabindex="-1" name="score" id="s1_59s" />
+<input type="radio" tabindex="-1" name="score" id="s1_58s" />
+<input type="radio" tabindex="-1" name="score" id="s1_57s" />
+<input type="radio" tabindex="-1" name="score" id="s1_56s" />
+<input type="radio" tabindex="-1" name="score" id="s1_55s" />
+<input type="radio" tabindex="-1" name="score" id="s1_54s" />
+<input type="radio" tabindex="-1" name="score" id="s1_53s" />
+<input type="radio" tabindex="-1" name="score" id="s1_52s" />
+<input type="radio" tabindex="-1" name="score" id="s1_51s" />
+<input type="radio" tabindex="-1" name="score" id="s1_50s" />
+<input type="radio" tabindex="-1" name="score" id="s1_49s" />
+<input type="radio" tabindex="-1" name="score" id="s1_48s" />
+<input type="radio" tabindex="-1" name="score" id="s1_47s" />
+<input type="radio" tabindex="-1" name="score" id="s1_46s" />
+<input type="radio" tabindex="-1" name="score" id="s1_45s" />
+<input type="radio" tabindex="-1" name="score" id="s1_44s" />
+<input type="radio" tabindex="-1" name="score" id="s1_43s" />
+<input type="radio" tabindex="-1" name="score" id="s1_42s" />
+<input type="radio" tabindex="-1" name="score" id="s1_41s" />
+<input type="radio" tabindex="-1" name="score" id="s1_40s" />
+<input type="radio" tabindex="-1" name="score" id="s1_39s" />
+<input type="radio" tabindex="-1" name="score" id="s1_38s" />
+<input type="radio" tabindex="-1" name="score" id="s1_37s" />
+<input type="radio" tabindex="-1" name="score" id="s1_36s" />
+<input type="radio" tabindex="-1" name="score" id="s1_35s" />
+<input type="radio" tabindex="-1" name="score" id="s1_34s" />
+<input type="radio" tabindex="-1" name="score" id="s1_33s" />
+<input type="radio" tabindex="-1" name="score" id="s1_32s" />
+<input type="radio" tabindex="-1" name="score" id="s1_31s" />
+<input type="radio" tabindex="-1" name="score" id="s1_30s" />
+<input type="radio" tabindex="-1" name="score" id="s1_29s" />
+<input type="radio" tabindex="-1" name="score" id="s1_28s" />
+<input type="radio" tabindex="-1" name="score" id="s1_27s" />
+<input type="radio" tabindex="-1" name="score" id="s1_26s" />
+<input type="radio" tabindex="-1" name="score" id="s1_25s" />
+<input type="radio" tabindex="-1" name="score" id="s1_24s" />
+<input type="radio" tabindex="-1" name="score" id="s1_23s" />
+<input type="radio" tabindex="-1" name="score" id="s1_22s" />
+<input type="radio" tabindex="-1" name="score" id="s1_21s" />
+<input type="radio" tabindex="-1" name="score" id="s1_20s" />
+<input type="radio" tabindex="-1" name="score" id="s1_19s" />
+<input type="radio" tabindex="-1" name="score" id="s1_18s" />
+<input type="radio" tabindex="-1" name="score" id="s1_17s" />
+<input type="radio" tabindex="-1" name="score" id="s1_16s" />
+<input type="radio" tabindex="-1" name="score" id="s1_15s" />
+<input type="radio" tabindex="-1" name="score" id="s1_14s" />
+<input type="radio" tabindex="-1" name="score" id="s1_13s" />
+<input type="radio" tabindex="-1" name="score" id="s1_12s" />
+<input type="radio" tabindex="-1" name="score" id="s1_11s" />
+<input type="radio" tabindex="-1" name="score" id="s1_10s" />
+<input type="radio" tabindex="-1" name="score" id="s1_9s" />
+<input type="radio" tabindex="-1" name="score" id="s1_8s" />
+<input type="radio" tabindex="-1" name="score" id="s1_7s" />
+<input type="radio" tabindex="-1" name="score" id="s1_6s" />
+<input type="radio" tabindex="-1" name="score" id="s1_5s" />
+<input type="radio" tabindex="-1" name="score" id="s1_4s" />
+<input type="radio" tabindex="-1" name="score" id="s1_3s" />
+<input type="radio" tabindex="-1" name="score" id="s1_2s" />
+<input type="radio" tabindex="-1" name="score" id="s1_0s" />
+<input type="radio" tabindex="-1" name="score" id="s2_501s" checked="checked" />
+<input type="radio" tabindex="-1" name="score" id="s2_500s" />
+<input type="radio" tabindex="-1" name="score" id="s2_499s" />
+<input type="radio" tabindex="-1" name="score" id="s2_498s" />
+<input type="radio" tabindex="-1" name="score" id="s2_497s" />
+<input type="radio" tabindex="-1" name="score" id="s2_496s" />
+<input type="radio" tabindex="-1" name="score" id="s2_495s" />
+<input type="radio" tabindex="-1" name="score" id="s2_494s" />
+<input type="radio" tabindex="-1" name="score" id="s2_493s" />
+<input type="radio" tabindex="-1" name="score" id="s2_492s" />
+<input type="radio" tabindex="-1" name="score" id="s2_491s" />
+<input type="radio" tabindex="-1" name="score" id="s2_490s" />
+<input type="radio" tabindex="-1" name="score" id="s2_489s" />
+<input type="radio" tabindex="-1" name="score" id="s2_488s" />
+<input type="radio" tabindex="-1" name="score" id="s2_487s" />
+<input type="radio" tabindex="-1" name="score" id="s2_486s" />
+<input type="radio" tabindex="-1" name="score" id="s2_485s" />
+<input type="radio" tabindex="-1" name="score" id="s2_484s" />
+<input type="radio" tabindex="-1" name="score" id="s2_483s" />
+<input type="radio" tabindex="-1" name="score" id="s2_482s" />
+<input type="radio" tabindex="-1" name="score" id="s2_481s" />
+<input type="radio" tabindex="-1" name="score" id="s2_480s" />
+<input type="radio" tabindex="-1" name="score" id="s2_479s" />
+<input type="radio" tabindex="-1" name="score" id="s2_478s" />
+<input type="radio" tabindex="-1" name="score" id="s2_477s" />
+<input type="radio" tabindex="-1" name="score" id="s2_476s" />
+<input type="radio" tabindex="-1" name="score" id="s2_475s" />
+<input type="radio" tabindex="-1" name="score" id="s2_474s" />
+<input type="radio" tabindex="-1" name="score" id="s2_473s" />
+<input type="radio" tabindex="-1" name="score" id="s2_472s" />
+<input type="radio" tabindex="-1" name="score" id="s2_471s" />
+<input type="radio" tabindex="-1" name="score" id="s2_470s" />
+<input type="radio" tabindex="-1" name="score" id="s2_469s" />
+<input type="radio" tabindex="-1" name="score" id="s2_468s" />
+<input type="radio" tabindex="-1" name="score" id="s2_467s" />
+<input type="radio" tabindex="-1" name="score" id="s2_466s" />
+<input type="radio" tabindex="-1" name="score" id="s2_465s" />
+<input type="radio" tabindex="-1" name="score" id="s2_464s" />
+<input type="radio" tabindex="-1" name="score" id="s2_463s" />
+<input type="radio" tabindex="-1" name="score" id="s2_462s" />
+<input type="radio" tabindex="-1" name="score" id="s2_461s" />
+<input type="radio" tabindex="-1" name="score" id="s2_460s" />
+<input type="radio" tabindex="-1" name="score" id="s2_459s" />
+<input type="radio" tabindex="-1" name="score" id="s2_458s" />
+<input type="radio" tabindex="-1" name="score" id="s2_457s" />
+<input type="radio" tabindex="-1" name="score" id="s2_456s" />
+<input type="radio" tabindex="-1" name="score" id="s2_455s" />
+<input type="radio" tabindex="-1" name="score" id="s2_454s" />
+<input type="radio" tabindex="-1" name="score" id="s2_453s" />
+<input type="radio" tabindex="-1" name="score" id="s2_452s" />
+<input type="radio" tabindex="-1" name="score" id="s2_451s" />
+<input type="radio" tabindex="-1" name="score" id="s2_450s" />
+<input type="radio" tabindex="-1" name="score" id="s2_449s" />
+<input type="radio" tabindex="-1" name="score" id="s2_448s" />
+<input type="radio" tabindex="-1" name="score" id="s2_447s" />
+<input type="radio" tabindex="-1" name="score" id="s2_446s" />
+<input type="radio" tabindex="-1" name="score" id="s2_445s" />
+<input type="radio" tabindex="-1" name="score" id="s2_444s" />
+<input type="radio" tabindex="-1" name="score" id="s2_443s" />
+<input type="radio" tabindex="-1" name="score" id="s2_442s" />
+<input type="radio" tabindex="-1" name="score" id="s2_441s" />
+<input type="radio" tabindex="-1" name="score" id="s2_440s" />
+<input type="radio" tabindex="-1" name="score" id="s2_439s" />
+<input type="radio" tabindex="-1" name="score" id="s2_438s" />
+<input type="radio" tabindex="-1" name="score" id="s2_437s" />
+<input type="radio" tabindex="-1" name="score" id="s2_436s" />
+<input type="radio" tabindex="-1" name="score" id="s2_435s" />
+<input type="radio" tabindex="-1" name="score" id="s2_434s" />
+<input type="radio" tabindex="-1" name="score" id="s2_433s" />
+<input type="radio" tabindex="-1" name="score" id="s2_432s" />
+<input type="radio" tabindex="-1" name="score" id="s2_431s" />
+<input type="radio" tabindex="-1" name="score" id="s2_430s" />
+<input type="radio" tabindex="-1" name="score" id="s2_429s" />
+<input type="radio" tabindex="-1" name="score" id="s2_428s" />
+<input type="radio" tabindex="-1" name="score" id="s2_427s" />
+<input type="radio" tabindex="-1" name="score" id="s2_426s" />
+<input type="radio" tabindex="-1" name="score" id="s2_425s" />
+<input type="radio" tabindex="-1" name="score" id="s2_424s" />
+<input type="radio" tabindex="-1" name="score" id="s2_423s" />
+<input type="radio" tabindex="-1" name="score" id="s2_422s" />
+<input type="radio" tabindex="-1" name="score" id="s2_421s" />
+<input type="radio" tabindex="-1" name="score" id="s2_420s" />
+<input type="radio" tabindex="-1" name="score" id="s2_419s" />
+<input type="radio" tabindex="-1" name="score" id="s2_418s" />
+<input type="radio" tabindex="-1" name="score" id="s2_417s" />
+<input type="radio" tabindex="-1" name="score" id="s2_416s" />
+<input type="radio" tabindex="-1" name="score" id="s2_415s" />
+<input type="radio" tabindex="-1" name="score" id="s2_414s" />
+<input type="radio" tabindex="-1" name="score" id="s2_413s" />
+<input type="radio" tabindex="-1" name="score" id="s2_412s" />
+<input type="radio" tabindex="-1" name="score" id="s2_411s" />
+<input type="radio" tabindex="-1" name="score" id="s2_410s" />
+<input type="radio" tabindex="-1" name="score" id="s2_409s" />
+<input type="radio" tabindex="-1" name="score" id="s2_408s" />
+<input type="radio" tabindex="-1" name="score" id="s2_407s" />
+<input type="radio" tabindex="-1" name="score" id="s2_406s" />
+<input type="radio" tabindex="-1" name="score" id="s2_405s" />
+<input type="radio" tabindex="-1" name="score" id="s2_404s" />
+<input type="radio" tabindex="-1" name="score" id="s2_403s" />
+<input type="radio" tabindex="-1" name="score" id="s2_402s" />
+<input type="radio" tabindex="-1" name="score" id="s2_401s" />
+<input type="radio" tabindex="-1" name="score" id="s2_400s" />
+<input type="radio" tabindex="-1" name="score" id="s2_399s" />
+<input type="radio" tabindex="-1" name="score" id="s2_398s" />
+<input type="radio" tabindex="-1" name="score" id="s2_397s" />
+<input type="radio" tabindex="-1" name="score" id="s2_396s" />
+<input type="radio" tabindex="-1" name="score" id="s2_395s" />
+<input type="radio" tabindex="-1" name="score" id="s2_394s" />
+<input type="radio" tabindex="-1" name="score" id="s2_393s" />
+<input type="radio" tabindex="-1" name="score" id="s2_392s" />
+<input type="radio" tabindex="-1" name="score" id="s2_391s" />
+<input type="radio" tabindex="-1" name="score" id="s2_390s" />
+<input type="radio" tabindex="-1" name="score" id="s2_389s" />
+<input type="radio" tabindex="-1" name="score" id="s2_388s" />
+<input type="radio" tabindex="-1" name="score" id="s2_387s" />
+<input type="radio" tabindex="-1" name="score" id="s2_386s" />
+<input type="radio" tabindex="-1" name="score" id="s2_385s" />
+<input type="radio" tabindex="-1" name="score" id="s2_384s" />
+<input type="radio" tabindex="-1" name="score" id="s2_383s" />
+<input type="radio" tabindex="-1" name="score" id="s2_382s" />
+<input type="radio" tabindex="-1" name="score" id="s2_381s" />
+<input type="radio" tabindex="-1" name="score" id="s2_380s" />
+<input type="radio" tabindex="-1" name="score" id="s2_379s" />
+<input type="radio" tabindex="-1" name="score" id="s2_378s" />
+<input type="radio" tabindex="-1" name="score" id="s2_377s" />
+<input type="radio" tabindex="-1" name="score" id="s2_376s" />
+<input type="radio" tabindex="-1" name="score" id="s2_375s" />
+<input type="radio" tabindex="-1" name="score" id="s2_374s" />
+<input type="radio" tabindex="-1" name="score" id="s2_373s" />
+<input type="radio" tabindex="-1" name="score" id="s2_372s" />
+<input type="radio" tabindex="-1" name="score" id="s2_371s" />
+<input type="radio" tabindex="-1" name="score" id="s2_370s" />
+<input type="radio" tabindex="-1" name="score" id="s2_369s" />
+<input type="radio" tabindex="-1" name="score" id="s2_368s" />
+<input type="radio" tabindex="-1" name="score" id="s2_367s" />
+<input type="radio" tabindex="-1" name="score" id="s2_366s" />
+<input type="radio" tabindex="-1" name="score" id="s2_365s" />
+<input type="radio" tabindex="-1" name="score" id="s2_364s" />
+<input type="radio" tabindex="-1" name="score" id="s2_363s" />
+<input type="radio" tabindex="-1" name="score" id="s2_362s" />
+<input type="radio" tabindex="-1" name="score" id="s2_361s" />
+<input type="radio" tabindex="-1" name="score" id="s2_360s" />
+<input type="radio" tabindex="-1" name="score" id="s2_359s" />
+<input type="radio" tabindex="-1" name="score" id="s2_358s" />
+<input type="radio" tabindex="-1" name="score" id="s2_357s" />
+<input type="radio" tabindex="-1" name="score" id="s2_356s" />
+<input type="radio" tabindex="-1" name="score" id="s2_355s" />
+<input type="radio" tabindex="-1" name="score" id="s2_354s" />
+<input type="radio" tabindex="-1" name="score" id="s2_353s" />
+<input type="radio" tabindex="-1" name="score" id="s2_352s" />
+<input type="radio" tabindex="-1" name="score" id="s2_351s" />
+<input type="radio" tabindex="-1" name="score" id="s2_350s" />
+<input type="radio" tabindex="-1" name="score" id="s2_349s" />
+<input type="radio" tabindex="-1" name="score" id="s2_348s" />
+<input type="radio" tabindex="-1" name="score" id="s2_347s" />
+<input type="radio" tabindex="-1" name="score" id="s2_346s" />
+<input type="radio" tabindex="-1" name="score" id="s2_345s" />
+<input type="radio" tabindex="-1" name="score" id="s2_344s" />
+<input type="radio" tabindex="-1" name="score" id="s2_343s" />
+<input type="radio" tabindex="-1" name="score" id="s2_342s" />
+<input type="radio" tabindex="-1" name="score" id="s2_341s" />
+<input type="radio" tabindex="-1" name="score" id="s2_340s" />
+<input type="radio" tabindex="-1" name="score" id="s2_339s" />
+<input type="radio" tabindex="-1" name="score" id="s2_338s" />
+<input type="radio" tabindex="-1" name="score" id="s2_337s" />
+<input type="radio" tabindex="-1" name="score" id="s2_336s" />
+<input type="radio" tabindex="-1" name="score" id="s2_335s" />
+<input type="radio" tabindex="-1" name="score" id="s2_334s" />
+<input type="radio" tabindex="-1" name="score" id="s2_333s" />
+<input type="radio" tabindex="-1" name="score" id="s2_332s" />
+<input type="radio" tabindex="-1" name="score" id="s2_331s" />
+<input type="radio" tabindex="-1" name="score" id="s2_330s" />
+<input type="radio" tabindex="-1" name="score" id="s2_329s" />
+<input type="radio" tabindex="-1" name="score" id="s2_328s" />
+<input type="radio" tabindex="-1" name="score" id="s2_327s" />
+<input type="radio" tabindex="-1" name="score" id="s2_326s" />
+<input type="radio" tabindex="-1" name="score" id="s2_325s" />
+<input type="radio" tabindex="-1" name="score" id="s2_324s" />
+<input type="radio" tabindex="-1" name="score" id="s2_323s" />
+<input type="radio" tabindex="-1" name="score" id="s2_322s" />
+<input type="radio" tabindex="-1" name="score" id="s2_321s" />
+<input type="radio" tabindex="-1" name="score" id="s2_320s" />
+<input type="radio" tabindex="-1" name="score" id="s2_319s" />
+<input type="radio" tabindex="-1" name="score" id="s2_318s" />
+<input type="radio" tabindex="-1" name="score" id="s2_317s" />
+<input type="radio" tabindex="-1" name="score" id="s2_316s" />
+<input type="radio" tabindex="-1" name="score" id="s2_315s" />
+<input type="radio" tabindex="-1" name="score" id="s2_314s" />
+<input type="radio" tabindex="-1" name="score" id="s2_313s" />
+<input type="radio" tabindex="-1" name="score" id="s2_312s" />
+<input type="radio" tabindex="-1" name="score" id="s2_311s" />
+<input type="radio" tabindex="-1" name="score" id="s2_310s" />
+<input type="radio" tabindex="-1" name="score" id="s2_309s" />
+<input type="radio" tabindex="-1" name="score" id="s2_308s" />
+<input type="radio" tabindex="-1" name="score" id="s2_307s" />
+<input type="radio" tabindex="-1" name="score" id="s2_306s" />
+<input type="radio" tabindex="-1" name="score" id="s2_305s" />
+<input type="radio" tabindex="-1" name="score" id="s2_304s" />
+<input type="radio" tabindex="-1" name="score" id="s2_303s" />
+<input type="radio" tabindex="-1" name="score" id="s2_302s" />
+<input type="radio" tabindex="-1" name="score" id="s2_301s" />
+<input type="radio" tabindex="-1" name="score" id="s2_300s" />
+<input type="radio" tabindex="-1" name="score" id="s2_299s" />
+<input type="radio" tabindex="-1" name="score" id="s2_298s" />
+<input type="radio" tabindex="-1" name="score" id="s2_297s" />
+<input type="radio" tabindex="-1" name="score" id="s2_296s" />
+<input type="radio" tabindex="-1" name="score" id="s2_295s" />
+<input type="radio" tabindex="-1" name="score" id="s2_294s" />
+<input type="radio" tabindex="-1" name="score" id="s2_293s" />
+<input type="radio" tabindex="-1" name="score" id="s2_292s" />
+<input type="radio" tabindex="-1" name="score" id="s2_291s" />
+<input type="radio" tabindex="-1" name="score" id="s2_290s" />
+<input type="radio" tabindex="-1" name="score" id="s2_289s" />
+<input type="radio" tabindex="-1" name="score" id="s2_288s" />
+<input type="radio" tabindex="-1" name="score" id="s2_287s" />
+<input type="radio" tabindex="-1" name="score" id="s2_286s" />
+<input type="radio" tabindex="-1" name="score" id="s2_285s" />
+<input type="radio" tabindex="-1" name="score" id="s2_284s" />
+<input type="radio" tabindex="-1" name="score" id="s2_283s" />
+<input type="radio" tabindex="-1" name="score" id="s2_282s" />
+<input type="radio" tabindex="-1" name="score" id="s2_281s" />
+<input type="radio" tabindex="-1" name="score" id="s2_280s" />
+<input type="radio" tabindex="-1" name="score" id="s2_279s" />
+<input type="radio" tabindex="-1" name="score" id="s2_278s" />
+<input type="radio" tabindex="-1" name="score" id="s2_277s" />
+<input type="radio" tabindex="-1" name="score" id="s2_276s" />
+<input type="radio" tabindex="-1" name="score" id="s2_275s" />
+<input type="radio" tabindex="-1" name="score" id="s2_274s" />
+<input type="radio" tabindex="-1" name="score" id="s2_273s" />
+<input type="radio" tabindex="-1" name="score" id="s2_272s" />
+<input type="radio" tabindex="-1" name="score" id="s2_271s" />
+<input type="radio" tabindex="-1" name="score" id="s2_270s" />
+<input type="radio" tabindex="-1" name="score" id="s2_269s" />
+<input type="radio" tabindex="-1" name="score" id="s2_268s" />
+<input type="radio" tabindex="-1" name="score" id="s2_267s" />
+<input type="radio" tabindex="-1" name="score" id="s2_266s" />
+<input type="radio" tabindex="-1" name="score" id="s2_265s" />
+<input type="radio" tabindex="-1" name="score" id="s2_264s" />
+<input type="radio" tabindex="-1" name="score" id="s2_263s" />
+<input type="radio" tabindex="-1" name="score" id="s2_262s" />
+<input type="radio" tabindex="-1" name="score" id="s2_261s" />
+<input type="radio" tabindex="-1" name="score" id="s2_260s" />
+<input type="radio" tabindex="-1" name="score" id="s2_259s" />
+<input type="radio" tabindex="-1" name="score" id="s2_258s" />
+<input type="radio" tabindex="-1" name="score" id="s2_257s" />
+<input type="radio" tabindex="-1" name="score" id="s2_256s" />
+<input type="radio" tabindex="-1" name="score" id="s2_255s" />
+<input type="radio" tabindex="-1" name="score" id="s2_254s" />
+<input type="radio" tabindex="-1" name="score" id="s2_253s" />
+<input type="radio" tabindex="-1" name="score" id="s2_252s" />
+<input type="radio" tabindex="-1" name="score" id="s2_251s" />
+<input type="radio" tabindex="-1" name="score" id="s2_250s" />
+<input type="radio" tabindex="-1" name="score" id="s2_249s" />
+<input type="radio" tabindex="-1" name="score" id="s2_248s" />
+<input type="radio" tabindex="-1" name="score" id="s2_247s" />
+<input type="radio" tabindex="-1" name="score" id="s2_246s" />
+<input type="radio" tabindex="-1" name="score" id="s2_245s" />
+<input type="radio" tabindex="-1" name="score" id="s2_244s" />
+<input type="radio" tabindex="-1" name="score" id="s2_243s" />
+<input type="radio" tabindex="-1" name="score" id="s2_242s" />
+<input type="radio" tabindex="-1" name="score" id="s2_241s" />
+<input type="radio" tabindex="-1" name="score" id="s2_240s" />
+<input type="radio" tabindex="-1" name="score" id="s2_239s" />
+<input type="radio" tabindex="-1" name="score" id="s2_238s" />
+<input type="radio" tabindex="-1" name="score" id="s2_237s" />
+<input type="radio" tabindex="-1" name="score" id="s2_236s" />
+<input type="radio" tabindex="-1" name="score" id="s2_235s" />
+<input type="radio" tabindex="-1" name="score" id="s2_234s" />
+<input type="radio" tabindex="-1" name="score" id="s2_233s" />
+<input type="radio" tabindex="-1" name="score" id="s2_232s" />
+<input type="radio" tabindex="-1" name="score" id="s2_231s" />
+<input type="radio" tabindex="-1" name="score" id="s2_230s" />
+<input type="radio" tabindex="-1" name="score" id="s2_229s" />
+<input type="radio" tabindex="-1" name="score" id="s2_228s" />
+<input type="radio" tabindex="-1" name="score" id="s2_227s" />
+<input type="radio" tabindex="-1" name="score" id="s2_226s" />
+<input type="radio" tabindex="-1" name="score" id="s2_225s" />
+<input type="radio" tabindex="-1" name="score" id="s2_224s" />
+<input type="radio" tabindex="-1" name="score" id="s2_223s" />
+<input type="radio" tabindex="-1" name="score" id="s2_222s" />
+<input type="radio" tabindex="-1" name="score" id="s2_221s" />
+<input type="radio" tabindex="-1" name="score" id="s2_220s" />
+<input type="radio" tabindex="-1" name="score" id="s2_219s" />
+<input type="radio" tabindex="-1" name="score" id="s2_218s" />
+<input type="radio" tabindex="-1" name="score" id="s2_217s" />
+<input type="radio" tabindex="-1" name="score" id="s2_216s" />
+<input type="radio" tabindex="-1" name="score" id="s2_215s" />
+<input type="radio" tabindex="-1" name="score" id="s2_214s" />
+<input type="radio" tabindex="-1" name="score" id="s2_213s" />
+<input type="radio" tabindex="-1" name="score" id="s2_212s" />
+<input type="radio" tabindex="-1" name="score" id="s2_211s" />
+<input type="radio" tabindex="-1" name="score" id="s2_210s" />
+<input type="radio" tabindex="-1" name="score" id="s2_209s" />
+<input type="radio" tabindex="-1" name="score" id="s2_208s" />
+<input type="radio" tabindex="-1" name="score" id="s2_207s" />
+<input type="radio" tabindex="-1" name="score" id="s2_206s" />
+<input type="radio" tabindex="-1" name="score" id="s2_205s" />
+<input type="radio" tabindex="-1" name="score" id="s2_204s" />
+<input type="radio" tabindex="-1" name="score" id="s2_203s" />
+<input type="radio" tabindex="-1" name="score" id="s2_202s" />
+<input type="radio" tabindex="-1" name="score" id="s2_201s" />
+<input type="radio" tabindex="-1" name="score" id="s2_200s" />
+<input type="radio" tabindex="-1" name="score" id="s2_199s" />
+<input type="radio" tabindex="-1" name="score" id="s2_198s" />
+<input type="radio" tabindex="-1" name="score" id="s2_197s" />
+<input type="radio" tabindex="-1" name="score" id="s2_196s" />
+<input type="radio" tabindex="-1" name="score" id="s2_195s" />
+<input type="radio" tabindex="-1" name="score" id="s2_194s" />
+<input type="radio" tabindex="-1" name="score" id="s2_193s" />
+<input type="radio" tabindex="-1" name="score" id="s2_192s" />
+<input type="radio" tabindex="-1" name="score" id="s2_191s" />
+<input type="radio" tabindex="-1" name="score" id="s2_190s" />
+<input type="radio" tabindex="-1" name="score" id="s2_189s" />
+<input type="radio" tabindex="-1" name="score" id="s2_188s" />
+<input type="radio" tabindex="-1" name="score" id="s2_187s" />
+<input type="radio" tabindex="-1" name="score" id="s2_186s" />
+<input type="radio" tabindex="-1" name="score" id="s2_185s" />
+<input type="radio" tabindex="-1" name="score" id="s2_184s" />
+<input type="radio" tabindex="-1" name="score" id="s2_183s" />
+<input type="radio" tabindex="-1" name="score" id="s2_182s" />
+<input type="radio" tabindex="-1" name="score" id="s2_181s" />
+<input type="radio" tabindex="-1" name="score" id="s2_180s" />
+<input type="radio" tabindex="-1" name="score" id="s2_179s" />
+<input type="radio" tabindex="-1" name="score" id="s2_178s" />
+<input type="radio" tabindex="-1" name="score" id="s2_177s" />
+<input type="radio" tabindex="-1" name="score" id="s2_176s" />
+<input type="radio" tabindex="-1" name="score" id="s2_175s" />
+<input type="radio" tabindex="-1" name="score" id="s2_174s" />
+<input type="radio" tabindex="-1" name="score" id="s2_173s" />
+<input type="radio" tabindex="-1" name="score" id="s2_172s" />
+<input type="radio" tabindex="-1" name="score" id="s2_171s" />
+<input type="radio" tabindex="-1" name="score" id="s2_170s" />
+<input type="radio" tabindex="-1" name="score" id="s2_169s" />
+<input type="radio" tabindex="-1" name="score" id="s2_168s" />
+<input type="radio" tabindex="-1" name="score" id="s2_167s" />
+<input type="radio" tabindex="-1" name="score" id="s2_166s" />
+<input type="radio" tabindex="-1" name="score" id="s2_165s" />
+<input type="radio" tabindex="-1" name="score" id="s2_164s" />
+<input type="radio" tabindex="-1" name="score" id="s2_163s" />
+<input type="radio" tabindex="-1" name="score" id="s2_162s" />
+<input type="radio" tabindex="-1" name="score" id="s2_161s" />
+<input type="radio" tabindex="-1" name="score" id="s2_160s" />
+<input type="radio" tabindex="-1" name="score" id="s2_159s" />
+<input type="radio" tabindex="-1" name="score" id="s2_158s" />
+<input type="radio" tabindex="-1" name="score" id="s2_157s" />
+<input type="radio" tabindex="-1" name="score" id="s2_156s" />
+<input type="radio" tabindex="-1" name="score" id="s2_155s" />
+<input type="radio" tabindex="-1" name="score" id="s2_154s" />
+<input type="radio" tabindex="-1" name="score" id="s2_153s" />
+<input type="radio" tabindex="-1" name="score" id="s2_152s" />
+<input type="radio" tabindex="-1" name="score" id="s2_151s" />
+<input type="radio" tabindex="-1" name="score" id="s2_150s" />
+<input type="radio" tabindex="-1" name="score" id="s2_149s" />
+<input type="radio" tabindex="-1" name="score" id="s2_148s" />
+<input type="radio" tabindex="-1" name="score" id="s2_147s" />
+<input type="radio" tabindex="-1" name="score" id="s2_146s" />
+<input type="radio" tabindex="-1" name="score" id="s2_145s" />
+<input type="radio" tabindex="-1" name="score" id="s2_144s" />
+<input type="radio" tabindex="-1" name="score" id="s2_143s" />
+<input type="radio" tabindex="-1" name="score" id="s2_142s" />
+<input type="radio" tabindex="-1" name="score" id="s2_141s" />
+<input type="radio" tabindex="-1" name="score" id="s2_140s" />
+<input type="radio" tabindex="-1" name="score" id="s2_139s" />
+<input type="radio" tabindex="-1" name="score" id="s2_138s" />
+<input type="radio" tabindex="-1" name="score" id="s2_137s" />
+<input type="radio" tabindex="-1" name="score" id="s2_136s" />
+<input type="radio" tabindex="-1" name="score" id="s2_135s" />
+<input type="radio" tabindex="-1" name="score" id="s2_134s" />
+<input type="radio" tabindex="-1" name="score" id="s2_133s" />
+<input type="radio" tabindex="-1" name="score" id="s2_132s" />
+<input type="radio" tabindex="-1" name="score" id="s2_131s" />
+<input type="radio" tabindex="-1" name="score" id="s2_130s" />
+<input type="radio" tabindex="-1" name="score" id="s2_129s" />
+<input type="radio" tabindex="-1" name="score" id="s2_128s" />
+<input type="radio" tabindex="-1" name="score" id="s2_127s" />
+<input type="radio" tabindex="-1" name="score" id="s2_126s" />
+<input type="radio" tabindex="-1" name="score" id="s2_125s" />
+<input type="radio" tabindex="-1" name="score" id="s2_124s" />
+<input type="radio" tabindex="-1" name="score" id="s2_123s" />
+<input type="radio" tabindex="-1" name="score" id="s2_122s" />
+<input type="radio" tabindex="-1" name="score" id="s2_121s" />
+<input type="radio" tabindex="-1" name="score" id="s2_120s" />
+<input type="radio" tabindex="-1" name="score" id="s2_119s" />
+<input type="radio" tabindex="-1" name="score" id="s2_118s" />
+<input type="radio" tabindex="-1" name="score" id="s2_117s" />
+<input type="radio" tabindex="-1" name="score" id="s2_116s" />
+<input type="radio" tabindex="-1" name="score" id="s2_115s" />
+<input type="radio" tabindex="-1" name="score" id="s2_114s" />
+<input type="radio" tabindex="-1" name="score" id="s2_113s" />
+<input type="radio" tabindex="-1" name="score" id="s2_112s" />
+<input type="radio" tabindex="-1" name="score" id="s2_111s" />
+<input type="radio" tabindex="-1" name="score" id="s2_110s" />
+<input type="radio" tabindex="-1" name="score" id="s2_109s" />
+<input type="radio" tabindex="-1" name="score" id="s2_108s" />
+<input type="radio" tabindex="-1" name="score" id="s2_107s" />
+<input type="radio" tabindex="-1" name="score" id="s2_106s" />
+<input type="radio" tabindex="-1" name="score" id="s2_105s" />
+<input type="radio" tabindex="-1" name="score" id="s2_104s" />
+<input type="radio" tabindex="-1" name="score" id="s2_103s" />
+<input type="radio" tabindex="-1" name="score" id="s2_102s" />
+<input type="radio" tabindex="-1" name="score" id="s2_101s" />
+<input type="radio" tabindex="-1" name="score" id="s2_100s" />
+<input type="radio" tabindex="-1" name="score" id="s2_99s" />
+<input type="radio" tabindex="-1" name="score" id="s2_98s" />
+<input type="radio" tabindex="-1" name="score" id="s2_97s" />
+<input type="radio" tabindex="-1" name="score" id="s2_96s" />
+<input type="radio" tabindex="-1" name="score" id="s2_95s" />
+<input type="radio" tabindex="-1" name="score" id="s2_94s" />
+<input type="radio" tabindex="-1" name="score" id="s2_93s" />
+<input type="radio" tabindex="-1" name="score" id="s2_92s" />
+<input type="radio" tabindex="-1" name="score" id="s2_91s" />
+<input type="radio" tabindex="-1" name="score" id="s2_90s" />
+<input type="radio" tabindex="-1" name="score" id="s2_89s" />
+<input type="radio" tabindex="-1" name="score" id="s2_88s" />
+<input type="radio" tabindex="-1" name="score" id="s2_87s" />
+<input type="radio" tabindex="-1" name="score" id="s2_86s" />
+<input type="radio" tabindex="-1" name="score" id="s2_85s" />
+<input type="radio" tabindex="-1" name="score" id="s2_84s" />
+<input type="radio" tabindex="-1" name="score" id="s2_83s" />
+<input type="radio" tabindex="-1" name="score" id="s2_82s" />
+<input type="radio" tabindex="-1" name="score" id="s2_81s" />
+<input type="radio" tabindex="-1" name="score" id="s2_80s" />
+<input type="radio" tabindex="-1" name="score" id="s2_79s" />
+<input type="radio" tabindex="-1" name="score" id="s2_78s" />
+<input type="radio" tabindex="-1" name="score" id="s2_77s" />
+<input type="radio" tabindex="-1" name="score" id="s2_76s" />
+<input type="radio" tabindex="-1" name="score" id="s2_75s" />
+<input type="radio" tabindex="-1" name="score" id="s2_74s" />
+<input type="radio" tabindex="-1" name="score" id="s2_73s" />
+<input type="radio" tabindex="-1" name="score" id="s2_72s" />
+<input type="radio" tabindex="-1" name="score" id="s2_71s" />
+<input type="radio" tabindex="-1" name="score" id="s2_70s" />
+<input type="radio" tabindex="-1" name="score" id="s2_69s" />
+<input type="radio" tabindex="-1" name="score" id="s2_68s" />
+<input type="radio" tabindex="-1" name="score" id="s2_67s" />
+<input type="radio" tabindex="-1" name="score" id="s2_66s" />
+<input type="radio" tabindex="-1" name="score" id="s2_65s" />
+<input type="radio" tabindex="-1" name="score" id="s2_64s" />
+<input type="radio" tabindex="-1" name="score" id="s2_63s" />
+<input type="radio" tabindex="-1" name="score" id="s2_62s" />
+<input type="radio" tabindex="-1" name="score" id="s2_61s" />
+<input type="radio" tabindex="-1" name="score" id="s2_60s" />
+<input type="radio" tabindex="-1" name="score" id="s2_59s" />
+<input type="radio" tabindex="-1" name="score" id="s2_58s" />
+<input type="radio" tabindex="-1" name="score" id="s2_57s" />
+<input type="radio" tabindex="-1" name="score" id="s2_56s" />
+<input type="radio" tabindex="-1" name="score" id="s2_55s" />
+<input type="radio" tabindex="-1" name="score" id="s2_54s" />
+<input type="radio" tabindex="-1" name="score" id="s2_53s" />
+<input type="radio" tabindex="-1" name="score" id="s2_52s" />
+<input type="radio" tabindex="-1" name="score" id="s2_51s" />
+<input type="radio" tabindex="-1" name="score" id="s2_50s" />
+<input type="radio" tabindex="-1" name="score" id="s2_49s" />
+<input type="radio" tabindex="-1" name="score" id="s2_48s" />
+<input type="radio" tabindex="-1" name="score" id="s2_47s" />
+<input type="radio" tabindex="-1" name="score" id="s2_46s" />
+<input type="radio" tabindex="-1" name="score" id="s2_45s" />
+<input type="radio" tabindex="-1" name="score" id="s2_44s" />
+<input type="radio" tabindex="-1" name="score" id="s2_43s" />
+<input type="radio" tabindex="-1" name="score" id="s2_42s" />
+<input type="radio" tabindex="-1" name="score" id="s2_41s" />
+<input type="radio" tabindex="-1" name="score" id="s2_40s" />
+<input type="radio" tabindex="-1" name="score" id="s2_39s" />
+<input type="radio" tabindex="-1" name="score" id="s2_38s" />
+<input type="radio" tabindex="-1" name="score" id="s2_37s" />
+<input type="radio" tabindex="-1" name="score" id="s2_36s" />
+<input type="radio" tabindex="-1" name="score" id="s2_35s" />
+<input type="radio" tabindex="-1" name="score" id="s2_34s" />
+<input type="radio" tabindex="-1" name="score" id="s2_33s" />
+<input type="radio" tabindex="-1" name="score" id="s2_32s" />
+<input type="radio" tabindex="-1" name="score" id="s2_31s" />
+<input type="radio" tabindex="-1" name="score" id="s2_30s" />
+<input type="radio" tabindex="-1" name="score" id="s2_29s" />
+<input type="radio" tabindex="-1" name="score" id="s2_28s" />
+<input type="radio" tabindex="-1" name="score" id="s2_27s" />
+<input type="radio" tabindex="-1" name="score" id="s2_26s" />
+<input type="radio" tabindex="-1" name="score" id="s2_25s" />
+<input type="radio" tabindex="-1" name="score" id="s2_24s" />
+<input type="radio" tabindex="-1" name="score" id="s2_23s" />
+<input type="radio" tabindex="-1" name="score" id="s2_22s" />
+<input type="radio" tabindex="-1" name="score" id="s2_21s" />
+<input type="radio" tabindex="-1" name="score" id="s2_20s" />
+<input type="radio" tabindex="-1" name="score" id="s2_19s" />
+<input type="radio" tabindex="-1" name="score" id="s2_18s" />
+<input type="radio" tabindex="-1" name="score" id="s2_17s" />
+<input type="radio" tabindex="-1" name="score" id="s2_16s" />
+<input type="radio" tabindex="-1" name="score" id="s2_15s" />
+<input type="radio" tabindex="-1" name="score" id="s2_14s" />
+<input type="radio" tabindex="-1" name="score" id="s2_13s" />
+<input type="radio" tabindex="-1" name="score" id="s2_12s" />
+<input type="radio" tabindex="-1" name="score" id="s2_11s" />
+<input type="radio" tabindex="-1" name="score" id="s2_10s" />
+<input type="radio" tabindex="-1" name="score" id="s2_9s" />
+<input type="radio" tabindex="-1" name="score" id="s2_8s" />
+<input type="radio" tabindex="-1" name="score" id="s2_7s" />
+<input type="radio" tabindex="-1" name="score" id="s2_6s" />
+<input type="radio" tabindex="-1" name="score" id="s2_5s" />
+<input type="radio" tabindex="-1" name="score" id="s2_4s" />
+<input type="radio" tabindex="-1" name="score" id="s2_3s" />
+<input type="radio" tabindex="-1" name="score" id="s2_2s" />
+<input type="radio" tabindex="-1" name="score" id="s2_0s" />
+<input type="reset" id="reset" value="Reset" />
+<div class="board">
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<div></div>
+<span id="spin1" class="spin">
+<span id="move1" class="move">
+<span id="spinback1" class="spinback">
+<span id="dart1" class="dart">
+</span>
+</span>
+</span>
+</span>
+<span id="spin2" class="spin">
+<span id="move2" class="move">
+<span id="spinback2" class="spinback">
+<span id="dart2" class="dart">
+</span>
+</span>
+</span>
+</span>
+</div>
+<div class="throw">
+<label for="x1"></label>
+<label for="x2"></label>
+<div class="angle1">
+<label for="a1_20a"></label>
+<label for="a1_1a"></label>
+<label for="a1_18a"></label>
+<label for="a1_4a"></label>
+<label for="a1_13a"></label>
+<label for="a1_6a"></label>
+<label for="a1_10a"></label>
+<label for="a1_15a"></label>
+<label for="a1_2a"></label>
+<label for="a1_17a"></label>
+<label for="a1_3a"></label>
+<label for="a1_19a"></label>
+<label for="a1_7a"></label>
+<label for="a1_16a"></label>
+<label for="a1_8a"></label>
+<label for="a1_11a"></label>
+<label for="a1_14a"></label>
+<label for="a1_9a"></label>
+<label for="a1_12a"></label>
+<label for="a1_5a"></label>
+</div>
+<div class="angle2">
+<label for="a2_20a"></label>
+<label for="a2_1a"></label>
+<label for="a2_18a"></label>
+<label for="a2_4a"></label>
+<label for="a2_13a"></label>
+<label for="a2_6a"></label>
+<label for="a2_10a"></label>
+<label for="a2_15a"></label>
+<label for="a2_2a"></label>
+<label for="a2_17a"></label>
+<label for="a2_3a"></label>
+<label for="a2_19a"></label>
+<label for="a2_7a"></label>
+<label for="a2_16a"></label>
+<label for="a2_8a"></label>
+<label for="a2_11a"></label>
+<label for="a2_14a"></label>
+<label for="a2_9a"></label>
+<label for="a2_12a"></label>
+<label for="a2_5a"></label>
+</div>
+</div>
+<div class="reyDios">
+<span class="eye"></span>
+<span class="eye"></span>
+<span class="mouth"></span>
+<div class="radius1">
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_0r"></label>
+<label for="r1_4r"></label>
+<label for="r1_4r"></label>
+<label for="r1_4r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_5r"></label>
+<label for="r1_5r"></label>
+<label for="r1_5r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_3r"></label>
+<label for="r1_2r"></label>
+<label for="r1_2r"></label>
+<label for="r1_2r"></label>
+<label for="r1_1r"></label>
+<label for="r1_1r"></label>
+</div>
+<div class="radius2">
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_0r"></label>
+<label for="r2_4r"></label>
+<label for="r2_4r"></label>
+<label for="r2_4r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_5r"></label>
+<label for="r2_5r"></label>
+<label for="r2_5r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_3r"></label>
+<label for="r2_2r"></label>
+<label for="r2_2r"></label>
+<label for="r2_2r"></label>
+<label for="r2_1r"></label>
+<label for="r2_1r"></label>
+</div>
+</div>
+<div class="throws">
+<div class="throws1">
+<label for="t1_0"></label>
+<label for="t1_1"></label>
+<label for="t1_2"></label>
+<label for="t1_3"></label>
+<label for="t1_4"></label>
+<label for="t1_5"></label>
+<label for="t1_6"></label>
+<label for="t1_7"></label>
+<label for="t1_8"></label>
+<label for="t1_9"></label>
+<label for="t1_10"></label>
+<label for="t1_11"></label>
+<label for="t1_12"></label>
+<label for="t1_13"></label>
+<label for="t1_14"></label>
+<label for="t1_15"></label>
+<label for="t1_16"></label>
+<label for="t1_17"></label>
+<label for="t1_18"></label>
+<label for="t1_19"></label>
+<label for="t1_20"></label>
+<label for="t1_21"></label>
+<label for="t1_22"></label>
+<label for="t1_24"></label>
+<label for="t1_25"></label>
+<label for="t1_26"></label>
+<label for="t1_27"></label>
+<label for="t1_28"></label>
+<label for="t1_30"></label>
+<label for="t1_32"></label>
+<label for="t1_33"></label>
+<label for="t1_34"></label>
+<label for="t1_36"></label>
+<label for="t1_38"></label>
+<label for="t1_39"></label>
+<label for="t1_40"></label>
+<label for="t1_42"></label>
+<label for="t1_45"></label>
+<label for="t1_48"></label>
+<label for="t1_50"></label>
+<label for="t1_51"></label>
+<label for="t1_54"></label>
+<label for="t1_57"></label>
+<label for="t1_60"></label>
+</div>
+<div class="throws2">
+<label for="t2_0"></label>
+<label for="t2_1"></label>
+<label for="t2_2"></label>
+<label for="t2_3"></label>
+<label for="t2_4"></label>
+<label for="t2_5"></label>
+<label for="t2_6"></label>
+<label for="t2_7"></label>
+<label for="t2_8"></label>
+<label for="t2_9"></label>
+<label for="t2_10"></label>
+<label for="t2_11"></label>
+<label for="t2_12"></label>
+<label for="t2_13"></label>
+<label for="t2_14"></label>
+<label for="t2_15"></label>
+<label for="t2_16"></label>
+<label for="t2_17"></label>
+<label for="t2_18"></label>
+<label for="t2_19"></label>
+<label for="t2_20"></label>
+<label for="t2_21"></label>
+<label for="t2_22"></label>
+<label for="t2_24"></label>
+<label for="t2_25"></label>
+<label for="t2_26"></label>
+<label for="t2_27"></label>
+<label for="t2_28"></label>
+<label for="t2_30"></label>
+<label for="t2_32"></label>
+<label for="t2_33"></label>
+<label for="t2_34"></label>
+<label for="t2_36"></label>
+<label for="t2_38"></label>
+<label for="t2_39"></label>
+<label for="t2_40"></label>
+<label for="t2_42"></label>
+<label for="t2_45"></label>
+<label for="t2_48"></label>
+<label for="t2_50"></label>
+<label for="t2_51"></label>
+<label for="t2_54"></label>
+<label for="t2_57"></label>
+<label for="t2_60"></label>
+</div>
+</div>
+<div class="score">
+<label for="t1_bust" class="bust"></label>
+<label for="t2_bust" class="bust"></label>
+<div class="score1">
+<label for="s1_501s">501</label>
+<label for="s1_500s">500</label>
+<label for="s1_499s">499</label>
+<label for="s1_498s">498</label>
+<label for="s1_497s">497</label>
+<label for="s1_496s">496</label>
+<label for="s1_495s">495</label>
+<label for="s1_494s">494</label>
+<label for="s1_493s">493</label>
+<label for="s1_492s">492</label>
+<label for="s1_491s">491</label>
+<label for="s1_490s">490</label>
+<label for="s1_489s">489</label>
+<label for="s1_488s">488</label>
+<label for="s1_487s">487</label>
+<label for="s1_486s">486</label>
+<label for="s1_485s">485</label>
+<label for="s1_484s">484</label>
+<label for="s1_483s">483</label>
+<label for="s1_482s">482</label>
+<label for="s1_481s">481</label>
+<label for="s1_480s">480</label>
+<label for="s1_479s">479</label>
+<label for="s1_478s">478</label>
+<label for="s1_477s">477</label>
+<label for="s1_476s">476</label>
+<label for="s1_475s">475</label>
+<label for="s1_474s">474</label>
+<label for="s1_473s">473</label>
+<label for="s1_472s">472</label>
+<label for="s1_471s">471</label>
+<label for="s1_470s">470</label>
+<label for="s1_469s">469</label>
+<label for="s1_468s">468</label>
+<label for="s1_467s">467</label>
+<label for="s1_466s">466</label>
+<label for="s1_465s">465</label>
+<label for="s1_464s">464</label>
+<label for="s1_463s">463</label>
+<label for="s1_462s">462</label>
+<label for="s1_461s">461</label>
+<label for="s1_460s">460</label>
+<label for="s1_459s">459</label>
+<label for="s1_458s">458</label>
+<label for="s1_457s">457</label>
+<label for="s1_456s">456</label>
+<label for="s1_455s">455</label>
+<label for="s1_454s">454</label>
+<label for="s1_453s">453</label>
+<label for="s1_452s">452</label>
+<label for="s1_451s">451</label>
+<label for="s1_450s">450</label>
+<label for="s1_449s">449</label>
+<label for="s1_448s">448</label>
+<label for="s1_447s">447</label>
+<label for="s1_446s">446</label>
+<label for="s1_445s">445</label>
+<label for="s1_444s">444</label>
+<label for="s1_443s">443</label>
+<label for="s1_442s">442</label>
+<label for="s1_441s">441</label>
+<label for="s1_440s">440</label>
+<label for="s1_439s">439</label>
+<label for="s1_438s">438</label>
+<label for="s1_437s">437</label>
+<label for="s1_436s">436</label>
+<label for="s1_435s">435</label>
+<label for="s1_434s">434</label>
+<label for="s1_433s">433</label>
+<label for="s1_432s">432</label>
+<label for="s1_431s">431</label>
+<label for="s1_430s">430</label>
+<label for="s1_429s">429</label>
+<label for="s1_428s">428</label>
+<label for="s1_427s">427</label>
+<label for="s1_426s">426</label>
+<label for="s1_425s">425</label>
+<label for="s1_424s">424</label>
+<label for="s1_423s">423</label>
+<label for="s1_422s">422</label>
+<label for="s1_421s">421</label>
+<label for="s1_420s">420</label>
+<label for="s1_419s">419</label>
+<label for="s1_418s">418</label>
+<label for="s1_417s">417</label>
+<label for="s1_416s">416</label>
+<label for="s1_415s">415</label>
+<label for="s1_414s">414</label>
+<label for="s1_413s">413</label>
+<label for="s1_412s">412</label>
+<label for="s1_411s">411</label>
+<label for="s1_410s">410</label>
+<label for="s1_409s">409</label>
+<label for="s1_408s">408</label>
+<label for="s1_407s">407</label>
+<label for="s1_406s">406</label>
+<label for="s1_405s">405</label>
+<label for="s1_404s">404</label>
+<label for="s1_403s">403</label>
+<label for="s1_402s">402</label>
+<label for="s1_401s">401</label>
+<label for="s1_400s">400</label>
+<label for="s1_399s">399</label>
+<label for="s1_398s">398</label>
+<label for="s1_397s">397</label>
+<label for="s1_396s">396</label>
+<label for="s1_395s">395</label>
+<label for="s1_394s">394</label>
+<label for="s1_393s">393</label>
+<label for="s1_392s">392</label>
+<label for="s1_391s">391</label>
+<label for="s1_390s">390</label>
+<label for="s1_389s">389</label>
+<label for="s1_388s">388</label>
+<label for="s1_387s">387</label>
+<label for="s1_386s">386</label>
+<label for="s1_385s">385</label>
+<label for="s1_384s">384</label>
+<label for="s1_383s">383</label>
+<label for="s1_382s">382</label>
+<label for="s1_381s">381</label>
+<label for="s1_380s">380</label>
+<label for="s1_379s">379</label>
+<label for="s1_378s">378</label>
+<label for="s1_377s">377</label>
+<label for="s1_376s">376</label>
+<label for="s1_375s">375</label>
+<label for="s1_374s">374</label>
+<label for="s1_373s">373</label>
+<label for="s1_372s">372</label>
+<label for="s1_371s">371</label>
+<label for="s1_370s">370</label>
+<label for="s1_369s">369</label>
+<label for="s1_368s">368</label>
+<label for="s1_367s">367</label>
+<label for="s1_366s">366</label>
+<label for="s1_365s">365</label>
+<label for="s1_364s">364</label>
+<label for="s1_363s">363</label>
+<label for="s1_362s">362</label>
+<label for="s1_361s">361</label>
+<label for="s1_360s">360</label>
+<label for="s1_359s">359</label>
+<label for="s1_358s">358</label>
+<label for="s1_357s">357</label>
+<label for="s1_356s">356</label>
+<label for="s1_355s">355</label>
+<label for="s1_354s">354</label>
+<label for="s1_353s">353</label>
+<label for="s1_352s">352</label>
+<label for="s1_351s">351</label>
+<label for="s1_350s">350</label>
+<label for="s1_349s">349</label>
+<label for="s1_348s">348</label>
+<label for="s1_347s">347</label>
+<label for="s1_346s">346</label>
+<label for="s1_345s">345</label>
+<label for="s1_344s">344</label>
+<label for="s1_343s">343</label>
+<label for="s1_342s">342</label>
+<label for="s1_341s">341</label>
+<label for="s1_340s">340</label>
+<label for="s1_339s">339</label>
+<label for="s1_338s">338</label>
+<label for="s1_337s">337</label>
+<label for="s1_336s">336</label>
+<label for="s1_335s">335</label>
+<label for="s1_334s">334</label>
+<label for="s1_333s">333</label>
+<label for="s1_332s">332</label>
+<label for="s1_331s">331</label>
+<label for="s1_330s">330</label>
+<label for="s1_329s">329</label>
+<label for="s1_328s">328</label>
+<label for="s1_327s">327</label>
+<label for="s1_326s">326</label>
+<label for="s1_325s">325</label>
+<label for="s1_324s">324</label>
+<label for="s1_323s">323</label>
+<label for="s1_322s">322</label>
+<label for="s1_321s">321</label>
+<label for="s1_320s">320</label>
+<label for="s1_319s">319</label>
+<label for="s1_318s">318</label>
+<label for="s1_317s">317</label>
+<label for="s1_316s">316</label>
+<label for="s1_315s">315</label>
+<label for="s1_314s">314</label>
+<label for="s1_313s">313</label>
+<label for="s1_312s">312</label>
+<label for="s1_311s">311</label>
+<label for="s1_310s">310</label>
+<label for="s1_309s">309</label>
+<label for="s1_308s">308</label>
+<label for="s1_307s">307</label>
+<label for="s1_306s">306</label>
+<label for="s1_305s">305</label>
+<label for="s1_304s">304</label>
+<label for="s1_303s">303</label>
+<label for="s1_302s">302</label>
+<label for="s1_301s">301</label>
+<label for="s1_300s">300</label>
+<label for="s1_299s">299</label>
+<label for="s1_298s">298</label>
+<label for="s1_297s">297</label>
+<label for="s1_296s">296</label>
+<label for="s1_295s">295</label>
+<label for="s1_294s">294</label>
+<label for="s1_293s">293</label>
+<label for="s1_292s">292</label>
+<label for="s1_291s">291</label>
+<label for="s1_290s">290</label>
+<label for="s1_289s">289</label>
+<label for="s1_288s">288</label>
+<label for="s1_287s">287</label>
+<label for="s1_286s">286</label>
+<label for="s1_285s">285</label>
+<label for="s1_284s">284</label>
+<label for="s1_283s">283</label>
+<label for="s1_282s">282</label>
+<label for="s1_281s">281</label>
+<label for="s1_280s">280</label>
+<label for="s1_279s">279</label>
+<label for="s1_278s">278</label>
+<label for="s1_277s">277</label>
+<label for="s1_276s">276</label>
+<label for="s1_275s">275</label>
+<label for="s1_274s">274</label>
+<label for="s1_273s">273</label>
+<label for="s1_272s">272</label>
+<label for="s1_271s">271</label>
+<label for="s1_270s">270</label>
+<label for="s1_269s">269</label>
+<label for="s1_268s">268</label>
+<label for="s1_267s">267</label>
+<label for="s1_266s">266</label>
+<label for="s1_265s">265</label>
+<label for="s1_264s">264</label>
+<label for="s1_263s">263</label>
+<label for="s1_262s">262</label>
+<label for="s1_261s">261</label>
+<label for="s1_260s">260</label>
+<label for="s1_259s">259</label>
+<label for="s1_258s">258</label>
+<label for="s1_257s">257</label>
+<label for="s1_256s">256</label>
+<label for="s1_255s">255</label>
+<label for="s1_254s">254</label>
+<label for="s1_253s">253</label>
+<label for="s1_252s">252</label>
+<label for="s1_251s">251</label>
+<label for="s1_250s">250</label>
+<label for="s1_249s">249</label>
+<label for="s1_248s">248</label>
+<label for="s1_247s">247</label>
+<label for="s1_246s">246</label>
+<label for="s1_245s">245</label>
+<label for="s1_244s">244</label>
+<label for="s1_243s">243</label>
+<label for="s1_242s">242</label>
+<label for="s1_241s">241</label>
+<label for="s1_240s">240</label>
+<label for="s1_239s">239</label>
+<label for="s1_238s">238</label>
+<label for="s1_237s">237</label>
+<label for="s1_236s">236</label>
+<label for="s1_235s">235</label>
+<label for="s1_234s">234</label>
+<label for="s1_233s">233</label>
+<label for="s1_232s">232</label>
+<label for="s1_231s">231</label>
+<label for="s1_230s">230</label>
+<label for="s1_229s">229</label>
+<label for="s1_228s">228</label>
+<label for="s1_227s">227</label>
+<label for="s1_226s">226</label>
+<label for="s1_225s">225</label>
+<label for="s1_224s">224</label>
+<label for="s1_223s">223</label>
+<label for="s1_222s">222</label>
+<label for="s1_221s">221</label>
+<label for="s1_220s">220</label>
+<label for="s1_219s">219</label>
+<label for="s1_218s">218</label>
+<label for="s1_217s">217</label>
+<label for="s1_216s">216</label>
+<label for="s1_215s">215</label>
+<label for="s1_214s">214</label>
+<label for="s1_213s">213</label>
+<label for="s1_212s">212</label>
+<label for="s1_211s">211</label>
+<label for="s1_210s">210</label>
+<label for="s1_209s">209</label>
+<label for="s1_208s">208</label>
+<label for="s1_207s">207</label>
+<label for="s1_206s">206</label>
+<label for="s1_205s">205</label>
+<label for="s1_204s">204</label>
+<label for="s1_203s">203</label>
+<label for="s1_202s">202</label>
+<label for="s1_201s">201</label>
+<label for="s1_200s">200</label>
+<label for="s1_199s">199</label>
+<label for="s1_198s">198</label>
+<label for="s1_197s">197</label>
+<label for="s1_196s">196</label>
+<label for="s1_195s">195</label>
+<label for="s1_194s">194</label>
+<label for="s1_193s">193</label>
+<label for="s1_192s">192</label>
+<label for="s1_191s">191</label>
+<label for="s1_190s">190</label>
+<label for="s1_189s">189</label>
+<label for="s1_188s">188</label>
+<label for="s1_187s">187</label>
+<label for="s1_186s">186</label>
+<label for="s1_185s">185</label>
+<label for="s1_184s">184</label>
+<label for="s1_183s">183</label>
+<label for="s1_182s">182</label>
+<label for="s1_181s">181</label>
+<label for="s1_180s">180</label>
+<label for="s1_179s">179</label>
+<label for="s1_178s">178</label>
+<label for="s1_177s">177</label>
+<label for="s1_176s">176</label>
+<label for="s1_175s">175</label>
+<label for="s1_174s">174</label>
+<label for="s1_173s">173</label>
+<label for="s1_172s">172</label>
+<label for="s1_171s">171</label>
+<label for="s1_170s">170</label>
+<label for="s1_169s">169</label>
+<label for="s1_168s">168</label>
+<label for="s1_167s">167</label>
+<label for="s1_166s">166</label>
+<label for="s1_165s">165</label>
+<label for="s1_164s">164</label>
+<label for="s1_163s">163</label>
+<label for="s1_162s">162</label>
+<label for="s1_161s">161</label>
+<label for="s1_160s">160</label>
+<label for="s1_159s">159</label>
+<label for="s1_158s">158</label>
+<label for="s1_157s">157</label>
+<label for="s1_156s">156</label>
+<label for="s1_155s">155</label>
+<label for="s1_154s">154</label>
+<label for="s1_153s">153</label>
+<label for="s1_152s">152</label>
+<label for="s1_151s">151</label>
+<label for="s1_150s">150</label>
+<label for="s1_149s">149</label>
+<label for="s1_148s">148</label>
+<label for="s1_147s">147</label>
+<label for="s1_146s">146</label>
+<label for="s1_145s">145</label>
+<label for="s1_144s">144</label>
+<label for="s1_143s">143</label>
+<label for="s1_142s">142</label>
+<label for="s1_141s">141</label>
+<label for="s1_140s">140</label>
+<label for="s1_139s">139</label>
+<label for="s1_138s">138</label>
+<label for="s1_137s">137</label>
+<label for="s1_136s">136</label>
+<label for="s1_135s">135</label>
+<label for="s1_134s">134</label>
+<label for="s1_133s">133</label>
+<label for="s1_132s">132</label>
+<label for="s1_131s">131</label>
+<label for="s1_130s">130</label>
+<label for="s1_129s">129</label>
+<label for="s1_128s">128</label>
+<label for="s1_127s">127</label>
+<label for="s1_126s">126</label>
+<label for="s1_125s">125</label>
+<label for="s1_124s">124</label>
+<label for="s1_123s">123</label>
+<label for="s1_122s">122</label>
+<label for="s1_121s">121</label>
+<label for="s1_120s">120</label>
+<label for="s1_119s">119</label>
+<label for="s1_118s">118</label>
+<label for="s1_117s">117</label>
+<label for="s1_116s">116</label>
+<label for="s1_115s">115</label>
+<label for="s1_114s">114</label>
+<label for="s1_113s">113</label>
+<label for="s1_112s">112</label>
+<label for="s1_111s">111</label>
+<label for="s1_110s">110</label>
+<label for="s1_109s">109</label>
+<label for="s1_108s">108</label>
+<label for="s1_107s">107</label>
+<label for="s1_106s">106</label>
+<label for="s1_105s">105</label>
+<label for="s1_104s">104</label>
+<label for="s1_103s">103</label>
+<label for="s1_102s">102</label>
+<label for="s1_101s">101</label>
+<label for="s1_100s">100</label>
+<label for="s1_99s">99</label>
+<label for="s1_98s">98</label>
+<label for="s1_97s">97</label>
+<label for="s1_96s">96</label>
+<label for="s1_95s">95</label>
+<label for="s1_94s">94</label>
+<label for="s1_93s">93</label>
+<label for="s1_92s">92</label>
+<label for="s1_91s">91</label>
+<label for="s1_90s">90</label>
+<label for="s1_89s">89</label>
+<label for="s1_88s">88</label>
+<label for="s1_87s">87</label>
+<label for="s1_86s">86</label>
+<label for="s1_85s">85</label>
+<label for="s1_84s">84</label>
+<label for="s1_83s">83</label>
+<label for="s1_82s">82</label>
+<label for="s1_81s">81</label>
+<label for="s1_80s">80</label>
+<label for="s1_79s">79</label>
+<label for="s1_78s">78</label>
+<label for="s1_77s">77</label>
+<label for="s1_76s">76</label>
+<label for="s1_75s">75</label>
+<label for="s1_74s">74</label>
+<label for="s1_73s">73</label>
+<label for="s1_72s">72</label>
+<label for="s1_71s">71</label>
+<label for="s1_70s">70</label>
+<label for="s1_69s">69</label>
+<label for="s1_68s">68</label>
+<label for="s1_67s">67</label>
+<label for="s1_66s">66</label>
+<label for="s1_65s">65</label>
+<label for="s1_64s">64</label>
+<label for="s1_63s">63</label>
+<label for="s1_62s">62</label>
+<label for="s1_61s">61</label>
+<label for="s1_60s">60</label>
+<label for="s1_59s">59</label>
+<label for="s1_58s">58</label>
+<label for="s1_57s">57</label>
+<label for="s1_56s">56</label>
+<label for="s1_55s">55</label>
+<label for="s1_54s">54</label>
+<label for="s1_53s">53</label>
+<label for="s1_52s">52</label>
+<label for="s1_51s">51</label>
+<label for="s1_50s">50</label>
+<label for="s1_49s">49</label>
+<label for="s1_48s">48</label>
+<label for="s1_47s">47</label>
+<label for="s1_46s">46</label>
+<label for="s1_45s">45</label>
+<label for="s1_44s">44</label>
+<label for="s1_43s">43</label>
+<label for="s1_42s">42</label>
+<label for="s1_41s">41</label>
+<label for="s1_40s">40</label>
+<label for="s1_39s">39</label>
+<label for="s1_38s">38</label>
+<label for="s1_37s">37</label>
+<label for="s1_36s">36</label>
+<label for="s1_35s">35</label>
+<label for="s1_34s">34</label>
+<label for="s1_33s">33</label>
+<label for="s1_32s">32</label>
+<label for="s1_31s">31</label>
+<label for="s1_30s">30</label>
+<label for="s1_29s">29</label>
+<label for="s1_28s">28</label>
+<label for="s1_27s">27</label>
+<label for="s1_26s">26</label>
+<label for="s1_25s">25</label>
+<label for="s1_24s">24</label>
+<label for="s1_23s">23</label>
+<label for="s1_22s">22</label>
+<label for="s1_21s">21</label>
+<label for="s1_20s">20</label>
+<label for="s1_19s">19</label>
+<label for="s1_18s">18</label>
+<label for="s1_17s">17</label>
+<label for="s1_16s">16</label>
+<label for="s1_15s">15</label>
+<label for="s1_14s">14</label>
+<label for="s1_13s">13</label>
+<label for="s1_12s">12</label>
+<label for="s1_11s">11</label>
+<label for="s1_10s">10</label>
+<label for="s1_9s">9</label>
+<label for="s1_8s">8</label>
+<label for="s1_7s">7</label>
+<label for="s1_6s">6</label>
+<label for="s1_5s">5</label>
+<label for="s1_4s">4</label>
+<label for="s1_3s">3</label>
+<label for="s1_2s">2</label>
+<label for="t1_bust"></label>
+<label for="s1_0s">0</label>
+<label for="t1_bust" class="zero"></label>
+</div>
+<div class="score2">
+<label for="s2_501s">501</label>
+<label for="s2_500s">500</label>
+<label for="s2_499s">499</label>
+<label for="s2_498s">498</label>
+<label for="s2_497s">497</label>
+<label for="s2_496s">496</label>
+<label for="s2_495s">495</label>
+<label for="s2_494s">494</label>
+<label for="s2_493s">493</label>
+<label for="s2_492s">492</label>
+<label for="s2_491s">491</label>
+<label for="s2_490s">490</label>
+<label for="s2_489s">489</label>
+<label for="s2_488s">488</label>
+<label for="s2_487s">487</label>
+<label for="s2_486s">486</label>
+<label for="s2_485s">485</label>
+<label for="s2_484s">484</label>
+<label for="s2_483s">483</label>
+<label for="s2_482s">482</label>
+<label for="s2_481s">481</label>
+<label for="s2_480s">480</label>
+<label for="s2_479s">479</label>
+<label for="s2_478s">478</label>
+<label for="s2_477s">477</label>
+<label for="s2_476s">476</label>
+<label for="s2_475s">475</label>
+<label for="s2_474s">474</label>
+<label for="s2_473s">473</label>
+<label for="s2_472s">472</label>
+<label for="s2_471s">471</label>
+<label for="s2_470s">470</label>
+<label for="s2_469s">469</label>
+<label for="s2_468s">468</label>
+<label for="s2_467s">467</label>
+<label for="s2_466s">466</label>
+<label for="s2_465s">465</label>
+<label for="s2_464s">464</label>
+<label for="s2_463s">463</label>
+<label for="s2_462s">462</label>
+<label for="s2_461s">461</label>
+<label for="s2_460s">460</label>
+<label for="s2_459s">459</label>
+<label for="s2_458s">458</label>
+<label for="s2_457s">457</label>
+<label for="s2_456s">456</label>
+<label for="s2_455s">455</label>
+<label for="s2_454s">454</label>
+<label for="s2_453s">453</label>
+<label for="s2_452s">452</label>
+<label for="s2_451s">451</label>
+<label for="s2_450s">450</label>
+<label for="s2_449s">449</label>
+<label for="s2_448s">448</label>
+<label for="s2_447s">447</label>
+<label for="s2_446s">446</label>
+<label for="s2_445s">445</label>
+<label for="s2_444s">444</label>
+<label for="s2_443s">443</label>
+<label for="s2_442s">442</label>
+<label for="s2_441s">441</label>
+<label for="s2_440s">440</label>
+<label for="s2_439s">439</label>
+<label for="s2_438s">438</label>
+<label for="s2_437s">437</label>
+<label for="s2_436s">436</label>
+<label for="s2_435s">435</label>
+<label for="s2_434s">434</label>
+<label for="s2_433s">433</label>
+<label for="s2_432s">432</label>
+<label for="s2_431s">431</label>
+<label for="s2_430s">430</label>
+<label for="s2_429s">429</label>
+<label for="s2_428s">428</label>
+<label for="s2_427s">427</label>
+<label for="s2_426s">426</label>
+<label for="s2_425s">425</label>
+<label for="s2_424s">424</label>
+<label for="s2_423s">423</label>
+<label for="s2_422s">422</label>
+<label for="s2_421s">421</label>
+<label for="s2_420s">420</label>
+<label for="s2_419s">419</label>
+<label for="s2_418s">418</label>
+<label for="s2_417s">417</label>
+<label for="s2_416s">416</label>
+<label for="s2_415s">415</label>
+<label for="s2_414s">414</label>
+<label for="s2_413s">413</label>
+<label for="s2_412s">412</label>
+<label for="s2_411s">411</label>
+<label for="s2_410s">410</label>
+<label for="s2_409s">409</label>
+<label for="s2_408s">408</label>
+<label for="s2_407s">407</label>
+<label for="s2_406s">406</label>
+<label for="s2_405s">405</label>
+<label for="s2_404s">404</label>
+<label for="s2_403s">403</label>
+<label for="s2_402s">402</label>
+<label for="s2_401s">401</label>
+<label for="s2_400s">400</label>
+<label for="s2_399s">399</label>
+<label for="s2_398s">398</label>
+<label for="s2_397s">397</label>
+<label for="s2_396s">396</label>
+<label for="s2_395s">395</label>
+<label for="s2_394s">394</label>
+<label for="s2_393s">393</label>
+<label for="s2_392s">392</label>
+<label for="s2_391s">391</label>
+<label for="s2_390s">390</label>
+<label for="s2_389s">389</label>
+<label for="s2_388s">388</label>
+<label for="s2_387s">387</label>
+<label for="s2_386s">386</label>
+<label for="s2_385s">385</label>
+<label for="s2_384s">384</label>
+<label for="s2_383s">383</label>
+<label for="s2_382s">382</label>
+<label for="s2_381s">381</label>
+<label for="s2_380s">380</label>
+<label for="s2_379s">379</label>
+<label for="s2_378s">378</label>
+<label for="s2_377s">377</label>
+<label for="s2_376s">376</label>
+<label for="s2_375s">375</label>
+<label for="s2_374s">374</label>
+<label for="s2_373s">373</label>
+<label for="s2_372s">372</label>
+<label for="s2_371s">371</label>
+<label for="s2_370s">370</label>
+<label for="s2_369s">369</label>
+<label for="s2_368s">368</label>
+<label for="s2_367s">367</label>
+<label for="s2_366s">366</label>
+<label for="s2_365s">365</label>
+<label for="s2_364s">364</label>
+<label for="s2_363s">363</label>
+<label for="s2_362s">362</label>
+<label for="s2_361s">361</label>
+<label for="s2_360s">360</label>
+<label for="s2_359s">359</label>
+<label for="s2_358s">358</label>
+<label for="s2_357s">357</label>
+<label for="s2_356s">356</label>
+<label for="s2_355s">355</label>
+<label for="s2_354s">354</label>
+<label for="s2_353s">353</label>
+<label for="s2_352s">352</label>
+<label for="s2_351s">351</label>
+<label for="s2_350s">350</label>
+<label for="s2_349s">349</label>
+<label for="s2_348s">348</label>
+<label for="s2_347s">347</label>
+<label for="s2_346s">346</label>
+<label for="s2_345s">345</label>
+<label for="s2_344s">344</label>
+<label for="s2_343s">343</label>
+<label for="s2_342s">342</label>
+<label for="s2_341s">341</label>
+<label for="s2_340s">340</label>
+<label for="s2_339s">339</label>
+<label for="s2_338s">338</label>
+<label for="s2_337s">337</label>
+<label for="s2_336s">336</label>
+<label for="s2_335s">335</label>
+<label for="s2_334s">334</label>
+<label for="s2_333s">333</label>
+<label for="s2_332s">332</label>
+<label for="s2_331s">331</label>
+<label for="s2_330s">330</label>
+<label for="s2_329s">329</label>
+<label for="s2_328s">328</label>
+<label for="s2_327s">327</label>
+<label for="s2_326s">326</label>
+<label for="s2_325s">325</label>
+<label for="s2_324s">324</label>
+<label for="s2_323s">323</label>
+<label for="s2_322s">322</label>
+<label for="s2_321s">321</label>
+<label for="s2_320s">320</label>
+<label for="s2_319s">319</label>
+<label for="s2_318s">318</label>
+<label for="s2_317s">317</label>
+<label for="s2_316s">316</label>
+<label for="s2_315s">315</label>
+<label for="s2_314s">314</label>
+<label for="s2_313s">313</label>
+<label for="s2_312s">312</label>
+<label for="s2_311s">311</label>
+<label for="s2_310s">310</label>
+<label for="s2_309s">309</label>
+<label for="s2_308s">308</label>
+<label for="s2_307s">307</label>
+<label for="s2_306s">306</label>
+<label for="s2_305s">305</label>
+<label for="s2_304s">304</label>
+<label for="s2_303s">303</label>
+<label for="s2_302s">302</label>
+<label for="s2_301s">301</label>
+<label for="s2_300s">300</label>
+<label for="s2_299s">299</label>
+<label for="s2_298s">298</label>
+<label for="s2_297s">297</label>
+<label for="s2_296s">296</label>
+<label for="s2_295s">295</label>
+<label for="s2_294s">294</label>
+<label for="s2_293s">293</label>
+<label for="s2_292s">292</label>
+<label for="s2_291s">291</label>
+<label for="s2_290s">290</label>
+<label for="s2_289s">289</label>
+<label for="s2_288s">288</label>
+<label for="s2_287s">287</label>
+<label for="s2_286s">286</label>
+<label for="s2_285s">285</label>
+<label for="s2_284s">284</label>
+<label for="s2_283s">283</label>
+<label for="s2_282s">282</label>
+<label for="s2_281s">281</label>
+<label for="s2_280s">280</label>
+<label for="s2_279s">279</label>
+<label for="s2_278s">278</label>
+<label for="s2_277s">277</label>
+<label for="s2_276s">276</label>
+<label for="s2_275s">275</label>
+<label for="s2_274s">274</label>
+<label for="s2_273s">273</label>
+<label for="s2_272s">272</label>
+<label for="s2_271s">271</label>
+<label for="s2_270s">270</label>
+<label for="s2_269s">269</label>
+<label for="s2_268s">268</label>
+<label for="s2_267s">267</label>
+<label for="s2_266s">266</label>
+<label for="s2_265s">265</label>
+<label for="s2_264s">264</label>
+<label for="s2_263s">263</label>
+<label for="s2_262s">262</label>
+<label for="s2_261s">261</label>
+<label for="s2_260s">260</label>
+<label for="s2_259s">259</label>
+<label for="s2_258s">258</label>
+<label for="s2_257s">257</label>
+<label for="s2_256s">256</label>
+<label for="s2_255s">255</label>
+<label for="s2_254s">254</label>
+<label for="s2_253s">253</label>
+<label for="s2_252s">252</label>
+<label for="s2_251s">251</label>
+<label for="s2_250s">250</label>
+<label for="s2_249s">249</label>
+<label for="s2_248s">248</label>
+<label for="s2_247s">247</label>
+<label for="s2_246s">246</label>
+<label for="s2_245s">245</label>
+<label for="s2_244s">244</label>
+<label for="s2_243s">243</label>
+<label for="s2_242s">242</label>
+<label for="s2_241s">241</label>
+<label for="s2_240s">240</label>
+<label for="s2_239s">239</label>
+<label for="s2_238s">238</label>
+<label for="s2_237s">237</label>
+<label for="s2_236s">236</label>
+<label for="s2_235s">235</label>
+<label for="s2_234s">234</label>
+<label for="s2_233s">233</label>
+<label for="s2_232s">232</label>
+<label for="s2_231s">231</label>
+<label for="s2_230s">230</label>
+<label for="s2_229s">229</label>
+<label for="s2_228s">228</label>
+<label for="s2_227s">227</label>
+<label for="s2_226s">226</label>
+<label for="s2_225s">225</label>
+<label for="s2_224s">224</label>
+<label for="s2_223s">223</label>
+<label for="s2_222s">222</label>
+<label for="s2_221s">221</label>
+<label for="s2_220s">220</label>
+<label for="s2_219s">219</label>
+<label for="s2_218s">218</label>
+<label for="s2_217s">217</label>
+<label for="s2_216s">216</label>
+<label for="s2_215s">215</label>
+<label for="s2_214s">214</label>
+<label for="s2_213s">213</label>
+<label for="s2_212s">212</label>
+<label for="s2_211s">211</label>
+<label for="s2_210s">210</label>
+<label for="s2_209s">209</label>
+<label for="s2_208s">208</label>
+<label for="s2_207s">207</label>
+<label for="s2_206s">206</label>
+<label for="s2_205s">205</label>
+<label for="s2_204s">204</label>
+<label for="s2_203s">203</label>
+<label for="s2_202s">202</label>
+<label for="s2_201s">201</label>
+<label for="s2_200s">200</label>
+<label for="s2_199s">199</label>
+<label for="s2_198s">198</label>
+<label for="s2_197s">197</label>
+<label for="s2_196s">196</label>
+<label for="s2_195s">195</label>
+<label for="s2_194s">194</label>
+<label for="s2_193s">193</label>
+<label for="s2_192s">192</label>
+<label for="s2_191s">191</label>
+<label for="s2_190s">190</label>
+<label for="s2_189s">189</label>
+<label for="s2_188s">188</label>
+<label for="s2_187s">187</label>
+<label for="s2_186s">186</label>
+<label for="s2_185s">185</label>
+<label for="s2_184s">184</label>
+<label for="s2_183s">183</label>
+<label for="s2_182s">182</label>
+<label for="s2_181s">181</label>
+<label for="s2_180s">180</label>
+<label for="s2_179s">179</label>
+<label for="s2_178s">178</label>
+<label for="s2_177s">177</label>
+<label for="s2_176s">176</label>
+<label for="s2_175s">175</label>
+<label for="s2_174s">174</label>
+<label for="s2_173s">173</label>
+<label for="s2_172s">172</label>
+<label for="s2_171s">171</label>
+<label for="s2_170s">170</label>
+<label for="s2_169s">169</label>
+<label for="s2_168s">168</label>
+<label for="s2_167s">167</label>
+<label for="s2_166s">166</label>
+<label for="s2_165s">165</label>
+<label for="s2_164s">164</label>
+<label for="s2_163s">163</label>
+<label for="s2_162s">162</label>
+<label for="s2_161s">161</label>
+<label for="s2_160s">160</label>
+<label for="s2_159s">159</label>
+<label for="s2_158s">158</label>
+<label for="s2_157s">157</label>
+<label for="s2_156s">156</label>
+<label for="s2_155s">155</label>
+<label for="s2_154s">154</label>
+<label for="s2_153s">153</label>
+<label for="s2_152s">152</label>
+<label for="s2_151s">151</label>
+<label for="s2_150s">150</label>
+<label for="s2_149s">149</label>
+<label for="s2_148s">148</label>
+<label for="s2_147s">147</label>
+<label for="s2_146s">146</label>
+<label for="s2_145s">145</label>
+<label for="s2_144s">144</label>
+<label for="s2_143s">143</label>
+<label for="s2_142s">142</label>
+<label for="s2_141s">141</label>
+<label for="s2_140s">140</label>
+<label for="s2_139s">139</label>
+<label for="s2_138s">138</label>
+<label for="s2_137s">137</label>
+<label for="s2_136s">136</label>
+<label for="s2_135s">135</label>
+<label for="s2_134s">134</label>
+<label for="s2_133s">133</label>
+<label for="s2_132s">132</label>
+<label for="s2_131s">131</label>
+<label for="s2_130s">130</label>
+<label for="s2_129s">129</label>
+<label for="s2_128s">128</label>
+<label for="s2_127s">127</label>
+<label for="s2_126s">126</label>
+<label for="s2_125s">125</label>
+<label for="s2_124s">124</label>
+<label for="s2_123s">123</label>
+<label for="s2_122s">122</label>
+<label for="s2_121s">121</label>
+<label for="s2_120s">120</label>
+<label for="s2_119s">119</label>
+<label for="s2_118s">118</label>
+<label for="s2_117s">117</label>
+<label for="s2_116s">116</label>
+<label for="s2_115s">115</label>
+<label for="s2_114s">114</label>
+<label for="s2_113s">113</label>
+<label for="s2_112s">112</label>
+<label for="s2_111s">111</label>
+<label for="s2_110s">110</label>
+<label for="s2_109s">109</label>
+<label for="s2_108s">108</label>
+<label for="s2_107s">107</label>
+<label for="s2_106s">106</label>
+<label for="s2_105s">105</label>
+<label for="s2_104s">104</label>
+<label for="s2_103s">103</label>
+<label for="s2_102s">102</label>
+<label for="s2_101s">101</label>
+<label for="s2_100s">100</label>
+<label for="s2_99s">99</label>
+<label for="s2_98s">98</label>
+<label for="s2_97s">97</label>
+<label for="s2_96s">96</label>
+<label for="s2_95s">95</label>
+<label for="s2_94s">94</label>
+<label for="s2_93s">93</label>
+<label for="s2_92s">92</label>
+<label for="s2_91s">91</label>
+<label for="s2_90s">90</label>
+<label for="s2_89s">89</label>
+<label for="s2_88s">88</label>
+<label for="s2_87s">87</label>
+<label for="s2_86s">86</label>
+<label for="s2_85s">85</label>
+<label for="s2_84s">84</label>
+<label for="s2_83s">83</label>
+<label for="s2_82s">82</label>
+<label for="s2_81s">81</label>
+<label for="s2_80s">80</label>
+<label for="s2_79s">79</label>
+<label for="s2_78s">78</label>
+<label for="s2_77s">77</label>
+<label for="s2_76s">76</label>
+<label for="s2_75s">75</label>
+<label for="s2_74s">74</label>
+<label for="s2_73s">73</label>
+<label for="s2_72s">72</label>
+<label for="s2_71s">71</label>
+<label for="s2_70s">70</label>
+<label for="s2_69s">69</label>
+<label for="s2_68s">68</label>
+<label for="s2_67s">67</label>
+<label for="s2_66s">66</label>
+<label for="s2_65s">65</label>
+<label for="s2_64s">64</label>
+<label for="s2_63s">63</label>
+<label for="s2_62s">62</label>
+<label for="s2_61s">61</label>
+<label for="s2_60s">60</label>
+<label for="s2_59s">59</label>
+<label for="s2_58s">58</label>
+<label for="s2_57s">57</label>
+<label for="s2_56s">56</label>
+<label for="s2_55s">55</label>
+<label for="s2_54s">54</label>
+<label for="s2_53s">53</label>
+<label for="s2_52s">52</label>
+<label for="s2_51s">51</label>
+<label for="s2_50s">50</label>
+<label for="s2_49s">49</label>
+<label for="s2_48s">48</label>
+<label for="s2_47s">47</label>
+<label for="s2_46s">46</label>
+<label for="s2_45s">45</label>
+<label for="s2_44s">44</label>
+<label for="s2_43s">43</label>
+<label for="s2_42s">42</label>
+<label for="s2_41s">41</label>
+<label for="s2_40s">40</label>
+<label for="s2_39s">39</label>
+<label for="s2_38s">38</label>
+<label for="s2_37s">37</label>
+<label for="s2_36s">36</label>
+<label for="s2_35s">35</label>
+<label for="s2_34s">34</label>
+<label for="s2_33s">33</label>
+<label for="s2_32s">32</label>
+<label for="s2_31s">31</label>
+<label for="s2_30s">30</label>
+<label for="s2_29s">29</label>
+<label for="s2_28s">28</label>
+<label for="s2_27s">27</label>
+<label for="s2_26s">26</label>
+<label for="s2_25s">25</label>
+<label for="s2_24s">24</label>
+<label for="s2_23s">23</label>
+<label for="s2_22s">22</label>
+<label for="s2_21s">21</label>
+<label for="s2_20s">20</label>
+<label for="s2_19s">19</label>
+<label for="s2_18s">18</label>
+<label for="s2_17s">17</label>
+<label for="s2_16s">16</label>
+<label for="s2_15s">15</label>
+<label for="s2_14s">14</label>
+<label for="s2_13s">13</label>
+<label for="s2_12s">12</label>
+<label for="s2_11s">11</label>
+<label for="s2_10s">10</label>
+<label for="s2_9s">9</label>
+<label for="s2_8s">8</label>
+<label for="s2_7s">7</label>
+<label for="s2_6s">6</label>
+<label for="s2_5s">5</label>
+<label for="s2_4s">4</label>
+<label for="s2_3s">3</label>
+<label for="s2_2s">2</label>
+<label for="t2_bust"></label>
+<label for="s2_0s">0</label>
+<label for="t2_bust" class="zero"></label>
+</div>
+</div>
+<div class="info"></div>
+<div class="darts">
+<label for="d1_11"><span></span></label>
+<label for="d2_10"><span></span></label>
+<label for="d1_10"><span></span></label>
+<label for="d2_9"><span></span></label>
+<label for="d1_9"><span></span></label>
+<label for="d2_8"><span></span></label>
+<label for="d1_8"><span></span></label>
+<label for="d2_7"><span></span></label>
+<label for="d1_7"><span></span></label>
+<label for="d2_6"><span></span></label>
+<label for="d1_6"><span></span></label>
+<label for="d2_5"><span></span></label>
+<label for="d1_5"><span></span></label>
+<label for="d2_4"><span></span></label>
+<label for="d1_4"><span></span></label>
+<label for="d2_3"><span></span></label>
+<label for="d1_3"><span></span></label>
+<label for="d2_2"><span></span></label>
+<label for="d1_2"><span></span></label>
+<label for="d2_1"><span></span></label>
+</div>
+<label for="reset">Restart</label>
+</form>
