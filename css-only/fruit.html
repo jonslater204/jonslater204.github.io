@@ -1,0 +1,550 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+input {
+  position: absolute;
+  top: -999px;
+  left: -999px;
+}
+.spin {
+  width: 20vw;
+  height: 10vw;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes spin {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.spins {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 12500%;
+  animation: spin 0.5s steps(125) infinite;
+}
+#spin:checked ~ .spin .spins {
+  animation-play-state: paused;
+}
+.spin:before {
+  content: "Spin";
+  position: absolute;
+  top: 0;
+  background: green;
+  visibility: hidden;
+}
+label,
+.spin:before {
+  display: block;
+  width: 100%;
+  height: 10vw;
+}
+label,
+.spin:before,
+.msg:before {
+  font-size: 5vw;
+  line-height: 10vw;
+  text-align: center;
+}
+.msg:before {
+  content: "You win!";
+  display: block;
+  background-color: yellow;
+  font-size: 2.5vw;
+}
+[for="spin"] {
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  background: red;
+}
+.spin label {
+  cursor: pointer;
+}
+.reels {
+  float: left;
+  width: 30vw;
+  height: 20vw;
+  border-top: 1vw #333 solid;
+  border-right: 1vw #999 solid;
+  border-bottom: 1vw #CCC solid;
+  border-left: 1vw #666 solid;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes reel {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50vw);
+  }
+}
+.reel {
+  position: absolute;
+  top: 0;
+  width: 10vw;
+  height: 500%;
+  animation: reel 1s linear 3 paused;
+}
+.pos {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: translateY(-5vw);
+}
+.reels label {
+  position: relative;
+}
+.reels label:before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.r1:before {
+  content: "";
+  width: 75%;
+  height: 75%;
+  background: yellow;
+  border-radius: 50%;
+}
+.r2:before {
+  content: "";
+  width: 75%;
+  height: 75%;
+  background: orange;
+  border-radius: 100% 100% 10% 10%;
+}
+.r3:before {
+  content: "";
+  width: 30%;
+  height: 30%;
+  background: purple;
+  border-radius: 50%;
+  box-shadow: -0.5em -0.5em purple, 0 -0.5em purple, 0.5em -0.5em purple,
+   0.5em 0 purple, 0.5em 0.5em purple,
+   0 0.5em purple, -0.5em 0.5em purple, -0.5em 0 purple;
+}
+.r4:before {
+  content: "Bar";
+  font-size: 4vw;
+  line-height: 6vw;
+  font-weight: bold;
+  color: white;
+  background: black;
+  border-radius: 1vw;
+  text-transform: uppercase;
+}
+.r5:before {
+  content: "7";
+  font-size: 8vw;
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+  color: red;
+  font-style: italic;
+}
+.reel:nth-of-type(2) {
+  left: 10vw;
+  animation-iteration-count: 4;
+}
+[id^="a"]:checked ~ .reels .reel:nth-of-type(2) .pos {
+  transition-delay: 4s;
+}
+.reel:nth-of-type(3) {
+  left: 20vw;
+  animation-iteration-count: 5;
+}
+[id^="a"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transition-delay: 5s;
+}
+.msg {
+  position: absolute;
+  top: 0;
+  left: 20vw;
+  width: 12vw;
+  height: 10vw;
+  margin: 0;
+  padding: 0;
+  visibility: hidden;
+}
+[id^="a"]:checked ~ .reels .reel {
+  animation-play-state: running;
+}
+[id^="a"]:checked ~ .reels .pos {
+  transition: transform 0.1s linear 3s;
+}
+[id*="a1a"]:checked ~ .reels .reel:nth-of-type(1) .pos,
+[id*="b2b"]:checked ~ .reels .reel:nth-of-type(2) .pos,
+[id*="c3c"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transform: translateY(-5vw);
+}
+[id*="a2a"]:checked ~ .reels .reel:nth-of-type(1) .pos,
+[id*="b4b"]:checked ~ .reels .reel:nth-of-type(2) .pos,
+[id*="c1c"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transform: translateY(-15vw);
+  transition-duration: 0.2s;
+}
+[id*="a3a"]:checked ~ .reels .reel:nth-of-type(1) .pos,
+[id*="b1b"]:checked ~ .reels .reel:nth-of-type(2) .pos,
+[id*="c4c"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transform: translateY(-25vw);
+  transition-duration: 0.4s;
+}
+[id*="a4a"]:checked ~ .reels .reel:nth-of-type(1) .pos,
+[id*="b3b"]:checked ~ .reels .reel:nth-of-type(2) .pos,
+[id*="c2c"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transform: translateY(-35vw);
+  transition-duration: 0.6s;
+}
+[id*="a5a"]:checked ~ .reels .reel:nth-of-type(1) .pos,
+[id*="b5b"]:checked ~ .reels .reel:nth-of-type(2) .pos,
+[id*="c5c"]:checked ~ .reels .reel:nth-of-type(3) .pos {
+  transform: translateY(-45vw);
+  transition-duration: 0.8s;
+}
+#a1ab1bc1c:checked ~ .msg,
+#a2ab2bc2c:checked ~ .msg,
+#a3ab3bc3c:checked ~ .msg,
+#a4ab4bc4c:checked ~ .msg,
+#a5ab5bc5c:checked ~ .msg {
+  visibility: visible;
+  transition: visibility 6s steps(1);
+}
+#spin:checked ~ .spin .spins,
+#spin:checked ~ .spin:before,
+[id^="a"]:checked ~ .spin [for="spin"] {
+  visibility: visible;
+}
+[id^="a"]:checked ~ .spin [for="spin"] {
+  transition: visibility 6s steps(1);
+}
+@keyframes reset {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+#spin:checked ~ .reels .reel {
+  animation-name: reset;
+  animation-delay: 0s;
+}
+[id^="a"]:checked ~ .reels .reel {
+  animation-name: reel;
+}
+#spin:checked ~ .reels .pos {
+  transition-delay: 0s;
+}
+.real {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to top,
+    rgba(127, 127, 127, 0.5) 0%,
+    rgba(127, 127, 127, 0) 25%,
+    rgba(127, 127, 127, 0) 75%,
+    rgba(127, 127, 127, 0.5) 100%);
+}
+</style>
+<input type="radio" name="spin" id="spin" />
+<input type="radio" name="spin" id="a1ab1bc1c" />
+<input type="radio" name="spin" id="a1ab1bc2c" />
+<input type="radio" name="spin" id="a1ab1bc3c" />
+<input type="radio" name="spin" id="a1ab1bc4c" />
+<input type="radio" name="spin" id="a1ab1bc5c" />
+<input type="radio" name="spin" id="a1ab2bc1c" />
+<input type="radio" name="spin" id="a1ab2bc2c" />
+<input type="radio" name="spin" id="a1ab2bc3c" checked="checked" />
+<input type="radio" name="spin" id="a1ab2bc4c" />
+<input type="radio" name="spin" id="a1ab2bc5c" />
+<input type="radio" name="spin" id="a1ab3bc1c" />
+<input type="radio" name="spin" id="a1ab3bc2c" />
+<input type="radio" name="spin" id="a1ab3bc3c" />
+<input type="radio" name="spin" id="a1ab3bc4c" />
+<input type="radio" name="spin" id="a1ab3bc5c" />
+<input type="radio" name="spin" id="a1ab4bc1c" />
+<input type="radio" name="spin" id="a1ab4bc2c" />
+<input type="radio" name="spin" id="a1ab4bc3c" />
+<input type="radio" name="spin" id="a1ab4bc4c" />
+<input type="radio" name="spin" id="a1ab4bc5c" />
+<input type="radio" name="spin" id="a1ab5bc1c" />
+<input type="radio" name="spin" id="a1ab5bc2c" />
+<input type="radio" name="spin" id="a1ab5bc3c" />
+<input type="radio" name="spin" id="a1ab5bc4c" />
+<input type="radio" name="spin" id="a2ab5bc5c" />
+<input type="radio" name="spin" id="a2ab1bc1c" />
+<input type="radio" name="spin" id="a2ab1bc2c" />
+<input type="radio" name="spin" id="a2ab1bc3c" />
+<input type="radio" name="spin" id="a2ab1bc4c" />
+<input type="radio" name="spin" id="a2ab1bc5c" />
+<input type="radio" name="spin" id="a2ab2bc1c" />
+<input type="radio" name="spin" id="a2ab2bc2c" />
+<input type="radio" name="spin" id="a2ab2bc3c" />
+<input type="radio" name="spin" id="a2ab2bc4c" />
+<input type="radio" name="spin" id="a2ab2bc5c" />
+<input type="radio" name="spin" id="a2ab3bc1c" />
+<input type="radio" name="spin" id="a2ab3bc2c" />
+<input type="radio" name="spin" id="a2ab3bc3c" />
+<input type="radio" name="spin" id="a2ab3bc4c" />
+<input type="radio" name="spin" id="a2ab3bc5c" />
+<input type="radio" name="spin" id="a2ab4bc1c" />
+<input type="radio" name="spin" id="a2ab4bc2c" />
+<input type="radio" name="spin" id="a2ab4bc3c" />
+<input type="radio" name="spin" id="a2ab4bc4c" />
+<input type="radio" name="spin" id="a2ab4bc5c" />
+<input type="radio" name="spin" id="a2ab5bc1c" />
+<input type="radio" name="spin" id="a2ab5bc2c" />
+<input type="radio" name="spin" id="a2ab5bc3c" />
+<input type="radio" name="spin" id="a2ab5bc4c" />
+<input type="radio" name="spin" id="a2ab5bc5c" />
+<input type="radio" name="spin" id="a3ab1bc1c" />
+<input type="radio" name="spin" id="a3ab1bc2c" />
+<input type="radio" name="spin" id="a3ab1bc3c" />
+<input type="radio" name="spin" id="a3ab1bc4c" />
+<input type="radio" name="spin" id="a3ab1bc5c" />
+<input type="radio" name="spin" id="a3ab2bc1c" />
+<input type="radio" name="spin" id="a3ab2bc2c" />
+<input type="radio" name="spin" id="a3ab2bc3c" />
+<input type="radio" name="spin" id="a3ab2bc4c" />
+<input type="radio" name="spin" id="a3ab2bc5c" />
+<input type="radio" name="spin" id="a3ab3bc1c" />
+<input type="radio" name="spin" id="a3ab3bc2c" />
+<input type="radio" name="spin" id="a3ab3bc3c" />
+<input type="radio" name="spin" id="a3ab3bc4c" />
+<input type="radio" name="spin" id="a3ab3bc5c" />
+<input type="radio" name="spin" id="a3ab4bc1c" />
+<input type="radio" name="spin" id="a3ab4bc2c" />
+<input type="radio" name="spin" id="a3ab4bc3c" />
+<input type="radio" name="spin" id="a3ab4bc4c" />
+<input type="radio" name="spin" id="a3ab4bc5c" />
+<input type="radio" name="spin" id="a3ab5bc1c" />
+<input type="radio" name="spin" id="a3ab5bc2c" />
+<input type="radio" name="spin" id="a3ab5bc3c" />
+<input type="radio" name="spin" id="a3ab5bc4c" />
+<input type="radio" name="spin" id="a3ab5bc5c" />
+<input type="radio" name="spin" id="a4ab1bc1c" />
+<input type="radio" name="spin" id="a4ab1bc2c" />
+<input type="radio" name="spin" id="a4ab1bc3c" />
+<input type="radio" name="spin" id="a4ab1bc4c" />
+<input type="radio" name="spin" id="a4ab1bc5c" />
+<input type="radio" name="spin" id="a4ab2bc1c" />
+<input type="radio" name="spin" id="a4ab2bc2c" />
+<input type="radio" name="spin" id="a4ab2bc3c" />
+<input type="radio" name="spin" id="a4ab2bc4c" />
+<input type="radio" name="spin" id="a4ab2bc5c" />
+<input type="radio" name="spin" id="a4ab3bc1c" />
+<input type="radio" name="spin" id="a4ab3bc2c" />
+<input type="radio" name="spin" id="a4ab3bc3c" />
+<input type="radio" name="spin" id="a4ab3bc4c" />
+<input type="radio" name="spin" id="a4ab3bc5c" />
+<input type="radio" name="spin" id="a4ab4bc1c" />
+<input type="radio" name="spin" id="a4ab4bc2c" />
+<input type="radio" name="spin" id="a4ab4bc3c" />
+<input type="radio" name="spin" id="a4ab4bc4c" />
+<input type="radio" name="spin" id="a4ab4bc5c" />
+<input type="radio" name="spin" id="a4ab5bc1c" />
+<input type="radio" name="spin" id="a4ab5bc2c" />
+<input type="radio" name="spin" id="a4ab5bc3c" />
+<input type="radio" name="spin" id="a4ab5bc4c" />
+<input type="radio" name="spin" id="a4ab5bc5c" />
+<input type="radio" name="spin" id="a5ab1bc1c" />
+<input type="radio" name="spin" id="a5ab1bc2c" />
+<input type="radio" name="spin" id="a5ab1bc3c" />
+<input type="radio" name="spin" id="a5ab1bc4c" />
+<input type="radio" name="spin" id="a5ab1bc5c" />
+<input type="radio" name="spin" id="a5ab2bc1c" />
+<input type="radio" name="spin" id="a5ab2bc2c" />
+<input type="radio" name="spin" id="a5ab2bc3c" />
+<input type="radio" name="spin" id="a5ab2bc4c" />
+<input type="radio" name="spin" id="a5ab2bc5c" />
+<input type="radio" name="spin" id="a5ab3bc1c" />
+<input type="radio" name="spin" id="a5ab3bc2c" />
+<input type="radio" name="spin" id="a5ab3bc3c" />
+<input type="radio" name="spin" id="a5ab3bc4c" />
+<input type="radio" name="spin" id="a5ab3bc5c" />
+<input type="radio" name="spin" id="a5ab4bc1c" />
+<input type="radio" name="spin" id="a5ab4bc2c" />
+<input type="radio" name="spin" id="a5ab4bc3c" />
+<input type="radio" name="spin" id="a5ab4bc4c" />
+<input type="radio" name="spin" id="a5ab4bc5c" />
+<input type="radio" name="spin" id="a5ab5bc1c" />
+<input type="radio" name="spin" id="a5ab5bc2c" />
+<input type="radio" name="spin" id="a5ab5bc3c" />
+<input type="radio" name="spin" id="a5ab5bc4c" />
+<input type="radio" name="spin" id="a5ab5bc5c" />
+<div class="spin">
+<label for="spin">Again?</label>
+<div class="spins">
+<label for="a1ab1bc1c"></label>
+<label for="a1ab1bc2c"></label>
+<label for="a1ab1bc3c"></label>
+<label for="a1ab1bc4c"></label>
+<label for="a1ab1bc5c"></label>
+<label for="a1ab2bc1c"></label>
+<label for="a1ab2bc2c"></label>
+<label for="a1ab2bc3c"></label>
+<label for="a1ab2bc4c"></label>
+<label for="a1ab2bc5c"></label>
+<label for="a1ab3bc1c"></label>
+<label for="a1ab3bc2c"></label>
+<label for="a1ab3bc3c"></label>
+<label for="a1ab3bc4c"></label>
+<label for="a1ab3bc5c"></label>
+<label for="a1ab4bc1c"></label>
+<label for="a1ab4bc2c"></label>
+<label for="a1ab4bc3c"></label>
+<label for="a1ab4bc4c"></label>
+<label for="a1ab4bc5c"></label>
+<label for="a1ab5bc1c"></label>
+<label for="a1ab5bc2c"></label>
+<label for="a1ab5bc3c"></label>
+<label for="a1ab5bc4c"></label>
+<label for="a2ab5bc5c"></label>
+<label for="a2ab1bc1c"></label>
+<label for="a2ab1bc2c"></label>
+<label for="a2ab1bc3c"></label>
+<label for="a2ab1bc4c"></label>
+<label for="a2ab1bc5c"></label>
+<label for="a2ab2bc1c"></label>
+<label for="a2ab2bc2c"></label>
+<label for="a2ab2bc3c"></label>
+<label for="a2ab2bc4c"></label>
+<label for="a2ab2bc5c"></label>
+<label for="a2ab3bc1c"></label>
+<label for="a2ab3bc2c"></label>
+<label for="a2ab3bc3c"></label>
+<label for="a2ab3bc4c"></label>
+<label for="a2ab3bc5c"></label>
+<label for="a2ab4bc1c"></label>
+<label for="a2ab4bc2c"></label>
+<label for="a2ab4bc3c"></label>
+<label for="a2ab4bc4c"></label>
+<label for="a2ab4bc5c"></label>
+<label for="a2ab5bc1c"></label>
+<label for="a2ab5bc2c"></label>
+<label for="a2ab5bc3c"></label>
+<label for="a2ab5bc4c"></label>
+<label for="a2ab5bc5c"></label>
+<label for="a3ab1bc1c"></label>
+<label for="a3ab1bc2c"></label>
+<label for="a3ab1bc3c"></label>
+<label for="a3ab1bc4c"></label>
+<label for="a3ab1bc5c"></label>
+<label for="a3ab2bc1c"></label>
+<label for="a3ab2bc2c"></label>
+<label for="a3ab2bc3c"></label>
+<label for="a3ab2bc4c"></label>
+<label for="a3ab2bc5c"></label>
+<label for="a3ab3bc1c"></label>
+<label for="a3ab3bc2c"></label>
+<label for="a3ab3bc3c"></label>
+<label for="a3ab3bc4c"></label>
+<label for="a3ab3bc5c"></label>
+<label for="a3ab4bc1c"></label>
+<label for="a3ab4bc2c"></label>
+<label for="a3ab4bc3c"></label>
+<label for="a3ab4bc4c"></label>
+<label for="a3ab4bc5c"></label>
+<label for="a3ab5bc1c"></label>
+<label for="a3ab5bc2c"></label>
+<label for="a3ab5bc3c"></label>
+<label for="a3ab5bc4c"></label>
+<label for="a3ab5bc5c"></label>
+<label for="a4ab1bc1c"></label>
+<label for="a4ab1bc2c"></label>
+<label for="a4ab1bc3c"></label>
+<label for="a4ab1bc4c"></label>
+<label for="a4ab1bc5c"></label>
+<label for="a4ab2bc1c"></label>
+<label for="a4ab2bc2c"></label>
+<label for="a4ab2bc3c"></label>
+<label for="a4ab2bc4c"></label>
+<label for="a4ab2bc5c"></label>
+<label for="a4ab3bc1c"></label>
+<label for="a4ab3bc2c"></label>
+<label for="a4ab3bc3c"></label>
+<label for="a4ab3bc4c"></label>
+<label for="a4ab3bc5c"></label>
+<label for="a4ab4bc1c"></label>
+<label for="a4ab4bc2c"></label>
+<label for="a4ab4bc3c"></label>
+<label for="a4ab4bc4c"></label>
+<label for="a4ab4bc5c"></label>
+<label for="a4ab5bc1c"></label>
+<label for="a4ab5bc2c"></label>
+<label for="a4ab5bc3c"></label>
+<label for="a4ab5bc4c"></label>
+<label for="a4ab5bc5c"></label>
+<label for="a5ab1bc1c"></label>
+<label for="a5ab1bc2c"></label>
+<label for="a5ab1bc3c"></label>
+<label for="a5ab1bc4c"></label>
+<label for="a5ab1bc5c"></label>
+<label for="a5ab2bc1c"></label>
+<label for="a5ab2bc2c"></label>
+<label for="a5ab2bc3c"></label>
+<label for="a5ab2bc4c"></label>
+<label for="a5ab2bc5c"></label>
+<label for="a5ab3bc1c"></label>
+<label for="a5ab3bc2c"></label>
+<label for="a5ab3bc3c"></label>
+<label for="a5ab3bc4c"></label>
+<label for="a5ab3bc5c"></label>
+<label for="a5ab4bc1c"></label>
+<label for="a5ab4bc2c"></label>
+<label for="a5ab4bc3c"></label>
+<label for="a5ab4bc4c"></label>
+<label for="a5ab4bc5c"></label>
+<label for="a5ab5bc1c"></label>
+<label for="a5ab5bc2c"></label>
+<label for="a5ab5bc3c"></label>
+<label for="a5ab5bc4c"></label>
+<label for="a5ab5bc5c"></label>
+</div>
+</div>
+<p class="msg"></p>
+<div class="reels">
+<div class="reel">
+<div class="pos">
+<label class="r5"></label>
+<label class="r1"></label>
+<label class="r2"></label>
+<label class="r3"></label>
+<label class="r4"></label>
+<label class="r5"></label>
+<label class="r1"></label>
+</div>
+</div>
+<div class="reel">
+<div class="pos">
+<label class="r5"></label>
+<label class="r2"></label>
+<label class="r4"></label>
+<label class="r1"></label>
+<label class="r3"></label>
+<label class="r5"></label>
+<label class="r2"></label>
+</div>
+</div>
+<div class="reel">
+<div class="pos">
+<label class="r5"></label>
+<label class="r3"></label>
+<label class="r1"></label>
+<label class="r4"></label>
+<label class="r2"></label>
+<label class="r5"></label>
+<label class="r3"></label>
+</div>
+</div>
+<div class="real"></div>
+</div>
