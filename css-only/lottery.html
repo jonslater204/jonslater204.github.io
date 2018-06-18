@@ -1,0 +1,839 @@
+<style>
+body,
+form {
+  margin: 0;
+  padding: 0;
+  background: #666;
+}
+input {
+  position: absolute;
+  left: -999px;
+  top: -999px;
+}
+label {
+  display: block;
+  cursor: pointer;
+  visibility: hidden;
+  text-align: center;
+  font-family: sans-serif;
+}
+[for="stop"],
+[for="reset"] {
+  position: absolute;
+  left: 21vw;
+  top: 6vw;
+  width: 8vw;
+  height: 4vw;
+  background: green;
+  border-radius: 1vw;
+  color: white;
+  font-size: 2.5vw;
+  line-height: 4vw;
+}
+[for="stop"]:hover,
+[for="reset"]:hover {
+  filter: brightness(1.5);
+}
+[for="reset"] {
+  visibility: visible;
+  background: grey;
+  color: black;
+  left: 1vw;
+}
+[for^="c-"] {
+  position: absolute;
+  left: 10vw;
+  top: 3vw;
+  width: 10vw;
+  height: 10vw;
+  background-image: radial-gradient(at 30% 30%, white 0%, lightblue 5%, blue 50%, darkblue 75%, darkblue 95%, black 100%);
+  border-radius: 50%;
+  color: white;
+  font-size: 5vw;
+  line-height: 10vw;
+  z-index: 2;
+  transform: scale(0);
+  transition: transform 0.5s linear;
+}
+.machine {
+  position: absolute;
+  left: 10vw;
+  top: 3vw;
+  width: 10vw;
+  height: 10vw;
+  background: cyan;
+  border-radius: 50%;
+  overflow: hidden;
+}
+@keyframes shuffle {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.shuffle {
+  --balls: 49;
+  --picked: 0;
+  width: 10vw;
+  animation: shuffle 0.5s steps(calc(var(--balls) - var(--picked))) infinite;
+}
+.shuffle label {
+  width: 10vw;
+  height: 10vw;
+  visibility: visible;
+  pointer-events: none;
+}
+.balls {
+  position: absolute;
+  left: 30vw;
+  top: 3vw;
+  width: 6vw;
+  height: 10vw;
+  overflow: auto;
+  box-shadow: 0 0 5px 5px red;
+}
+.balls label {
+  width: 4.75vw;
+  height: 2vw;
+  font-size: 1vw;
+  line-height: 2vw;
+  background: cyan;
+  visibility: visible;
+}
+.balls label:hover {
+  background: blue;
+  color: white;
+}
+[id^="b-"]:checked ~ .balls {
+  box-shadow: none;
+}
+#b-30:checked ~ .balls [for="b-30"],
+#b-31:checked ~ .balls [for="b-31"],
+#b-32:checked ~ .balls [for="b-32"],
+#b-33:checked ~ .balls [for="b-33"],
+#b-34:checked ~ .balls [for="b-34"],
+#b-35:checked ~ .balls [for="b-35"],
+#b-36:checked ~ .balls [for="b-36"],
+#b-37:checked ~ .balls [for="b-37"],
+#b-38:checked ~ .balls [for="b-38"],
+#b-39:checked ~ .balls [for="b-39"],
+#b-40:checked ~ .balls [for="b-40"],
+#b-41:checked ~ .balls [for="b-41"],
+#b-42:checked ~ .balls [for="b-42"],
+#b-43:checked ~ .balls [for="b-43"],
+#b-44:checked ~ .balls [for="b-44"],
+#b-45:checked ~ .balls [for="b-45"],
+#b-46:checked ~ .balls [for="b-46"],
+#b-47:checked ~ .balls [for="b-47"],
+#b-48:checked ~ .balls [for="b-48"],
+#b-49:checked ~ .balls [for="b-49"],
+#b-50:checked ~ .balls [for="b-50"],
+#b-51:checked ~ .balls [for="b-51"],
+#b-52:checked ~ .balls [for="b-52"],
+#b-53:checked ~ .balls [for="b-53"],
+#b-54:checked ~ .balls [for="b-54"],
+#b-55:checked ~ .balls [for="b-55"],
+#b-56:checked ~ .balls [for="b-56"],
+#b-57:checked ~ .balls [for="b-57"],
+#b-58:checked ~ .balls [for="b-58"],
+#b-59:checked ~ .balls [for="b-59"] {
+  display: block;
+}
+[id^="n-"]:checked + input:checked ~ [id^="b-"]:checked ~ [for="stop"] {
+  visibility: visible;
+}
+#stop:checked ~ .machine {
+  box-shadow: 0 0 5px 5px red;
+}
+#stop:checked ~ .machine .shuffle,
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine div {
+  animation-play-state: paused;
+}
+#stop:checked ~ .machine label {
+  pointer-events: auto;
+}
+#stop:checked ~ [for="stop"] {
+  visibility: hidden;
+}
+[id^="n-"]:checked + input + label {
+  visibility: visible;
+  transform: scale(1);
+}
+[id^="c-"]:checked + label {
+  position: static;
+  float: left;
+  margin-top: 15vw;
+  margin-right: 1vw;
+  visibility: visible;
+  pointer-events: none;
+  transform: scale(1);
+}
+[id^="b-"]:checked ~ .balls label,
+#c-1:checked ~ .machine [for="n-1"],
+#c-2:checked ~ .machine [for="n-2"],
+#c-3:checked ~ .machine [for="n-3"],
+#c-4:checked ~ .machine [for="n-4"],
+#c-5:checked ~ .machine [for="n-5"],
+#c-6:checked ~ .machine [for="n-6"],
+#c-7:checked ~ .machine [for="n-7"],
+#c-8:checked ~ .machine [for="n-8"],
+#c-9:checked ~ .machine [for="n-9"],
+#c-10:checked ~ .machine [for="n-10"],
+#c-11:checked ~ .machine [for="n-11"],
+#c-12:checked ~ .machine [for="n-12"],
+#c-13:checked ~ .machine [for="n-13"],
+#c-14:checked ~ .machine [for="n-14"],
+#c-15:checked ~ .machine [for="n-15"],
+#c-16:checked ~ .machine [for="n-16"],
+#c-17:checked ~ .machine [for="n-17"],
+#c-18:checked ~ .machine [for="n-18"],
+#c-19:checked ~ .machine [for="n-19"],
+#c-20:checked ~ .machine [for="n-20"],
+#c-21:checked ~ .machine [for="n-21"],
+#c-22:checked ~ .machine [for="n-22"],
+#c-23:checked ~ .machine [for="n-23"],
+#c-24:checked ~ .machine [for="n-24"],
+#c-25:checked ~ .machine [for="n-25"],
+#c-26:checked ~ .machine [for="n-26"],
+#c-27:checked ~ .machine [for="n-27"],
+#c-28:checked ~ .machine [for="n-28"],
+#c-29:checked ~ .machine [for="n-29"],
+#c-30:checked ~ .machine [for="n-30"],
+#c-31:checked ~ .machine [for="n-31"],
+#c-32:checked ~ .machine [for="n-32"],
+#c-33:checked ~ .machine [for="n-33"],
+#c-34:checked ~ .machine [for="n-34"],
+#c-35:checked ~ .machine [for="n-35"],
+#c-36:checked ~ .machine [for="n-36"],
+#c-37:checked ~ .machine [for="n-37"],
+#c-38:checked ~ .machine [for="n-38"],
+#c-39:checked ~ .machine [for="n-39"],
+#c-40:checked ~ .machine [for="n-40"],
+#c-41:checked ~ .machine [for="n-41"],
+#c-42:checked ~ .machine [for="n-42"],
+#c-43:checked ~ .machine [for="n-43"],
+#c-44:checked ~ .machine [for="n-44"],
+#c-45:checked ~ .machine [for="n-45"],
+#c-46:checked ~ .machine [for="n-46"],
+#c-47:checked ~ .machine [for="n-47"],
+#c-48:checked ~ .machine [for="n-48"],
+#c-49:checked ~ .machine [for="n-49"],
+#c-50:checked ~ .machine [for="n-50"],
+#c-51:checked ~ .machine [for="n-51"],
+#c-52:checked ~ .machine [for="n-52"],
+#c-53:checked ~ .machine [for="n-53"],
+#c-54:checked ~ .machine [for="n-54"],
+#c-55:checked ~ .machine [for="n-55"],
+#c-56:checked ~ .machine [for="n-56"],
+#c-57:checked ~ .machine [for="n-57"],
+#c-58:checked ~ .machine [for="n-58"],
+#c-59:checked ~ .machine [for="n-59"],
+#b-30:checked ~ .machine [for="n-30"] ~ label,
+#b-31:checked ~ .machine [for="n-31"] ~ label,
+#b-32:checked ~ .machine [for="n-32"] ~ label,
+#b-33:checked ~ .machine [for="n-33"] ~ label,
+#b-34:checked ~ .machine [for="n-34"] ~ label,
+#b-35:checked ~ .machine [for="n-35"] ~ label,
+#b-36:checked ~ .machine [for="n-36"] ~ label,
+#b-37:checked ~ .machine [for="n-37"] ~ label,
+#b-38:checked ~ .machine [for="n-38"] ~ label,
+#b-39:checked ~ .machine [for="n-39"] ~ label,
+#b-40:checked ~ .machine [for="n-40"] ~ label,
+#b-41:checked ~ .machine [for="n-41"] ~ label,
+#b-42:checked ~ .machine [for="n-42"] ~ label,
+#b-43:checked ~ .machine [for="n-43"] ~ label,
+#b-44:checked ~ .machine [for="n-44"] ~ label,
+#b-45:checked ~ .machine [for="n-45"] ~ label,
+#b-46:checked ~ .machine [for="n-46"] ~ label,
+#b-47:checked ~ .machine [for="n-47"] ~ label,
+#b-48:checked ~ .machine [for="n-48"] ~ label,
+#b-49:checked ~ .machine [for="n-49"] ~ label,
+#b-50:checked ~ .machine [for="n-50"] ~ label,
+#b-51:checked ~ .machine [for="n-51"] ~ label,
+#b-52:checked ~ .machine [for="n-52"] ~ label,
+#b-53:checked ~ .machine [for="n-53"] ~ label,
+#b-54:checked ~ .machine [for="n-54"] ~ label,
+#b-55:checked ~ .machine [for="n-55"] ~ label,
+#b-56:checked ~ .machine [for="n-56"] ~ label,
+#b-57:checked ~ .machine [for="n-57"] ~ label,
+#b-58:checked ~ .machine [for="n-58"] ~ label,
+#b-59:checked ~ .machine [for="n-59"] ~ label {
+  display: none;
+}
+#b-30:checked ~ .machine .shuffle {
+  --balls: 30;
+}
+#b-31:checked ~ .machine .shuffle {
+  --balls: 31;
+}
+#b-32:checked ~ .machine .shuffle {
+  --balls: 32;
+}
+#b-33:checked ~ .machine .shuffle {
+  --balls: 33;
+}
+#b-34:checked ~ .machine .shuffle {
+  --balls: 34;
+}
+#b-35:checked ~ .machine .shuffle {
+  --balls: 35;
+}
+#b-36:checked ~ .machine .shuffle {
+  --balls: 36;
+}
+#b-37:checked ~ .machine .shuffle {
+  --balls: 37;
+}
+#b-38:checked ~ .machine .shuffle {
+  --balls: 38;
+}
+#b-39:checked ~ .machine .shuffle {
+  --balls: 39;
+}
+#b-40:checked ~ .machine .shuffle {
+  --balls: 40;
+}
+#b-41:checked ~ .machine .shuffle {
+  --balls: 41;
+}
+#b-42:checked ~ .machine .shuffle {
+  --balls: 42;
+}
+#b-43:checked ~ .machine .shuffle {
+  --balls: 43;
+}
+#b-44:checked ~ .machine .shuffle {
+  --balls: 44;
+}
+#b-45:checked ~ .machine .shuffle {
+  --balls: 45;
+}
+#b-46:checked ~ .machine .shuffle {
+  --balls: 46;
+}
+#b-47:checked ~ .machine .shuffle {
+  --balls: 47;
+}
+#b-48:checked ~ .machine .shuffle {
+  --balls: 48;
+}
+#b-49:checked ~ .machine .shuffle {
+  --balls: 49;
+}
+#b-50:checked ~ .machine .shuffle {
+  --balls: 50;
+}
+#b-51:checked ~ .machine .shuffle {
+  --balls: 51;
+}
+#b-52:checked ~ .machine .shuffle {
+  --balls: 52;
+}
+#b-53:checked ~ .machine .shuffle {
+  --balls: 53;
+}
+#b-54:checked ~ .machine .shuffle {
+  --balls: 54;
+}
+#b-55:checked ~ .machine .shuffle {
+  --balls: 55;
+}
+#b-56:checked ~ .machine .shuffle {
+  --balls: 56;
+}
+#b-57:checked ~ .machine .shuffle {
+  --balls: 57;
+}
+#b-58:checked ~ .machine .shuffle {
+  --balls: 58;
+}
+#b-59:checked ~ .machine .shuffle {
+  --balls: 59;
+}
+[id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 1;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 2;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 3;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 4;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 5;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 6;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .shuffle {
+  --picked: 7;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [for="stop"] {
+  display: none;
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .machine .spin {
+  top: 100%;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.spin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 10vw;
+  height: 10vw;
+  background: cyan;
+  border-radius: 50%;
+  animation: spin 1.6s linear infinite;
+  transition: top 1s linear;
+}
+@keyframes ball {
+  50% {
+    transform: rotate(var(--rot)) translateY(9vw);
+  }
+}
+.ball {
+  --rot: 0deg;
+  position: absolute;
+  left: 5vw;
+  width: 1vw;
+  height: 1vw;
+  background: blue;
+  border-radius: 50%;
+  transform-origin: 0 5vw;
+  transform: rotate(var(--rot));
+  animation: ball 0.4s linear infinite;
+}
+.ball:nth-of-type(2) {
+  --rot: 10deg;
+  animation-duration: 0.5s;
+}
+.ball:nth-of-type(3) {
+  --rot: 20deg;
+  animation-duration: 0.9s;
+}
+.ball:nth-of-type(4) {
+  --rot: 30deg;
+  animation-duration: 0.6s;
+}
+.ball:nth-of-type(5) {
+  --rot: 40deg;
+  animation-duration: 0.8s;
+}
+.ball:nth-of-type(6) {
+  --rot: 50deg;
+  animation-duration: 0.7s;
+}
+.ball:nth-of-type(7) {
+  --rot: 60deg;
+  animation-duration: 1s;
+}
+.ball:nth-of-type(8) {
+  --rot: 70deg;
+  animation-duration: 0.9s;
+}
+.ball:nth-of-type(9) {
+  --rot: 80deg;
+  animation-duration: 0.5s;
+}
+.ball:nth-of-type(10) {
+  --rot: 90deg;
+  animation-duration: 0.7s;
+}
+.ball:nth-of-type(11) {
+  --rot: 100deg;
+  animation-duration: 0.6s;
+}
+.ball:nth-of-type(12) {
+  --rot: 110deg;
+  animation-duration: 0.8s;
+}
+.ball:nth-of-type(13) {
+  --rot: 120deg;
+  animation-duration: 0.4s;
+}
+.ball:nth-of-type(14) {
+  --rot: 130deg;
+  animation-duration: 0.5s;
+}
+.ball:nth-of-type(15) {
+  --rot: 140deg;
+  animation-duration: 0.4s;
+}
+.ball:nth-of-type(16) {
+  --rot: 150deg;
+  animation-duration: 0.7s;
+}
+.ball:nth-of-type(17) {
+  --rot: 160deg;
+  animation-duration: 0.8s;
+}
+.ball:nth-of-type(18) {
+  --rot: 170deg;
+  animation-duration: 0.9s;
+}
+.msg {
+  position: absolute;
+  left: 40vw;
+  top: 3vw;
+  font-family: sans-serif;
+  font-size: 1.5vw;
+  background: white;
+  color: #333;
+  padding: 1vw;
+  border-radius: 1vw;
+}
+[id^="n-"]:checked + input:checked ~ [id^="b-"]:checked ~ .msg:before {
+  content: "Click to draw a new ball";
+}
+#stop:checked ~ .msg:before {
+  content: "Click the machine for the new ball";
+}
+[id^="n-"]:checked ~ .msg:before {
+  content: "Click the new number to continue";
+}
+[id="n-0"]:checked ~ .msg:before {
+  content: "Choose the number of balls from the list";
+}
+[id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .msg:before {
+  content: "Good luck! Press Reset to start again";
+}
+</style>
+<form>
+<input type="reset" id="reset" />
+<input type="radio" tabindex="-1" name="numbers" id="n-0" checked="checked" />
+<input type="checkbox" tabindex="-1" checked="checked" />
+<input type="radio" tabindex="-1" name="numbers" id="n-1" />
+<input type="checkbox" tabindex="-1" id="c-1" />
+<label for="c-1">1</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-2" />
+<input type="checkbox" tabindex="-1" id="c-2" />
+<label for="c-2">2</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-3" />
+<input type="checkbox" tabindex="-1" id="c-3" />
+<label for="c-3">3</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-4" />
+<input type="checkbox" tabindex="-1" id="c-4" />
+<label for="c-4">4</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-5" />
+<input type="checkbox" tabindex="-1" id="c-5" />
+<label for="c-5">5</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-6" />
+<input type="checkbox" tabindex="-1" id="c-6" />
+<label for="c-6">6</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-7" />
+<input type="checkbox" tabindex="-1" id="c-7" />
+<label for="c-7">7</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-8" />
+<input type="checkbox" tabindex="-1" id="c-8" />
+<label for="c-8">8</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-9" />
+<input type="checkbox" tabindex="-1" id="c-9" />
+<label for="c-9">9</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-10" />
+<input type="checkbox" tabindex="-1" id="c-10" />
+<label for="c-10">10</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-11" />
+<input type="checkbox" tabindex="-1" id="c-11" />
+<label for="c-11">11</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-12" />
+<input type="checkbox" tabindex="-1" id="c-12" />
+<label for="c-12">12</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-13" />
+<input type="checkbox" tabindex="-1" id="c-13" />
+<label for="c-13">13</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-14" />
+<input type="checkbox" tabindex="-1" id="c-14" />
+<label for="c-14">14</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-15" />
+<input type="checkbox" tabindex="-1" id="c-15" />
+<label for="c-15">15</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-16" />
+<input type="checkbox" tabindex="-1" id="c-16" />
+<label for="c-16">16</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-17" />
+<input type="checkbox" tabindex="-1" id="c-17" />
+<label for="c-17">17</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-18" />
+<input type="checkbox" tabindex="-1" id="c-18" />
+<label for="c-18">18</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-19" />
+<input type="checkbox" tabindex="-1" id="c-19" />
+<label for="c-19">19</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-20" />
+<input type="checkbox" tabindex="-1" id="c-20" />
+<label for="c-20">20</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-21" />
+<input type="checkbox" tabindex="-1" id="c-21" />
+<label for="c-21">21</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-22" />
+<input type="checkbox" tabindex="-1" id="c-22" />
+<label for="c-22">22</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-23" />
+<input type="checkbox" tabindex="-1" id="c-23" />
+<label for="c-23">23</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-24" />
+<input type="checkbox" tabindex="-1" id="c-24" />
+<label for="c-24">24</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-25" />
+<input type="checkbox" tabindex="-1" id="c-25" />
+<label for="c-25">25</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-26" />
+<input type="checkbox" tabindex="-1" id="c-26" />
+<label for="c-26">26</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-27" />
+<input type="checkbox" tabindex="-1" id="c-27" />
+<label for="c-27">27</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-28" />
+<input type="checkbox" tabindex="-1" id="c-28" />
+<label for="c-28">28</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-29" />
+<input type="checkbox" tabindex="-1" id="c-29" />
+<label for="c-29">29</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-30" />
+<input type="checkbox" tabindex="-1" id="c-30" />
+<label for="c-30">30</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-31" />
+<input type="checkbox" tabindex="-1" id="c-31" />
+<label for="c-31">31</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-32" />
+<input type="checkbox" tabindex="-1" id="c-32" />
+<label for="c-32">32</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-33" />
+<input type="checkbox" tabindex="-1" id="c-33" />
+<label for="c-33">33</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-34" />
+<input type="checkbox" tabindex="-1" id="c-34" />
+<label for="c-34">34</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-35" />
+<input type="checkbox" tabindex="-1" id="c-35" />
+<label for="c-35">35</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-36" />
+<input type="checkbox" tabindex="-1" id="c-36" />
+<label for="c-36">36</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-37" />
+<input type="checkbox" tabindex="-1" id="c-37" />
+<label for="c-37">37</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-38" />
+<input type="checkbox" tabindex="-1" id="c-38" />
+<label for="c-38">38</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-39" />
+<input type="checkbox" tabindex="-1" id="c-39" />
+<label for="c-39">39</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-40" />
+<input type="checkbox" tabindex="-1" id="c-40" />
+<label for="c-40">40</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-41" />
+<input type="checkbox" tabindex="-1" id="c-41" />
+<label for="c-41">41</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-42" />
+<input type="checkbox" tabindex="-1" id="c-42" />
+<label for="c-42">42</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-43" />
+<input type="checkbox" tabindex="-1" id="c-43" />
+<label for="c-43">43</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-44" />
+<input type="checkbox" tabindex="-1" id="c-44" />
+<label for="c-44">44</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-45" />
+<input type="checkbox" tabindex="-1" id="c-45" />
+<label for="c-45">45</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-46" />
+<input type="checkbox" tabindex="-1" id="c-46" />
+<label for="c-46">46</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-47" />
+<input type="checkbox" tabindex="-1" id="c-47" />
+<label for="c-47">47</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-48" />
+<input type="checkbox" tabindex="-1" id="c-48" />
+<label for="c-48">48</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-49" />
+<input type="checkbox" tabindex="-1" id="c-49" />
+<label for="c-49">49</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-50" />
+<input type="checkbox" tabindex="-1" id="c-50" />
+<label for="c-50">50</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-51" />
+<input type="checkbox" tabindex="-1" id="c-51" />
+<label for="c-51">51</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-52" />
+<input type="checkbox" tabindex="-1" id="c-52" />
+<label for="c-52">52</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-53" />
+<input type="checkbox" tabindex="-1" id="c-53" />
+<label for="c-53">53</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-54" />
+<input type="checkbox" tabindex="-1" id="c-54" />
+<label for="c-54">54</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-55" />
+<input type="checkbox" tabindex="-1" id="c-55" />
+<label for="c-55">55</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-56" />
+<input type="checkbox" tabindex="-1" id="c-56" />
+<label for="c-56">56</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-57" />
+<input type="checkbox" tabindex="-1" id="c-57" />
+<label for="c-57">57</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-58" />
+<input type="checkbox" tabindex="-1" id="c-58" />
+<label for="c-58">58</label>
+<input type="radio" tabindex="-1" name="numbers" id="n-59" />
+<input type="checkbox" tabindex="-1" id="c-59" />
+<label for="c-59">59</label>
+<input type="radio" tabindex="-1" name="numbers" id="stop" />
+<input type="radio" tabindex="-1" name="balls" id="b-30" />
+<input type="radio" tabindex="-1" name="balls" id="b-31" />
+<input type="radio" tabindex="-1" name="balls" id="b-32" />
+<input type="radio" tabindex="-1" name="balls" id="b-33" />
+<input type="radio" tabindex="-1" name="balls" id="b-34" />
+<input type="radio" tabindex="-1" name="balls" id="b-35" />
+<input type="radio" tabindex="-1" name="balls" id="b-36" />
+<input type="radio" tabindex="-1" name="balls" id="b-37" />
+<input type="radio" tabindex="-1" name="balls" id="b-38" />
+<input type="radio" tabindex="-1" name="balls" id="b-39" />
+<input type="radio" tabindex="-1" name="balls" id="b-40" />
+<input type="radio" tabindex="-1" name="balls" id="b-41" />
+<input type="radio" tabindex="-1" name="balls" id="b-42" />
+<input type="radio" tabindex="-1" name="balls" id="b-43" />
+<input type="radio" tabindex="-1" name="balls" id="b-44" />
+<input type="radio" tabindex="-1" name="balls" id="b-45" />
+<input type="radio" tabindex="-1" name="balls" id="b-46" />
+<input type="radio" tabindex="-1" name="balls" id="b-47" />
+<input type="radio" tabindex="-1" name="balls" id="b-48" />
+<input type="radio" tabindex="-1" name="balls" id="b-49" />
+<input type="radio" tabindex="-1" name="balls" id="b-50" />
+<input type="radio" tabindex="-1" name="balls" id="b-51" />
+<input type="radio" tabindex="-1" name="balls" id="b-52" />
+<input type="radio" tabindex="-1" name="balls" id="b-53" />
+<input type="radio" tabindex="-1" name="balls" id="b-54" />
+<input type="radio" tabindex="-1" name="balls" id="b-55" />
+<input type="radio" tabindex="-1" name="balls" id="b-56" />
+<input type="radio" tabindex="-1" name="balls" id="b-57" />
+<input type="radio" tabindex="-1" name="balls" id="b-58" />
+<input type="radio" tabindex="-1" name="balls" id="b-59" />
+<label for="stop">Draw</label>
+<div class="balls">
+<div class="ballscroll">
+<label for="b-30">30</label>
+<label for="b-31">31</label>
+<label for="b-32">32</label>
+<label for="b-33">33</label>
+<label for="b-34">34</label>
+<label for="b-35">35</label>
+<label for="b-36">36</label>
+<label for="b-37">37</label>
+<label for="b-38">38</label>
+<label for="b-39">39</label>
+<label for="b-40">40</label>
+<label for="b-41">41</label>
+<label for="b-42">42</label>
+<label for="b-43">43</label>
+<label for="b-44">44</label>
+<label for="b-45">45</label>
+<label for="b-46">46</label>
+<label for="b-47">47</label>
+<label for="b-48">48</label>
+<label for="b-49">49</label>
+<label for="b-50">50</label>
+<label for="b-51">51</label>
+<label for="b-52">52</label>
+<label for="b-53">53</label>
+<label for="b-54">54</label>
+<label for="b-55">55</label>
+<label for="b-56">56</label>
+<label for="b-57">57</label>
+<label for="b-58">58</label>
+<label for="b-59">59</label>
+</div>
+</div>
+<div class="machine">
+<div class="spin">
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+<div class="ball"></div>
+</div>
+<div class="shuffle">
+<label for="n-1"></label>
+<label for="n-2"></label>
+<label for="n-3"></label>
+<label for="n-4"></label>
+<label for="n-5"></label>
+<label for="n-6"></label>
+<label for="n-7"></label>
+<label for="n-8"></label>
+<label for="n-9"></label>
+<label for="n-10"></label>
+<label for="n-11"></label>
+<label for="n-12"></label>
+<label for="n-13"></label>
+<label for="n-14"></label>
+<label for="n-15"></label>
+<label for="n-16"></label>
+<label for="n-17"></label>
+<label for="n-18"></label>
+<label for="n-19"></label>
+<label for="n-20"></label>
+<label for="n-21"></label>
+<label for="n-22"></label>
+<label for="n-23"></label>
+<label for="n-24"></label>
+<label for="n-25"></label>
+<label for="n-26"></label>
+<label for="n-27"></label>
+<label for="n-28"></label>
+<label for="n-29"></label>
+<label for="n-30"></label>
+<label for="n-31"></label>
+<label for="n-32"></label>
+<label for="n-33"></label>
+<label for="n-34"></label>
+<label for="n-35"></label>
+<label for="n-36"></label>
+<label for="n-37"></label>
+<label for="n-38"></label>
+<label for="n-39"></label>
+<label for="n-40"></label>
+<label for="n-41"></label>
+<label for="n-42"></label>
+<label for="n-43"></label>
+<label for="n-44"></label>
+<label for="n-45"></label>
+<label for="n-46"></label>
+<label for="n-47"></label>
+<label for="n-48"></label>
+<label for="n-49"></label>
+<label for="n-50"></label>
+<label for="n-51"></label>
+<label for="n-52"></label>
+<label for="n-53"></label>
+<label for="n-54"></label>
+<label for="n-55"></label>
+<label for="n-56"></label>
+<label for="n-57"></label>
+<label for="n-58"></label>
+<label for="n-59"></label>
+</div>
+</div>
+<p class="msg"></p>
+<label for="reset">Reset</label>
+</form>
