@@ -1,0 +1,804 @@
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<style>
+body,
+form {
+  margin: 0;
+  padding: 0;
+  background: darkgreen;
+}
+input {
+  display: none;
+}
+label {
+  display: block;
+  cursor: pointer;
+}
+.space,
+.card {
+  margin: 1vw;
+  border-radius: 2vw;
+}
+.space {
+  position: absolute;
+  width: 10vw;
+  height: 15vw;
+  background: slateblue;
+  border: 1vw white solid;
+  opacity: 0.2;
+  left: 0;
+}
+.space:nth-of-type(2) {
+  left: 14vw;
+}
+.space:nth-of-type(3) {
+  left: 28vw;
+}
+.space:nth-of-type(4) {
+  left: 42vw;
+}
+.space:nth-of-type(5) {
+  left: 56vw;
+}
+.space:nth-of-type(6) {
+  left: 70vw;
+}
+.space:nth-of-type(7) {
+  left: 84vw;
+}
+@keyframes flip {
+  100% {
+    transform: scaleX(1);
+  }
+}
+.card {
+  float: left;
+  width: 12vw;
+  height: 17vw;
+  position: relative;
+  display: none;
+  background: white;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  animation: flip 0.5s linear 1 forwards;
+}
+[data-suit="♣"]:before,
+[data-suit="♣"]:after,
+[data-suit="♠"]:before,
+[data-suit="♠"]:after {
+  color: black;
+}
+[data-suit="♦"]:before,
+[data-suit="♦"]:after,
+[data-suit="♥"]:before,
+[data-suit="♥"]:after {
+  color: red;
+}
+.card:before,
+.card:after {
+  content: attr(data-rank) attr(data-suit);
+  position: absolute;
+  left: 1vw;
+  top: 1vw;
+  font-size: 4vw;
+  text-transform: uppercase;
+}
+.card:after {
+  transform: rotate(180deg);
+  left: initial;
+  top: initial;
+  right: 1vw;
+  bottom: 1vw;
+}
+.pack,
+.deck {
+  position: absolute;
+  left: 43vw;
+  top: 20vw;
+  width: 10vw;
+  height: 15vw;
+  background: slateblue;
+  border: 1vw white solid;
+  border-radius: 2vw;
+  overflow: hidden;
+}
+@keyframes shuffle {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.shuffle {
+  position: absolute;
+  top: 0;
+  animation: shuffle 1s steps(52) infinite;
+}
+/* Credit to @finnhvman for this line */
+#reset ~ .deck:active .shuffle {
+  animation-play-state: paused;
+}
+.deck label {
+  width: 10vw;
+  height: 15vw;
+}
+.msg,
+.trouble,
+.deal,
+.hand {
+  position: absolute;
+  left: 15vw;
+  top: 20vw;
+  width: 26vw;
+  height: 3vw;
+  margin: 0;
+  background: white;
+  border-radius: 2vw;
+  text-align: center;
+  font-size: 2vw;
+  line-height: 3vw;
+}
+.trouble {
+  top: 24vw;
+  height: 7vw;
+  opacity: 0.2;
+  transition: opacity 1s linear;
+}
+.trouble:hover {
+  opacity: 1;
+}
+#clicks-1:checked ~ form .trouble [for="clicks-1"],
+#clicks-2:checked ~ form .trouble [for="clicks-2"] {
+  display: none;
+}
+.deal {
+  left: 57vw;
+  width: 12vw;
+}
+.hand {
+  left: 71vw;
+}
+[for="reset"],
+[for^="clicks-"] {
+  width: 12vw;
+  height: 3vw;
+  text-align: center;
+  font-size: 2vw;
+  line-height: 3vw;
+  background: orange;
+  border-radius: 2vw;
+}
+[for="reset"] {
+  position: absolute;
+  left: 1vw;
+  top: 20vw;
+}
+[for="reset"]:hover {
+  filter: brightness(1.5);
+}
+/* Some browsers have difficulty registering clicks on the moving labels.
+ * The next 70+ lines give us the option of clicking twice to deal cards.
+ */
+[for^="clicks-"] {
+  position: absolute;
+  right: 1vw;
+  width: 20vw;
+}
+[for^="click-"] {
+  display: none;
+  position: absolute;
+  top: 0;
+}
+#clicks-2:checked ~ form .deck [for="click-1"],
+#clicks-2:checked ~ form [id="click-1"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-2"],
+#clicks-2:checked ~ form [id="click-2"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-3"],
+#clicks-2:checked ~ form [id="click-3"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-4"],
+#clicks-2:checked ~ form [id="click-4"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-5"],
+#clicks-2:checked ~ form [id="click-5"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-6"],
+#clicks-2:checked ~ form [id="click-6"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-7"] {
+  display: block;
+}
+#clicks-2:checked ~ form #click-1:checked ~ .deck [for="click-1"],
+#clicks-2:checked ~ form #click-2:checked ~ .deck [for="click-2"],
+#clicks-2:checked ~ form #click-3:checked ~ .deck [for="click-3"],
+#clicks-2:checked ~ form #click-4:checked ~ .deck [for="click-4"],
+#clicks-2:checked ~ form #click-5:checked ~ .deck [for="click-5"],
+#clicks-2:checked ~ form #click-6:checked ~ .deck [for="click-6"],
+#clicks-2:checked ~ form #click-7:checked ~ .deck [for="click-7"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ .deck [for="click-1"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-2"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-3"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-4"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-5"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-6"],
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck [for="click-7"] {
+  display: none;
+}
+#clicks-2:checked ~ form [id="click-1"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-2"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-3"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-4"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-5"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-6"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id="click-7"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle {
+  animation-play-state: paused;
+}
+#clicks-2:checked ~ form [id="click-1"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-2"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-3"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-4"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-5"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-6"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-7"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck {
+  top: 20vw;
+}
+#clicks-2:checked ~ form [id="click-1"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-2"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-3"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-4"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-5"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-6"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck,
+#clicks-2:checked ~ form [id="click-7"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck {
+  top: 18.5vw;
+}
+#clicks-2:checked ~ form [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle,
+#clicks-2:checked ~ form [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ [id^="c-"]:checked ~ .deck .shuffle {
+  animation-play-state: running;
+}
+:checked + .card {
+  display: block;
+  animation-play-state: running;
+}
+/* What we could do with here are regex selectors:
+#c-(.-.):checked ~ .deck [for="c-\1"] {}
+*/
+#c-2-c:checked ~ .deck [for="c-2-c"] {
+  display: none;
+}
+#c-2-d:checked ~ .deck [for="c-2-d"] {
+  display: none;
+}
+#c-2-h:checked ~ .deck [for="c-2-h"] {
+  display: none;
+}
+#c-2-s:checked ~ .deck [for="c-2-s"] {
+  display: none;
+}
+#c-3-c:checked ~ .deck [for="c-3-c"] {
+  display: none;
+}
+#c-3-d:checked ~ .deck [for="c-3-d"] {
+  display: none;
+}
+#c-3-h:checked ~ .deck [for="c-3-h"] {
+  display: none;
+}
+#c-3-s:checked ~ .deck [for="c-3-s"] {
+  display: none;
+}
+#c-4-c:checked ~ .deck [for="c-4-c"] {
+  display: none;
+}
+#c-4-d:checked ~ .deck [for="c-4-d"] {
+  display: none;
+}
+#c-4-h:checked ~ .deck [for="c-4-h"] {
+  display: none;
+}
+#c-4-s:checked ~ .deck [for="c-4-s"] {
+  display: none;
+}
+#c-5-c:checked ~ .deck [for="c-5-c"] {
+  display: none;
+}
+#c-5-d:checked ~ .deck [for="c-5-d"] {
+  display: none;
+}
+#c-5-h:checked ~ .deck [for="c-5-h"] {
+  display: none;
+}
+#c-5-s:checked ~ .deck [for="c-5-s"] {
+  display: none;
+}
+#c-6-c:checked ~ .deck [for="c-6-c"] {
+  display: none;
+}
+#c-6-d:checked ~ .deck [for="c-6-d"] {
+  display: none;
+}
+#c-6-h:checked ~ .deck [for="c-6-h"] {
+  display: none;
+}
+#c-6-s:checked ~ .deck [for="c-6-s"] {
+  display: none;
+}
+#c-7-c:checked ~ .deck [for="c-7-c"] {
+  display: none;
+}
+#c-7-d:checked ~ .deck [for="c-7-d"] {
+  display: none;
+}
+#c-7-h:checked ~ .deck [for="c-7-h"] {
+  display: none;
+}
+#c-7-s:checked ~ .deck [for="c-7-s"] {
+  display: none;
+}
+#c-8-c:checked ~ .deck [for="c-8-c"] {
+  display: none;
+}
+#c-8-d:checked ~ .deck [for="c-8-d"] {
+  display: none;
+}
+#c-8-h:checked ~ .deck [for="c-8-h"] {
+  display: none;
+}
+#c-8-s:checked ~ .deck [for="c-8-s"] {
+  display: none;
+}
+#c-9-c:checked ~ .deck [for="c-9-c"] {
+  display: none;
+}
+#c-9-d:checked ~ .deck [for="c-9-d"] {
+  display: none;
+}
+#c-9-h:checked ~ .deck [for="c-9-h"] {
+  display: none;
+}
+#c-9-s:checked ~ .deck [for="c-9-s"] {
+  display: none;
+}
+#c-t-c:checked ~ .deck [for="c-t-c"] {
+  display: none;
+}
+#c-t-d:checked ~ .deck [for="c-t-d"] {
+  display: none;
+}
+#c-t-h:checked ~ .deck [for="c-t-h"] {
+  display: none;
+}
+#c-t-s:checked ~ .deck [for="c-t-s"] {
+  display: none;
+}
+#c-j-c:checked ~ .deck [for="c-j-c"] {
+  display: none;
+}
+#c-j-d:checked ~ .deck [for="c-j-d"] {
+  display: none;
+}
+#c-j-h:checked ~ .deck [for="c-j-h"] {
+  display: none;
+}
+#c-j-s:checked ~ .deck [for="c-j-s"] {
+  display: none;
+}
+#c-q-c:checked ~ .deck [for="c-q-c"] {
+  display: none;
+}
+#c-q-d:checked ~ .deck [for="c-q-d"] {
+  display: none;
+}
+#c-q-h:checked ~ .deck [for="c-q-h"] {
+  display: none;
+}
+#c-q-s:checked ~ .deck [for="c-q-s"] {
+  display: none;
+}
+#c-k-c:checked ~ .deck [for="c-k-c"] {
+  display: none;
+}
+#c-k-d:checked ~ .deck [for="c-k-d"] {
+  display: none;
+}
+#c-k-h:checked ~ .deck [for="c-k-h"] {
+  display: none;
+}
+#c-k-s:checked ~ .deck [for="c-k-s"] {
+  display: none;
+}
+#c-a-c:checked ~ .deck [for="c-a-c"] {
+  display: none;
+}
+#c-a-d:checked ~ .deck [for="c-a-d"] {
+  display: none;
+}
+#c-a-h:checked ~ .deck [for="c-a-h"] {
+  display: none;
+}
+#c-a-s:checked ~ .deck [for="c-a-s"] {
+  display: none;
+}
+[id^="c-"]:checked ~ .deck .shuffle {
+  animation-timing-function: steps(51);
+}
+[id^="c-"]:checked ~ :checked ~ .deck .shuffle {
+  animation-timing-function: steps(50);
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ .deck .shuffle {
+  animation-timing-function: steps(49);
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ .deck .shuffle {
+  animation-timing-function: steps(48);
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deck .shuffle {
+  animation-timing-function: steps(47);
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deck .shuffle {
+  animation-timing-function: steps(46);
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deck .shuffle {
+  animation-play-state: paused;
+  visibility: hidden;
+}
+.msg:before {
+  content: "Click the pack for a new card";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .msg:before {
+  content: "";
+}
+.deal:before {
+  content: "Hole 1";
+}
+[id^="c-"]:checked ~ .deal:before {
+  content: "Hole 2";
+}
+[id^="c-"]:checked ~ :checked ~ .deal:before {
+  content: "Flop 1";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ .deal:before {
+  content: "Flop 2";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ .deal:before {
+  content: "Flop 3";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deal:before {
+  content: "Turn";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deal:before {
+  content: "River";
+}
+[id^="c-"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ .deal:before {
+  content: "";
+}
+[id^="c-2-"]:checked ~ .hand:before {
+  content: "2 High";
+}
+[id^="c-3-"]:checked ~ .hand:before {
+  content: "3 High";
+}
+[id^="c-4-"]:checked ~ .hand:before {
+  content: "4 High";
+}
+[id^="c-5-"]:checked ~ .hand:before {
+  content: "5 High";
+}
+[id^="c-6-"]:checked ~ .hand:before {
+  content: "6 High";
+}
+[id^="c-7-"]:checked ~ .hand:before {
+  content: "7 High";
+}
+[id^="c-8-"]:checked ~ .hand:before {
+  content: "8 High";
+}
+[id^="c-9-"]:checked ~ .hand:before {
+  content: "9 High";
+}
+[id^="c-t-"]:checked ~ .hand:before {
+  content: "Ten High";
+}
+[id^="c-j-"]:checked ~ .hand:before {
+  content: "Jack High";
+}
+[id^="c-q-"]:checked ~ .hand:before {
+  content: "Queen High";
+}
+[id^="c-k-"]:checked ~ .hand:before {
+  content: "King High";
+}
+[id^="c-a-"]:checked ~ .hand:before {
+  content: "Ace High";
+}
+:checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before {
+  content: "Pair";
+}
+:checked + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before {
+  content: "2 Pair";
+}
+:checked + div + :checked + div + :checked ~ .hand:before,
+:checked + div + :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked + div + :checked ~ .hand:before {
+  content: "3 of a Kind";
+}
+[id^="c-2-"]:checked ~ [id^="c-3-"]:checked ~ [id^="c-4-"]:checked ~ [id^="c-5-"]:checked ~ [id^="c-6-"]:checked ~ .hand:before,
+[id^="c-3-"]:checked ~ [id^="c-4-"]:checked ~ [id^="c-5-"]:checked ~ [id^="c-6-"]:checked ~ [id^="c-7-"]:checked ~ .hand:before,
+[id^="c-4-"]:checked ~ [id^="c-5-"]:checked ~ [id^="c-6-"]:checked ~ [id^="c-7-"]:checked ~ [id^="c-8-"]:checked ~ .hand:before,
+[id^="c-5-"]:checked ~ [id^="c-6-"]:checked ~ [id^="c-7-"]:checked ~ [id^="c-8-"]:checked ~ [id^="c-9-"]:checked ~ .hand:before,
+[id^="c-6-"]:checked ~ [id^="c-7-"]:checked ~ [id^="c-8-"]:checked ~ [id^="c-9-"]:checked ~ [id^="c-t-"]:checked ~ .hand:before,
+[id^="c-7-"]:checked ~ [id^="c-8-"]:checked ~ [id^="c-9-"]:checked ~ [id^="c-t-"]:checked ~ [id^="c-j-"]:checked ~ .hand:before,
+[id^="c-8-"]:checked ~ [id^="c-9-"]:checked ~ [id^="c-t-"]:checked ~ [id^="c-j-"]:checked ~ [id^="c-q-"]:checked ~ .hand:before,
+[id^="c-9-"]:checked ~ [id^="c-t-"]:checked ~ [id^="c-j-"]:checked ~ [id^="c-q-"]:checked ~ [id^="c-k-"]:checked ~ .hand:before,
+[id^="c-t-"]:checked ~ [id^="c-j-"]:checked ~ [id^="c-q-"]:checked ~ [id^="c-k-"]:checked ~ [id^="c-a-"]:checked ~ .hand:before,
+[id^="c-2-"]:checked ~ [id^="c-3-"]:checked ~ [id^="c-4-"]:checked ~ [id^="c-5-"]:checked ~ [id^="c-a-"]:checked ~ .hand:before {
+  content: "Straight";
+}
+[type="hidden"] + div + :checked ~ [type="hidden"] + div + :checked ~ [type="hidden"] + div + :checked ~ [type="hidden"] + div + :checked ~ [type="hidden"] + div + :checked ~ .hand:before,
+[type="hidden"] + div + input + div + :checked ~ [type="hidden"] + div + input + div + :checked ~ [type="hidden"] + div + input + div + :checked ~ [type="hidden"] + div + input + div + :checked ~ [type="hidden"] + div + input + div + :checked ~ .hand:before,
+[type="hidden"] + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + :checked ~ .hand:before,
+[type="hidden"] + div + input + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + input + div + :checked ~ [type="hidden"] + div + input + div + input + div + input + div + :checked ~ .hand:before {
+  content: "Flush";
+}
+:checked + div + :checked ~ :checked + div + :checked + div + :checked ~ .hand:before,
+:checked + div + :checked ~ :checked + div + :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked + div + :checked ~ .hand:before,
+:checked + div + :checked + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + :checked + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + :checked + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + :checked + div + [type="checkbox"] + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + :checked + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + :checked + div + [type="checkbox"] + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked + div + :checked ~ :checked + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked + div + :checked ~ :checked + div + [type="checkbox"] + div + :checked ~ .hand:before,
+:checked + div + [type="checkbox"] + div + :checked + div + :checked ~ :checked + div + [type="checkbox"] + div + [type="checkbox"] + div + :checked ~ .hand:before {
+  content: "Full House";
+}
+#reset ~ :checked + div + :checked + div + :checked + div + :checked ~ .hand:before {
+  content: "4 of a Kind";
+}
+#reset ~ :checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked ~ .hand:before,
+#reset ~ [id^="c-2-c"]:checked ~ [id^="c-3-c"]:checked ~ [id^="c-4-c"]:checked ~ [id^="c-5-c"]:checked ~ [id^="c-a-c"]:checked ~ .hand:before,
+#reset ~ [id^="c-2-d"]:checked ~ [id^="c-3-d"]:checked ~ [id^="c-4-d"]:checked ~ [id^="c-5-d"]:checked ~ [id^="c-a-d"]:checked ~ .hand:before,
+#reset ~ [id^="c-2-h"]:checked ~ [id^="c-3-h"]:checked ~ [id^="c-4-h"]:checked ~ [id^="c-5-h"]:checked ~ [id^="c-a-h"]:checked ~ .hand:before,
+#reset ~ [id^="c-2-s"]:checked ~ [id^="c-3-s"]:checked ~ [id^="c-4-s"]:checked ~ [id^="c-5-s"]:checked ~ [id^="c-a-s"]:checked ~ .hand:before {
+  content: "Straight Flush";
+}
+#reset ~ [id^="c-t-"]:checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked + div + input + div + input + div + input + div + input + div + :checked ~ .hand:before {
+  content: "Royal Flush";
+}
+</style>
+<input type="radio" tabindex="-1" name="clicks" id="clicks-1" checked="checked" />
+<input type="radio" tabindex="-1" name="clicks" id="clicks-2" />
+<form>
+<div class="space"></div>
+<div class="space"></div>
+<div class="space"></div>
+<div class="space"></div>
+<div class="space"></div>
+<div class="space"></div>
+<div class="space"></div>
+<input type="checkbox" tabindex="-1" id="click-1" />
+<input type="checkbox" tabindex="-1" id="click-2" />
+<input type="checkbox" tabindex="-1" id="click-3" />
+<input type="checkbox" tabindex="-1" id="click-4" />
+<input type="checkbox" tabindex="-1" id="click-5" />
+<input type="checkbox" tabindex="-1" id="click-6" />
+<input type="checkbox" tabindex="-1" id="click-7" />
+<input type="reset" tabindex="-1" id="reset" />
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-2-c" />
+<div class="card" data-rank="2" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-2-d" />
+<div class="card" data-rank="2" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-2-h" />
+<div class="card" data-rank="2" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-2-s" />
+<div class="card" data-rank="2" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-3-c" />
+<div class="card" data-rank="3" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-3-d" />
+<div class="card" data-rank="3" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-3-h" />
+<div class="card" data-rank="3" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-3-s" />
+<div class="card" data-rank="3" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-4-c" />
+<div class="card" data-rank="4" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-4-d" />
+<div class="card" data-rank="4" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-4-h" />
+<div class="card" data-rank="4" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-4-s" />
+<div class="card" data-rank="4" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-5-c" />
+<div class="card" data-rank="5" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-5-d" />
+<div class="card" data-rank="5" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-5-h" />
+<div class="card" data-rank="5" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-5-s" />
+<div class="card" data-rank="5" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-6-c" />
+<div class="card" data-rank="6" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-6-d" />
+<div class="card" data-rank="6" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-6-h" />
+<div class="card" data-rank="6" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-6-s" />
+<div class="card" data-rank="6" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-7-c" />
+<div class="card" data-rank="7" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-7-d" />
+<div class="card" data-rank="7" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-7-h" />
+<div class="card" data-rank="7" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-7-s" />
+<div class="card" data-rank="7" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-8-c" />
+<div class="card" data-rank="8" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-8-d" />
+<div class="card" data-rank="8" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-8-h" />
+<div class="card" data-rank="8" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-8-s" />
+<div class="card" data-rank="8" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-9-c" />
+<div class="card" data-rank="9" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-9-d" />
+<div class="card" data-rank="9" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-9-h" />
+<div class="card" data-rank="9" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-9-s" />
+<div class="card" data-rank="9" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-t-c" />
+<div class="card" data-rank="10" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-t-d" />
+<div class="card" data-rank="10" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-t-h" />
+<div class="card" data-rank="10" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-t-s" />
+<div class="card" data-rank="10" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-j-c" />
+<div class="card" data-rank="j" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-j-d" />
+<div class="card" data-rank="j" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-j-h" />
+<div class="card" data-rank="j" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-j-s" />
+<div class="card" data-rank="j" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-q-c" />
+<div class="card" data-rank="q" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-q-d" />
+<div class="card" data-rank="q" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-q-h" />
+<div class="card" data-rank="q" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-q-s" />
+<div class="card" data-rank="q" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-k-c" />
+<div class="card" data-rank="k" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-k-d" />
+<div class="card" data-rank="k" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-k-h" />
+<div class="card" data-rank="k" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-k-s" />
+<div class="card" data-rank="k" data-suit="♠"></div>
+<input type="hidden" />
+<div></div>
+<input type="checkbox" tabindex="-1" id="c-a-c" />
+<div class="card" data-rank="a" data-suit="♣"></div>
+<input type="checkbox" tabindex="-1" id="c-a-d" />
+<div class="card" data-rank="a" data-suit="♦"></div>
+<input type="checkbox" tabindex="-1" id="c-a-h" />
+<div class="card" data-rank="a" data-suit="♥"></div>
+<input type="checkbox" tabindex="-1" id="c-a-s" />
+<div class="card" data-rank="a" data-suit="♠"></div>
+<div class="pack"></div>
+<div class="deck">
+<div class="shuffle">
+<label for="c-2-c"></label>
+<label for="c-2-d"></label>
+<label for="c-2-h"></label>
+<label for="c-2-s"></label>
+<label for="c-3-c"></label>
+<label for="c-3-d"></label>
+<label for="c-3-h"></label>
+<label for="c-3-s"></label>
+<label for="c-4-c"></label>
+<label for="c-4-d"></label>
+<label for="c-4-h"></label>
+<label for="c-4-s"></label>
+<label for="c-5-c"></label>
+<label for="c-5-d"></label>
+<label for="c-5-h"></label>
+<label for="c-5-s"></label>
+<label for="c-6-c"></label>
+<label for="c-6-d"></label>
+<label for="c-6-h"></label>
+<label for="c-6-s"></label>
+<label for="c-7-c"></label>
+<label for="c-7-d"></label>
+<label for="c-7-h"></label>
+<label for="c-7-s"></label>
+<label for="c-8-c"></label>
+<label for="c-8-d"></label>
+<label for="c-8-h"></label>
+<label for="c-8-s"></label>
+<label for="c-9-c"></label>
+<label for="c-9-d"></label>
+<label for="c-9-h"></label>
+<label for="c-9-s"></label>
+<label for="c-t-c"></label>
+<label for="c-t-d"></label>
+<label for="c-t-h"></label>
+<label for="c-t-s"></label>
+<label for="c-j-c"></label>
+<label for="c-j-d"></label>
+<label for="c-j-h"></label>
+<label for="c-j-s"></label>
+<label for="c-q-c"></label>
+<label for="c-q-d"></label>
+<label for="c-q-h"></label>
+<label for="c-q-s"></label>
+<label for="c-k-c"></label>
+<label for="c-k-d"></label>
+<label for="c-k-h"></label>
+<label for="c-k-s"></label>
+<label for="c-a-c"></label>
+<label for="c-a-d"></label>
+<label for="c-a-h"></label>
+<label for="c-a-s"></label>
+</div>
+<label for="click-1"></label>
+<label for="click-2"></label>
+<label for="click-3"></label>
+<label for="click-4"></label>
+<label for="click-5"></label>
+<label for="click-6"></label>
+<label for="click-7"></label>
+</div>
+<p class="msg"></div>
+<p class="deal"></p>
+<p class="trouble" title="I have seen Firefox have difficulty selecting cards">
+Problems clicking the cards?
+<label for="clicks-1">Click Once to Deal</label>
+<label for="clicks-2">Click Twice to Deal</label>
+</p>
+<p class="hand"></p>
+<label for="reset">Reset</label>
+</form>
+</body>
+</html>
