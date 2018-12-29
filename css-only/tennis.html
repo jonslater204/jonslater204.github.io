@@ -1,0 +1,2340 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: grey;
+}
+form {
+  margin: 0;
+  padding: 0;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+.stadium {
+  position: relative;
+  width: 100vmin;
+  height: 80vmin;
+  margin: 0 auto;
+  background: darkgreen;
+}
+.court {
+  perspective: 20vmin;
+  perspective-origin: 50% 100%;
+}
+table {
+  margin: 0 auto;
+  background: green;
+  border-collapse: collapse;
+  border-top: 1vmin white solid;
+  border-left: 1vmin white solid;
+  transform: scale(2) rotateX(20deg);
+  transform-origin: 50% 100%;
+}
+td {
+  margin: 0;
+  padding: 0;
+  border-right: 1vmin white solid;
+  border-bottom: 1vmin white solid;
+}
+tr:nth-of-type(2n+1) td {
+  width: 27vmin;
+  height: 18vmin;
+}
+tr:nth-of-type(1) td:nth-of-type(2n+1) {
+  width: 9vmin;
+  height: 78vmin;
+}
+.play {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform-origin: 50% 50%;
+}
+.net {
+  position: absolute;
+  width: 60vmin;
+  height: 7vmin;
+  left: 19vmin;
+  top: 27vmin;
+  background: rgba(255, 255, 255, 0.5);
+  border-top: 0.5vmin white solid;
+  border-left: 1vmin darkslategrey solid;
+  border-right: 1vmin darkslategrey solid;
+}
+.umpire {
+  position: absolute;
+  width: 10vmin;
+  height: 22vmin;
+  left: 85vmin;
+  top: 13vmin;
+  transform-origin: -35vmin 50%;
+}
+.chair {
+  position: absolute;
+  left: 0;
+  top: 2vmin;
+  height: 0;
+  border-top: transparent 20vmin solid;
+  border-right: darkslategrey 10vmin solid;
+}
+.head {
+  position: absolute;
+  width: 4vmin;
+  height: 5vmin;
+  left: 6vmin;
+  top: 0;
+  background: brown;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.head:before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #fc9;
+}
+@keyframes watch1 {
+  0% {
+    transform: scaleX(1);
+    background: #fc9;
+  }
+  20% {
+    transform: scaleX(0);
+    background: #fc9;
+  }
+  21% {
+    background: brown;
+  }
+  40% {
+    transform: scaleX(0.9);
+    background: brown;
+  }
+  50% {
+    transform: scaleX(0);
+    background: brown;
+  }
+  51% {
+    background: #fc9;
+  }
+  60% {
+    transform: scaleX(0.75);
+    background: #fc9;
+  }
+  100% {
+    transform: scaleX(0.9);
+    background: #fc9;
+  }
+}
+@keyframes watch2 {
+  0% {
+    transform: scaleX(1);
+    background: #fc9;
+  }
+  20% {
+    transform: scaleX(0);
+    background: #fc9;
+  }
+  21% {
+    background: brown;
+  }
+  40% {
+    transform: scaleX(0.9);
+    background: brown;
+  }
+  50% {
+    transform: scaleX(0);
+    background: brown;
+  }
+  51% {
+    background: #fc9;
+  }
+  60% {
+    transform: scaleX(0.75);
+    background: #fc9;
+  }
+  100% {
+    transform: scaleX(0.9);
+    background: #fc9;
+  }
+}
+@keyframes watch3 {
+  0% {
+    transform: scaleX(1);
+    background: #fc9;
+  }
+  20% {
+    transform: scaleX(0);
+    background: #fc9;
+  }
+  21% {
+    background: brown;
+  }
+  40% {
+    transform: scaleX(0.9);
+    background: brown;
+  }
+  50% {
+    transform: scaleX(0);
+    background: brown;
+  }
+  51% {
+    background: #fc9;
+  }
+  60% {
+    transform: scaleX(0.75);
+    background: #fc9;
+  }
+  100% {
+    transform: scaleX(0.9);
+    background: #fc9;
+  }
+}
+.head:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #fc9;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  animation: null 5s linear forwards;
+}
+[id$="_s_1_w"]:checked ~ .stadium .head:after,
+[id$="_s_2"]:checked ~ .stadium .head:after,
+[id$="_s_3"]:checked ~ .stadium .head:after,
+[id$="_s_4"]:checked ~ .stadium .head:after,
+[id$="_s_5_w"]:checked ~ .stadium .head:after {
+  animation-name: watch1;
+}
+[id$="_s_6_w"]:checked ~ .stadium .head:after,
+[id$="_s_7"]:checked ~ .stadium .head:after,
+[id$="_s_8"]:checked ~ .stadium .head:after,
+[id$="_s_serve"]:checked ~ .stadium .head:after,
+[id$="_s_9"]:checked ~ .stadium .head:after,
+[id$="_s_10_w"]:checked ~ .stadium .head:after {
+  animation-name: watch2;
+}
+[id$="_s_11_w"]:checked ~ .stadium .head:after,
+[id$="_s_12"]:checked ~ .stadium .head:after,
+[id$="_s_13"]:checked ~ .stadium .head:after,
+[id$="_s_14"]:checked ~ .stadium .head:after,
+[id$="_s_15_w"]:checked ~ .stadium .head:after {
+  animation-name: watch3;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .head:after {
+  animation-delay: -2s;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ .stadium .head:after {
+  transform: scaleX(0.9);
+  background: brown;
+}
+/* Hovering these elements controls the player movement */
+.move {
+  position: absolute;
+  width: 10vmin;
+  height: 80vmin;
+  top: 0;
+  animation: null 5s linear;
+}
+/* Racquet animations allow shots to be played only when the ball is near the player */
+/* Each set of animations is initially set to a "0" animation.
+ * This means that when a reset button is triggered the animations can always be reset;
+ * if the animation-name is set to the same value it will not be restarted.
+ */
+@keyframes racquet0 {
+  80% {
+    z-index: auto;
+  }
+  81% {
+    z-index: -1;
+  }
+  97% {
+    z-index: auto;
+  }
+}
+@keyframes racquet1 {
+  80% {
+    z-index: auto;
+  }
+  81% {
+    z-index: -1;
+  }
+  97% {
+    z-index: auto;
+  }
+}
+@keyframes racquet2 {
+  80% {
+    z-index: auto;
+  }
+  81% {
+    z-index: -1;
+  }
+  97% {
+    z-index: auto;
+  }
+}
+@keyframes racquet3 {
+  80% {
+    z-index: auto;
+  }
+  81% {
+    z-index: -1;
+  }
+  97% {
+    z-index: auto;
+  }
+}
+/* There are 3 racquet animations and 3 places where the ball can be played.
+ * More could be easily added.
+ */
+/* At each place where shots can be played there are 5 possible labels to trigger. */
+.play label[for*="_s_"] {
+  position: absolute;
+  width: 2vmin;
+  height: 100%;
+  top: 0;
+  display: none;
+}
+[id^="1_p_"]:checked ~ .stadium .play [for^="1_s_"],
+[id^="2_p_"]:checked ~ .stadium .play [for^="2_s_"] {
+  display: block;
+}
+span.move:nth-of-type(2) {
+  left: 10vmin;
+}
+span.move:nth-of-type(3) {
+  left: 20vmin;
+}
+span.move:nth-of-type(4) {
+  left: 30vmin;
+}
+span.move:nth-of-type(5) {
+  left: 40vmin;
+}
+span.move:nth-of-type(6) {
+  left: 50vmin;
+}
+span.move:nth-of-type(7) {
+  left: 60vmin;
+}
+span.move:nth-of-type(8) {
+  left: 70vmin;
+}
+span.move:nth-of-type(9) {
+  left: 80vmin;
+}
+span.move:nth-of-type(10) {
+  left: 90vmin;
+}
+[for$="_s_1_w"] {
+  left: 20vmin;
+}
+[for$="_s_2"] {
+  left: 22vmin;
+}
+[for$="_s_3"] {
+  left: 24vmin;
+}
+[for$="_s_4"] {
+  left: 26vmin;
+}
+[for$="_s_5_w"] {
+  left: 28vmin;
+}
+[for$="_s_6_w"] {
+  left: 50vmin;
+}
+[for$="_s_7"] {
+  left: 52vmin;
+}
+[for$="_s_8"] {
+  left: 54vmin;
+}
+[for$="_s_9"] {
+  left: 56vmin;
+}
+[for$="_s_10_w"] {
+  left: 58vmin;
+}
+[for$="_s_11_w"] {
+  left: 70vmin;
+}
+[for$="_s_12"] {
+  left: 72vmin;
+}
+[for$="_s_13"] {
+  left: 74vmin;
+}
+[for$="_s_14"] {
+  left: 76vmin;
+}
+[for$="_s_15_w"] {
+  left: 78vmin;
+}
+span.move:nth-of-type(1):hover ~ .player {
+  transform: translate(0, 70vmin);
+}
+span.move:nth-of-type(2):hover ~ .player {
+  transform: translate(10vmin, 70vmin);
+}
+span.move:nth-of-type(3):hover ~ .player,
+[for$="_s_1_w"]:hover ~ .player,
+[for$="_s_2"]:hover ~ .player,
+[for$="_s_3"]:hover ~ .player,
+[for$="_s_4"]:hover ~ .player,
+[for$="_s_5_w"]:hover ~ .player {
+  transform: translate(20vmin, 70vmin);
+}
+span.move:nth-of-type(1):hover ~ .player .stance,
+span.move:nth-of-type(2):hover ~ .player .stance,
+span.move:nth-of-type(3):hover ~ .player .stance,
+span.move:nth-of-type(4):hover ~ .player .stance,
+span.move:nth-of-type(5):hover ~ .player .stance,
+[for$="_s_1_w"]:hover ~ .player .stance,
+[for$="_s_2"]:hover ~ .player .stance,
+[for$="_s_3"]:hover ~ .player .stance,
+[for$="_s_4"]:hover ~ .player .stance,
+[for$="_s_5_w"]:hover ~ .player .stance {
+  transform: scaleX(-1);
+}
+span.move:nth-of-type(4):hover ~ .player {
+  transform: translate(30vmin, 70vmin);
+}
+span.move:nth-of-type(5):hover ~ .player {
+  transform: translate(40vmin, 70vmin);
+}
+span.move:nth-of-type(6):hover ~ .player,
+[for$="_s_6_w"]:hover ~ .player,
+[for$="_s_7"]:hover ~ .player,
+[for$="_s_8"]:hover ~ .player,
+[for$="_s_serve"]:hover ~ .player,
+[for$="_s_9"]:hover ~ .player,
+[for$="_s_10_w"]:hover ~ .player {
+  transform: translate(50vmin, 70vmin);
+}
+span.move:nth-of-type(7):hover ~ .player {
+  transform: translate(60vmin, 70vmin);
+}
+span.move:nth-of-type(8):hover ~ .player,
+[for$="_s_11_w"]:hover ~ .player,
+[for$="_s_12"]:hover ~ .player,
+[for$="_s_13"]:hover ~ .player,
+[for$="_s_14"]:hover ~ .player,
+[for$="_s_15_w"]:hover ~ .player {
+  transform: translate(70vmin, 70vmin);
+}
+span.move:nth-of-type(9):hover ~ .player {
+  transform: translate(80vmin, 70vmin);
+}
+span.move:nth-of-type(10):hover ~ .player {
+  transform: translate(90vmin, 70vmin);
+}
+.player {
+  position: absolute;
+  width: 8vmin;
+  height: 2vmin;
+  left: 0;
+  top: 0;
+  transform: translate(50vmin, 70vmin);
+  transition: transform 0.2s linear;
+  pointer-events: none;
+  overflow: visible;
+}
+/* Stances allow us to flip the player graphics depending on the directions they face
+ * without interfering with their movement transformations.
+ */
+.stance {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border: 1vmin solid blue;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  transition: transform 0.2s linear;
+  overflow: visible;
+}
+.opponent .stance {
+  border: 0.75vmin solid red;
+}
+.stance:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 0;
+}
+.player .stance:before {
+  left: -6vmin;
+  border-top: 9vmin solid blue;
+  border-right: 6vmin solid transparent;
+}
+.stance:after {
+  content: "";
+  position: absolute;
+  width: 6vmin;
+  height: 7vmin;
+  background: brown;
+  border-radius: 50%;
+  top: -6vmin;
+}
+.player .stance:after {
+  left: -6vmin;
+}
+@keyframes opponent1 {
+  50% {
+    transform: translate(35vmin, 12vmin);
+  }
+  100% {
+    transform: translate(35vmin, 12vmin);
+  }
+}
+@keyframes opponent2 {
+  40% {
+    transform: translate(35vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent3 {
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent4 {
+  40% {
+    transform: translate(65vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent5 {
+  50% {
+    transform: translate(70vmin, 12vmin);
+  }
+  100% {
+    transform: translate(70vmin, 12vmin);
+  }
+}
+@keyframes opponent6 {
+  50% {
+    transform: translate(25vmin, 12vmin);
+  }
+  100% {
+    transform: translate(25vmin, 12vmin);
+  }
+}
+@keyframes opponent7 {
+  40% {
+    transform: translate(30vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent8 {
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent9 {
+  40% {
+    transform: translate(65vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent10 {
+  50% {
+    transform: translate(70vmin, 12vmin);
+  }
+  100% {
+    transform: translate(70vmin, 12vmin);
+  }
+}
+@keyframes opponent11 {
+  50% {
+    transform: translate(25vmin, 12vmin);
+  }
+  100% {
+    transform: translate(25vmin, 12vmin);
+  }
+}
+@keyframes opponent12 {
+  40% {
+    transform: translate(30vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent13 {
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent14 {
+  40% {
+    transform: translate(60vmin, 12vmin);
+  }
+  100% {
+    transform: translate(43vmin, 12vmin);
+  }
+}
+@keyframes opponent15 {
+  50% {
+    transform: translate(65vmin, 12vmin);
+  }
+  100% {
+    transform: translate(65vmin, 12vmin);
+  }
+}
+.opponent {
+  position: absolute;
+  width: 5vmin;
+  height: 1vmin;
+  left: 0;
+  top: 0;
+  transform: translate(43vmin, 12vmin);
+  animation: opponent8 5s linear forwards;
+  overflow: visible;
+}
+.opponent .stance {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  background: rgba(255, 255, 255, 0.5);
+  border: 0.75vmin solid red;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  transition: transform 0.2s linear;
+}
+.opponent .stance:before {
+  right: -3vmin;
+  border-top: 5vmin solid red;
+  border-left: 3vmin solid transparent;
+}
+.opponent .stance:after {
+  width: 3vmin;
+  height: 4vmin;
+  right: -3vmin;
+  top: -4vmin;
+  background: #fc9;
+}
+/* There is an matching opponent animation for each of the 15 shots */
+/* Shots ending "_w" are winners */
+[id$="_s_1_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent1;
+}
+[id$="_s_2"]:checked ~ .stadium .opponent {
+  animation-name: opponent2;
+}
+[id$="_s_3"]:checked ~ .stadium .opponent {
+  animation-name: opponent3;
+}
+[id$="_s_4"]:checked ~ .stadium .opponent {
+  animation-name: opponent4;
+}
+[id$="_s_4"]:checked ~ .stadium .opponent .stance,
+[id$="_s_5_w"]:checked ~ .stadium .opponent .stance,
+[id$="_s_9"]:checked ~ .stadium .opponent .stance,
+[id$="_s_10_w"]:checked ~ .stadium .opponent .stance,
+[id$="_s_14"]:checked ~ .stadium .opponent .stance,
+[id$="_s_15_w"]:checked ~ .stadium .opponent .stance {
+  transform: scaleX(-1);
+}
+[id$="_s_5_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent5;
+}
+[id$="_s_6_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent6;
+}
+[id$="_s_7"]:checked ~ .stadium .opponent {
+  animation-name: opponent7;
+}
+[id$="_s_8"]:checked ~ .stadium .opponent,
+[id$="_s_seve"]:checked ~ .stadium .opponent {
+  animation-name: opponent8;
+}
+/* For even numbered games, served by the opponent, the same animations can be used
+ * but starting when the ball is returned, 40% through the 5s duration.
+ */
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .opponent {
+  animation-delay: -2s;
+}
+[id*="_g_"]:nth-of-type(4n+2):checked ~ .stadium .umpire,
+[id*="_g_"]:nth-of-type(4n+3):checked ~ .stadium .umpire {
+  transform: scaleX(-1);
+}
+[id$="_s_9"]:checked ~ .stadium .opponent {
+  animation-name: opponent9;
+}
+[id$="_s_10_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent10;
+}
+[id$="_s_11_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent11;
+}
+[id$="_s_12"]:checked ~ .stadium .opponent {
+  animation-name: opponent12;
+}
+[id$="_s_13"]:checked ~ .stadium .opponent {
+  animation-name: opponent13;
+}
+[id$="_s_14"]:checked ~ .stadium .opponent {
+  animation-name: opponent14;
+}
+[id$="_s_15_w"]:checked ~ .stadium .opponent {
+  animation-name: opponent15;
+}
+.ball {
+  position: absolute;
+  width: 5vmin;
+  height: 5vmin;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  pointer-events: none;
+  transform: translate(52vmin, 65vmin);
+  animation: null 5s linear forwards;
+}
+/* Animating the ball separately from a pseudo element means the direction can be separate from the height */
+.ball:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: yellow;
+  border-radius: 50%;
+  animation: null 5s ease-out forwards;
+}
+@keyframes shot1 {
+  0% {
+    transform: translate(22vmin, 65vmin);
+  }
+  40% {
+    transform: translate(37vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(37vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes shot2 {
+  0% {
+    transform: translate(22vmin, 65vmin);
+  }
+  40% {
+    transform: translate(37vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(72vmin, 75vmin);
+  }
+}
+@keyframes shot3 {
+  0% {
+    transform: translate(22vmin, 65vmin);
+  }
+  40% {
+    transform: translate(45vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(52vmin, 75vmin);
+  }
+}
+@keyframes shot4 {
+  0% {
+    transform: translate(22vmin, 65vmin);
+  }
+  40% {
+    transform: translate(65vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(52vmin, 75vmin);
+  }
+}
+@keyframes shot5 {
+  0% {
+    transform: translate(22vmin, 65vmin);
+  }
+  40% {
+    transform: translate(80vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(80vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes shot6 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(25vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(25vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes shot7 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(33vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(25vmin, 75vmin);
+  }
+}
+@keyframes shot0 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(45vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(72vmin, 75vmin);
+  }
+}
+@keyframes shot8 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(45vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(72vmin, 75vmin);
+  }
+}
+@keyframes shot9 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(63vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(72vmin, 75vmin);
+  }
+}
+@keyframes shot10 {
+  0% {
+    transform: translate(52vmin, 65vmin);
+  }
+  40% {
+    transform: translate(67vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(67vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes shot11 {
+  0% {
+    transform: translate(72vmin, 65vmin);
+  }
+  40% {
+    transform: translate(17vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(17vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes shot12 {
+  0% {
+    transform: translate(72vmin, 65vmin);
+  }
+  40% {
+    transform: translate(30vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(52vmin, 75vmin);
+  }
+}
+@keyframes shot13 {
+  0% {
+    transform: translate(72vmin, 65vmin);
+  }
+  40% {
+    transform: translate(45vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(52vmin, 75vmin);
+  }
+}
+@keyframes shot14 {
+  0% {
+    transform: translate(72vmin, 65vmin);
+  }
+  40% {
+    transform: translate(60vmin, 20vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(22vmin, 75vmin);
+  }
+}
+@keyframes shot15 {
+  0% {
+    transform: translate(72vmin, 65vmin);
+  }
+  40% {
+    transform: translate(60vmin, 5vmin) scale(0.5);
+  }
+  100% {
+    transform: translate(60vmin, 5vmin) scale(0.5);
+  }
+}
+@keyframes bounce1 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+@keyframes bounce2 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce3 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce4 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce5 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+@keyframes bounce6 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+@keyframes bounce7 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce0 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce8 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce9 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce10 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+@keyframes bounce11 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+@keyframes bounce12 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce13 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce14 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  30% {
+    transform: translateY(0);
+  }
+  40% {
+    z-index: auto;
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  50% {
+    z-index: 2;
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(-10vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes bounce15 {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20vmin);
+    animation-timing-function: ease-in;
+  }
+  20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5vmin);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(-5vmin);
+  }
+}
+[id$="_s_1_w"]:checked ~ .stadium .ball {
+  animation-name: bounce1;
+}
+[id$="_s_1_w"]:checked ~ .stadium .ball:after {
+  animation-name: shot1;
+}
+[id$="_s_2"]:checked ~ .stadium .ball {
+  animation-name: bounce2;
+}
+[id$="_s_2"]:checked ~ .stadium .ball:after {
+  animation-name: shot2;
+}
+[id$="_s_3"]:checked ~ .stadium .ball {
+  animation-name: bounce3;
+}
+[id$="_s_3"]:checked ~ .stadium .ball:after {
+  animation-name: shot3;
+}
+[id$="_s_4"]:checked ~ .stadium .ball {
+  animation-name: bounce4;
+}
+[id$="_s_4"]:checked ~ .stadium .ball:after {
+  animation-name: shot4;
+}
+[id$="_s_5_w"]:checked ~ .stadium .ball {
+  animation-name: bounce5;
+}
+[id$="_s_5_w"]:checked ~ .stadium .ball:after {
+  animation-name: shot5;
+}
+[id$="_s_6_w"]:checked ~ .stadium .ball {
+  animation-name: bounce6;
+}
+[id$="_s_6_w"]:checked ~ .stadium .ball:after {
+  animation-name: shot6;
+}
+[id$="_s_7"]:checked ~ .stadium .ball {
+  animation-name: bounce7;
+}
+[id$="_s_7"]:checked ~ .stadium .ball:after {
+  animation-name: shot7;
+}
+[id$="_s_8"]:checked ~ .stadium .ball,
+[id$="_s_serve"]:checked ~ .stadium .ball {
+  animation-name: bounce8;
+}
+[id$="_1st_s_serve"]:checked ~ .stadium .ball {
+  animation-name: bounce0;
+}
+[id$="_s_8"]:checked ~ .stadium .ball:after,
+[id$="_s_serve"]:checked ~ .stadium .ball:after {
+  animation-name: shot8;
+}
+[id$="_1st_s_serve"]:checked ~ .stadium .ball:after {
+  animation-name: shot0;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .ball {
+  animation-delay: -2s;
+}
+/* When the opponent is serving we shall also give him the ball before the serve */
+[id*="_g_"]:nth-of-type(2n):checked ~ .stadium .ball {
+  transform: translate(45vmin, 10vmin) scale(0.5);
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .ball:after {
+  animation-delay: -2s;
+}
+[id$="_s_9"]:checked ~ .stadium .ball {
+  animation-name: bounce9;
+}
+[id$="_s_9"]:checked ~ .stadium .ball:after {
+  animation-name: shot9;
+}
+[id$="_s_10_w"]:checked ~.stadium  .ball {
+  animation-name: bounce10;
+}
+[id$="_s_10_w"]:checked ~.stadium  .ball:after {
+  animation-name: shot10;
+}
+[id$="_s_11_w"]:checked ~ .stadium .ball {
+  animation-name: bounce11;
+}
+[id$="_s_11_w"]:checked ~ .stadium .ball:after {
+  animation-name: shot11;
+}
+[id$="_s_12"]:checked ~ .stadium .ball {
+  animation-name: bounce12;
+}
+[id$="_s_12"]:checked ~ .stadium .ball:after {
+  animation-name: shot12;
+}
+[id$="_s_13"]:checked ~ .stadium .ball {
+  animation-name: bounce13;
+}
+[id$="_s_13"]:checked ~ .stadium .ball:after {
+  animation-name: shot13;
+}
+[id$="_s_14"]:checked ~ .stadium .ball {
+  animation-name: bounce14;
+}
+[id$="_s_14"]:checked ~ .stadium .ball:after {
+  animation-name: shot14;
+}
+[id$="_s_15_w"]:checked ~ .stadium .ball {
+  animation-name: bounce15;
+}
+[id$="_s_15_w"]:checked ~ .stadium .ball:after {
+  animation-name: shot15;
+}
+[id$="_1st_s_serve"]:checked ~ .stadium .play span:nth-of-type(8) {
+  animation-name: racquet0;
+}
+[id$="_s_7"]:checked ~ .stadium .play span:nth-of-type(3),
+[id$="_s_14"]:checked ~ .stadium .play span:nth-of-type(3) {
+  animation-name: racquet1;
+}
+[id$="_s_3"]:checked ~ .stadium .play span:nth-of-type(6),
+[id$="_s_4"]:checked ~ .stadium .play span:nth-of-type(6),
+[id$="_s_12"]:checked ~ .stadium .play span:nth-of-type(6),
+[id$="_s_13"]:checked ~ .stadium .play span:nth-of-type(6) {
+  animation-name: racquet2;
+}
+[id$="_s_2"]:checked ~ .stadium .play span:nth-of-type(8),
+[id$="_s_8"]:checked ~ .stadium .play span:nth-of-type(8),
+[id$="_s_serve"]:checked ~ .stadium .play span:nth-of-type(8),
+[id$="_s_9"]:checked ~ .stadium .play span:nth-of-type(8) {
+  animation-name: racquet3;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .play span:nth-of-type(8) {
+  animation-delay: -2s;
+}
+@keyframes won {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+/* The animation to show that a point was lost is always running.
+ * Playing more shots keeps reseting the timer.
+ */
+@keyframes lost0 {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes lost1 {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes lost2 {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes lost3 {
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+.point-won {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-size: 5vmin;
+  visibility: hidden;
+  animation: null 5s linear forwards;
+}
+.point-won.by-player {
+  animation-duration: 2s;
+}
+[id^="1_p_"]:checked ~ [id="1_s_1st_s_serve"]:checked ~ .stadium .point-won.by-opponent {
+  animation-name: lost0;
+}
+[id^="1_p_"]:checked ~ [id="1_s_7"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_14"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_7"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_14"]:checked ~ .stadium .point-won.by-opponent {
+  animation-name: lost1;
+}
+[id^="1_p_"]:checked ~ [id="1_s_3"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_4"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_12"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_13"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_3"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_4"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_12"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_13"]:checked ~ .stadium .point-won.by-opponent {
+  animation-name: lost2;
+}
+[id^="1_p_"]:checked ~ [id="1_s_2"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_8"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_serve"]:checked ~ .stadium .point-won.by-opponent,
+[id^="1_p_"]:checked ~ [id="1_s_9"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_2"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_8"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_serve"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id="2_s_9"]:checked ~ .stadium .point-won.by-opponent {
+  animation-name: lost3;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_s_serve"]:checked ~ .stadium .by-opponent {
+  animation-delay: -2s;
+}
+[id^="1_p_"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .point-won.by-opponent,
+[id^="2_p_"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .point-won.by-opponent {
+  animation-name: null;
+}
+[id^="1_p_"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .point-won.by-player,
+[id^="2_p_"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .point-won.by-player {
+  animation-name: won;
+}
+.scores {
+  position: absolute;
+  width: 27vmin;
+  left: 2vmin;
+  top: 2vmin;
+  margin: 0;
+  padding: 1vmin 1vmin 1vmin 4vmin;
+  list-style: none;
+  background: rgba(204, 204, 204, 0.5);
+  font-size: 4vmin;
+}
+.scores li {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.point {
+  display: none;
+  position: absolute;
+  right: 2vmin;
+  top: 2vmin;
+  margin: 0;
+  padding: 1vmin;
+  background: rgba(204, 204, 204, 0.5);
+  font-size: 4vmin;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id*="_p_"][id$="_w"]:checked ~ .stadium .point,
+[id*="_g_"]:nth-of-type(2n+1):checked ~ [id*="_p_"][id$="_l"]:checked ~ .stadium .point,
+[id*="_g_"][id$="_w"]:checked ~ [id*="_p_"][id$="_w"]:checked ~ .stadium .point,
+[id*="_g_"][id$="_l"]:checked ~ [id*="_p_"][id$="_l"]:checked ~ .stadium .point {
+  display: block;
+}
+/* Hide the break point message when the game has been won */
+[id^="1_g_"]:checked ~ [id*="_p_"]:checked ~ [id*="_r_"][id$="_2"]:checked ~ .stadium .point,
+[id^="2_g_"]:checked ~ [id*="_p_"]:checked ~ [id*="_r_"][id$="_1"]:checked ~ .stadium .point {
+  display: none;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id*="_p_"][id$="_w"]:checked ~ .stadium .point:before,
+[id*="_g_"]:nth-of-type(2n+1):checked ~ [id*="_p_"][id$="_l"]:checked ~ .stadium .point:before {
+  content: "Break Point";
+}
+[id*="_g_"][id$="_w"]:checked ~ [id*="_p_"][id$="_w"]:checked ~ .stadium .point:before,
+[id*="_g_"][id$="_l"]:checked ~ [id*="_p_"][id$="_l"]:checked ~ .stadium .point:before {
+  content: "Match Point";
+}
+[id*="_g_0-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-0"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 0";
+}
+[id*="_g_1-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-1"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 1";
+}
+[id*="_g_2-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-2"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 2";
+}
+[id*="_g_3-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-3"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 3";
+}
+[id*="_g_4-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-4"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 4";
+}
+[id*="_g_5-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-5"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 5";
+}
+[id*="_g_6-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-6"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 6";
+}
+[id*="_g_7-"]:checked ~ .stadium .scores li:nth-of-type(1) span:before,
+[id*="_g_"][id*="-7"]:checked ~ .stadium .scores li:nth-of-type(2) span:before {
+  content: " 7";
+}
+[id*="_p_0-"]:checked ~ .stadium .scores li:nth-of-type(1) span:after,
+[id*="_p_"][id*="-0"]:checked ~ .stadium .scores li:nth-of-type(2) span:after {
+  content: " - 0";
+}
+[id*="_p_15-"]:checked ~ .stadium .scores li:nth-of-type(1) span:after,
+[id*="_p_"][id*="-15"]:checked ~ .stadium .scores li:nth-of-type(2) span:after {
+  content: " - 15";
+}
+[id*="_p_30-"]:checked ~ .stadium .scores li:nth-of-type(1) span:after,
+[id*="_p_"][id*="-30"]:checked ~ .stadium .scores li:nth-of-type(2) span:after {
+  content: " - 30";
+}
+[id*="_p_40-"]:checked ~ .stadium .scores li:nth-of-type(1) span:after,
+[id*="_p_"][id*="-40"]:checked ~ .stadium .scores li:nth-of-type(2) span:after {
+  content: " - 40";
+}
+[id*="_p_A-"]:checked ~ .stadium .scores li:nth-of-type(1) span:after,
+[id*="_p_"][id*="-A"]:checked ~ .stadium .scores li:nth-of-type(2) span:after {
+  content: " - Adv";
+}
+input:checked ~ input:checked ~ [id*="_r_"]:checked ~ .stadium .scores li span:after {
+  content: "";
+}
+.point-won label {
+  display: none;
+  position: absolute;
+  width: 22vmin;
+  height: 10vmin;
+  left: 50%;
+  top: 30vmin;
+  transform: translateX(-50%);
+  line-height: 10vmin;
+  border-radius: 2vmin;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  background: blue;
+}
+.point-won.by-opponent label {
+  background: red;
+}
+/* When a point has been won, show the label for the new score */
+[id="1_p_0-0"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_15-0"],
+[id="1_p_0-15"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_15-15"],
+[id="1_p_0-30"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_15-30"],
+[id="1_p_0-40_l"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_15-40_l"],
+[id="1_p_15-40_l"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_30-40_l"],
+[id="1_p_15-30"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_30-30"],
+[id="1_p_15-15"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_30-15"],
+[id="1_p_15-0"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_30-0"],
+[id="1_p_30-0"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_40-0_w"],
+[id="1_p_30-15"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_40-15_w"],
+[id="1_p_30-30"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_40-30_w"],
+[id="1_p_30-40_l"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_40-40"],
+[id="1_p_40-40"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_A-40_w"],
+[id="1_p_40-A_l"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_p_40-40"],
+[id="2_p_0-0"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_15-0"],
+[id="2_p_0-15"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_15-15"],
+[id="2_p_0-30"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_15-30"],
+[id="2_p_0-40_l"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_15-40_l"],
+[id="2_p_15-40_l"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_30-40_l"],
+[id="2_p_15-30"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_30-30"],
+[id="2_p_15-15"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_30-15"],
+[id="2_p_15-0"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_30-0"],
+[id="2_p_30-0"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_40-0_w"],
+[id="2_p_30-15"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_40-15_w"],
+[id="2_p_30-30"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_40-30_w"],
+[id="2_p_30-40_l"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_40-40"],
+[id="2_p_40-40"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_A-40_w"],
+[id="2_p_40-A_l"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_p_40-40"],
+[id="1_p_A-40_w"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_40-40"],
+[id="1_p_0-0"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_0-15"],
+[id="1_p_0-15"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_0-30"],
+[id="1_p_0-30"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_0-40_l"],
+[id="1_p_15-30"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_15-40_l"],
+[id="1_p_15-15"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_15-30"],
+[id="1_p_15-0"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_15-15"],
+[id="1_p_30-0"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_30-15"],
+[id="1_p_30-15"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_30-30"],
+[id="1_p_30-30"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_30-40_l"],
+[id="1_p_40-40"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_40-A_l"],
+[id="1_p_40-30_w"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_40-40"],
+[id="1_p_40-15_w"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_40-30_w"],
+[id="1_p_40-0_w"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="2_p_40-15_w"],
+[id="2_p_A-40_w"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_40-40"],
+[id="2_p_0-0"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_0-15"],
+[id="2_p_0-15"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_0-30"],
+[id="2_p_0-30"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_0-40_l"],
+[id="2_p_15-30"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_15-40_l"],
+[id="2_p_15-15"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_15-30"],
+[id="2_p_15-0"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_15-15"],
+[id="2_p_30-0"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_30-15"],
+[id="2_p_30-15"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_30-30"],
+[id="2_p_30-30"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_30-40_l"],
+[id="2_p_40-40"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_40-A_l"],
+[id="2_p_40-30_w"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_40-40"],
+[id="2_p_40-15_w"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_40-30_w"],
+[id="2_p_40-0_w"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="1_p_40-15_w"] {
+  display: block;
+}
+[id*="_g_"]:nth-of-type(2n+1):checked ~ .stadium .scores li:nth-of-type(1):before,
+[id*="_g_"]:nth-of-type(2n):checked ~ .stadium .scores li:nth-of-type(2):before {
+  content: "";
+  position: absolute;
+  width: 2vmin;
+  height: 2vmin;
+  top: 50%;
+  left: -3vmin;
+  background: yellow;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+/* To serve into the appropriate service box, just flip the entire play area */
+[id*="_p_"]:nth-of-type(2n):checked ~ .stadium .play {
+  transform: scaleX(-1);
+}
+.serves label {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  left: 35vmin;
+  top: 40vmin;
+  width: 30vmin;
+  height: 10vmin;
+  font-size: 5vmin;
+  line-height: 10vmin;
+  background: blue;
+  border-radius: 2vmin;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ .stadium .serves [for*="_p_"],
+[id*="_g_"]:nth-of-type(2n):checked ~ .stadium .serves [for*="_serve"],
+[id*="_r_l_"]:checked ~ .stadium .serves [for*="_g_"] {
+  background: red;
+}
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .serves [for="1_s_serve"],
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .serves [for="2_s_serve"] {
+  display: block;
+}
+/* Reset the animation names in case they need to be set to the same value they had before */
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .opponent,
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .opponent,
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .move,
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .move,
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .ball,
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .ball,
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .ball:after,
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .ball:after,
+[id^="1_p_"]:checked ~ [id^="2_s_"]:checked ~ .stadium .head:after,
+[id^="2_p_"]:checked ~ [id^="1_s_"]:checked ~ .stadium .head:after {
+  animation-name: null;
+}
+/* When games have been won, show the label for the new score */
+[id^="1_g_"]:checked ~ [id^="1_p_"][id$="_w"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_r_w_1"],
+[id^="1_g_"]:checked ~ [id^="2_p_"][id$="_w"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_r_w_1"],
+[id="1_g_0-0"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-0"],
+[id="1_g_0-1"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-1"],
+[id="1_g_0-2"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-2"],
+[id="1_g_0-3"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-3"],
+[id="1_g_0-4"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-4"],
+[id="1_g_0-5_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_1-5_l"],
+[id="1_g_1-0"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-0"],
+[id="1_g_1-1"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-1"],
+[id="1_g_1-2"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-2"],
+[id="1_g_1-3"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-3"],
+[id="1_g_1-4"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-4"],
+[id="1_g_1-5_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_2-5_l"],
+[id="1_g_2-0"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-0"],
+[id="1_g_2-1"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-1"],
+[id="1_g_2-2"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-2"],
+[id="1_g_2-3"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-3"],
+[id="1_g_2-4"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-4"],
+[id="1_g_2-5_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_3-5_l"],
+[id="1_g_3-0"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-0"],
+[id="1_g_3-1"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-1"],
+[id="1_g_3-2"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-2"],
+[id="1_g_3-3"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-3"],
+[id="1_g_3-4"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-4"],
+[id="1_g_3-5_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_4-5_l"],
+[id="1_g_4-0"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-0_w"],
+[id="1_g_4-1"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-1_w"],
+[id="1_g_4-2"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-2_w"],
+[id="1_g_4-3"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-3_w"],
+[id="1_g_4-4"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-4_w"],
+[id="1_g_4-5_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_5-5"],
+[id="1_g_5-5"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_6-5_w"],
+[id="1_g_5-6_l"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_6-6"],
+[id="1_g_6-6"]:checked ~ [id$="_w_1"]:checked ~ .stadium .serves [for="2_g_7-6_w"],
+[id^="2_g_"]:checked ~ [id="1_r_w_1"]:checked ~ .stadium .serves [for="2_p_0-0"],
+[id^="2_p_0-0"]:checked ~ [id="1_r_w_1"]:checked ~ .stadium .serves [for="2_s_serve"],
+[id^="2_g_"]:checked ~ [id="2_r_w_1"]:checked ~ .stadium .serves [for="1_p_0-0"],
+[id^="1_p_0-0"]:checked ~ [id="2_r_w_1"]:checked ~ .stadium .serves [for="1_s_serve"],
+[id^="2_g_"]:checked ~ [id^="1_p_"][id$="_w"]:checked ~ [id^="1_s_"][id$="_w"]:checked ~ .stadium .by-player [for="1_r_w_2"],
+[id^="2_g_"]:checked ~ [id^="2_p_"][id$="_w"]:checked ~ [id^="2_s_"][id$="_w"]:checked ~ .stadium .by-player [for="2_r_w_2"],
+[id="2_g_0-0"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-0"],
+[id="2_g_0-1"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-1"],
+[id="2_g_0-2"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-2"],
+[id="2_g_0-3"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-3"],
+[id="2_g_0-4"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-4"],
+[id="2_g_0-5_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_1-5_l"],
+[id="2_g_1-0"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-0"],
+[id="2_g_1-1"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-1"],
+[id="2_g_1-2"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-2"],
+[id="2_g_1-3"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-3"],
+[id="2_g_1-4"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-4"],
+[id="2_g_1-5_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_2-5_l"],
+[id="2_g_2-0"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-0"],
+[id="2_g_2-1"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-1"],
+[id="2_g_2-2"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-2"],
+[id="2_g_2-3"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-3"],
+[id="2_g_2-4"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-4"],
+[id="2_g_2-5_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_3-5_l"],
+[id="2_g_3-0"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-0"],
+[id="2_g_3-1"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-1"],
+[id="2_g_3-2"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-2"],
+[id="2_g_3-3"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-3"],
+[id="2_g_3-4"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-4"],
+[id="2_g_3-5_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_4-5_l"],
+[id="2_g_4-0"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-0_w"],
+[id="2_g_4-1"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-1_w"],
+[id="2_g_4-2"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-2_w"],
+[id="2_g_4-3"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-3_w"],
+[id="2_g_4-4"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-4_w"],
+[id="2_g_4-5_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_5-5"],
+[id="2_g_5-5"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_6-5_w"],
+[id="2_g_5-6_l"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_6-6"],
+[id="2_g_6-6"]:checked ~ [id$="_w_2"]:checked ~ .stadium .serves [for="1_g_7-6_w"],
+[id^="1_g_"]:checked ~ [id="1_r_w_2"]:checked ~ .stadium .serves [for="2_p_0-0"],
+[id^="2_p_0-0"]:checked ~ [id="1_r_w_2"]:checked ~ .stadium .serves [for="2_s_serve"],
+[id^="1_g_"]:checked ~ [id="2_r_w_2"]:checked ~ .stadium .serves [for="1_p_0-0"],
+[id^="1_p_0-0"]:checked ~ [id="2_r_w_2"]:checked ~ .stadium .serves [for="1_s_serve"] {
+  display: block;
+}
+[id^="1_g_"]:checked ~ [id^="1_p_"][id$="_l"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="1_r_l_1"],
+[id^="1_g_"]:checked ~ [id^="2_p_"][id$="_l"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="2_r_l_1"],
+[id="1_g_0-0"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_0-1"],
+[id="1_g_0-1"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_0-2"],
+[id="1_g_0-2"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_0-3"],
+[id="1_g_0-3"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_0-4"],
+[id="1_g_0-4"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_0-5"],
+[id="1_g_1-0"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_1-1"],
+[id="1_g_1-1"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_1-2"],
+[id="1_g_1-2"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_1-3"],
+[id="1_g_1-3"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_1-4"],
+[id="1_g_1-4"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_1-5_l"],
+[id="1_g_2-0"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_2-1"],
+[id="1_g_2-1"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_2-2"],
+[id="1_g_2-2"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_2-3"],
+[id="1_g_2-3"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_2-4"],
+[id="1_g_2-4"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_2-5_l"],
+[id="1_g_3-0"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_3-1"],
+[id="1_g_3-1"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_3-2"],
+[id="1_g_3-2"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_3-3"],
+[id="1_g_3-3"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_3-4"],
+[id="1_g_3-4"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_3-5_l"],
+[id="1_g_4-0"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_4-1"],
+[id="1_g_4-1"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_4-2"],
+[id="1_g_4-2"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_4-3"],
+[id="1_g_4-3"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_4-4"],
+[id="1_g_4-4"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_4-5"],
+[id="1_g_5-0_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-1_w"],
+[id="1_g_5-1_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-2_w"],
+[id="1_g_5-2_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-3_w"],
+[id="1_g_5-3_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-4_w"],
+[id="1_g_5-4_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-5"],
+[id="1_g_5-5"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_5-6_l"],
+[id="1_g_6-5_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_6-6"],
+[id="1_g_6-6"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_6-7_l"],
+[id="1_g_7-6_w"]:checked ~ [id$="_l_1"]:checked ~ .stadium .serves [for="2_g_6-6"],
+[id^="2_g_"]:checked ~ [id="1_r_l_1"]:checked ~ .stadium .serves [for="2_p_0-0"],
+[id^="2_p_0-0"]:checked ~ [id="1_r_l_1"]:checked ~ .stadium .serves [for="2_s_serve"],
+[id^="2_g_"]:checked ~ [id="2_r_l_1"]:checked ~ .stadium .serves [for="1_p_0-0"],
+[id^="1_p_0-0"]:checked ~ [id="2_r_l_1"]:checked ~ .stadium .serves [for="1_s_serve"],
+[id^="2_g_"]:checked ~ [id^="1_p_"][id$="_l"]:checked ~ [id^="1_s_"]:checked ~ .stadium .by-opponent [for="1_r_l_2"],
+[id^="2_g_"]:checked ~ [id^="2_p_"][id$="_l"]:checked ~ [id^="2_s_"]:checked ~ .stadium .by-opponent [for="2_r_l_2"],
+[id="2_g_0-0"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_0-1"],
+[id="2_g_0-1"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_0-2"],
+[id="2_g_0-2"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_0-3"],
+[id="2_g_0-3"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_0-4"],
+[id="2_g_0-4"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_0-5_l"],
+[id="2_g_1-0"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_1-1"],
+[id="2_g_1-1"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_1-2"],
+[id="2_g_1-2"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_1-3"],
+[id="2_g_1-3"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_1-4"],
+[id="2_g_1-4"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_1-5_l"],
+[id="2_g_2-0"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_2-1"],
+[id="2_g_2-1"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_2-2"],
+[id="2_g_2-2"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_2-3"],
+[id="2_g_2-3"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_2-4"],
+[id="2_g_2-4"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_2-5_l"],
+[id="2_g_3-0"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_3-1"],
+[id="2_g_3-1"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_3-2"],
+[id="2_g_3-2"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_3-3"],
+[id="2_g_3-3"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_3-4"],
+[id="2_g_3-4"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_3-5_l"],
+[id="2_g_4-0"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_4-1"],
+[id="2_g_4-1"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_4-2"],
+[id="2_g_4-2"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_4-3"],
+[id="2_g_4-3"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_4-4"],
+[id="2_g_4-4"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_4-5_l"],
+[id="2_g_5-0_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-1"],
+[id="2_g_5-1_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-2"],
+[id="2_g_5-2_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-3"],
+[id="2_g_5-3_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-4"],
+[id="2_g_5-4_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-5"],
+[id="2_g_5-5"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_5-6_l"],
+[id="2_g_6-5_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_6-6"],
+[id="2_g_6-6"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_6-7_l"],
+[id="2_g_7-6_w"]:checked ~ [id$="_l_2"]:checked ~ .stadium .serves [for="1_g_6-6"],
+[id^="1_g_"]:checked ~ [id="1_r_l_2"]:checked ~ .stadium .serves [for="2_p_0-0"],
+[id^="2_p_0-0"]:checked ~ [id="1_r_l_2"]:checked ~ .stadium .serves [for="2_s_serve"],
+[id^="1_g_"]:checked ~ [id="2_r_l_2"]:checked ~ .stadium .serves [for="1_p_0-0"],
+[id^="1_p_0-0"]:checked ~ [id="2_r_l_2"]:checked ~ .stadium .serves [for="1_s_serve"] {
+  display: block;
+}
+[id*="_g_"]:nth-of-type(2n+1):checked ~ [id$="_w"]:checked ~ [id*="_r_"]:checked ~ .stadium .serves [for$="_p_0-0"]:before,
+[id*="_g_"]:nth-of-type(2n+1):checked ~ [id$="_l"]:checked ~ [id*="_r_"]:checked ~ .stadium .serves [for$="_p_0-0"]:before {
+  content: "P1";
+}
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_w"]:checked ~ [id*="_r_"]:checked ~ .stadium .serves [for$="_p_0-0"]:before,
+[id*="_g_"]:nth-of-type(2n):checked ~ [id$="_l"]:checked ~ [id*="_r_"]:checked ~ .stadium .serves [for$="_p_0-0"]:before {
+  content: "P2";
+}
+[id*="_g_"][id$="_w"]:checked ~ [id*="_p_"][id$="_w"]:checked ~ .stadium .by-player [for="reset"],
+[id*="_g_"][id$="_l"]:checked ~ [id*="_p_"][id$="_l"]:checked ~ .stadium .by-opponent [for="reset"] {
+  display: block;
+}
+</style>
+<form autocomplete="off">
+<input type="radio" name="games" id="1_g_0-0" checked="checked" />
+<input type="radio" name="games" id="1_g_0-1" />
+<input type="radio" name="games" id="1_g_0-2" />
+<input type="radio" name="games" id="1_g_0-3" />
+<input type="radio" name="games" id="1_g_0-4" />
+<input type="radio" name="games" id="1_g_1-0" />
+<input type="radio" name="games" id="1_g_2-0" />
+<input type="radio" name="games" id="1_g_1-2" />
+<input type="radio" name="games" id="1_g_1-3" />
+<input type="radio" name="games" id="1_g_0-5_l" />
+<input type="radio" name="games" id="1_g_1-1" />
+<input type="radio" name="games" id="1_g_2-1" />
+<input type="radio" name="games" id="1_g_2-2" />
+<input type="radio" name="games" id="1_g_1-4" />
+<input type="radio" name="games" id="1_g_1-5_l" />
+<input type="radio" name="games" id="1_g_3-0" />
+<input type="radio" name="games" id="1_g_3-1" />
+<input type="radio" name="games" id="1_g_2-3" />
+<input type="radio" name="games" id="1_g_2-4" />
+<input type="radio" name="games" id="1_g_2-5_l" />
+<input type="radio" name="games" id="1_g_4-0" />
+<input type="radio" name="games" id="1_g_3-2" />
+<input type="radio" name="games" id="1_g_3-3" />
+<input type="radio" name="games" id="1_g_3-4" />
+<input type="radio" name="games" id="1_g_3-5_l" />
+<input type="radio" name="games" id="1_g_4-1" />
+<input type="radio" name="games" id="1_g_4-2" />
+<input type="radio" name="games" id="1_g_4-3" />
+<input type="radio" name="games" id="1_g_4-4" />
+<input type="radio" name="games" id="1_g_5-0_w" />
+<input type="radio" name="games" id="1_g_5-1_w" />
+<input type="radio" name="games" id="1_g_5-2_w" />
+<input type="radio" name="games" id="1_g_5-3_w" />
+<input type="radio" name="games" id="1_g_4-5_l" />
+<input type="radio" name="games" id="1_g_5-5" />
+<input type="radio" name="games" id="1_g_5-6_l" />
+<input type="radio" name="games" id="1_g_6-6" />
+<input type="radio" name="games" id="1_g_5-4_w" />
+<input type="hidden" />
+<input type="radio" name="games" id="1_g_6-5_w" />
+<input type="hidden" />
+<input type="radio" name="games" id="1_g_6-7_l" />
+<input type="hidden" />
+<input type="hidden" />
+<input type="hidden" />
+<input type="radio" name="games" id="1_g_7-6_w" />
+<input type="hidden" />
+<input type="hidden" />
+<input type="radio" name="games" id="2_g_0-0" />
+<input type="radio" name="games" id="2_g_0-1" />
+<input type="radio" name="games" id="2_g_0-2" />
+<input type="radio" name="games" id="2_g_0-3" />
+<input type="radio" name="games" id="2_g_0-4" />
+<input type="radio" name="games" id="2_g_1-0" />
+<input type="radio" name="games" id="2_g_2-0" />
+<input type="radio" name="games" id="2_g_1-2" />
+<input type="radio" name="games" id="2_g_1-3" />
+<input type="radio" name="games" id="2_g_0-5_l" />
+<input type="radio" name="games" id="2_g_1-1" />
+<input type="radio" name="games" id="2_g_2-1" />
+<input type="radio" name="games" id="2_g_2-2" />
+<input type="radio" name="games" id="2_g_1-4" />
+<input type="radio" name="games" id="2_g_1-5_l" />
+<input type="radio" name="games" id="2_g_3-0" />
+<input type="radio" name="games" id="2_g_3-1" />
+<input type="radio" name="games" id="2_g_2-3" />
+<input type="radio" name="games" id="2_g_2-4" />
+<input type="radio" name="games" id="2_g_2-5_l" />
+<input type="radio" name="games" id="2_g_4-0" />
+<input type="radio" name="games" id="2_g_3-2" />
+<input type="radio" name="games" id="2_g_3-3" />
+<input type="radio" name="games" id="2_g_3-4" />
+<input type="radio" name="games" id="2_g_3-5_l" />
+<input type="radio" name="games" id="2_g_4-1" />
+<input type="radio" name="games" id="2_g_4-2" />
+<input type="radio" name="games" id="2_g_4-3" />
+<input type="radio" name="games" id="2_g_4-4" />
+<input type="radio" name="games" id="2_g_5-0_w" />
+<input type="radio" name="games" id="2_g_5-1_w" />
+<input type="radio" name="games" id="2_g_5-2_w" />
+<input type="radio" name="games" id="2_g_5-3_w" />
+<input type="radio" name="games" id="2_g_4-5_l" />
+<input type="radio" name="games" id="2_g_5-5" />
+<input type="radio" name="games" id="2_g_5-6_l" />
+<input type="radio" name="games" id="2_g_6-6" />
+<input type="radio" name="games" id="2_g_5-4_w" />
+<input type="hidden" />
+<input type="radio" name="games" id="2_g_6-5_w" />
+<input type="hidden" />
+<input type="radio" name="games" id="2_g_6-7_l" />
+<input type="hidden" />
+<input type="hidden" />
+<input type="hidden" />
+<input type="radio" name="games" id="2_g_7-6_w" />
+<input type="radio" name="points" id="1_p_0-0" checked="checked" />
+<input type="radio" name="points" id="1_p_0-15" />
+<input type="radio" name="points" id="1_p_0-30" />
+<input type="radio" name="points" id="1_p_0-40_l" />
+<input type="radio" name="points" id="1_p_15-40_l" />
+<input type="radio" name="points" id="1_p_15-30" />
+<input type="radio" name="points" id="1_p_15-15" />
+<input type="radio" name="points" id="1_p_15-0" />
+<input type="radio" name="points" id="1_p_30-0" />
+<input type="radio" name="points" id="1_p_30-15" />
+<input type="radio" name="points" id="1_p_30-30" />
+<input type="radio" name="points" id="1_p_30-40_l" />
+<input type="radio" name="points" id="1_p_40-40" />
+<input type="radio" name="points" id="1_p_40-30_w" />
+<input type="radio" name="points" id="1_p_40-15_w" />
+<input type="radio" name="points" id="1_p_40-0_w" />
+<input type="hidden" />
+<input type="radio" name="points" id="1_p_40-A_l" />
+<input type="hidden" />
+<input type="radio" name="points" id="1_p_A-40_w" />
+<input type="radio" name="points" id="2_p_0-0" />
+<input type="radio" name="points" id="2_p_0-15" />
+<input type="radio" name="points" id="2_p_0-30" />
+<input type="radio" name="points" id="2_p_0-40_l" />
+<input type="radio" name="points" id="2_p_15-40_l" />
+<input type="radio" name="points" id="2_p_15-30" />
+<input type="radio" name="points" id="2_p_15-15" />
+<input type="radio" name="points" id="2_p_15-0" />
+<input type="radio" name="points" id="2_p_30-0" />
+<input type="radio" name="points" id="2_p_30-15" />
+<input type="radio" name="points" id="2_p_30-30" />
+<input type="radio" name="points" id="2_p_30-40_l" />
+<input type="radio" name="points" id="2_p_40-40" />
+<input type="radio" name="points" id="2_p_40-30_w" />
+<input type="radio" name="points" id="2_p_40-15_w" />
+<input type="radio" name="points" id="2_p_40-0_w" />
+<input type="hidden" />
+<input type="radio" name="points" id="2_p_40-A_l" />
+<input type="hidden" />
+<input type="radio" name="points" id="2_p_A-40_w" />
+<input type="radio" name="shots" id="1_s_1_w" />
+<input type="radio" name="shots" id="1_s_2" />
+<input type="radio" name="shots" id="1_s_3" />
+<input type="radio" name="shots" id="1_s_4" />
+<input type="radio" name="shots" id="1_s_5_w" />
+<input type="radio" name="shots" id="1_s_6_w" />
+<input type="radio" name="shots" id="1_s_7" />
+<input type="radio" name="shots" id="1_s_8" />
+<input type="radio" name="shots" id="1_s_9" />
+<input type="radio" name="shots" id="1_s_10_w" />
+<input type="radio" name="shots" id="1_s_11_w" />
+<input type="radio" name="shots" id="1_s_12" />
+<input type="radio" name="shots" id="1_s_13" />
+<input type="radio" name="shots" id="1_s_14" />
+<input type="radio" name="shots" id="1_s_15_w" />
+<input type="radio" name="shots" id="2_s_1_w" />
+<input type="radio" name="shots" id="2_s_2" />
+<input type="radio" name="shots" id="2_s_3" />
+<input type="radio" name="shots" id="2_s_4" />
+<input type="radio" name="shots" id="2_s_5_w" />
+<input type="radio" name="shots" id="2_s_6_w" />
+<input type="radio" name="shots" id="2_s_7" />
+<input type="radio" name="shots" id="2_s_8" />
+<input type="radio" name="shots" id="2_s_9" />
+<input type="radio" name="shots" id="2_s_10_w" />
+<input type="radio" name="shots" id="2_s_11_w" />
+<input type="radio" name="shots" id="2_s_12" />
+<input type="radio" name="shots" id="2_s_13" />
+<input type="radio" name="shots" id="2_s_14" />
+<input type="radio" name="shots" id="2_s_15_w" />
+<input type="radio" name="shots" id="1_s_1st_s_serve" checked="checked" />
+<input type="radio" name="shots" id="1_s_serve" />
+<input type="radio" name="shots" id="2_s_serve" />
+<input type="radio" name="shots" id="1_r_w_1" />
+<input type="radio" name="shots" id="1_r_w_2" />
+<input type="radio" name="shots" id="2_r_w_1" />
+<input type="radio" name="shots" id="2_r_w_2" />
+<input type="radio" name="shots" id="1_r_l_1" />
+<input type="radio" name="shots" id="1_r_l_2" />
+<input type="radio" name="shots" id="2_r_l_1" />
+<input type="radio" name="shots" id="2_r_l_2" />
+<input type="reset" id="reset" />
+<div class="stadium">
+<div class="court">
+<table>
+<tbody>
+<tr>
+<td rowspan="3"></td>
+<td colspan="2"></td>
+<td rowspan="3"></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="play">
+<div class="opponent"><div class="stance"></div></div>
+<div class="ball"></div>
+<div class="net"></div>
+<label for="1_s_1_w"></label>
+<label for="1_s_2"></label>
+<label for="1_s_3"></label>
+<label for="1_s_4"></label>
+<label for="1_s_5_w"></label>
+<label for="1_s_6_w"></label>
+<label for="1_s_7"></label>
+<label for="1_s_8"></label>
+<label for="1_s_9"></label>
+<label for="1_s_10_w"></label>
+<label for="1_s_11_w"></label>
+<label for="1_s_12"></label>
+<label for="1_s_13"></label>
+<label for="1_s_14"></label>
+<label for="1_s_15_w"></label>
+<label for="2_s_1_w"></label>
+<label for="2_s_2"></label>
+<label for="2_s_3"></label>
+<label for="2_s_4"></label>
+<label for="2_s_5_w"></label>
+<label for="2_s_6_w"></label>
+<label for="2_s_7"></label>
+<label for="2_s_8"></label>
+<label for="2_s_9"></label>
+<label for="2_s_10_w"></label>
+<label for="2_s_11_w"></label>
+<label for="2_s_12"></label>
+<label for="2_s_13"></label>
+<label for="2_s_14"></label>
+<label for="2_s_15_w"></label>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<span class="move"></span>
+<div class="player"><div class="stance"></div></div>
+</div>
+<ul class="scores">
+<li>Player 1: <span></span></li>
+<li>Player 2: <span></span></li>
+</ul>
+<div class="point"></div>
+<div class="umpire">
+<div class="chair"></div>
+<div class="head"></div>
+</div>
+<div class="point-won by-player">
+<label for="1_p_15-0">15-0</label>
+<label for="1_p_30-0">30-0</label>
+<label for="1_p_40-0_w">40-0</label>
+<label for="1_p_15-15">15-15</label>
+<label for="1_p_30-15">30-15</label>
+<label for="1_p_40-15_w">40-15</label>
+<label for="1_p_15-30">15-30</label>
+<label for="1_p_30-30">30-30</label>
+<label for="1_p_40-30_w">40-30</label>
+<label for="1_p_15-40_l">15-40</label>
+<label for="1_p_30-40_l">30-40</label>
+<label for="1_p_40-40">Deuce</label>
+<label for="1_p_A-40_w">Adv. P1</label>
+<label for="2_p_15-0">15-0</label>
+<label for="2_p_30-0">30-0</label>
+<label for="2_p_40-0_w">40-0</label>
+<label for="2_p_15-15">15-15</label>
+<label for="2_p_30-15">30-15</label>
+<label for="2_p_40-15_w">40-15</label>
+<label for="2_p_15-30">15-30</label>
+<label for="2_p_30-30">30-30</label>
+<label for="2_p_40-30_w">40-30</label>
+<label for="2_p_15-40_l">15-40</label>
+<label for="2_p_30-40_l">30-40</label>
+<label for="2_p_40-40">Deuce</label>
+<label for="2_p_A-40_w">Adv. P1</label>
+<label for="1_r_w_1">Game P1</label>
+<label for="1_r_w_2">Game P1</label>
+<label for="2_r_w_1">Game P1</label>
+<label for="2_r_w_2">Game P1</label>
+<label for="reset">P1 Wins!</label>
+</div>
+<div class="point-won by-opponent">
+<label for="1_p_0-15">0-15</label>
+<label for="1_p_0-30">0-30</label>
+<label for="1_p_0-40_l">0-40</label>
+<label for="1_p_15-15">15-15</label>
+<label for="1_p_15-30">15-30</label>
+<label for="1_p_15-40_l">15-40</label>
+<label for="1_p_30-15">30-15</label>
+<label for="1_p_30-30">30-30</label>
+<label for="1_p_30-40_l">30-40</label>
+<label for="1_p_40-15_w">40-15</label>
+<label for="1_p_40-30_w">40-30</label>
+<label for="1_p_40-40">Deuce</label>
+<label for="1_p_40-A_l">Adv. P2</label>
+<label for="2_p_0-15">0-15</label>
+<label for="2_p_0-30">0-30</label>
+<label for="2_p_0-40_l">0-40</label>
+<label for="2_p_15-15">15-15</label>
+<label for="2_p_15-30">15-30</label>
+<label for="2_p_15-40_l">15-40</label>
+<label for="2_p_30-15">30-15</label>
+<label for="2_p_30-30">30-30</label>
+<label for="2_p_30-40_l">30-40</label>
+<label for="2_p_40-15_w">40-15</label>
+<label for="2_p_40-30_w">40-30</label>
+<label for="2_p_40-40">Deuce</label>
+<label for="2_p_40-A_l">Adv. P2</label>
+<label for="1_r_l_1">Game P2</label>
+<label for="1_r_l_2">Game P2</label>
+<label for="2_r_l_1">Game P2</label>
+<label for="2_r_l_2">Game P2</label>
+<label for="reset">P2 Wins!</label>
+</div>
+<div class="serves">
+<label for="1_p_0-0"> to Serve</label>
+<label for="2_p_0-0"> to Serve</label>
+<label for="1_s_serve">Serve</label>
+<label for="2_s_serve">Serve</label>
+<label for="1_g_0-1">0 - 1</label>
+<label for="1_g_0-2">0 - 2</label>
+<label for="1_g_0-3">0 - 3</label>
+<label for="1_g_0-4">0 - 4</label>
+<label for="1_g_0-5_l">0 - 5</label>
+<label for="1_g_1-0">1 - 0</label>
+<label for="1_g_1-1">1 - 1</label>
+<label for="1_g_1-2">1 - 2</label>
+<label for="1_g_1-3">1 - 3</label>
+<label for="1_g_1-4">1 - 4</label>
+<label for="1_g_1-5_l">1 - 5</label>
+<label for="1_g_2-0">2 - 0</label>
+<label for="1_g_2-1">2 - 1</label>
+<label for="1_g_2-2">2 - 2</label>
+<label for="1_g_2-3">2 - 3</label>
+<label for="1_g_2-4">2 - 4</label>
+<label for="1_g_2-5_l">2 - 5</label>
+<label for="1_g_3-0">3 - 0</label>
+<label for="1_g_3-1">3 - 1</label>
+<label for="1_g_3-2">3 - 2</label>
+<label for="1_g_3-3">3 - 3</label>
+<label for="1_g_3-4">3 - 4</label>
+<label for="1_g_3-5_l">3 - 5</label>
+<label for="1_g_4-0">4 - 0</label>
+<label for="1_g_4-1">4 - 1</label>
+<label for="1_g_4-2">4 - 2</label>
+<label for="1_g_4-3">4 - 3</label>
+<label for="1_g_4-4">4 - 4</label>
+<label for="1_g_4-5_l">4 - 5</label>
+<label for="1_g_5-0_w">5 - 0</label>
+<label for="1_g_5-1_w">5 - 1</label>
+<label for="1_g_5-2_w">5 - 2</label>
+<label for="1_g_5-3_w">5 - 3</label>
+<label for="1_g_5-4_w">5 - 4</label>
+<label for="1_g_5-5">5 - 5</label>
+<label for="1_g_5-6_l">5 - 6</label>
+<label for="1_g_6-5_w">6 - 5</label>
+<label for="1_g_6-6">6 - 6</label>
+<label for="1_g_6-7_l">6 - 7</label>
+<label for="1_g_7-6_w">7 - 6</label>
+<label for="2_g_0-1">0 - 1</label>
+<label for="2_g_0-2">0 - 2</label>
+<label for="2_g_0-3">0 - 3</label>
+<label for="2_g_0-4">0 - 4</label>
+<label for="2_g_0-5_l">0 - 5</label>
+<label for="2_g_1-0">1 - 0</label>
+<label for="2_g_1-1">1 - 1</label>
+<label for="2_g_1-2">1 - 2</label>
+<label for="2_g_1-3">1 - 3</label>
+<label for="2_g_1-4">1 - 4</label>
+<label for="2_g_1-5_l">1 - 5</label>
+<label for="2_g_2-0">2 - 0</label>
+<label for="2_g_2-1">2 - 1</label>
+<label for="2_g_2-2">2 - 2</label>
+<label for="2_g_2-3">2 - 3</label>
+<label for="2_g_2-4">2 - 4</label>
+<label for="2_g_2-5_l">2 - 5</label>
+<label for="2_g_3-0">3 - 0</label>
+<label for="2_g_3-1">3 - 1</label>
+<label for="2_g_3-2">3 - 2</label>
+<label for="2_g_3-3">3 - 3</label>
+<label for="2_g_3-4">3 - 4</label>
+<label for="2_g_3-5_l">3 - 5</label>
+<label for="2_g_4-0">4 - 0</label>
+<label for="2_g_4-1">4 - 1</label>
+<label for="2_g_4-2">4 - 2</label>
+<label for="2_g_4-3">4 - 3</label>
+<label for="2_g_4-4">4 - 4</label>
+<label for="2_g_4-5_l">4 - 5</label>
+<label for="2_g_5-0_w">5 - 0</label>
+<label for="2_g_5-1_w">5 - 1</label>
+<label for="2_g_5-2_w">5 - 2</label>
+<label for="2_g_5-3_w">5 - 3</label>
+<label for="2_g_5-4_w">5 - 4</label>
+<label for="2_g_5-5">5 - 5</label>
+<label for="2_g_5-6_l">5 - 6</label>
+<label for="2_g_6-5_w">6 - 5</label>
+<label for="2_g_6-6">6 - 6</label>
+<label for="2_g_6-7_l">6 - 7</label>
+<label for="2_g_7-6_w">7 - 6</label>
+</div>
+</div>
+</form>
