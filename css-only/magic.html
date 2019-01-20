@@ -1,0 +1,1121 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: darkblue;
+  font-family: sans-serif;
+  color: white;
+  text-align: center;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+h2,
+p {
+  position: absolute;
+  width: 90%;
+  left: 5%;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+h2 {
+  top: 1vh;
+  font-size: 10vh;
+}
+p {
+  top: 16vh;
+  font-size: 8vh;
+}
+label {
+  display: none;
+  position: absolute;
+  width: 11vw;
+  height: 16vh;
+  left: 0;
+  top: 0;
+  transform: translate(15vw, 42vh);
+  background: red;
+  border-radius: 1vw 0 0 1vw;
+  color: white;
+  font-weight: bold;
+  font-size: 6vh;
+  line-height: 16vh;
+  cursor: pointer;
+}
+label:hover {
+  background: salmon;
+}
+[for$="_2"] {
+  transform: translate(15vw, 62vh);
+}
+[for$="_3"] {
+  transform: translate(15vw, 82vh);
+}
+[for^="p_1_"],
+[id^="p_1_"]:checked ~ [for^="p_2_"],
+[id^="p_2_"]:checked ~ [for^="p_3_"] {
+  display: block;
+}
+[id^="p_1_"]:checked ~ [for^="p_1_"],
+[id^="p_2_"]:checked ~ [for^="p_2_"],
+[id^="p_3_"]:checked ~ [for^="p_3_"] {
+  display: none;
+}
+.title1,
+[id^="p_1_"]:checked ~ .title2,
+.info1,
+[id^="p_1_"]:checked ~ .info2,
+[id^="p_2_"]:checked ~ .info3,
+[id^="p_3_"]:checked ~ .wasit {
+  opacity: 1;
+}
+[id^="p_1_"]:checked ~ .title1,
+[id^="p_3_"]:checked ~ .title2,
+[id^="p_1_"]:checked ~ .info1,
+[id^="p_2_"]:checked ~ .info2,
+[id^="p_3_"]:checked ~ .info3 {
+  opacity: 0;
+}
+.wasit {
+  top: 40vh;
+}
+.card,
+.reveal {
+  position: absolute;
+  width: 6vw;
+  height: 16vh;
+  left: 0;
+  top: 0;
+  border-radius: 1vw;
+}
+.card {
+  background: white;
+  font-size: 6vh;
+  font-family: serif;
+  font-weight: bold;
+  line-height: 16vh;
+  transition: transform 0.5s ease-in-out;
+}
+.card:before,
+.card:after {
+  position: absolute;
+  font-size: 4vh;
+  line-height: 4vh;
+}
+.card:before {
+  left: 0.5vw;
+  top: 0.5vw;
+}
+.card:after {
+  right: 0.5vw;
+  bottom: 0.5vw;
+  transform: rotate(0.5turn);
+}
+.card.clubs,
+.card.spades {
+  color: black;
+}
+.card.diamonds,
+.card.hearts {
+  color: red;
+}
+.card.clubs:before,
+.card.clubs:after {
+  content: "\2663";
+}
+.card.diamonds:before,
+.card.diamonds:after {
+  content: "\2666";
+}
+.card.hearts:before,
+.card.hearts:after {
+  content: "\2665";
+}
+.card.spades:before,
+.card.spades:after {
+  content: "\2660";
+}
+div:nth-of-type(1),
+#p_1_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(1) {
+  transform: translate(27vw, 42vh);
+}
+div:nth-of-type(4),
+#p_1_1:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(6) {
+  transform: translate(34vw, 42vh);
+}
+div:nth-of-type(7),
+#p_1_1:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(21) {
+  transform: translate(41vw, 42vh);
+}
+div:nth-of-type(10),
+#p_1_1:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(16) {
+  transform: translate(48vw, 42vh);
+}
+div:nth-of-type(13),
+#p_1_1:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(12) {
+  transform: translate(55vw, 42vh);
+}
+div:nth-of-type(16),
+#p_1_1:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(12) {
+  transform: translate(62vw, 42vh);
+}
+div:nth-of-type(19),
+#p_1_1:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(20) {
+  transform: translate(69vw, 42vh);
+}
+div:nth-of-type(2),
+#p_1_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(9) {
+  transform: translate(27vw, 62vh);
+}
+div:nth-of-type(5),
+#p_1_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(11) {
+  transform: translate(34vw, 62vh);
+}
+div:nth-of-type(8),
+#p_1_1:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(19) {
+  transform: translate(41vw, 62vh);
+}
+.reveal,
+div:nth-of-type(11),
+#p_1_1:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(2) {
+  transform: translate(48vw, 62vh);
+}
+div:nth-of-type(14),
+#p_1_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(17) {
+  transform: translate(55vw, 62vh);
+}
+div:nth-of-type(17),
+#p_1_1:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(7) {
+  transform: translate(62vw, 62vh);
+}
+div:nth-of-type(20),
+#p_1_1:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(3) {
+  transform: translate(69vw, 62vh);
+}
+div:nth-of-type(3),
+#p_1_1:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(14) {
+  transform: translate(27vw, 82vh);
+}
+div:nth-of-type(6),
+#p_1_1:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(5),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(13) {
+  transform: translate(34vw, 82vh);
+}
+div:nth-of-type(9),
+#p_1_1:checked ~ div:nth-of-type(4),
+#p_1_2:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(16),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(5) {
+  transform: translate(41vw, 82vh);
+}
+div:nth-of-type(12),
+#p_1_1:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(8),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(4) {
+  transform: translate(48vw, 82vh);
+}
+div:nth-of-type(15),
+#p_1_1:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ div:nth-of-type(2),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(8),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(7),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(4),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(7),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(10) {
+  transform: translate(55vw, 82vh);
+}
+div:nth-of-type(18),
+#p_1_1:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ div:nth-of-type(11),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(10),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(13),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(14),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(2),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(15) {
+  transform: translate(62vw, 82vh);
+}
+div:nth-of-type(21),
+#p_1_1:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_1:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_2:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_3:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_1:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_2:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_3:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_1:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_2:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_3:checked ~ div:nth-of-type(17),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(21),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(12),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(18),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(20),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(11),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(17),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(8) {
+  transform: translate(69vw, 82vh);
+}
+[id^="p_3_"]:checked ~ .card {
+  transition: none;
+  visibility: hidden;
+}
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(20),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(7),
+#p_1_1:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(16),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(1),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(10),
+#p_1_1:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(19),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(4),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(13),
+#p_1_1:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(8),
+#p_1_2:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(17),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(2),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(11),
+#p_1_2:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(20),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(5),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(14),
+#p_1_2:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_1:checked ~ div:nth-of-type(19),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_2:checked ~ div:nth-of-type(9),
+#p_1_3:checked ~ #p_2_1:checked ~ #p_3_3:checked ~ div:nth-of-type(18),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_1:checked ~ div:nth-of-type(3),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_2:checked ~ div:nth-of-type(12),
+#p_1_3:checked ~ #p_2_2:checked ~ #p_3_3:checked ~ div:nth-of-type(21),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_1:checked ~ div:nth-of-type(6),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_2:checked ~ div:nth-of-type(15),
+#p_1_3:checked ~ #p_2_3:checked ~ #p_3_3:checked ~ div:nth-of-type(2) {
+  visibility: visible;
+}
+@keyframes reveal {
+  99% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+.reveal {
+  visibility: hidden;
+  background: darkred;
+  animation: null 0.001s steps(1) forwards 2.5s;
+}
+[id^="p_3_"]:checked ~ .reveal {
+  visibility: visible;
+  animation-name: reveal;
+}
+</style>
+<input type="radio" name="pick1" id="p_1_1" />
+<input type="radio" name="pick1" id="p_1_2" />
+<input type="radio" name="pick1" id="p_1_3" />
+<input type="radio" name="pick2" id="p_2_1" />
+<input type="radio" name="pick2" id="p_2_2" />
+<input type="radio" name="pick2" id="p_2_3" />
+<input type="radio" name="pick3" id="p_3_1" />
+<input type="radio" name="pick3" id="p_3_2" />
+<input type="radio" name="pick3" id="p_3_3" />
+<h2 class="title1">Choose one of the cards</h2>
+<h2 class="title2">Remember your card</h2>
+<p class="info1">Don't click it, just follow where it is.<br />Click the number next to your card's row.</p>
+<p class="info2">Which row is it in now?</p>
+<p class="info3">One more time: which row?</p>
+<p class="wasit">Is this your card...</p>
+<label for="p_1_1">1</label>
+<label for="p_1_2">2</label>
+<label for="p_1_3">3</label>
+<label for="p_2_1">1</label>
+<label for="p_2_2">2</label>
+<label for="p_2_3">3</label>
+<label for="p_3_1">1</label>
+<label for="p_3_2">2</label>
+<label for="p_3_3">3</label>
+<div class="clubs card">A</div>
+<div class="clubs card">4</div>
+<div class="diamonds card">2</div>
+<div class="hearts card">3</div>
+<div class="diamonds card">6</div>
+<div class="hearts card">J</div>
+<div class="clubs card">9</div>
+<div class="diamonds card">10</div>
+<div class="diamonds card">A</div>
+<div class="spades card">4</div>
+<div class="diamonds card">5</div>
+<div class="clubs card">K</div>
+<div class="hearts card">7</div>
+<div class="clubs card">5</div>
+<div class="hearts card">2</div>
+<div class="clubs card">8</div>
+<div class="spades card">8</div>
+<div class="hearts card">6</div>
+<div class="queen spades card">Q</div>
+<div class="three spades card">3</div>
+<div class="seven spades card">7</div>
+<div class="reveal"></div>
