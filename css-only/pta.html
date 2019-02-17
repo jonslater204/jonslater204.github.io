@@ -1,0 +1,2219 @@
+<html>
+<head>
+<title>Petty Theft Auto</title>
+<meta charset="utf-8">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+input {
+  position: absolute;
+  left: -999px;
+}
+label {
+  cursor: pointer;
+}
+.world {
+  --x: 0;
+  --y: 0;
+  --block: 50vmin;
+  --place: 12vmin;
+  --wall: 4vmin;
+  --placeCol: darkred;
+  --playerSize: /*calc(var(--place) * 2 / 3)*/8vmin;
+  --vehicleWidth: /*calc(var(--playerSize) * 1.25)*/10vmin;
+  --vehicleHeight: /*calc(var(--vehicleWidth) * 1.5)*/15vmin;
+  --speed: 2s;
+  position: relative;
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+  background: blue;
+  overflow: hidden;
+}
+.city {
+  --dir: 0;
+  position: absolute;
+  width: calc(var(--block) * 5);
+  height: calc(var(--block) * 5);
+  left: calc((100% - var(--block)) / 2 - var(--place));
+  top: calc((100% - var(--block)) / 2 - var(--place));
+  background: grey;
+  border: var(--place) yellow solid;
+  border-radius: var(--place);
+  transform: translate(calc(-1 * var(--x) * var(--block)), calc(-1 * var(--y) * var(--block))) rotate(var(--dir));
+  transition: transform var(--speed) linear;
+}
+.block {
+  float: left;
+  position: relative;
+  width: var(--block);
+  height: var(--block);
+  z-index: 2;
+  transition: z-index 0s steps(1) calc(var(--speed) / 2);
+}
+.place {
+  --lr: 1;
+  --ud: 1;
+  position: absolute;
+  width: var(--place);
+  height: var(--place);
+  background: var(--placeCol);
+}
+.nw {
+  left: 0;
+  top: 0;
+}
+.ne {
+  right: 0;
+  top: 0;
+}
+.se {
+  right: 0;
+  bottom: 0;
+}
+.sw {
+  left: 0;
+  bottom: 0;
+}
+.n,
+.e,
+.s,
+.w,
+.roof {
+  position: absolute;
+  transition: transform var(--speed) linear, z-index 0s steps(1) calc(var(--speed) / 2);
+}
+.n {
+  width: 100%;
+  height: var(--wall);
+  left: 0;
+  top: 0;
+  background: inherit;
+  filter: brightness(150%);
+  transform-origin: 0 0;
+  transform: scaleY(calc(var(--ud) * -1)) skewX(calc(var(--lr) * -45deg));
+  z-index: calc(2 - var(--ud));
+}
+.e {
+  width: var(--wall);
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: inherit;
+  filter: brightness(120%);
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--lr)) skewY(calc(var(--ud) * 45deg));
+  z-index: calc(2 + var(--lr));
+}
+.s {
+  width: 100%;
+  height: var(--wall);
+  left: 0;
+  bottom: 0;
+  background: inherit;
+  filter: brightness(50%);
+  transform-origin: 50% 100%;
+  transform: scaleY(var(--ud)) skewX(calc(var(--lr) * 45deg));
+  z-index: calc(2 + var(--ud));
+}
+.w {
+  width: var(--wall);
+  height: 100%;
+  top: 0;
+  background: inherit;
+  filter: brightness(80%);
+  transform-origin: 0 50%;
+  transform: scaleX(calc(var(--lr) * -1)) skewY(calc(var(--ud) * -45deg));
+  z-index: calc(2 - var(--lr));
+}
+.roof {
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  transform: translate(calc(var(--wall) * var(--lr) * -1), calc(var(--wall) * var(--ud) * -1));
+  z-index: 4;
+}
+[id^="p_"][id*="_x1_"]:checked ~ .world {
+  --x: 0;
+}
+[id^="p_"][id*="_x2_"]:checked ~ .world {
+  --x: 1;
+}
+[id^="p_"][id*="_x3_"]:checked ~ .world {
+  --x: 2;
+}
+[id^="p_"][id*="_x4_"]:checked ~ .world {
+  --x: 3;
+}
+[id^="p_"][id*="_x5_"]:checked ~ .world {
+  --x: 4;
+}
+[id^="p_"][id*="_y1_"]:checked ~ .world {
+  --y: 0;
+}
+[id^="p_"][id*="_y2_"]:checked ~ .world {
+  --y: 1;
+}
+[id^="p_"][id*="_y3_"]:checked ~ .world {
+  --y: 2;
+}
+[id^="p_"][id*="_y4_"]:checked ~ .world {
+  --y: 3;
+}
+[id^="p_"][id*="_y5_"]:checked ~ .world {
+  --y: 4;
+}
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x1_"] .ne,
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x1_"] .se,
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x2_"] .place,
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x3_"] .place,
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x4_"] .place,
+[id^="p_"][id*="_x1_"]:checked ~ .world [class*="_x5_"] .place,
+[id^="p_"][id*="_x2_"]:checked ~ .world [class*="_x2_"] .ne,
+[id^="p_"][id*="_x2_"]:checked ~ .world [class*="_x2_"] .se,
+[id^="p_"][id*="_x2_"]:checked ~ .world [class*="_x3_"] .place,
+[id^="p_"][id*="_x2_"]:checked ~ .world [class*="_x4_"] .place,
+[id^="p_"][id*="_x2_"]:checked ~ .world [class*="_x5_"] .place,
+[id^="p_"][id*="_x3_"]:checked ~ .world [class*="_x3_"] .ne,
+[id^="p_"][id*="_x3_"]:checked ~ .world [class*="_x3_"] .se,
+[id^="p_"][id*="_x3_"]:checked ~ .world [class*="_x4_"] .place,
+[id^="p_"][id*="_x3_"]:checked ~ .world [class*="_x5_"] .place,
+[id^="p_"][id*="_x4_"]:checked ~ .world [class*="_x4_"] .ne,
+[id^="p_"][id*="_x4_"]:checked ~ .world [class*="_x4_"] .se,
+[id^="p_"][id*="_x4_"]:checked ~ .world [class*="_x5_"] .place,
+[id^="p_"][id*="_x5_"]:checked ~ .world [class*="_x5_"] .ne,
+[id^="p_"][id*="_x5_"]:checked ~ .world [class*="_x5_"] .se {
+  --lr: -1;
+}
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y1"] .sw,
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y1"] .se,
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y2"] .place,
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y3"] .place,
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y4"] .place,
+[id^="p_"][id*="_y1_"]:checked ~ .world [class$="_y5"] .place,
+[id^="p_"][id*="_y2_"]:checked ~ .world [class$="_y2"] .sw,
+[id^="p_"][id*="_y2_"]:checked ~ .world [class$="_y2"] .se,
+[id^="p_"][id*="_y2_"]:checked ~ .world [class$="_y3"] .place,
+[id^="p_"][id*="_y2_"]:checked ~ .world [class$="_y4"] .place,
+[id^="p_"][id*="_y2_"]:checked ~ .world [class$="_y5"] .place,
+[id^="p_"][id*="_y3_"]:checked ~ .world [class$="_y3"] .sw,
+[id^="p_"][id*="_y3_"]:checked ~ .world [class$="_y3"] .se,
+[id^="p_"][id*="_y3_"]:checked ~ .world [class$="_y4"] .place,
+[id^="p_"][id*="_y3_"]:checked ~ .world [class$="_y5"] .place,
+[id^="p_"][id*="_y4_"]:checked ~ .world [class$="_y4"] .sw,
+[id^="p_"][id*="_y4_"]:checked ~ .world [class$="_y4"] .se,
+[id^="p_"][id*="_y4_"]:checked ~ .world [class$="_y5"] .place,
+[id^="p_"][id*="_y5_"]:checked ~ .world [class$="_y5"] .sw,
+[id^="p_"][id*="_y5_"]:checked ~ .world [class$="_y5"] .se {
+  --ud: -1;
+}
+[id^="p_"][id*="_x1_"]:checked ~ .world .block[class*="_x1_"],
+[id^="p_"][id*="_x2_"]:checked ~ .world .block[class*="_x2_"],
+[id^="p_"][id*="_x3_"]:checked ~ .world .block[class*="_x3_"],
+[id^="p_"][id*="_x4_"]:checked ~ .world .block[class*="_x4_"],
+[id^="p_"][id*="_x5_"]:checked ~ .world .block[class*="_x5_"],
+[id^="p_"][id*="_y1_"]:checked ~ .world .block[class$="_y1"],
+[id^="p_"][id*="_y2_"]:checked ~ .world .block[class$="_y2"],
+[id^="p_"][id*="_y3_"]:checked ~ .world .block[class$="_y3"],
+[id^="p_"][id*="_y4_"]:checked ~ .world .block[class$="_y4"],
+[id^="p_"][id*="_y5_"]:checked ~ .world .block[class$="_y5"] {
+  z-index: 3;
+}
+[id^="p_"][id*="_x1_y1_"]:checked ~ .world .block.b_x1_y1,
+[id^="p_"][id*="_x1_y2_"]:checked ~ .world .block.b_x1_y2,
+[id^="p_"][id*="_x1_y3_"]:checked ~ .world .block.b_x1_y3,
+[id^="p_"][id*="_x1_y4_"]:checked ~ .world .block.b_x1_y4,
+[id^="p_"][id*="_x1_y5_"]:checked ~ .world .block.b_x1_y5,
+[id^="p_"][id*="_x2_y1_"]:checked ~ .world .block.b_x2_y1,
+[id^="p_"][id*="_x2_y2_"]:checked ~ .world .block.b_x2_y2,
+[id^="p_"][id*="_x2_y3_"]:checked ~ .world .block.b_x2_y3,
+[id^="p_"][id*="_x2_y4_"]:checked ~ .world .block.b_x2_y4,
+[id^="p_"][id*="_x2_y5_"]:checked ~ .world .block.b_x2_y5,
+[id^="p_"][id*="_x3_y1_"]:checked ~ .world .block.b_x3_y1,
+[id^="p_"][id*="_x3_y2_"]:checked ~ .world .block.b_x3_y2,
+[id^="p_"][id*="_x3_y3_"]:checked ~ .world .block.b_x3_y3,
+[id^="p_"][id*="_x3_y4_"]:checked ~ .world .block.b_x3_y4,
+[id^="p_"][id*="_x3_y5_"]:checked ~ .world .block.b_x3_y5,
+[id^="p_"][id*="_x4_y1_"]:checked ~ .world .block.b_x4_y1,
+[id^="p_"][id*="_x4_y2_"]:checked ~ .world .block.b_x4_y2,
+[id^="p_"][id*="_x4_y3_"]:checked ~ .world .block.b_x4_y3,
+[id^="p_"][id*="_x4_y4_"]:checked ~ .world .block.b_x4_y4,
+[id^="p_"][id*="_x4_y5_"]:checked ~ .world .block.b_x4_y5,
+[id^="p_"][id*="_x5_y1_"]:checked ~ .world .block.b_x5_y1,
+[id^="p_"][id*="_x5_y2_"]:checked ~ .world .block.b_x5_y2,
+[id^="p_"][id*="_x5_y3_"]:checked ~ .world .block.b_x5_y3,
+[id^="p_"][id*="_x5_y4_"]:checked ~ .world .block.b_x5_y4,
+[id^="p_"][id*="_x5_y5_"]:checked ~ .world .block.b_x5_y5 {
+  z-index: 4;
+}
+[for*="_d"] {
+  position: absolute;
+  width: var(--place);
+  height: var(--place);
+  opacity: 0;
+  pointer-events: none;
+}
+[for*="_d"]:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 50%;
+  top: 50%;
+  border-top: calc(var(--place) * 0.5) white solid;
+  border-right: calc(var(--place) * 0.5) transparent solid;
+}
+[for$="_d1"] {
+  left: calc(var(--block) / 2);
+  top: 0;
+  transform: translate(-50%, -100%);
+}
+[for$="_d1"]:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+[for$="_d2"] {
+  right: 0;
+  bottom: calc(var(--block) / 2);
+  transform: translate(100%, 50%);
+}
+[for$="_d2"]:before {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+[for$="_d3"] {
+  left: calc(var(--block) / 2);
+  bottom: 0;
+  transform: translate(-50%, 100%);
+}
+[for$="_d3"]:before {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+[for$="_d4"] {
+  left: 0;
+  bottom: calc(var(--block) / 2);
+  transform: translate(-100%, 50%);
+}
+[for$="_d4"]:before {
+  transform: translate(-50%, -50%) rotate(315deg);
+}
+[id^="p_"][id*="_x1_y1_"]:checked ~ .world .b_x1_y1 label,
+[id^="p_"][id*="_x1_y2_"]:checked ~ .world .b_x1_y2 label,
+[id^="p_"][id*="_x1_y3_"]:checked ~ .world .b_x1_y3 label,
+[id^="p_"][id*="_x1_y4_"]:checked ~ .world .b_x1_y4 label,
+[id^="p_"][id*="_x1_y5_"]:checked ~ .world .b_x1_y5 label,
+[id^="p_"][id*="_x2_y1_"]:checked ~ .world .b_x2_y1 label,
+[id^="p_"][id*="_x2_y2_"]:checked ~ .world .b_x2_y2 label,
+[id^="p_"][id*="_x2_y3_"]:checked ~ .world .b_x2_y3 label,
+[id^="p_"][id*="_x2_y4_"]:checked ~ .world .b_x2_y4 label,
+[id^="p_"][id*="_x2_y5_"]:checked ~ .world .b_x2_y5 label,
+[id^="p_"][id*="_x3_y1_"]:checked ~ .world .b_x3_y1 label,
+[id^="p_"][id*="_x3_y2_"]:checked ~ .world .b_x3_y2 label,
+[id^="p_"][id*="_x3_y3_"]:checked ~ .world .b_x3_y3 label,
+[id^="p_"][id*="_x3_y4_"]:checked ~ .world .b_x3_y4 label,
+[id^="p_"][id*="_x3_y5_"]:checked ~ .world .b_x3_y5 label,
+[id^="p_"][id*="_x4_y1_"]:checked ~ .world .b_x4_y1 label,
+[id^="p_"][id*="_x4_y2_"]:checked ~ .world .b_x4_y2 label,
+[id^="p_"][id*="_x4_y3_"]:checked ~ .world .b_x4_y3 label,
+[id^="p_"][id*="_x4_y4_"]:checked ~ .world .b_x4_y4 label,
+[id^="p_"][id*="_x4_y5_"]:checked ~ .world .b_x4_y5 label,
+[id^="p_"][id*="_x5_y1_"]:checked ~ .world .b_x5_y1 label,
+[id^="p_"][id*="_x5_y2_"]:checked ~ .world .b_x5_y2 label,
+[id^="p_"][id*="_x5_y3_"]:checked ~ .world .b_x5_y3 label,
+[id^="p_"][id*="_x5_y4_"]:checked ~ .world .b_x5_y4 label,
+[id^="p_"][id*="_x5_y5_"]:checked ~ .world .b_x5_y5 label {
+  opacity: 1;
+  pointer-events: auto;
+}
+.keys {
+  position: absolute;
+  z-index: 1;
+  width: calc(var(--block) + var(--place) * 2 / 3);
+  height: calc(var(--block) * 3 + var(--place) * 2 / 3);
+  left: calc(var(--place) * -1);
+  bottom: calc(var(--place) * -1);
+  background: blue;
+  border-top: calc(var(--place) / 3) yellow solid;
+  border-right: calc(var(--place) / 3) yellow solid;
+}
+.key {
+  float: left;
+  width: calc(var(--block) - var(--place));
+  height: calc(var(--block) - var(--place));
+  margin-top: calc(var(--place) / 3);
+  background: grey;
+  border: calc(var(--place) / 3) yellow solid;
+  border-left-width: var(--place);
+  border-radius: calc(var(--place) * 2 / 3);
+}
+.keys .key:nth-of-type(3) {
+  border-bottom-width: var(--place);
+}
+.b_x1_y3,
+.b_x1_y4,
+.b_x1_y5 {
+  width: calc(var(--block) - var(--place));
+  height: calc(var(--block) - var(--place));
+  margin-top: calc(var(--place));
+  margin-right: calc(var(--place));
+}
+.b_x1_y3 .ne,
+.b_x1_y4 .ne,
+.b_x1_y5 .ne,
+.b_x1_y3 .se,
+.b_x1_y4 .se {
+  display: none;
+}
+.bridge {
+  position: absolute;
+  width: var(--place);
+  height: var(--place);
+  left: var(--place);
+  top: calc(var(--place) * -1);
+  background: grey;
+  border-left: calc(var(--place) * 1 / 3) silver solid;
+  border-right: calc(var(--place) * 1 / 3) silver solid;
+}
+.bridge.lr {
+  left: var(--block);
+  top: calc(var(--block) - var(--place) * 11 / 3);
+  transform-origin: 0 0;
+  transform: rotate(90deg);
+}
+@keyframes path1x1 {
+  0% {
+    transform: translate(var(--right), var(--bottom)) rotate(90deg);
+  }
+  1% {
+    transform: translate(var(--right), var(--bottom)) rotate(0);
+  }
+  15% {
+    transform: translate(var(--right), var(--top)) rotate(0);
+  }
+  25% {
+    transform: translate(var(--right), var(--top)) rotate(0);
+  }
+  26% {
+    transform: translate(var(--right), var(--top)) rotate(-90deg);
+  }
+  40% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  50% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  51% {
+    transform: translate(var(--left), var(--top)) rotate(-180deg);
+  }
+  65% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  75% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  76% {
+    transform: translate(var(--left), var(--bottom)) rotate(-270deg);
+  }
+  90% {
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+  100% {
+    animation-timing-function: steps(1);
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+}
+@keyframes path1x2 {
+  0% {
+    transform: translate(var(--right), var(--bottom)) rotate(90deg);
+  }
+  1% {
+    transform: translate(var(--right), var(--bottom)) rotate(0);
+  }
+  15% {
+    transform: translate(var(--right), var(--top)) rotate(0);
+  }
+  25% {
+    transform: translate(var(--right), var(--top)) rotate(0);
+  }
+  26% {
+    transform: translate(var(--right), var(--top)) rotate(-90deg);
+  }
+  40% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  50% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  51% {
+    transform: translate(var(--left), var(--top)) rotate(-180deg);
+  }
+  65% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  75% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  76% {
+    transform: translate(var(--left), var(--bottom)) rotate(-270deg);
+  }
+  90% {
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+  100% {
+    animation-timing-function: steps(1);
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+}
+.npc {
+  --dir: 0;
+  --px: 0;
+  --py: 0;
+  --left: calc(var(--block) * var(--leftBlock) - var(--place) - var(--playerSize));
+  --top: calc(var(--block) * var(--topBlock) - var(--place) - var(--playerSize));
+  --right: calc(var(--block) * var(--rightBlock) + var(--place));
+  --bottom: calc(var(--block) * var(--bottomBlock) + var(--place));
+  position: absolute;
+  width: var(--playerSize);
+  height: calc(var(--playerSize) * 0.5);
+  left: 0;
+  top: calc(var(--playerSize) * 0.25);
+  border-radius: calc(var(--playerSize) * 0.25);
+  opacity: 1;
+  transition: opacity 5s linear;
+}
+.npc:before,
+.npc:after {
+  content: "";
+  position: absolute;
+}
+.npc:after {
+  width: calc(var(--playerSize) * 0.5);
+  height: calc(var(--playerSize) * 0.5);
+  left: 50%;
+  top: calc(var(--playerSize) * -0.1);
+  transform: translateX(-50%);
+  border-radius: 50%;
+}
+.npc1 {
+  --leftBlock: 2;
+  --topBlock: 2;
+  --rightBlock: 2;
+  --bottomBlock: 2;
+  background: red;
+  animation: path1x1 20s linear infinite;
+}
+.npc1:after {
+  background: black;
+}
+.npc2 {
+  --leftBlock: 3;
+  --topBlock: 1;
+  --rightBlock: 3;
+  --bottomBlock: 2;
+  background: peachpuff;
+  animation: path1x2 40s linear -20s infinite;
+}
+.npc2:after {
+  background: brown;
+}
+.npc3 {
+  --leftBlock: 4;
+  --topBlock: 1;
+  --rightBlock: 4;
+  --bottomBlock: 1;
+  background: lightblue;
+  animation: path1x1 20s linear infinite;
+}
+.npc3:before {
+  width: calc(var(--playerSize) * 0.5);
+  height: calc(var(--playerSize) * 0.5);
+  left: 50%;
+  top: calc(var(--playerSize) * -0.1);
+  background: blue;
+  transform: translateX(-50%) rotate(45deg);
+}
+.npc3:after {
+  background: blue;
+  border-radius: 0;
+}
+.npc4 {
+  --leftBlock: 1;
+  --topBlock: 1;
+  --rightBlock: 1;
+  --bottomBlock: 1;
+  background: orchid;
+  animation: path1x1 20s linear infinite;
+}
+.npc4:after {
+  background: gold;
+}
+[for^="npc"] {
+  position: absolute;
+  width: var(--playerSize);
+  height: var(--playerSize);
+  cursor: pointer;
+  transition: visibility 0s steps(1) 5s;
+}
+@keyframes shot {
+  10% {
+    pointer-events: auto;
+  }
+  11% {
+    pointer-events: none;
+  }
+}
+[for^="npc1_"],
+[for^="npc3_"],
+[for^="npc4_"] {
+  animation: shot 20s steps(1) infinite;
+}
+[for="npc1_s1"],
+[for="npc3_s1"],
+[for="npc4_s1"] {
+  animation-delay: -2s;
+}
+[for="npc1_s2"],
+[for="npc3_s2"],
+[for="npc4_s2"] {
+  animation-delay: -17s;
+}
+[for="npc1_s3"],
+[for="npc3_s3"],
+[for="npc4_s3"] {
+  animation-delay: -12s;
+}
+[for="npc1_s4"],
+[for="npc3_s4"],
+[for="npc4_s4"] {
+  animation-delay: -7s;
+}
+[for^="npc2_"] {
+  animation: shot 40s steps(1) infinite;
+}
+[for="npc2_s1"] {
+  animation-delay: -4s;
+}
+[for="npc2_s2"] {
+  animation-delay: -34s;
+}
+[for="npc2_s3"] {
+  animation-delay: -24s;
+}
+[for="npc2_s4"] {
+  animation-delay: -14s;
+}
+[id^="npc1_"]:checked ~ .world .npc1,
+[id^="npc2_"]:checked ~ .world .npc2,
+[id^="npc3_"]:checked ~ .world .npc3,
+[id^="npc4_"]:checked ~ .world .npc4 {
+  animation-play-state: paused;
+  opacity: 0;
+}
+[id^="npc1_"]:checked ~ .world [for^="npc1_"],
+[id^="npc2_"]:checked ~ .world [for^="npc2_"],
+[id^="npc3_"]:checked ~ .world [for^="npc3_"],
+[id^="npc4_"]:checked ~ .world [for^="npc4_"] {
+  animation-play-state: paused;
+  pointer-events: none;
+  visibility: hidden;
+}
+[id^="npc1_"]:checked ~ .world [for^="npc1_"]:before,
+[id^="npc1_"]:checked ~ .world [for^="npc1_"]:after,
+[id^="npc2_"]:checked ~ .world [for^="npc2_"]:before,
+[id^="npc2_"]:checked ~ .world [for^="npc2_"]:after,
+[id^="npc3_"]:checked ~ .world [for^="npc3_"]:before,
+[id^="npc3_"]:checked ~ .world [for^="npc3_"]:after,
+[id^="npc4_"]:checked ~ .world [for^="npc4_"]:before,
+[id^="npc4_"]:checked ~ .world [for^="npc4_"]:after {
+  visibility: hidden;
+}
+[for^="npc"]:before,
+[for^="npc"]:after {
+  content: "";
+  position: absolute;
+  animation: null 2s ease-out;
+  visibility: visible;
+  transition: visibility 0s steps(1) 5s;
+}
+@keyframes kill1before {
+  0% {
+    width: 0;
+    height: var(--playerSize);
+    left: 50%;
+    top: 10%;
+    border-left: calc(var(--playerSize) * 0.1) darkred dashed;
+    transform: rotate(-45deg) scale(0.25);
+  }
+  100% {
+    transform: rotate(-45deg) scale(1.5);
+  }
+}
+@keyframes kill1after {
+  0% {
+    width: 0;
+    height: var(--playerSize);
+    left: 50%;
+    top: 10%;
+    border-left: calc(var(--playerSize) * 0.1) darkred dashed;
+    transform: rotate(45deg) scale(0.25);
+  }
+  100% {
+    transform: rotate(45deg) scale(1.5);
+  }
+}
+@keyframes kill2before {
+  0% {
+    width: calc(var(--playerSize) * 0.2);
+    height: calc(var(--playerSize) * 0.2);
+    left: 30%;
+    top: 10%;
+    background: darkred;
+    border-radius: 50%;
+    box-shadow: calc(var(--playerSize) * 0.2) calc(var(--playerSize) * 0.2) darkred,
+      calc(var(--playerSize) * 0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * -0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * -0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * 0.3) 0 darkred,
+      calc(var(--playerSize) * -0.3) 0 darkred;
+    opacity: 1;
+    transform: scale(0.5) rotate(5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) rotate(15deg);
+  }
+}
+@keyframes kill2after {
+  0% {
+    width: calc(var(--playerSize) * 0.2);
+    height: calc(var(--playerSize) * 0.2);
+    left: 70%;
+    top: 10%;
+    background: darkred;
+    border-radius: 50%;
+    box-shadow: calc(var(--playerSize) * 0.2) calc(var(--playerSize) * 0.2) darkred,
+      calc(var(--playerSize) * 0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * -0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * -0.2) calc(var(--playerSize) * -0.2) darkred,
+      calc(var(--playerSize) * 0.3) 0 darkred,
+      calc(var(--playerSize) * -0.3) 0 darkred;
+    opacity: 1;
+    transform: scale(0.5) rotate(10deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3) rotate(20deg);
+  }
+}
+@keyframes kill3before {
+  0% {
+    width: var(--playerSize);
+    height: calc(var(--playerSize) * 0.5);
+    left: 50%;
+    top: 0;
+    background: black;
+    opacity: 1;
+    border-radius: calc(var(--playerSize) * 0.5);
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(var(--playerSize) * -2)) scale(4);
+  }
+}
+@keyframes kill3after {
+  0% {
+    width: var(--playerSize);
+    height: var(--playerSize);
+    left: 50%;
+    bottom: 0;
+    background-image: radial-gradient(yellow, red);
+    opacity: 1;
+    border-radius: calc(var(--playerSize) * 0.5);
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    gopacity: 1;
+    transform: translate(-50%, 0) scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(1.5);
+  }
+}
+#npc1_s1:checked ~ #w1:checked ~ .world [for="npc1_s1"]:before,
+#npc1_s2:checked ~ #w1:checked ~ .world [for="npc1_s2"]:before,
+#npc1_s3:checked ~ #w1:checked ~ .world [for="npc1_s3"]:before,
+#npc1_s4:checked ~ #w1:checked ~ .world [for="npc1_s4"]:before,
+#npc2_s1:checked ~ #w1:checked ~ .world [for="npc2_s1"]:before,
+#npc2_s2:checked ~ #w1:checked ~ .world [for="npc2_s2"]:before,
+#npc2_s3:checked ~ #w1:checked ~ .world [for="npc2_s3"]:before,
+#npc2_s4:checked ~ #w1:checked ~ .world [for="npc2_s4"]:before,
+#npc3_s1:checked ~ #w1:checked ~ .world [for="npc3_s1"]:before,
+#npc3_s2:checked ~ #w1:checked ~ .world [for="npc3_s2"]:before,
+#npc3_s3:checked ~ #w1:checked ~ .world [for="npc3_s3"]:before,
+#npc3_s4:checked ~ #w1:checked ~ .world [for="npc3_s4"]:before,
+#npc4_s1:checked ~ #w1:checked ~ .world [for="npc4_s1"]:before,
+#npc4_s2:checked ~ #w1:checked ~ .world [for="npc4_s2"]:before,
+#npc4_s3:checked ~ #w1:checked ~ .world [for="npc4_s3"]:before,
+#npc4_s4:checked ~ #w1:checked ~ .world [for="npc4_s4"]:before {
+  animation-name: kill1before
+}
+#npc1_s1:checked ~ #w1:checked ~ .world [for="npc1_s1"]:after,
+#npc1_s2:checked ~ #w1:checked ~ .world [for="npc1_s2"]:after,
+#npc1_s3:checked ~ #w1:checked ~ .world [for="npc1_s3"]:after,
+#npc1_s4:checked ~ #w1:checked ~ .world [for="npc1_s4"]:after,
+#npc2_s1:checked ~ #w1:checked ~ .world [for="npc2_s1"]:after,
+#npc2_s2:checked ~ #w1:checked ~ .world [for="npc2_s2"]:after,
+#npc2_s3:checked ~ #w1:checked ~ .world [for="npc2_s3"]:after,
+#npc2_s4:checked ~ #w1:checked ~ .world [for="npc2_s4"]:after,
+#npc3_s1:checked ~ #w1:checked ~ .world [for="npc3_s1"]:after,
+#npc3_s2:checked ~ #w1:checked ~ .world [for="npc3_s2"]:after,
+#npc3_s3:checked ~ #w1:checked ~ .world [for="npc3_s3"]:after,
+#npc3_s4:checked ~ #w1:checked ~ .world [for="npc3_s4"]:after,
+#npc4_s1:checked ~ #w1:checked ~ .world [for="npc4_s1"]:after,
+#npc4_s2:checked ~ #w1:checked ~ .world [for="npc4_s2"]:after,
+#npc4_s3:checked ~ #w1:checked ~ .world [for="npc4_s3"]:after,
+#npc4_s4:checked ~ #w1:checked ~ .world [for="npc4_s4"]:after {
+  animation-name: kill1after
+}
+#npc1_s1:checked ~ #w2:checked ~ .world [for="npc1_s1"]:before,
+#npc1_s2:checked ~ #w2:checked ~ .world [for="npc1_s2"]:before,
+#npc1_s3:checked ~ #w2:checked ~ .world [for="npc1_s3"]:before,
+#npc1_s4:checked ~ #w2:checked ~ .world [for="npc1_s4"]:before,
+#npc2_s1:checked ~ #w2:checked ~ .world [for="npc2_s1"]:before,
+#npc2_s2:checked ~ #w2:checked ~ .world [for="npc2_s2"]:before,
+#npc2_s3:checked ~ #w2:checked ~ .world [for="npc2_s3"]:before,
+#npc2_s4:checked ~ #w2:checked ~ .world [for="npc2_s4"]:before,
+#npc3_s1:checked ~ #w2:checked ~ .world [for="npc3_s1"]:before,
+#npc3_s2:checked ~ #w2:checked ~ .world [for="npc3_s2"]:before,
+#npc3_s3:checked ~ #w2:checked ~ .world [for="npc3_s3"]:before,
+#npc3_s4:checked ~ #w2:checked ~ .world [for="npc3_s4"]:before,
+#npc4_s1:checked ~ #w2:checked ~ .world [for="npc4_s1"]:before,
+#npc4_s2:checked ~ #w2:checked ~ .world [for="npc4_s2"]:before,
+#npc4_s3:checked ~ #w2:checked ~ .world [for="npc4_s3"]:before,
+#npc4_s4:checked ~ #w2:checked ~ .world [for="npc4_s4"]:before {
+  animation-name: kill2before
+}
+#npc1_s1:checked ~ #w2:checked ~ .world [for="npc1_s1"]:after,
+#npc1_s2:checked ~ #w2:checked ~ .world [for="npc1_s2"]:after,
+#npc1_s3:checked ~ #w2:checked ~ .world [for="npc1_s3"]:after,
+#npc1_s4:checked ~ #w2:checked ~ .world [for="npc1_s4"]:after,
+#npc2_s1:checked ~ #w2:checked ~ .world [for="npc2_s1"]:after,
+#npc2_s2:checked ~ #w2:checked ~ .world [for="npc2_s2"]:after,
+#npc2_s3:checked ~ #w2:checked ~ .world [for="npc2_s3"]:after,
+#npc2_s4:checked ~ #w2:checked ~ .world [for="npc2_s4"]:after,
+#npc3_s1:checked ~ #w2:checked ~ .world [for="npc3_s1"]:after,
+#npc3_s2:checked ~ #w2:checked ~ .world [for="npc3_s2"]:after,
+#npc3_s3:checked ~ #w2:checked ~ .world [for="npc3_s3"]:after,
+#npc3_s4:checked ~ #w2:checked ~ .world [for="npc3_s4"]:after,
+#npc4_s1:checked ~ #w2:checked ~ .world [for="npc4_s1"]:after,
+#npc4_s2:checked ~ #w2:checked ~ .world [for="npc4_s2"]:after,
+#npc4_s3:checked ~ #w2:checked ~ .world [for="npc4_s3"]:after,
+#npc4_s4:checked ~ #w2:checked ~ .world [for="npc4_s4"]:after {
+  animation-name: kill2after
+}
+#npc1_s1:checked ~ #w3:checked ~ .world [for="npc1_s1"]:before,
+#npc1_s2:checked ~ #w3:checked ~ .world [for="npc1_s2"]:before,
+#npc1_s3:checked ~ #w3:checked ~ .world [for="npc1_s3"]:before,
+#npc1_s4:checked ~ #w3:checked ~ .world [for="npc1_s4"]:before,
+#npc2_s1:checked ~ #w3:checked ~ .world [for="npc2_s1"]:before,
+#npc2_s2:checked ~ #w3:checked ~ .world [for="npc2_s2"]:before,
+#npc2_s3:checked ~ #w3:checked ~ .world [for="npc2_s3"]:before,
+#npc2_s4:checked ~ #w3:checked ~ .world [for="npc2_s4"]:before,
+#npc3_s1:checked ~ #w3:checked ~ .world [for="npc3_s1"]:before,
+#npc3_s2:checked ~ #w3:checked ~ .world [for="npc3_s2"]:before,
+#npc3_s3:checked ~ #w3:checked ~ .world [for="npc3_s3"]:before,
+#npc3_s4:checked ~ #w3:checked ~ .world [for="npc3_s4"]:before,
+#npc4_s1:checked ~ #w3:checked ~ .world [for="npc4_s1"]:before,
+#npc4_s2:checked ~ #w3:checked ~ .world [for="npc4_s2"]:before,
+#npc4_s3:checked ~ #w3:checked ~ .world [for="npc4_s3"]:before,
+#npc4_s4:checked ~ #w3:checked ~ .world [for="npc4_s4"]:before {
+  animation-duration: 5s;
+  animation-name: kill3before
+}
+#npc1_s1:checked ~ #w3:checked ~ .world [for="npc1_s1"]:after,
+#npc1_s2:checked ~ #w3:checked ~ .world [for="npc1_s2"]:after,
+#npc1_s3:checked ~ #w3:checked ~ .world [for="npc1_s3"]:after,
+#npc1_s4:checked ~ #w3:checked ~ .world [for="npc1_s4"]:after,
+#npc2_s1:checked ~ #w3:checked ~ .world [for="npc2_s1"]:after,
+#npc2_s2:checked ~ #w3:checked ~ .world [for="npc2_s2"]:after,
+#npc2_s3:checked ~ #w3:checked ~ .world [for="npc2_s3"]:after,
+#npc2_s4:checked ~ #w3:checked ~ .world [for="npc2_s4"]:after,
+#npc3_s1:checked ~ #w3:checked ~ .world [for="npc3_s1"]:after,
+#npc3_s2:checked ~ #w3:checked ~ .world [for="npc3_s2"]:after,
+#npc3_s3:checked ~ #w3:checked ~ .world [for="npc3_s3"]:after,
+#npc3_s4:checked ~ #w3:checked ~ .world [for="npc3_s4"]:after,
+#npc4_s1:checked ~ #w3:checked ~ .world [for="npc4_s1"]:after,
+#npc4_s2:checked ~ #w3:checked ~ .world [for="npc4_s2"]:after,
+#npc4_s3:checked ~ #w3:checked ~ .world [for="npc4_s3"]:after,
+#npc4_s4:checked ~ #w3:checked ~ .world [for="npc4_s4"]:after {
+  animation-name: kill3after
+}
+@keyframes route2x1 {
+  0% {
+    transform: translate(var(--right), var(--bottom)) rotate(90deg);
+  }
+  1% {
+    transform: translate(var(--right), var(--bottom)) rotate(0);
+  }
+  15% {
+    transform: translate(var(--right), var(--top)) rotate(0)
+  }
+  25% {
+    transform: translate(var(--right), var(--top)) rotate(0);
+  }
+  26% {
+    transform: translate(var(--right), var(--top)) rotate(-90deg);
+  }
+  40% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  50% {
+    transform: translate(var(--left), var(--top)) rotate(-90deg);
+  }
+  51% {
+    transform: translate(var(--left), var(--top)) rotate(-180deg);
+  }
+  65% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  75% {
+    transform: translate(var(--left), var(--bottom)) rotate(-180deg);
+  }
+  76% {
+    transform: translate(var(--left), var(--bottom)) rotate(-270deg);
+  }
+  90% {
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+  100% {
+    animation-timing-function: steps(1);
+    transform: translate(var(--right), var(--bottom)) rotate(-270deg);
+  }
+}
+@keyframes jack {
+  10% {
+    pointer-events: auto;
+  }
+  11% {
+    pointer-events: none;
+  }
+}
+.vehicle {
+  --dir: 0;
+  --px: 0;
+  --py: 0;
+  position: absolute;
+  width: var(--vehicleWidth);
+  height: var(--vehicleHeight);
+  opacity: 1;
+}
+div.vehicle {
+  --right: calc(var(--block) * var(--rightBlock) + var(--place) - var(--hwDiff));
+  --bottom: calc(var(--block) * var(--bottomBlock) + var(--place) - var(--hwDiff));
+  --left: calc(var(--block) * var(--leftBlock) - var(--place) - var(--vehicleWidth) - var(--hwDiff));
+  --top: calc(var(--block) * var(--topBlock) - var(--place) - var(--vehicleWidth) - var(--hwDiff));
+  --hwDiff: calc((var(--vehicleHeight) - var(--vehicleWidth)) / 2);
+  left: calc((var(--vehicleHeight) - var(--vehicleWidth)) / 2);
+  top: 0;
+}
+.vehicle:before,
+.vehicle:after {
+  content: "";
+  position: absolute;
+}
+.v1 {
+  background: red;
+  border-radius: calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.2) calc(var(--vehicleWidth) * 0.2);
+}
+div.v1 {
+  --leftBlock: 2;
+  --topBlock: 3;
+  --rightBlock: 3;
+  --bottomBlock: 3;
+  animation: route2x1 20s linear -10s infinite;
+}
+.v1:before {
+  width: calc(var(--vehicleWidth) * 0.1);
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  border-left: calc(var(--vehicleWidth) * 0.1) white solid;
+  border-right: calc(var(--vehicleWidth) * 0.1) white solid;
+}
+.v1:after {
+  width: calc(var(--vehicleWidth) * 0.6);
+  height: calc(var(--vehicleHeight) * 0.25);
+  left: 50%;
+  top: calc(var(--vehicleHeight) * 0.25);
+  transform: translateX(-50%);
+  background: silver;
+  border-radius: calc(var(--vehicleWidth) * 0.2) calc(var(--vehicleWidth) * 0.2) 0 0;
+}
+.v2 {
+  background: yellow;
+  border-radius: calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.2) calc(var(--vehicleWidth) * 0.2);
+}
+div.v2 {
+  --leftBlock: 4;
+  --topBlock: 2;
+  --rightBlock: 4;
+  --bottomBlock: 3;
+  animation: route2x1 20s linear infinite;
+}
+.v2:before {
+  width: calc(var(--vehicleWidth) * 0.6);
+  height: calc(var(--vehicleHeight) * 0.25);
+  left: 50%;
+  top: calc(var(--vehicleHeight) * 0.25);
+  transform: translateX(-50%);
+  background: silver;
+  border-radius: calc(var(--vehicleWidth) * 0.2) calc(var(--vehicleWidth) * 0.2) 0 0;
+}
+.v2:after {
+  width: calc(var(--vehicleWidth) * 0.6);
+  height: calc(var(--vehicleHeight) * 0.3);
+  left: 50%;
+  top: calc(var(--vehicleHeight) * 0.5);
+  transform: translateX(-50%);
+  background: black;
+  opacity: 0.5;
+  border-radius: 0 0 calc(var(--vehicleWidth) * 0.5) calc(var(--vehicleWidth) * 0.5);
+}
+.v3 {
+  background: black;
+  border-radius: calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.33) calc(var(--vehicleWidth) * 0.2) calc(var(--vehicleWidth) * 0.2);
+}
+div.v3 {
+  --leftBlock: 3;
+  --topBlock: 4;
+  --rightBlock: 4;
+  --bottomBlock: 4;
+  animation: route2x1 20s linear infinite;
+}
+.v3:before {
+  width: calc(var(--vehicleWidth) * 0.6);
+  height: calc(var(--vehicleHeight) * 0.25);
+  left: 50%;
+  top: calc(var(--vehicleHeight) * 0.2);
+  transform: translateX(-50%);
+  background: silver;
+  border-radius: calc(var(--vehicleWidth) * 0.25) calc(var(--vehicleWidth) * 0.25) 0 0;
+}
+.v3:after {
+  width: calc(var(--vehicleWidth) * 0.6);
+  height: calc(var(--vehicleHeight) * 0.15);
+  left: 50%;
+  top: calc(var(--vehicleHeight) * 0.7);
+  transform: translateX(-50%);
+  background: silver;
+}
+[for^="v"] {
+  position: absolute;
+  width: var(--vehicleWidth);
+  height: var(--vehicleWidth);
+  cursor: pointer;
+  z-index: 1;
+}
+[for="v1"] {
+  animation: jack 20s steps(1) infinite;
+}
+[for="v1"].j1 {
+  animation-delay: -12s;
+}
+[for="v1"].j2 {
+  animation-delay: -7s;
+}
+[for="v1"].j3 {
+  animation-delay: -2s;
+}
+[for="v1"].j4 {
+  animation-delay: -17s;
+}
+[for="v2"] {
+  animation: jack 20s steps(1) infinite;
+}
+[for="v2"].j1 {
+  animation-delay: -2s;
+}
+[for="v2"].j2 {
+  animation-delay: -17s;
+}
+[for="v2"].j3 {
+  animation-delay: -12s;
+}
+[for="v2"].j4 {
+  animation-delay: -7s;
+}
+[for="v3"] {
+  animation: jack 20s steps(1) infinite;
+}
+[for="v3"].j1 {
+  animation-delay: -2s;
+}
+[for="v3"].j2 {
+  animation-delay: -17s;
+}
+[for="v3"].j3 {
+  animation-delay: -12s;
+}
+[for="v3"].j4 {
+  animation-delay: -7s;
+}
+[for^="npc"],
+[for^="v"] {
+  pointer-events: none;
+  visibility: visible;
+}
+[for="npc1_s1"],
+[for="npc2_s3"],
+[for="npc3_s1"],
+[for="npc4_s1"],
+[for="v1"].j1,
+[for="v2"].j1,
+[for="v3"].j1 {
+  left: var(--place);
+  top: var(--place);
+}
+[for="npc1_s4"],
+[for="npc2_s2"],
+[for="npc3_s4"],
+[for="npc4_s4"],
+[for="v1"].j4,
+[for="v2"].j4,
+[for="v3"].j4 {
+  right: var(--place);
+  top: var(--place);
+}
+[for="npc1_s3"],
+[for="npc2_s1"],
+[for="npc3_s3"],
+[for="npc4_s3"],
+[for="v1"].j3,
+[for="v2"].j3,
+[for="v3"].j3 {
+  right: var(--place);
+  bottom: var(--place);
+}
+[for="npc1_s2"],
+[for="npc2_s4"],
+[for="npc3_s2"],
+[for="npc4_s2"],
+[for="v1"].j2,
+[for="v2"].j2,
+[for="v3"].j2 {
+  left: var(--place);
+  bottom: var(--place);
+}
+.player {
+  --dir: 0;
+  position: absolute;
+  width: var(--vehicleWidth);
+  height: var(--vehicleHeight);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(var(--dir));
+}
+.walk {
+  position: absolute;
+  width: var(--playerSize);
+  height: calc(var(--playerSize) * 0.5);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: green;
+  border-radius: calc(var(--playerSize) * 0.25);
+}
+.walk:before,
+.walk:after {
+  content: "";
+  position: absolute;
+}
+.walk:before {
+  width: calc(var(--playerSize) * 0.25);
+  height: calc(var(--playerSize) * 0.5);
+  right: 0;
+  top: calc(var(--playerSize) * -0.25);
+  background: inherit;
+  border-radius: calc(var(--playerSize) * 0.25);
+}
+.walk:after {
+  width: calc(var(--playerSize) * 0.5);
+  height: calc(var(--playerSize) * 0.5);
+  left: 50%;
+  top: calc(var(--playerSize) * -0.1);
+  transform: translateX(-50%);
+  background: black;
+  border-radius: 50%;
+}
+.player label {
+  display: none;
+}
+[name="vehicle"][id^="v"]:checked ~ .world .walk {
+  display: none;
+}
+#v1:checked ~ .world {
+  --speed: 1s;
+}
+#v2:checked ~ .world {
+  --speed: 1.5s;
+}
+#v3:checked ~ .world {
+  --speed: 1.2s;
+}
+@keyframes vmax {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes active {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes style {
+  50% {
+    opacity: 1;
+  }
+}
+#v1:checked ~ .world .hud-info.vehicle:before {
+  content: "V-Max";
+  animation-name: vmax;
+}
+#v1:checked ~ .world div.v1,
+#v1:checked ~ .world [for="v1"],
+#v2:checked ~ .world div.v2,
+#v2:checked ~ .world [for="v2"],
+#v3:checked ~ .world div.v3,
+#v3:checked ~ .world [for="v3"] {
+  animation-play-state: paused;
+  display: none;
+}
+#v2:checked ~ .world .hud-info.vehicle:before {
+  content: "Active";
+  animation-name: active;
+}
+#v3:checked ~ .world .hud-info.vehicle:before {
+  content: "Style";
+  animation-name: style;
+}
+#v1:checked ~ .world .player .v1,
+#v2:checked ~ .world .player .v2,
+#v3:checked ~ .world .player .v3 {
+  display: block;
+}
+.weapon {
+  position: absolute;
+  display: none;
+}
+.weapon1 {
+  width: calc(var(--playerSize) * 0.1);
+  height: calc(var(--playerSize) * 0.3);
+  right: calc(var(--playerSize) * 0.1);
+  top: calc(var(--playerSize) * -0.45);
+  background: silver;
+}
+.weapon2 {
+  width: calc(var(--playerSize) * 0.15);
+  height: calc(var(--playerSize) * 0.6);
+  right: calc(var(--playerSize) * 0.05);
+  top: calc(var(--playerSize) * -0.6);
+  background: black;
+}
+.weapon3 {
+  width: calc(var(--playerSize) * 0.2);
+  height: calc(var(--playerSize) * 1.2);
+  right: calc(var(--playerSize) * 0.05);
+  top: calc(var(--playerSize) * -0.6);
+  background: darkgrey;
+}
+#w1:checked ~ .world .weapon1,
+#w2:checked ~ .world .weapon2,
+#w3:checked ~ .world .weapon3 {
+  display: block;
+}
+[id^="p_"][id$="_d2"]:checked ~ .world .player {
+  --dir: 90deg;
+}
+[id^="p_"][id$="_d3"]:checked ~ .world .player {
+  --dir: 180deg;
+}
+[id^="p_"][id$="_d4"]:checked ~ .world .player {
+  --dir: -90deg;
+}
+@keyframes opacity {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes maxheights {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes marginblock {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes gridrow {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes viewport {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes keyframes {
+  50% {
+    opacity: 1;
+  }
+}
+.hud-info {
+  position: absolute;
+  width: 40%;
+  height: 20%;
+  left: 5%;
+  bottom: 5%;
+  font-size: var(--place);
+  font-family: cursive;
+  font-style: italic;
+  line-height: 1;
+  color: pink;
+  text-shadow: calc(var(--place) * 0.075) calc(var(--place) * 0.075) calc(var(--place) * 0.1) black;
+  transform: rotate(-10deg);
+  pointer-events: none;
+}
+.hud-info.vehicle {
+  bottom: 10%;
+}
+.hud-info:before {
+  opacity: 0;
+  animation: null 6s ease forwards;
+}
+[id^="p_"][id*="_x1_y1_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x4_y4_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x5_y3_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x5_y4_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x5_y5_"]:checked ~ .world .hud-info.hood:before {
+  content: "Opa City";
+  animation-name: opacity;
+}
+[id^="p_"][id*="_x2_y1_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x3_y1_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x4_y1_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x5_y1_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x5_y2_"]:checked ~ .world .hud-info.hood:before {
+  content: "Max Heights";
+  animation-name: maxheights;
+}
+.b_x2_y1,
+.b_x3_y1,
+.b_x4_y1,
+.b_x5_y1,
+.b_x5_y2 {
+  --wall: 10vmin;
+  --placeCol: lightblue;
+}
+[id^="p_"][id*="_x1_y2_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x2_y2_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x3_y2_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x4_y2_"]:checked ~ .world .hud-info.hood:before {
+  content: "Margin Block";
+  animation-name: marginblock;
+}
+.b_x1_y2,
+.b_x2_y2,
+.b_x3_y2,
+.b_x4_y2 {
+  --wall: 8vmin;
+  --placeCol: purple;
+}
+[id^="p_"][id*="_x2_y3_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x3_y3_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x4_y3_"]:checked ~ .world .hud-info.hood:before {
+  content: "Grid Row";
+  animation-name: gridrow;
+}
+[id^="p_"][id*="_x2_y4_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x2_y5_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x3_y4_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x3_y5_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x4_y5_"]:checked ~ .world .hud-info.hood:before {
+  content: "View Port";
+  animation-name: viewport;
+}
+.b_x2_y4,
+.b_x2_y5,
+.b_x3_y4,
+.b_x3_y5,
+.b_x4_y5 {
+  --wall: 3vmin;
+  --placeCol: orange;
+}
+[id^="p_"][id*="_x1_y3_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x1_y4_"]:checked ~ .world .hud-info.hood:before,
+[id^="p_"][id*="_x1_y5_"]:checked ~ .world .hud-info.hood:before {
+  content: "Key Frames";
+  animation-name: keyframes;
+}
+.b_x1_y3,
+.b_x1_y4,
+.b_x1_y5 {
+  --wall: 2vmin;
+  --placeCol: yellowgreen;
+}
+.hud-weapon {
+  --size: 15vmin;
+  position: absolute;
+  width: calc(var(--size) * 2);
+  height: var(--size);
+  right: 0;
+  top: calc(var(--size) * 0.5);
+  overflow: hidden;
+}
+.weapon-choice {
+  position: absolute;
+  width: calc(var(--size) * 5);
+  height: 100%;
+  left: calc(var(--size) * -0.5);
+}
+.weapon-choice label {
+  float: left;
+  width: var(--size);
+  height: 100%;
+}
+.weapon-choice label {
+  float: left;
+  position: relative;
+  width: var(--size);
+  height: 100%;
+}
+.weapon-choice label:before,
+.weapon-choice label:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: calc(var(--size) * 0.35);
+  transform: rotate(45deg);
+}
+.weapon-choice label:before {
+  left: 0;
+  border-top: calc(var(--size) * 0.25) white solid;
+  border-left: calc(var(--size) * 0.25) transparent solid;
+}
+.weapon-choice label:after {
+  right: 0;
+  border-bottom: calc(var(--size) * 0.25) white solid;
+  border-right: calc(var(--size) * 0.25) transparent solid;
+}
+.weapon-chosen {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  left: calc(var(--size) * 0.5);
+  top: 0;
+  background: darkgrey;
+  border-radius: 50%;
+  display: none;
+}
+.weapon-chosen:before,
+.weapon-chosen:after {
+  content: "";
+  position: absolute;
+}
+.weapon-chosen.w1:before {
+  width: 45%;
+  height: 30%;
+  left: 20%;
+  top: 25%;
+  border-top: calc(var(--size) * 0.2) white solid;
+  border-left: calc(var(--size) * 0.2) white solid;
+  border-radius: 25% 0 0 0;
+}
+.weapon-chosen.w1:after {
+  width: 4%;
+  height: 5%;
+  left: 45%;
+  top: 45%;
+  border-left: calc(var(--size) * 0.07) white solid;
+  border-bottom: calc(var(--size) * 0.07) white solid;
+  border-radius: 0 0 0 50%;
+}
+.weapon-chosen.w2:before {
+  width: 45%;
+  height: 15%;
+  left: 20%;
+  top: 35%;
+  border-top: calc(var(--size) * 0.2) white solid;
+  border-left: calc(var(--size) * 0.2) white solid;
+  border-radius: 25% 0 0 0;
+}
+.weapon-chosen.w2:after {
+  width: 2%;
+  height: 2%;
+  left: 45%;
+  top: 55%;
+  border-left: calc(var(--size) * 0.07) white solid;
+  border-bottom: calc(var(--size) * 0.07) white solid;
+  border-radius: 0 0 0 50%;
+}
+.weapon-chosen.w3:before {
+  width: 70%;
+  height: 15%;
+  left: 10%;
+  top: 40%;
+  background: white;
+  transform: rotate(-40deg);
+}
+.weapon-chosen.w3:after {
+  width: 0;
+  height: 0;
+  left: 60%;
+  top: 17%;
+  border-top: calc(var(--size) * 0.2) white solid;
+  border-left: calc(var(--size) * 0.2) transparent solid;
+}
+#w2:checked ~ .world .weapon-choice {
+  transform: translateX(calc(var(--size) * -1));
+}
+#w3:checked ~ .world .weapon-choice {
+  transform: translateX(calc(var(--size) * -2));
+}
+#w1:checked ~ .world .weapon-chosen.w1,
+#w2:checked ~ .world .weapon-chosen.w2,
+#w3:checked ~ .world .weapon-chosen.w3 {
+  display: block;
+}
+@keyframes wanted {
+  50% {
+    border-bottom-color: white;
+  }
+}
+.hud-stars {
+  --size: 15vmin;
+  position: absolute;
+  width: calc(var(--size) * 2);
+  height: calc(var(--size) * 0.4);
+  left: calc(var(--size) * 0.5);
+  top: calc(var(--size) * 0.5);
+}
+.hud-stars .star {
+  --star: calc(var(--size) * 0.2);
+  float: left;
+  position: relative;
+  width: 0;
+  height: 0;
+  top: calc(var(--star) * 0.5);
+  margin-right: calc(var(--var) * 0.5);
+  border-left: calc(var(--star) * 1) transparent solid;
+  border-bottom: calc(var(--star) * 0.7) darkgrey solid;
+  border-right: calc(var(--star) * 1) transparent solid;
+  transform: rotate(35deg);
+}
+.hud-stars .star:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: calc(var(--star) * -0.65);
+  top: calc(var(--star) * -0.45);
+  border-left: calc(var(--star) * 0.3) transparent solid;
+  border-bottom: calc(var(--star) * 0.8) darkgrey solid;
+  border-right: calc(var(--star) * 0.3) transparent solid;
+  transform: rotate(-35deg);
+}
+.hud-stars .star:after {
+  content: "";
+  position: absolute;
+  left: calc(var(--star) * -1.05);
+  top: calc(var(--star) * 0.03);
+  width: 0;
+  height: 0;
+  border-left: calc(var(--star) * 1) transparent solid;
+  border-bottom: calc(var(--star) * 0.7) darkgrey solid;
+  border-right: calc(var(--star) * 1) transparent solid;
+  transform: rotate(-70deg);
+}
+[id^="npc3_"]:checked ~ .world .hud-stars .star:nth-of-type(-n+2),
+[id^="npc3_"]:checked ~ .world .hud-stars .star:nth-of-type(-n+2):before,
+[id^="npc3_"]:checked ~ .world .hud-stars .star:nth-of-type(-n+2):after {
+  animation: wanted 1s linear 30;
+}
+.hud-map {
+  --size: 15vmin;
+  position: absolute;
+  width: calc(var(--size) * 1 - var(--size) / 5);
+  height: calc(var(--size) * 1 - var(--size) / 5);
+  right: calc(var(--size) * 0.5);
+  bottom: calc(var(--size) * 0.5);
+  padding: calc(var(--size) / 10);
+  background: rgba(255, 255, 255, 0.5);
+}
+.hud-block {
+  float: left;
+  width: calc(var(--size) / 5 - var(--size) / 25);
+  height: calc(var(--size) / 5 - var(--size) / 25);
+  background: rgba(128, 128, 128, 0.5);
+  border: calc(var(--size) / 50) rgba(255, 255, 255, 0.25) solid;
+}
+@keyframes blip {
+  50% {
+    transform: translate(calc(var(--x) * var(--size) / 5), calc(var(--y) * var(--size) / 5)) scale(1.5);
+  }
+}
+.hud-map .blip {
+  position: absolute;
+  width: calc(var(--size) * 0.1);
+  height: calc(var(--size) * 0.1);
+  left: calc(var(--size) * 0.05);
+  top: calc(var(--size) * 0.05);
+  background: white;
+  border-radius: 50%;
+  transform: translate(calc(var(--x) * var(--size) / 5), calc(var(--y) * var(--size) / 5)) scale(1);
+  transition: transform var(--speed) linear;
+}
+</style>
+</head>
+<body>
+<input type="radio" name="npc1" id="npc1_s1" />
+<input type="radio" name="npc1" id="npc1_s2" />
+<input type="radio" name="npc1" id="npc1_s3" />
+<input type="radio" name="npc1" id="npc1_s4" />
+<input type="radio" name="npc2" id="npc2_s1" />
+<input type="radio" name="npc2" id="npc2_s2" />
+<input type="radio" name="npc2" id="npc2_s3" />
+<input type="radio" name="npc2" id="npc2_s4" />
+<input type="radio" name="npc3" id="npc3_s1" />
+<input type="radio" name="npc3" id="npc3_s2" />
+<input type="radio" name="npc3" id="npc3_s3" />
+<input type="radio" name="npc3" id="npc3_s4" />
+<input type="radio" name="npc4" id="npc4_s1" />
+<input type="radio" name="npc4" id="npc4_s2" />
+<input type="radio" name="npc4" id="npc4_s3" />
+<input type="radio" name="npc4" id="npc4_s4" />
+<input type="radio" name="weapon" id="w1" checked="checked" />
+<input type="radio" name="weapon" id="w2" />
+<input type="radio" name="weapon" id="w3" />
+<input type="radio" name="vehicle" id="walk" checked="checked" />
+<input type="radio" name="vehicle" id="v1" />
+<input type="radio" name="vehicle" id="v2" />
+<input type="radio" name="vehicle" id="v3" />
+<input type="radio" name="pos" id="p_x1_y1_d1" />
+<input type="radio" name="pos" id="p_x1_y1_d2" />
+<input type="radio" name="pos" id="p_x1_y1_d3" />
+<input type="radio" name="pos" id="p_x1_y1_d4" />
+<input type="radio" name="pos" id="p_x2_y1_d1" />
+<input type="radio" name="pos" id="p_x2_y1_d2" />
+<input type="radio" name="pos" id="p_x2_y1_d3" />
+<input type="radio" name="pos" id="p_x2_y1_d4" />
+<input type="radio" name="pos" id="p_x3_y1_d1" />
+<input type="radio" name="pos" id="p_x3_y1_d2" />
+<input type="radio" name="pos" id="p_x3_y1_d3" />
+<input type="radio" name="pos" id="p_x3_y1_d4" />
+<input type="radio" name="pos" id="p_x4_y1_d1" />
+<input type="radio" name="pos" id="p_x4_y1_d2" />
+<input type="radio" name="pos" id="p_x4_y1_d3" />
+<input type="radio" name="pos" id="p_x4_y1_d4" />
+<input type="radio" name="pos" id="p_x5_y1_d1" />
+<input type="radio" name="pos" id="p_x5_y1_d2" />
+<input type="radio" name="pos" id="p_x5_y1_d3" />
+<input type="radio" name="pos" id="p_x5_y1_d4" />
+<input type="radio" name="pos" id="p_x1_y2_d1" />
+<input type="radio" name="pos" id="p_x1_y2_d2" />
+<input type="radio" name="pos" id="p_x1_y2_d3" />
+<input type="radio" name="pos" id="p_x1_y2_d4" />
+<input type="radio" name="pos" id="p_x2_y2_d1" />
+<input type="radio" name="pos" id="p_x2_y2_d2" />
+<input type="radio" name="pos" id="p_x2_y2_d3" />
+<input type="radio" name="pos" id="p_x2_y2_d4" />
+<input type="radio" name="pos" id="p_x3_y2_d1" />
+<input type="radio" name="pos" id="p_x3_y2_d2" />
+<input type="radio" name="pos" id="p_x3_y2_d3" />
+<input type="radio" name="pos" id="p_x3_y2_d4" />
+<input type="radio" name="pos" id="p_x4_y2_d1" />
+<input type="radio" name="pos" id="p_x4_y2_d2" />
+<input type="radio" name="pos" id="p_x4_y2_d3" />
+<input type="radio" name="pos" id="p_x4_y2_d4" />
+<input type="radio" name="pos" id="p_x5_y2_d1" />
+<input type="radio" name="pos" id="p_x5_y2_d2" />
+<input type="radio" name="pos" id="p_x5_y2_d3" />
+<input type="radio" name="pos" id="p_x5_y2_d4" />
+<input type="radio" name="pos" id="p_x1_y3_d1" />
+<input type="radio" name="pos" id="p_x1_y3_d2" />
+<input type="radio" name="pos" id="p_x1_y3_d3" />
+<input type="radio" name="pos" id="p_x1_y3_d4" />
+<input type="radio" name="pos" id="p_x2_y3_d1" />
+<input type="radio" name="pos" id="p_x2_y3_d2" />
+<input type="radio" name="pos" id="p_x2_y3_d3" />
+<input type="radio" name="pos" id="p_x2_y3_d4" />
+<input type="radio" name="pos" id="p_x3_y3_d1" checked="checked" />
+<input type="radio" name="pos" id="p_x3_y3_d2" />
+<input type="radio" name="pos" id="p_x3_y3_d3" />
+<input type="radio" name="pos" id="p_x3_y3_d4" />
+<input type="radio" name="pos" id="p_x4_y3_d1" />
+<input type="radio" name="pos" id="p_x4_y3_d2" />
+<input type="radio" name="pos" id="p_x4_y3_d3" />
+<input type="radio" name="pos" id="p_x4_y3_d4" />
+<input type="radio" name="pos" id="p_x5_y3_d1" />
+<input type="radio" name="pos" id="p_x5_y3_d2" />
+<input type="radio" name="pos" id="p_x5_y3_d3" />
+<input type="radio" name="pos" id="p_x5_y3_d4" />
+<input type="radio" name="pos" id="p_x1_y4_d1" />
+<input type="radio" name="pos" id="p_x1_y4_d2" />
+<input type="radio" name="pos" id="p_x1_y4_d3" />
+<input type="radio" name="pos" id="p_x1_y4_d4" />
+<input type="radio" name="pos" id="p_x2_y4_d1" />
+<input type="radio" name="pos" id="p_x2_y4_d2" />
+<input type="radio" name="pos" id="p_x2_y4_d3" />
+<input type="radio" name="pos" id="p_x2_y4_d4" />
+<input type="radio" name="pos" id="p_x3_y4_d1" />
+<input type="radio" name="pos" id="p_x3_y4_d2" />
+<input type="radio" name="pos" id="p_x3_y4_d3" />
+<input type="radio" name="pos" id="p_x3_y4_d4" />
+<input type="radio" name="pos" id="p_x4_y4_d1" />
+<input type="radio" name="pos" id="p_x4_y4_d2" />
+<input type="radio" name="pos" id="p_x4_y4_d3" />
+<input type="radio" name="pos" id="p_x4_y4_d4" />
+<input type="radio" name="pos" id="p_x5_y4_d1" />
+<input type="radio" name="pos" id="p_x5_y4_d2" />
+<input type="radio" name="pos" id="p_x5_y4_d3" />
+<input type="radio" name="pos" id="p_x5_y4_d4" />
+<input type="radio" name="pos" id="p_x1_y5_d1" />
+<input type="radio" name="pos" id="p_x1_y5_d2" />
+<input type="radio" name="pos" id="p_x1_y5_d3" />
+<input type="radio" name="pos" id="p_x1_y5_d4" />
+<input type="radio" name="pos" id="p_x2_y5_d1" />
+<input type="radio" name="pos" id="p_x2_y5_d2" />
+<input type="radio" name="pos" id="p_x2_y5_d3" />
+<input type="radio" name="pos" id="p_x2_y5_d4" />
+<input type="radio" name="pos" id="p_x3_y5_d1" />
+<input type="radio" name="pos" id="p_x3_y5_d2" />
+<input type="radio" name="pos" id="p_x3_y5_d3" />
+<input type="radio" name="pos" id="p_x3_y5_d4" />
+<input type="radio" name="pos" id="p_x4_y5_d1" />
+<input type="radio" name="pos" id="p_x4_y5_d2" />
+<input type="radio" name="pos" id="p_x4_y5_d3" />
+<input type="radio" name="pos" id="p_x4_y5_d4" />
+<input type="radio" name="pos" id="p_x5_y5_d1" />
+<input type="radio" name="pos" id="p_x5_y5_d2" />
+<input type="radio" name="pos" id="p_x5_y5_d3" />
+<input type="radio" name="pos" id="p_x5_y5_d4" />
+<div class="world">
+  <div class="city">
+    <div class="keys">
+      <div class="key"></div>
+      <div class="key"></div>
+      <div class="key"></div>
+    </div>
+    <div class="npc npc1"></div>
+    <div class="npc npc2"></div>
+    <div class="npc npc3"></div>
+    <div class="npc npc4"></div>
+    <div class="vehicle v1"></div>
+    <div class="vehicle v2"></div>
+    <div class="vehicle v3"></div>
+    <div class="block b_x1_y1">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x2_y1_d2"></label>
+      <label for="p_x1_y2_d3"></label>
+      <label for="npc4_s3"></label>
+    </div>
+    <div class="block b_x2_y1">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x3_y1_d2"></label>
+      <label for="p_x2_y2_d3"></label>
+      <label for="p_x1_y1_d4"></label>
+      <label for="npc4_s2"></label>
+    </div>
+    <div class="block b_x3_y1">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x4_y1_d2"></label>
+      <label for="p_x3_y2_d3"></label>
+      <label for="p_x2_y1_d4"></label>
+      <label for="npc2_s1"></label>
+    </div>
+    <div class="block b_x4_y1">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y1_d2"></label>
+      <label for="p_x4_y2_d3"></label>
+      <label for="p_x3_y1_d4"></label>
+      <label for="npc2_s4"></label>
+      <label for="npc3_s3"></label>
+    </div>
+    <div class="block b_x5_y1">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y2_d3"></label>
+      <label for="p_x4_y1_d4"></label>
+      <label for="npc3_s2"></label>
+    </div>
+    <div class="block b_x1_y2">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x1_y1_d1"></label>
+      <label for="p_x2_y2_d2"></label>
+      <label for="p_x1_y3_d3"></label>
+      <label for="npc4_s4"></label>
+    </div>
+    <div class="block b_x2_y2">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x2_y1_d1"></label>
+      <label for="p_x3_y2_d2"></label>
+      <label for="p_x2_y3_d3"></label>
+      <label for="p_x1_y2_d4"></label>
+      <label for="npc1_s3"></label>
+      <label for="npc4_s1"></label>
+    </div>
+    <div class="block b_x3_y2">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x3_y1_d1"></label>
+      <label for="p_x4_y2_d2"></label>
+      <label for="p_x3_y3_d3"></label>
+      <label for="p_x2_y2_d4"></label>
+      <label for="npc1_s2"></label>
+    </div>
+    <div class="block b_x4_y2">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x4_y1_d1"></label>
+      <label for="p_x5_y2_d2"></label>
+      <label for="p_x4_y3_d3"></label>
+      <label for="p_x3_y2_d4"></label>
+      <label for="npc3_s4"></label>
+      <label for="v2" class="j3"></label>
+    </div>
+    <div class="block b_x5_y2">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y1_d1"></label>
+      <label for="p_x5_y3_d3"></label>
+      <label for="p_x4_y2_d4"></label>
+      <label for="npc3_s1"></label>
+      <label for="v2" class="j2"></label>
+    </div>
+    <div class="block b_x1_y3">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="bridge"></div>
+      <div class="bridge lr"></div>
+      <label for="p_x1_y2_d1"></label>
+      <label for="p_x2_y3_d2"></label>
+      <label for="p_x1_y4_d3"></label>
+    </div>
+    <div class="block b_x2_y3">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x2_y2_d1"></label>
+      <label for="p_x3_y3_d2"></label>
+      <label for="p_x2_y4_d3"></label>
+      <label for="p_x1_y3_d4"></label>
+      <label for="npc1_s4"></label>
+      <label for="v1" class="j3"></label>
+    </div>
+    <div class="block b_x3_y3">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x3_y2_d1"></label>
+      <label for="p_x4_y3_d2"></label>
+      <label for="p_x3_y4_d3"></label>
+      <label for="p_x2_y3_d4"></label>
+      <label for="npc1_s1"></label>
+      <label for="npc2_s2"></label>
+    </div>
+    <div class="block b_x4_y3">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x4_y2_d1"></label>
+      <label for="p_x5_y3_d2"></label>
+      <label for="p_x4_y4_d3"></label>
+      <label for="p_x3_y3_d4"></label>
+      <label for="npc2_s3"></label>
+      <label for="v1" class="j2"></label>
+    </div>
+    <div class="block b_x5_y3">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y2_d1"></label>
+      <label for="p_x5_y4_d3"></label>
+      <label for="p_x4_y3_d4"></label>
+    </div>
+    <div class="block b_x1_y4">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="bridge"></div>
+      <div class="bridge lr"></div>
+      <label for="p_x1_y3_d1"></label>
+      <label for="p_x2_y4_d2"></label>
+      <label for="p_x1_y5_d3"></label>
+    </div>
+    <div class="block b_x2_y4">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x2_y3_d1"></label>
+      <label for="p_x3_y4_d2"></label>
+      <label for="p_x2_y5_d3"></label>
+      <label for="p_x1_y4_d4"></label>
+      <label for="v1" class="j4"></label>
+    </div>
+    <div class="block b_x3_y4">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x3_y3_d1"></label>
+      <label for="p_x4_y4_d2"></label>
+      <label for="p_x3_y5_d3"></label>
+      <label for="p_x2_y4_d4"></label>
+      <label for="v3" class="j3"></label>
+    </div>
+    <div class="block b_x4_y4">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x4_y3_d1"></label>
+      <label for="p_x5_y4_d2"></label>
+      <label for="p_x4_y5_d3"></label>
+      <label for="p_x3_y4_d4"></label>
+      <label for="v1" class="j1"></label>
+      <label for="v2" class="j4"></label>
+    </div>
+    <div class="block b_x5_y4">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y3_d1"></label>
+      <label for="p_x5_y5_d3"></label>
+      <label for="p_x4_y4_d4"></label>
+      <label for="v2" class="j1"></label>
+      <label for="v3" class="j2"></label>
+    </div>
+    <div class="block b_x1_y5">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="bridge"></div>
+      <div class="bridge lr"></div>
+      <label for="p_x1_y4_d1"></label>
+      <label for="p_x2_y5_d2"></label>
+    </div>
+    <div class="block b_x2_y5">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x2_y4_d1"></label>
+      <label for="p_x3_y5_d2"></label>
+      <label for="p_x1_y5_d4"></label>
+    </div>
+    <div class="block b_x3_y5">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x3_y4_d1"></label>
+      <label for="p_x4_y5_d2"></label>
+      <label for="p_x2_y5_d4"></label>
+      <label for="v3" class="j4"></label>
+    </div>
+    <div class="block b_x4_y5">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x4_y4_d1"></label>
+      <label for="p_x5_y5_d2"></label>
+      <label for="p_x3_y5_d4"></label>
+    </div>
+    <div class="block b_x5_y5">
+      <div class="place nw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place ne">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place se">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <div class="place sw">
+        <div class="n"></div><div class="e"></div><div class="s"></div><div class="w"></div><div class="roof"></div>
+      </div>
+      <label for="p_x5_y4_d1"></label>
+      <label for="p_x4_y5_d4"></label>
+      <label for="v3" class="j1"></label>
+    </div>
+  </div>
+  <div class="player">
+    <div class="walk">
+      <div class="weapon weapon1"></div>
+      <div class="weapon weapon2"></div>
+      <div class="weapon weapon3"></div>
+    </div>
+    <label for="walk" class="vehicle v1"></label>
+    <label for="walk" class="vehicle v2"></label>
+    <label for="walk" class="vehicle v3"></label>
+  </div>
+  <div class="hud-stars">
+    <div class="star s1"></div><div class="star s2"></div><div class="star s3"></div>
+    <div class="star s4"></div><div class="star s5"></div>
+  </div>
+  <div class="hud-weapon">
+    <div class="weapon-choice">
+      <label for="w3"></label>
+      <label for="w1"></label><label for="w2"></label><label for="w3"></label>
+      <label for="w1"></label>
+    </div>
+    <div class="weapon-chosen w1"></div><div class="weapon-chosen w2"></div><div class="weapon-chosen w3"></div>
+  </div>
+  <p class="hud-info hood"></p>
+  <p class="hud-info vehicle"></p>
+  <div class="hud-map">
+    <div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div>
+    <div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div>
+    <div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div>
+    <div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div><div class="hud-block"></div>
+    <div class="blip"></div>
+  </div>
+</div>
+</body>
+</html>
