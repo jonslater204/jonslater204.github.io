@@ -1,0 +1,169 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  text-align: center;
+}
+h1,
+h2,
+p {
+  margin: 0 0 1em;
+  padding: 0;
+}
+h1 {
+  margin: 0;
+  font-size: 4vw;
+}
+p {
+  font-size: 1.5vw;
+}
+form {
+  counter-reset: score 0;
+}
+fieldset {
+  margin: 0;
+  padding: 2vw;
+  border: none;
+}
+fieldset:nth-of-type(2n) {
+  background: pink;
+}
+[type="radio"] {
+  position: absolute;
+  left: -999px;
+}
+label {
+  cursor: pointer;
+  padding: 1vw;
+  background: lightblue;
+  font-size: 3vw;
+  line-height: 3vw;
+  text-align: center;
+}
+label:first-of-type,
+[for^="done"] {
+  border-top-left-radius: 3vw;
+  border-bottom-left-radius: 3vw;
+}
+label:last-of-type,
+[for^="done"] {
+  border-top-right-radius: 3vw;
+  border-bottom-right-radius: 3vw;
+}
+[type="radio"]:checked + label {
+  background: slateblue;
+}
+[type="text"] {
+  width: 30vw;
+  height: 6vw;
+  border: 0.5vw black solid;
+  border-radius: 5vw;
+  font-size: 4vw;
+  line-height: 4vw;
+  text-align: center;
+}
+#w1_1:checked,
+#w3_1:checked,
+#w6_2:checked,
+#w8_3:checked,
+form [type="text"]:valid {
+  counter-increment: score;
+}
+[name="done"]:indeterminate ~ fieldset [for="done2"],
+#done1:checked ~ fieldset [for="done2"],
+#done2:checked ~ fieldset [for="done1"] {
+  display: none;
+}
+.result {
+  display: none;
+  position: absolute;
+  width: 100%;
+  padding: 1vw 0;
+  background: lightyellow;
+}
+[name="done"]:checked ~ .result {
+  display: block;
+}
+[name="done"]:checked ~ fieldset [type="radio"]:indeterminate + label,
+[name="done"]:checked ~ fieldset [name="word1"]:checked:not(#w1_1) + label,
+[name="done"]:checked ~ fieldset [name="word3"]:checked:not(#w3_1) + label,
+[name="done"]:checked ~ fieldset [name="word6"]:checked:not(#w6_2) + label,
+[name="done"]:checked ~ fieldset [name="word8"]:checked:not(#w8_3) + label {
+  background: red;
+}
+[name="done"]:checked ~ fieldset [type="text"]:invalid {
+  border-color: red;
+}
+.score:before {
+  content: counter(score);
+}
+[name="done"]:checked ~ fieldset:first-of-type {
+  padding-top: 6vw;
+}
+[name="done"]:checked ~ .result {
+  top: 5vw;
+}
+</style>
+<h1>Year 3 Spellings</h1>
+<form>
+<input type="radio" name="done" id="done1" />
+<input type="radio" name="done" id="done2" />
+<fieldset>
+<h2>Choose the correct spelling:</h2>
+<input type="radio" name="word1" id="w1_1" /><label for="w1_1">appear</label>
+<input type="radio" name="word1" id="w1_2" /><label for="w1_2">apear</label>
+<input type="radio" name="word1" id="w1_3" /><label for="w1_3">appere</label>
+</fieldset>
+<fieldset>
+<h2>Type the correct spelling:</h2>
+<p>deside, decid, decide</p>
+<input type="text" id="w2" required="required" pattern="^[Dd]ecide$" />
+</fieldset>
+<fieldset>
+<h2>Choose the correct spelling:</h2>
+<input type="radio" name="word3" id="w3_1" /><label for="w3_1">believe</label>
+<input type="radio" name="word3" id="w3_2" /><label for="w3_2">beleive</label>
+<input type="radio" name="word3" id="w3_3" /><label for="w3_3">blieve</label>
+</fieldset>
+<fieldset>
+<h2>Type the correct spelling:</h2>
+<p>waight, weight, weiht</p>
+<input type="text" id="w4" required="required" pattern="^[Ww]eight$" />
+</fieldset>
+<fieldset>
+<h2>How do you spell this number: 8 ?</h2>
+<input type="text" id="w5" required="required" pattern="^[Ee]ight$" />
+</fieldset>
+<fieldset>
+<h2>Choose the correct spelling:</h2>
+<input type="radio" name="word6" id="w6_1" /><label for="w6_1">experiance</label>
+<input type="radio" name="word6" id="w6_2" /><label for="w6_2">experience</label>
+<input type="radio" name="word6" id="w6_3" /><label for="w6_3">experince</label>
+</fieldset>
+<fieldset>
+<h2>Type the correct spelling:</h2>
+<p>friut, fruit, frut</p>
+<input type="text" id="w7" required="required" pattern="^[Ff]ruit$" />
+</fieldset>
+<fieldset>
+<h2>Choose the correct spelling:</h2>
+<input type="radio" name="word8" id="w8_1" /><label for="w8_1">ocasion</label>
+<input type="radio" name="word8" id="w8_2" /><label for="w8_2">occassion</label>
+<input type="radio" name="word8" id="w8_3" /><label for="w8_3">occasion</label>
+</fieldset>
+<fieldset>
+<h2>Type the correct spelling:</h2>
+<p>complete, compleit, complet</p>
+<input type="text" required="required" id="w9" pattern="^[Cc]omplete$" />
+</fieldset>
+<fieldset>
+<h2>Which month is after January?</h2>
+<input type="text" id="w10" required="required" pattern="^February$" />
+</fieldset>
+<fieldset>
+<label for="done1">Done</label>
+<label for="done2">Done</label>
+</fieldset>
+<h2 class="result">You scored: <span class="score"> out of 10</span></h2>
+</form>
