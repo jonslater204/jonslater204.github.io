@@ -1,0 +1,653 @@
+<style>
+body {
+  --home_col: blue;
+  --home_col2: lightblue;
+  --away_col: red;
+  --away_col2: pink;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: black;
+}
+form {
+  width: 80vmin;
+  height: 63vmin;
+  margin: 10vmin auto;
+  padding: 0;
+  background: green;
+}
+input {
+  position: absolute;
+  left: -999px;
+}
+p {
+  float: left;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+p,
+label,
+.final,
+.tick li::before {
+  height: 100%;
+  line-height: 4vmin;
+  font-size: 3vmin;
+  font-weight: bold;
+  text-align: center;
+}
+label {
+  position: absolute;
+  height: 4vmin;
+  border-radius: 1vmin;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+.home_points label:hover {
+  background: var(--home_col2);
+}
+.away_points label:hover {
+  background: var(--away_col2);
+}
+.clocks {
+  position: absolute;
+  width: 44vmin;
+  height: 4vmin;
+  top: 0;
+  left: 0;
+  background: grey;
+  overflow: hidden;
+  counter-reset: quarter 0 minutes -1 sec_ten -1 sec_one -1;
+}
+.colon {
+  width: 4vmin;
+}
+.tick {
+  float: left;
+  position: relative;
+  width: 2vmin;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation: tick;
+}
+.clocks .tick {
+  animation-play-state: paused;
+}
+#kickoff:checked ~ .clocks .final,
+#kickoff:checked ~ .clocks .tick,
+#kickoff:checked ~ .result {
+  animation-play-state: running;
+}
+.tick.sec_one {
+  animation-duration: 0.1s/*10s*/;
+  animation-timing-function: steps(10);
+  animation-iteration-count: 360;
+}
+.tick.sec_ten {
+  animation-duration: 0.6s/*60s*/;
+  animation-timing-function: steps(6);
+  animation-iteration-count: 60;
+}
+.tick.minutes {
+  width: 4vmin;
+  animation-duration: 9s/*900s*/;
+  animation-timing-function: steps(15);
+  animation-iteration-count: 4;
+}
+.tick.quarter {
+  width: 8vmin;
+  animation-duration: 36s/*3600s*/;
+  animation-timing-function: steps(4);
+  animation-iteration-count: 1;
+}
+.tick li {
+  width: 100%;
+  height: 4vmin;
+}
+.tick li::before {
+  display: block;
+  width: 100%;
+}
+.quarter li:nth-child(1)::before {
+  content: counter(quarter)"st";
+}
+.quarter li:nth-child(2)::before {
+  content: counter(quarter)"nd";
+}
+.quarter li:nth-child(3)::before {
+  content: counter(quarter)"rd";
+}
+.quarter li::before {
+  counter-increment: quarter;
+  content: counter(quarter)"th";
+}
+.minutes li::before {
+  counter-increment: minutes;
+  content: counter(minutes, decimal-leading-zero);
+}
+.sec_ten li::before {
+  counter-increment: sec_ten;
+  content: counter(sec_ten);
+}
+.sec_one li::before {
+  counter-increment: sec_one;
+  content: counter(sec_one);
+}
+@keyframes tick {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+.final {
+  position: absolute;
+  width: 44vmin;
+  top: 0;
+  left: 0;
+  background: grey;
+  animation: result 36s/*3600s*/ steps(1) 1 paused;
+}
+.scores {
+  position: absolute;
+  width: 36vmin;
+  height: 4vmin;
+  top: 0;
+  right: 0;
+  background: grey;
+  overflow: hidden;
+  counter-reset: home_ten -1 home_one -1 away_ten -1 away_one -1;
+}
+.dash {
+  width: 4vmin;
+}
+.home_score,
+.away_score {
+  --delaypause: paused;
+  float: left;
+  width: 16vmin;
+  height: 100%;
+}
+.home_score p,
+.away_score p {
+  width: 12vmin;
+  color: white;
+  background: var(--home_col);
+}
+.away_score p {
+  background: var(--away_col);
+}
+.scores .tick {
+  animation-timing-function: steps(10);
+  animation-play-state: var(--delaypause);
+}
+.tick.home_ten,
+.tick.away_ten {
+  animation-duration: 10s;
+}
+.tick.home_one,
+.tick.away_one {
+  animation-duration: 1s;
+  animation-iteration-count: 10;
+}
+.home_ten li::before {
+  counter-increment: home_ten;
+  content: counter(home_ten);
+}
+.home_one li::before {
+  counter-increment: home_one;
+  content: counter(home_one);
+}
+.away_ten li::before {
+  counter-increment: away_ten;
+  content: counter(away_ten);
+}
+.away_one li::before {
+  counter-increment: away_one;
+  content: counter(away_one);
+}
+[for="kickoff"] {
+  position: absolute;
+  width: 70vmin;
+  height: 51vmin;
+  left: 5vmin;
+  top: 6vmin;
+  color: white;
+  font-size: 7vmin;
+  line-height: 50vmin;
+  font-weight: bold;
+  text-align: center;
+  background: rgba(128, 128, 128, 0.9);
+}
+#kickoff:checked ~ [for="kickoff"] {
+  display: none;
+}
+@keyframes delaypause1 {
+  0% {
+    --delaypause: running;
+  }
+  100% {
+    --delaypause: running;
+  }
+}
+@keyframes delaypause2 {
+  0% {
+    --delaypause: running;
+  }
+  100% {
+    --delaypause: running;
+  }
+}
+@keyframes delaypause3 {
+  0% {
+    --delaypause2: running;
+  }
+  100% {
+    --delaypause2: running;
+  }
+}
+@keyframes delaypause4 {
+  0% {
+    --delaypause2: running;
+  }
+  100% {
+    --delaypause2: running;
+  }
+}
+[for*="-pat"] {
+  visibility: hidden;
+}
+[id="home-td-1"]:checked ~ .points [for^="home-pat"][for$="-2"],
+[id="home-td-2"]:checked ~ .points [for^="home-pat"][for$="-1"],
+[id="away-td-1"]:checked ~ .points [for^="away-pat"][for$="-2"],
+[id="away-td-2"]:checked ~ .points [for^="away-pat"][for$="-1"] {
+  visibility: visible;
+}
+.second-down,
+[id$="-1"]:checked ~ .points .first-down {
+  display: none;
+}
+[id$="-1"]:checked ~ .points .second-down {
+  display: block;
+}
+.points {
+  position: relative;
+}
+.home_points,
+.away_points {
+  position: absolute;
+  width: 70vmin;
+  height: 25vmin;
+  top: 5vmin;
+  left: 4vmin;
+  border: 1vmin white solid;
+}
+.away_points {
+  top: 31vmin;
+}
+.post {
+  position: absolute;
+  width: 22vmin;
+  height: 10vmin;
+  top: 1vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1vmin yellow solid;
+  border-top: none;
+}
+.post::before {
+  content: "";
+  position: absolute;
+  width: 2vmin;
+  height: 4vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -5vmin;
+  background: white;
+}
+[for*="-td-"] {
+  width: 20vmin;
+  left: 2vmin;
+  top: 5vmin;
+}
+[for*="-fg-"] {
+  width: 18vmin;
+  left: 50%;
+  top: 2vmin;
+  transform: translateX(-50%);
+}
+[for*="-sy-"] {
+  width: 20vmin;
+  right: 2vmin;
+  top: 5vmin;
+}
+[for*="-pat1-"] {
+  width: 18vmin;
+  left: 50%;
+  top: 18vmin;
+  transform: translateX(-50%);
+}
+[for*="-pat2-"] {
+  width: 20vmin;
+  right: 2vmin;
+  top: 15vmin;
+}
+.home_points label {
+  background: var(--home_col);
+}
+.away_points label {
+  background: var(--away_col);
+}
+@keyframes scored1 {
+  0% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+@keyframes scored2 {
+  0% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+.scored {
+  visibility: hidden;
+  position: absolute;
+  width: 70vmin;
+  height: 25vmin;
+  color: white;
+  font-size: 7vmin;
+  line-height: 25vmin;
+  font-weight: bold;
+  text-align: center;
+  animation: none 1s steps(1);
+}
+.home_points .scored {
+  background: var(--home_col);
+}
+.away_points .scored {
+  background: var(--away_col);
+}
+[id^="home-"][id$="-1"]:checked ~ .points .home_points .scored,
+[id^="away-"][id$="-1"]:checked ~ .points .away_points .scored {
+  animation-name: scored1;
+}
+[id^="home-"][id$="-2"]:checked ~ .points .home_points .scored,
+[id^="away-"][id$="-2"]:checked ~ .points .away_points .scored {
+  animation-name: scored2;
+}
+[id*="-td-"]:checked ~ .points .scored::before {
+  content: "6 Points";
+}
+[id*="-fg-"]:checked ~ .points .scored::before {
+  content: "3 Points";
+}
+[id*="-sy-"]:checked ~ .points .scored::before {
+  content: "2 Points";
+}
+[id*="-pat1-"]:checked ~ .points .scored::before {
+  content: "1 Point";
+}
+[id*="-pat2-"]:checked ~ .points .scored::before {
+  content: "2 Points";
+}
+@keyframes result {
+  0% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+.result {
+  position: absolute;
+  width: 70vmin;
+  height: 51vmin;
+  left: 5vmin;
+  top: 6vmin;
+  color: white;
+  font-size: 7vmin;
+  line-height: 50vmin;
+  font-weight: bold;
+  text-align: center;
+  animation: result 36s/*3600s*/ steps(1) 1 paused;
+}
+.wins {
+  --delaypause: paused;
+  --delaypause2: paused;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+@keyframes score {
+  0% {
+    z-index: 0;
+  }
+  100% {
+    z-index: 100;
+  }
+}
+.home_win,
+.away_win {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--home_col);
+  animation: score 10s steps(100) forwards;
+  animation-play-state: var(--delaypause);
+}
+.away_win {
+  background: var(--away_col);
+  animation-play-state: var(--delaypause2);
+}
+@keyframes home_tie {
+  100% {
+    transform: translateX(-10000%);
+  }
+}
+@keyframes away_tie {
+  100% {
+    transform: translateX(10000%);
+  }
+}
+.tie {
+  --delaypause: paused;
+  --delaypause2: paused;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+.home_tie,
+.away_tie {
+  width: 100%;
+  height: 100%;
+  animation: home_tie 10s steps(100);
+  animation-play-state: var(--delaypause);
+}
+.away_tie {
+  background: grey;
+  animation-name: away_tie;
+  animation-play-state: var(--delaypause2);
+}
+[id^="home-"][id$="-1"]:checked ~ .scores .home_score,
+[id^="away-"][id$="-1"]:checked ~ .scores .away_score {
+  animation-name: delaypause1;
+}
+[id^="home-"][id$="-2"]:checked ~ .scores .home_score,
+[id^="away-"][id$="-2"]:checked ~ .scores .away_score {
+  animation-name: delaypause2;
+}
+[id^="home-"][id*="-td-"]:checked ~ .scores .home_score,
+[id^="away-"][id*="-td-"]:checked ~ .scores .away_score,
+[id^="home-"][id*="-td-"]:checked ~ .result .wins,
+[id^="away-"][id*="-td-"]:checked ~ .result .wins,
+[id^="home-"][id*="-td-"]:checked ~ .result .tie,
+[id^="away-"][id*="-td-"]:checked ~ .result .tie {
+  animation-duration: 600ms;
+}
+[id^="home-"][id*="-fg-"]:checked ~ .scores .home_score,
+[id^="away-"][id*="-fg-"]:checked ~ .scores .away_score,
+[id^="home-"][id*="-fg-"]:checked ~ .result .wins,
+[id^="away-"][id*="-fg-"]:checked ~ .result .wins,
+[id^="home-"][id*="-fg-"]:checked ~ .result .tie,
+[id^="away-"][id*="-fg-"]:checked ~ .result .tie {
+  animation-duration: 300ms;
+}
+[id^="home-"][id*="-sy-"]:checked ~ .scores .home_score,
+[id^="away-"][id*="-sy-"]:checked ~ .scores .away_score,
+[id^="home-"][id*="-sy-"]:checked ~ .result .wins,
+[id^="away-"][id*="-sy-"]:checked ~ .result .wins,
+[id^="home-"][id*="-sy-"]:checked ~ .result .tie,
+[id^="away-"][id*="-sy-"]:checked ~ .result .tie {
+  animation-duration: 200ms;
+}
+[id^="home-"][id*="-pat1-"]:checked ~ .scores .home_score,
+[id^="away-"][id*="-pat1-"]:checked ~ .scores .away_score,
+[id^="home-"][id*="-pat1-"]:checked ~ .result .wins,
+[id^="away-"][id*="-pat1-"]:checked ~ .result .wins,
+[id^="home-"][id*="-pat1-"]:checked ~ .result .tie,
+[id^="away-"][id*="-pat1-"]:checked ~ .result .tie {
+  animation-duration: 100ms;
+}
+[id^="home-"][id*="-pat2-"]:checked ~ .scores .home_score,
+[id^="away-"][id*="-pat2-"]:checked ~ .scores .away_score,
+[id^="home-"][id*="-pat2-"]:checked ~ .result .wins,
+[id^="away-"][id*="-pat2-"]:checked ~ .result .wins,
+[id^="home-"][id*="-pat2-"]:checked ~ .result .tie,
+[id^="away-"][id*="-pat2-"]:checked ~ .result .tie {
+  animation-duration: 200ms;
+}
+[id^="home-"][id$="-1"]:checked ~ .result .wins,
+[id^="home-"][id$="-1"]:checked ~ .result .tie {
+  animation-name: delaypause1;
+}
+[id^="home-"][id$="-2"]:checked ~ .result .wins,
+[id^="home-"][id$="-2"]:checked ~ .result .tie {
+  animation-name: delaypause2;
+}
+[id^="away-"][id$="-1"]:checked ~ .result .wins,
+[id^="away-"][id$="-1"]:checked ~ .result .tie {
+  animation-name: delaypause3;
+}
+[id^="away-"][id$="-2"]:checked ~ .result .wins,
+[id^="away-"][id$="-2"]:checked ~ .result .tie {
+  animation-name: delaypause4;
+}
+</style>
+<form class="points">
+<input type="checkbox" id="kickoff" />
+<input type="radio" name="points" id="home-td-1" />
+<input type="radio" name="points" id="home-fg-1" />
+<input type="radio" name="points" id="home-sy-1" />
+<input type="radio" name="points" id="home-pat1-1" />
+<input type="radio" name="points" id="home-pat2-1" />
+<input type="radio" name="points" id="away-td-1" />
+<input type="radio" name="points" id="away-fg-1" />
+<input type="radio" name="points" id="away-sy-1" />
+<input type="radio" name="points" id="away-pat1-1" />
+<input type="radio" name="points" id="away-pat2-1" />
+<input type="radio" name="points" id="home-td-2" />
+<input type="radio" name="points" id="home-fg-2" />
+<input type="radio" name="points" id="home-sy-2" />
+<input type="radio" name="points" id="home-pat1-2" />
+<input type="radio" name="points" id="home-pat2-2" />
+<input type="radio" name="points" id="away-td-2" />
+<input type="radio" name="points" id="away-fg-2" />
+<input type="radio" name="points" id="away-sy-2" />
+<input type="radio" name="points" id="away-pat1-2" />
+<input type="radio" name="points" id="away-pat2-2" />
+<div class="clocks">
+<ul class="tick quarter">
+<li></li><li></li><li></li><li></li>
+</ul>
+<ul class="tick minutes">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<p class="colon">:</p>
+<ul class="tick sec_ten">
+<li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<ul class="tick sec_one">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<div class="final">Final</div>
+</div>
+<div class="scores">
+<div class="home_score">
+<p>Home Team</p>
+<ul class="tick home_ten">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<ul class="tick home_one">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+</div>
+<p class="dash"> - </p>
+<div class="away_score">
+<ul class="tick away_ten">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<ul class="tick away_one">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ul>
+<p>Away Team</p>
+</div>
+</div>
+<div class="points">
+<div class="home_points">
+<div class="post"></div>
+<div class="first-down">
+<label for="home-td-1">Touchdown</label>
+<label for="home-fg-1">Field Goal</label>
+<label for="home-sy-1">Safety</label>
+<label for="home-pat1-1">PAT (1)</label>
+<label for="home-pat2-1">PAT (2)</label>
+</div>
+<div class="second-down">
+<label for="home-td-2">Touchdown</label>
+<label for="home-fg-2">Field Goal</label>
+<label for="home-sy-2">Safety</label>
+<label for="home-pat1-2">PAT (1)</label>
+<label for="home-pat2-2">PAT (2)</label>
+</div>
+<div class="scored"></div>
+</div>
+<div class="away_points">
+<div class="post"></div>
+<div class="first-down">
+<label for="away-td-1">Touchdown</label>
+<label for="away-fg-1">Field Goal</label>
+<label for="away-sy-1">Safety</label>
+<label for="away-pat1-1">PAT (1)</label>
+<label for="away-pat2-1">PAT (2)</label>
+</div>
+<div class="second-down">
+<label for="away-td-2">Touchdown</label>
+<label for="away-fg-2">Field Goal</label>
+<label for="away-sy-2">Safety</label>
+<label for="away-pat1-2">PAT (1)</label>
+<label for="away-pat2-2">PAT (2)</label>
+</div>
+<div class="scored"></div>
+</div>
+</div>
+<div class="result">
+<div class="wins">
+<div class="home_win">Home Team Wins!</div>
+<div class="away_win">Away Team Wins!</div>
+</div>
+<div class="tie">
+<div class="home_tie">
+<div class="away_tie">Tie Game!</div>
+</div>
+</div>
+</div>
+<label for="kickoff">Kickoff</label>
+</form>
