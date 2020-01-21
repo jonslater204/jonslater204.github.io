@@ -1,0 +1,245 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 4vh;
+  line-height: 6vh;
+  background: black;
+}
+main {
+  width: 100vh;
+  height: 40vh;
+  margin: 4vh auto;
+  color: white;
+  position: relative;
+  overflow: auto;
+  counter-reset: tens -1 ones -1;
+}
+input {
+  position: absolute;
+  left: -999px;
+}
+@keyframes press {
+  0% {
+   pointer-events: none;
+  }
+  50% {
+    transform: translateY(2vh);
+    box-shadow: darkred 0 0 0;
+    pointer-events: none;
+  }
+  100% {
+   pointer-events: none;
+  }
+}
+label {
+  position: absolute;
+  width: 50vh;
+  height: 30vh;
+  top: 0;
+  left: 25vh;
+  background: radial-gradient(50% 50%, orange 0%, orange 25%, red 50%, red 80%, darkred 100%);
+  border-radius: 50%;
+  font-size: 10vh;
+  line-height: 30vh;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: darkred 0 2vh 0;
+  animation: none 0.1s;
+}
+label::before {
+  content: "Press";
+}
+label:hover {
+  background: radial-gradient(50% 50%, orange 0%, orange 20%, red 50%, red 90%, darkred 100%);
+}
+[for="button2"],
+#button1:checked ~ [for="button1"],
+#button2:checked ~ [for="button2"] {
+  visibility: hidden;
+  animation-name: none;
+}
+#button1:checked ~ [for="button2"],
+#button2:checked ~ [for="button1"] {
+  visibility: visible;
+  animation-name: press;
+}
+@keyframes playstate1 {
+  0% {
+    --playstate: running;
+  }
+  100% {
+    --playstate: running;
+  }
+}
+@keyframes playstate2 {
+  0% {
+    --playstate: running;
+  }
+  100% {
+    --playstate: running;
+  }
+}
+div {
+ --playstate: paused;
+  width: 100%;
+  height: 6vh;
+  margin: 34vh 0 0;
+  animation: none 0.1s steps(1);
+  overflow: hidden;
+}
+@keyframes align {
+  0% {
+    width: 68vh;
+  }
+  1% {
+    width: 69.5vh;
+  }
+  2% {
+    width: 68vh;
+  }
+  10% {
+    width: 66.5vh;
+  }
+  100% {
+    width: 60vh;
+  }
+}
+.pressed {
+  float: left;
+  width: 68vh;
+  height: 6vh;
+  margin: 0 1vh 0 0;
+  padding: 0;
+  text-align: right;
+  animation: align 10s steps(1) 1 forwards;
+  animation-play-state: var(--playstate);
+}
+@keyframes tick {
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@keyframes hidetens {
+  0% {
+    width: 0;
+  }
+  10% {
+    width: 3vh;
+  }
+  100% {
+    width: 0;
+  }
+}
+@keyframes hideones {
+  100% {
+    width: 0;
+  }
+}
+ol {
+  list-style: none;
+  float: left;
+  width: 3vh;
+  height: 60vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  animation: tick 10s steps(10) 1, hidetens 10s steps(1) 1 forwards, hide 10s steps(1) 1 forwards;
+  animation-play-state: var(--playstate), var(--playstate), var(--playstate);
+}
+ol.ones {
+  animation: tick 10s steps(10) 1, hideones 10s steps(1) 1 forwards;
+  animation-play-state: var(--playstate), var(--playstate), var(--playstate);
+  animation-duration: 1s;
+  animation-iteration-count: 10;
+}
+li {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 6vh;
+  text-align: center;
+}
+li::before {
+  font-weight: bold;
+}
+.tens li::before {
+  counter-increment: tens;
+  content: counter(tens);
+}
+.tens li:first-of-type::before {
+  content: "";
+}
+.ones li::before {
+  counter-increment: ones;
+  content: counter(ones);
+}
+@keyframes toomany {
+  100% {
+    content: "too many ";
+  }
+}
+@keyframes toomanytimes {
+  0% {
+    width: 24vh;
+  }
+  100% {
+    width: 30vh;
+  }
+}
+@keyframes times {
+  0% {
+    content: "s";
+  }
+  1% {
+    content: "";
+  }
+  2% {
+    content: "s";
+  }
+}
+.times {
+  float: left;
+  width: 30vh;
+  height: 6vh;
+  margin: 0 0 0 1vh;
+  padding: 0;
+  animation: toomanytimes 10s steps(1) 1 forwards;
+  animation-play-state: var(--playstate);
+}
+.times::before {
+  content: "";
+  font-weight: bold;
+  animation: toomany 10s steps(1) 1 forwards;
+  animation-play-state: var(--playstate);
+}
+.times::after {
+  content: "s";
+  animation: times 10s steps(100) 1;
+  animation-play-state: var(--playstate);
+}
+#button1:checked ~ div {
+  animation-name: playstate1;
+}
+#button2:checked ~ div {
+  animation-name: playstate2;
+}
+</style>
+<main>
+<input type="radio" name="button" id="button1" />
+<input type="radio" name="button" id="button2" />
+<label for="button1"></label>
+<label for="button2"></label>
+<div>
+<p class="pressed">You have pressed the button</p>
+<ol class="tens">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ol>
+<ol class="ones">
+<li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+</ol>
+<p class="times">time</p>
+</div>
+</main>
