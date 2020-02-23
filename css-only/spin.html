@@ -1,0 +1,70 @@
+<style>
+body {
+  margin: 0;
+  padding: 5vw 20vw;
+  background: silver;
+}
+@keyframes spin {
+  100% {
+    transform: rotate(20turn);
+  }
+}
+div {
+  position: absolute;
+  width: 25vw;
+  height: 25vw;
+  border-radius: 50%;
+  background: conic-gradient(#00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+  animation: spin 8s ease-in-out infinite alternate-reverse;
+}
+div::before {
+  content: "";
+  position: absolute;
+  width: 24.5vw;
+  height: 24.5vw;
+  left: 0.25vw;
+  top: 0.25vw;
+  border-radius: 50%;
+  background: conic-gradient(from 90deg, #00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+}
+div::after {
+  content: "";
+  position: absolute;
+  width: 15vw;
+  height: 15vw;
+  left: 5vw;
+  top: 5vw;
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, #00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+}
+div:last-of-type {
+  left: 50vw;
+  animation-delay: -8s;
+}
+span {
+  position: absolute;
+  width: 14.5vw;
+  height: 14.5vw;
+  left: 25.25vw;
+  top: 10.25vw;
+  border-radius: 50%;
+  background: silver;
+}
+span::before {
+  content: "";
+  position: absolute;
+  width: 6vw;
+  height: 6vw;
+  left: 4vw;
+  top: 4vw;
+  border-radius: 50%;
+  background: grey;
+}
+span:last-of-type {
+  left: 55.25vw;
+}
+</style>
+<div></div>
+<div></div>
+<span></span>
+<span></span>
