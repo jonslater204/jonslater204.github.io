@@ -1,4 +1,4 @@
-var $wlrMap = {
+var $map = {
    map: null,
    drawingManager: null,
    route_id: 0,
@@ -49,8 +49,8 @@ var $wlrMap = {
                   $html += '</p>';
                   $routes.push($html);
                }
-               if ($route.routeid > $wlrMap.auto_inc) {
-                  $wlrMap.auto_inc = $route.routeid;
+               if ($route.routeid > $map.auto_inc) {
+                  $map.auto_inc = $route.routeid;
                }
             }
          }
@@ -59,61 +59,61 @@ var $wlrMap = {
       $('#js-routes').prepend($routes.join('\r\n'));
    },
    loadRoute: function($r) {
-      $wlrMap.load_route = $r;
+      $map.load_route = $r;
       var $route = localStorage['route' + $r];
       if ($route !== 'null' && $route !== null) {
          $route = JSON.parse($route);
-         $wlrMap.points = google.maps.geometry.encoding.decodePath($route.route);
-         $wlrMap.clearMarkers();
-         for (var $i=0; $i<$wlrMap.points.length; ++$i) {
-            if ($i === 0 || $i === $wlrMap.points.length - 1) {
+         $map.points = google.maps.geometry.encoding.decodePath($route.route);
+         $map.clearMarkers();
+         for (var $i=0; $i<$map.points.length; ++$i) {
+            if ($i === 0 || $i === $map.points.length - 1) {
                var $marker = new google.maps.Marker({
-                  map: $wlrMap.map,
+                  map: $map.map,
                   title: ($i === 0) ? 'Start' : 'Finish',
-                  position: $wlrMap.points[$i],
+                  position: $map.points[$i],
                   draggable: true
                });
                google.maps.event.addDomListener($marker, 'dragend', function() {
-                  $wlrMap.points[(this.getTitle() === 'Start') ? 0 : $wlrMap.points.length - 1] = this.getPosition();
-                  $wlrMap.redrawLine();
+                  $map.points[(this.getTitle() === 'Start') ? 0 : $map.points.length - 1] = this.getPosition();
+                  $map.redrawLine();
                });
-               $wlrMap.markers.push($marker);
+               $map.markers.push($marker);
             }
          }
          $('#js-message').text('');
          $('#js-name').val($route.name);
          $('#js-unit').val(($route.unit*1 === 1) ? 'km' : 'miles');
          $('#js-progress').val(Math.round($route.progress * 100) / 100);
-         $wlrMap.toggleMode(false);
-         $wlrMap.redrawLine();
-         $wlrMap.zoomFit();
-         $wlrMap.route_id = $route.routeid;
-         $wlrMap.drawingManager.setOptions({
+         $map.toggleMode(false);
+         $map.redrawLine();
+         $map.zoomFit();
+         $map.route_id = $route.routeid;
+         $map.drawingManager.setOptions({
             drawingMode: null
          });
       }
    },
    deleteRoute: function($r) {
-      $wlrMap.del_route = $r;
+      $map.del_route = $r;
       localStorage.removeItem('route' + $r);
-      $('#js-del' + $wlrMap.del_route).parent().text('DELETED');
+      $('#js-del' + $map.del_route).parent().text('DELETED');
       $('#js-message').text('');
-      $wlrMap.route_id = 0;
+      $map.route_id = 0;
    },
    toggleMode: function($edit) {
       if ($edit) {
-         $wlrMap.polyline.setEditable(true);
+         $map.polyline.setEditable(true);
          var $marker;
-         for (var $i in $wlrMap.markers) {
-            $marker = $wlrMap.markers[$i];
+         for (var $i in $map.markers) {
+            $marker = $map.markers[$i];
             $marker.setVisible(true);
          }
          document.getElementById('js-edit').innerHTML = 'Edit Mode';
       } else {
-         $wlrMap.polyline.setEditable(false);
+         $map.polyline.setEditable(false);
          var $marker;
-         for (var $i in $wlrMap.markers) {
-            $marker = $wlrMap.markers[$i];
+         for (var $i in $map.markers) {
+            $marker = $map.markers[$i];
             $marker.setVisible(false);
          }
          document.getElementById('js-edit').innerHTML = 'View Mode';
@@ -121,106 +121,114 @@ var $wlrMap = {
    },
    zoomFit: function() {
       var $bounds = new google.maps.LatLngBounds();
-      for (var $i=0; $i<$wlrMap.points.length; ++$i) {
-         $bounds.extend($wlrMap.points[$i]);
+      for (var $i=0; $i<$map.points.length; ++$i) {
+         $bounds.extend($map.points[$i]);
       }
-      $wlrMap.map.fitBounds($bounds);
+      $map.map.fitBounds($bounds);
    },
    deletePoint: function($vertex) {
       if ($vertex !== undefined) {
-         $wlrMap.polyline.getPath().removeAt($vertex);
-         $wlrMap.points = $wlrMap.polyline.getPath().getArray();
+         $map.polyline.getPath().removeAt($vertex);
+         $map.points = $map.polyline.getPath().getArray();
          if ($vertex === 0) {
-            if ($wlrMap.points.length > 0) {
-               $wlrMap.markers[0].setPosition($wlrMap.points[0]);
-               if ($wlrMap.points.length === 1) {
-                  $wlrMap.markers[1].setMap(null);
-                  $wlrMap.markers.pop();
+            if ($map.points.length > 0) {
+               $map.markers[0].setPosition($map.points[0]);
+               if ($map.points.length === 1) {
+                  $map.markers[1].setMap(null);
+                  $map.markers.pop();
                }
             } else {
-               $wlrMap.markers[0].setMap(null);
-               $wlrMap.markers.pop();
+               $map.markers[0].setMap(null);
+               $map.markers.pop();
             }
-         } else if ($vertex === $wlrMap.points.length) {
-            if ($wlrMap.points.length > 0) {
-               if ($wlrMap.points.length === 1) {
-                  $wlrMap.markers[1].setMap(null);
-                  $wlrMap.markers.pop();
+         } else if ($vertex === $map.points.length) {
+            if ($map.points.length > 0) {
+               if ($map.points.length === 1) {
+                  $map.markers[1].setMap(null);
+                  $map.markers.pop();
                } else {
-                  $wlrMap.markers[1].setPosition($wlrMap.points[$wlrMap.points.length - 1]);
+                  $map.markers[1].setPosition($map.points[$map.points.length - 1]);
                }
             } else {
-               $wlrMap.markers[1].setMap(null);
-               $wlrMap.markers.pop();
+               $map.markers[1].setMap(null);
+               $map.markers.pop();
             }
          }
-         $wlrMap.redrawLine();
+         $map.redrawLine();
       }
    },
    clearMarkers: function() {
-      for (var $i in $wlrMap.markers) {
-         $wlrMap.markers[$i].setMap(null);
+      for (var $i in $map.markers) {
+         $map.markers[$i].setMap(null);
       }
-      $wlrMap.markers = [];
+      $map.markers = [];
    },
    updateMarkers: function() {
-      $wlrMap.points = $wlrMap.polyline.getPath().getArray();
-      if ($wlrMap.markers.length > 0) {
-         $wlrMap.markers[0].setPosition($wlrMap.points[0]);
-         if ($wlrMap.markers.length > 1) {
-            $wlrMap.markers[1].setPosition($wlrMap.points[$wlrMap.points.length - 1]);
+      $map.points = $map.polyline.getPath().getArray();
+      if ($map.markers.length > 0) {
+         $map.markers[0].setPosition($map.points[0]);
+         if ($map.markers.length > 1) {
+            $map.markers[1].setPosition($map.points[$map.points.length - 1]);
          }
       }
    },
    redrawProgress: function() {
-      if ($wlrMap.progress_line !== null) $wlrMap.progress_line.setMap(null);
+      if ($map.progress_line !== null) $map.progress_line.setMap(null);
       var $progress = document.getElementById('js-progress').value * 1000;
       if (document.getElementById('js-unit').value !== 'km') $progress *= 1.609344;
       if ($progress === 0) return;
-      $wlrMap.progress_points = [$wlrMap.points[0]];
-      for (var $i=1; $i<$wlrMap.points.length; ++$i) {
-         $progress -= google.maps.geometry.spherical.computeDistanceBetween($wlrMap.points[$i], $wlrMap.points[$i - 1]);
+      $map.progress_points = [$map.points[0]];
+      for (var $i=1; $i<$map.points.length; ++$i) {
+         $progress -= google.maps.geometry.spherical.computeDistanceBetween($map.points[$i], $map.points[$i - 1]);
          if ($progress >= 0) {
-            $wlrMap.progress_points.push($wlrMap.points[$i]);
+            $map.progress_points.push($map.points[$i]);
             if ($progress < 1) break;
          } else {
-            var $lat_diff = $wlrMap.points[$i].lat() - $wlrMap.points[$i - 1].lat();
-            var $lng_diff = $wlrMap.points[$i].lng() - $wlrMap.points[$i - 1].lng();
-            var $section = google.maps.geometry.spherical.computeDistanceBetween ($wlrMap.points[$i], $wlrMap.points[$i - 1]);
-            $wlrMap.progress_points.push(new google.maps.LatLng($wlrMap.points[$i].lat() + $lat_diff * $progress / $section,
-               $wlrMap.points[$i].lng() + $lng_diff * $progress / $section));
+            var $lat_diff = $map.points[$i].lat() - $map.points[$i - 1].lat();
+            var $lng_diff = $map.points[$i].lng() - $map.points[$i - 1].lng();
+            var $section = google.maps.geometry.spherical.computeDistanceBetween ($map.points[$i], $map.points[$i - 1]);
+            $map.progress_points.push(new google.maps.LatLng($map.points[$i].lat() + $lat_diff * $progress / $section,
+               $map.points[$i].lng() + $lng_diff * $progress / $section));
             break;
          }
       }
-      $wlrMap.progress_line.setPath($wlrMap.progress_points);
-      $wlrMap.progress_line.setMap($wlrMap.map);
+      $map.progress_line.setPath($map.progress_points);
+      $map.progress_line.setMap($map.map);
    },
    redrawLine: function() {
-      if ($wlrMap.polyline !== null) $wlrMap.polyline.setMap(null);
+      if ($map.polyline !== null) $map.polyline.setMap(null);
       $distance = 0;
-      if ($wlrMap.points.length > 1) {
-         $wlrMap.polyline.setPath($wlrMap.points);
-         $wlrMap.polyline.setMap($wlrMap.map);
-         for (var $i=1; $i<$wlrMap.points.length; ++$i) {
-            $distance += google.maps.geometry.spherical.computeDistanceBetween ($wlrMap.points[$i], $wlrMap.points[$i - 1]);
+      if ($map.points.length > 1) {
+         $map.polyline.setPath($map.points);
+         $map.polyline.setMap($map.map);
+         for (var $i=1; $i<$map.points.length; ++$i) {
+            $distance += google.maps.geometry.spherical.computeDistanceBetween ($map.points[$i], $map.points[$i - 1]);
          }
       }
-      var $path = $wlrMap.polyline.getPath();
+      var $path = $map.polyline.getPath();
       google.maps.event.addDomListener($path, 'insert_at', function() {
-         $wlrMap.updateMarkers();
-         $wlrMap.redrawLine();
+         $map.updateMarkers();
+         $map.redrawLine();
       });
       google.maps.event.addDomListener($path, 'set_at', function() {
-         $wlrMap.updateMarkers();
-         $wlrMap.redrawLine();
+         $map.updateMarkers();
+         $map.redrawLine();
       });
-      document.getElementById('js-distance').innerHTML = $wlrMap.distance_format($distance);
-      $wlrMap.redrawProgress();
+      document.getElementById('js-distance').innerHTML = $map.distance_format($distance);
+      $map.redrawProgress();
    },
    init: function() {
       var $map_width = $('main').width();
       $('#map-canvas').css('width', Math.floor($map_width) + 'px');
       $('#map-canvas').css('height', Math.floor((3 * $map_width / 4)) + 'px');
+      localStorage.setItem('route7', JSON.stringify({
+         routeid: 7,
+         route: 'cqn`Iv`y@yB~DU~@oGgAwEgAMk@Mw@E@GFFn@GVc@HoJbGwJvGqEjC}AX_AD}@CmI\\uYnAKv@CbK?hE@fED|AB|AFnAHnA^xBf@hCVnCJhAP`BTpAnB`FfA`C~@|Br@xBNd@Fb@O\\U`@oDn@uHhHmCjCb@~AJCCVdAjE`AxDx@Xb@{@hAsAAk@Gw@DaAvAkAh@w@n@Sp@hB^VVC`C_BfCkBZTPPvHgExAwA|@iATwARAFNZHXDdAc@TP\\S@DyA~@_@Vk@j@h@|CVnA^z@V^Pj@Ll@H^RCAYbAq@dAk@r@fCVpAlC_DyBcIgBiHqCfB?EnCiB|BwBH_@a@eD_@yC{AaHIk@CiAE}@Eg@Mk@Ik@Im@c@iD[kAc@k@c@Uk@D_ACg@Sc@}@MaA?oAb@aCZiCxBOfAAXHz@ClAo@nAi@tBiAT^XxB\\zD^tC^l@|AeAb@`@XpARZRl@lAg@PCXJtAaAf@[XG\\R|@lAT`@Jh@Bv@Cn@s@hED~BD|AE`BFx@Lf@|@e@nAw@t@c@f@yChBsIv@kE?_@OiCm@gGeA_FgCgLmB}I_@oB{@eHrCp@p@ZVbDHN|Av@JTD~@dCf@DXM`DI|CAnAGbE?jBAd@SjAp@|@R^`ApBHAj@oC~@wGb@oCl@}CP{@LqBd@uD`@qC\\gBPaCFeAHk@EYoA}@U_@Ii@KMgBb@cAbB',
+         name: 'Deeping 10k',
+         progress: 0,
+         unit: 1,
+         example: 1
+      }));
       localStorage.setItem('route1', JSON.stringify({
          routeid: 1,
          route: '{hdyHmTkQyv@iF_NKeW_Mya@u@or@_D}SuEuA_C}L?al@kQ_UaKa]sCki@_DyJm_@dI^|SjBlEh@~ThCzKsBza@tNpd@~Hl[~D`e@jIbyAi@fg@j^xcB_E~E~BlE~B~oAuCtW_Q~c@kK~Mah@xeAaDsHyEeEu@`GyDtA{JGeH_FdF{RnL_CiAgJePsVwXfByGfC_EbOrBxYjE~Mz^pv@nBz@eBhGzEvaAyC~PgUln@k\\yR{KqCjC}L_Ee[_BczBqDo`@zAs@dBe[~Eu_@_C{Ou@aNdS|AnCtAnAcHpFwBtRtAjb@}AjCiCdJ?~KuIjNu^tCcLn@{OeKlBkNzCwr@yF_Cn_@kEf]kHnIcEGbEon@iGcA_Cl_@_CYxC}m@nAi@?uHoGmLuEgCHcDiA}EeAjDyAqCeIdIoIpCxAp~@eEvi@_CdNZpGq@lLi@fo@tInF~Dn\\Jhw@~AjfAuGbH~Gfo@i@fQhCzKuFlj@uEdm@Jn\\^|gA~E|b@dKfQnLrHv]xFkA|b@jDvy@eElEyBk@uDeM',
@@ -271,14 +279,14 @@ var $wlrMap = {
       }));
    },
    googleInit: function() {
-      $wlrMap.polyline = new google.maps.Polyline({
+      $map.polyline = new google.maps.Polyline({
          path: [],
          strokeColor: 'red',
          strokeOpacity: .75,
          strokeWeight: 5,
          editable: true
       });
-      $wlrMap.progress_line = new google.maps.Polyline({
+      $map.progress_line = new google.maps.Polyline({
          path: [],
          strokeColor: 'yellow',
          strokeOpacity: .75,
@@ -289,7 +297,7 @@ var $wlrMap = {
          center: { lat: 0, lng: 0 },
          zoom: 1
       };
-      $wlrMap.map = new google.maps.Map(document.getElementById('map-canvas'), $mapOptions);
+      $map.map = new google.maps.Map(document.getElementById('map-canvas'), $mapOptions);
       var $drawOptions = {
          drawingMode: google.maps.drawing.OverlayType.MARKER,
          drawingControl: true,
@@ -298,76 +306,76 @@ var $wlrMap = {
             drawingModes: [google.maps.drawing.OverlayType.MARKER]
          }
       };
-      $wlrMap.drawingManager = new google.maps.drawing.DrawingManager($drawOptions);
-      $wlrMap.drawingManager.setMap($wlrMap.map);
-      google.maps.event.addListener($wlrMap.drawingManager, 'markercomplete', function($marker) {
-         if ($wlrMap.polyline.getEditable()) {
-            if ($wlrMap.markers.length === 2) {
-               var $old_marker = $wlrMap.markers.pop();
+      $map.drawingManager = new google.maps.drawing.DrawingManager($drawOptions);
+      $map.drawingManager.setMap($map.map);
+      google.maps.event.addListener($map.drawingManager, 'markercomplete', function($marker) {
+         if ($map.polyline.getEditable()) {
+            if ($map.markers.length === 2) {
+               var $old_marker = $map.markers.pop();
                $old_marker.setMap(null);
             }
-            $marker.setTitle(($wlrMap.markers.length === 0) ? 'Start' : 'Finish');
+            $marker.setTitle(($map.markers.length === 0) ? 'Start' : 'Finish');
             google.maps.event.addDomListener($marker, 'dragend', function() {
-               $wlrMap.points[(this.getTitle() === 'Start') ? 0 : $wlrMap.points.length - 1] = this.getPosition();
-               $wlrMap.redrawLine();
+               $map.points[(this.getTitle() === 'Start') ? 0 : $map.points.length - 1] = this.getPosition();
+               $map.redrawLine();
             });
-            $wlrMap.points.push($marker.getPosition());
-            $wlrMap.markers.push($marker);
-            $wlrMap.redrawLine();
+            $map.points.push($marker.getPosition());
+            $map.markers.push($marker);
+            $map.redrawLine();
          } else {
             $marker.setMap(null);
          }
       });
       google.maps.event.addDomListener(document.getElementById('js-zoom'), 'click', function() {
-         $wlrMap.zoomFit();
+         $map.zoomFit();
       });
       google.maps.event.addDomListener(document.getElementById('js-delete'), 'click', function() {
-         if ($wlrMap.polyline.getEditable()) {
-            $wlrMap.deletePoint($wlrMap.points.length - 1);
+         if ($map.polyline.getEditable()) {
+            $map.deletePoint($map.points.length - 1);
          }
       });
       google.maps.event.addDomListener(document.getElementById('js-clear'), 'click', function() {
-         if ($wlrMap.polyline.getEditable()) {
+         if ($map.polyline.getEditable()) {
             if (confirm('Clear the whole route?')) {
-               $wlrMap.clearMarkers();
-               $wlrMap.points = [];
-               $wlrMap.redrawLine();
+               $map.clearMarkers();
+               $map.points = [];
+               $map.redrawLine();
             }
          }
       });
       if ($.isFunction($.fn.on)) {
          $(document).on('click', '.js-load', function($e) {
             $e.preventDefault();
-            $wlrMap.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
+            $map.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
          });
          $(document).on('click', '.js-del', function($e) {
             $e.preventDefault();
             var $r = $(this).attr('id').replace(/[^0-9]/g, '');
             if (confirm('Delete ' + $('#js-load' + $r).text() + '?')) {
-               $wlrMap.deleteRoute($r);
+               $map.deleteRoute($r);
             }
          });
       } else {
          $('.js-load').live('click', function($e) {
             $e.preventDefault();
-            $wlrMap.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
+            $map.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
          });
          $('.js-del').live('click', function($e) {
             $e.preventDefault();
             var $r = $(this).attr('id').replace(/[^0-9]/g, '');
             if (confirm('Delete ' + $('#js-load' + $r).text() + '?')) {
-               $wlrMap.deleteRoute($r);
+               $map.deleteRoute($r);
             }
          });
       }
       $('#js-save').click(function($e) {
          $e.preventDefault();
-         if ($wlrMap.route_id === 0) {
-            $wlrMap.route_id = ++$wlrMap.auto_inc;
+         if ($map.route_id === 0) {
+            $map.route_id = ++$map.auto_inc;
          }
-         localStorage.setItem('route' + $wlrMap.route_id, JSON.stringify({
-            routeid: $wlrMap.route_id,
-            route: google.maps.geometry.encoding.encodePath($wlrMap.points),
+         localStorage.setItem('route' + $map.route_id, JSON.stringify({
+            routeid: $map.route_id,
+            route: google.maps.geometry.encoding.encodePath($map.points),
             name: $('#js-name').val(),
             progress: $('#js-progress').val(),
             unit: ($('#js-unit').val() === 'km') ? 1 : 0,
@@ -376,24 +384,24 @@ var $wlrMap = {
          }));
       });
       google.maps.event.addDomListener(document.getElementById('js-view'), 'click', function() {
-         $wlrMap.redrawProgress();
+         $map.redrawProgress();
       });
       google.maps.event.addDomListener(document.getElementById('js-edit'), 'click', function() {
-         $wlrMap.toggleMode(!$wlrMap.polyline.getEditable());
+         $map.toggleMode(!$map.polyline.getEditable());
       });
-      google.maps.event.addDomListener($wlrMap.polyline, 'dblclick', function($mev){
-         $wlrMap.deletePoint($mev.vertex);
+      google.maps.event.addDomListener($map.polyline, 'dblclick', function($mev){
+         $map.deletePoint($mev.vertex);
       });
       google.maps.event.addDomListener(document.getElementById('js-unit'), 'change', function() {
-         $wlrMap.redrawLine();
+         $map.redrawLine();
       });
       $('#js-new').click(function() {
-         $wlrMap.route_id = 0;
+         $map.route_id = 0;
          $('#js-name').val('');
       });
-      $wlrMap.loadRoutes();
-      $wlrMap.loadRoute(0);
+      $map.loadRoutes();
+      $map.loadRoute(0);
    }
 }
-$wlrMap.init();
-google.maps.event.addDomListener(window, 'load', $wlrMap.googleInit());
+$map.init();
+google.maps.event.addDomListener(window, 'load', $map.googleInit());

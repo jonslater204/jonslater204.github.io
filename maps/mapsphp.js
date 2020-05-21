@@ -1,4 +1,4 @@
-var $wlrMap = {
+var $map = {
    map: null,
    drawingManager: null,
    route_id: null,
@@ -33,13 +33,13 @@ var $wlrMap = {
       .done(function($data) {
          if ($data !== null) {
             if ($data.response === 'loaded') {
-               $($wlrMapConfig.menu).prepend($data.routes);
+               $($mapConfig.menu).prepend($data.routes);
             }
          }
       });
    },
    loadRoute: function($r) {
-      $wlrMap.load_route = $r;
+      $map.load_route = $r;
       $('#js-message').text('Loading...');
       $.ajax('/lo/route-load.php', {
          data: { routeid: $r },
@@ -49,53 +49,53 @@ var $wlrMap = {
       .done(function($data) {
          if ($data !== null) {
             if ($data.response === 'loaded') {
-               if ($wlrMapConfig.mobile && $wlrMap.load_route > 0) {
+               if ($mapConfig.mobile && $map.load_route > 0) {
                   $('html, body').animate({scrollTop: $('#map-canvas').offset().top - 50}, 300);
                }
-               $wlrMap.points = google.maps.geometry.encoding.decodePath($data.route.route);
-               $wlrMap.clearMarkers();
-               for (var $i=0; $i<$wlrMap.points.length; ++$i) {
-                  if ($i === 0 || $i === $wlrMap.points.length - 1) {
+               $map.points = google.maps.geometry.encoding.decodePath($data.route.route);
+               $map.clearMarkers();
+               for (var $i=0; $i<$map.points.length; ++$i) {
+                  if ($i === 0 || $i === $map.points.length - 1) {
                      var $marker = new google.maps.Marker({
-                        map: $wlrMap.map,
+                        map: $map.map,
                         title: ($i === 0) ? 'Start' : 'Finish',
-                        position: $wlrMap.points[$i],
+                        position: $map.points[$i],
                         draggable: true
                      });
                      google.maps.event.addDomListener($marker, 'dragend', function() {
-                        $wlrMap.points[(this.getTitle() === 'Start') ? 0 : $wlrMap.points.length - 1] = this.getPosition();
-                        $wlrMap.redrawLine();
+                        $map.points[(this.getTitle() === 'Start') ? 0 : $map.points.length - 1] = this.getPosition();
+                        $map.redrawLine();
                      });
-                     $wlrMap.markers.push($marker);
+                     $map.markers.push($marker);
                   }
                }
                $('#js-message').text('');
                $('#js-name').val($data.route.name);
                $('#js-unit').val(($data.route.unit*1 === 1) ? 'km' : 'miles');
-               if ($wlrMapConfig.mobile) {
+               if ($mapConfig.mobile) {
                   $('#js-unit').selectmenu('refresh');
                }
                $('#js-progress').val(Math.round($data.route.progress * 100) / 100);
-               $wlrMap.toggleMode(false);
-               $wlrMap.redrawLine();
-               $wlrMap.zoomFit();
-               $wlrMap.route_id = $data.route.routeid;
-               $wlrMap.drawingManager.setOptions({
+               $map.toggleMode(false);
+               $map.redrawLine();
+               $map.zoomFit();
+               $map.route_id = $data.route.routeid;
+               $map.drawingManager.setOptions({
                   drawingMode: null
                });
             } else {
-               $('#js-message').text(($wlrMap.load_route === 0) ? '' : 'Load failed');
+               $('#js-message').text(($map.load_route === 0) ? '' : 'Load failed');
             }
          } else {
             $('#js-message').text('Load failed');
          }
       })
       .fail(function() {
-         $('#js-message').text(($wlrMap.load_route === 0) ? '' : 'Load failed');
+         $('#js-message').text(($map.load_route === 0) ? '' : 'Load failed');
       });
    },
    deleteRoute: function($r) {
-      $wlrMap.del_route = $r;
+      $map.del_route = $r;
       $('#js-message').text('Deleting...');
       $.ajax('/lo/route-delete.php', {
          data: { routeid: $r },
@@ -105,34 +105,34 @@ var $wlrMap = {
       .done(function($data) {
          if ($data !== null) {
             if ($data.response === 'deleted') {
-               $('#js-del' + $wlrMap.del_route).parent().text('DELETED');
+               $('#js-del' + $map.del_route).parent().text('DELETED');
                $('#js-message').text('');
-               $wlrMap.route_id = 0;
+               $map.route_id = 0;
             } else {
-               $('#js-message').text(($wlrMap.del_route === 0) ? '' : 'Delete failed');
+               $('#js-message').text(($map.del_route === 0) ? '' : 'Delete failed');
             }
          } else {
             $('#js-message').text('Delete failed');
          }
       })
       .fail(function() {
-         $('#js-message').text(($wlrMap.del_route === 0) ? '' : 'Delete failed');
+         $('#js-message').text(($map.del_route === 0) ? '' : 'Delete failed');
       });
    },
    toggleMode: function($edit) {
       if ($edit) {
-         $wlrMap.polyline.setEditable(true);
+         $map.polyline.setEditable(true);
          var $marker;
-         for (var $i in $wlrMap.markers) {
-            $marker = $wlrMap.markers[$i];
+         for (var $i in $map.markers) {
+            $marker = $map.markers[$i];
             $marker.setVisible(true);
          }
          document.getElementById('js-edit').innerHTML = 'Edit Mode';
       } else {
-         $wlrMap.polyline.setEditable(false);
+         $map.polyline.setEditable(false);
          var $marker;
-         for (var $i in $wlrMap.markers) {
-            $marker = $wlrMap.markers[$i];
+         for (var $i in $map.markers) {
+            $marker = $map.markers[$i];
             $marker.setVisible(false);
          }
          document.getElementById('js-edit').innerHTML = 'View Mode';
@@ -140,89 +140,89 @@ var $wlrMap = {
    },
    zoomFit: function() {
       var $bounds = new google.maps.LatLngBounds();
-      for (var $i=0; $i<$wlrMap.points.length; ++$i) {
-         $bounds.extend($wlrMap.points[$i]);
+      for (var $i=0; $i<$map.points.length; ++$i) {
+         $bounds.extend($map.points[$i]);
       }
-      $wlrMap.map.fitBounds($bounds);
+      $map.map.fitBounds($bounds);
    },
    clearMarkers: function() {
-      for (var $i in $wlrMap.markers) {
-         $wlrMap.markers[$i].setMap(null);
+      for (var $i in $map.markers) {
+         $map.markers[$i].setMap(null);
       }
-      $wlrMap.markers = [];
+      $map.markers = [];
    },
    updateMarkers: function() {
-      $wlrMap.points = $wlrMap.polyline.getPath().getArray();
-      if ($wlrMap.markers.length > 0) {
-         $wlrMap.markers[0].setPosition($wlrMap.points[0]);
-         if ($wlrMap.markers.length > 1) {
-            $wlrMap.markers[1].setPosition($wlrMap.points[$wlrMap.points.length - 1]);
+      $map.points = $map.polyline.getPath().getArray();
+      if ($map.markers.length > 0) {
+         $map.markers[0].setPosition($map.points[0]);
+         if ($map.markers.length > 1) {
+            $map.markers[1].setPosition($map.points[$map.points.length - 1]);
          }
       }
    },
    redrawProgress: function() {
-      if ($wlrMap.progress_line !== null) $wlrMap.progress_line.setMap(null);
+      if ($map.progress_line !== null) $map.progress_line.setMap(null);
       var $progress = document.getElementById('js-progress').value * 1000;
       if (document.getElementById('js-unit').value !== 'km') $progress *= 1.609344;
       if ($progress === 0) return;
-      $wlrMap.progress_points = [$wlrMap.points[0]];
-      for (var $i=1; $i<$wlrMap.points.length; ++$i) {
-         $progress -= google.maps.geometry.spherical.computeDistanceBetween($wlrMap.points[$i], $wlrMap.points[$i - 1]);
+      $map.progress_points = [$map.points[0]];
+      for (var $i=1; $i<$map.points.length; ++$i) {
+         $progress -= google.maps.geometry.spherical.computeDistanceBetween($map.points[$i], $map.points[$i - 1]);
          if ($progress >= 0) {
-            $wlrMap.progress_points.push($wlrMap.points[$i]);
+            $map.progress_points.push($map.points[$i]);
             if ($progress < 1) break;
          } else {
-            var $lat_diff = $wlrMap.points[$i].lat() - $wlrMap.points[$i - 1].lat();
-            var $lng_diff = $wlrMap.points[$i].lng() - $wlrMap.points[$i - 1].lng();
-            var $section = google.maps.geometry.spherical.computeDistanceBetween ($wlrMap.points[$i], $wlrMap.points[$i - 1]);
-            $wlrMap.progress_points.push(new google.maps.LatLng($wlrMap.points[$i].lat() + $lat_diff * $progress / $section,
-               $wlrMap.points[$i].lng() + $lng_diff * $progress / $section));
+            var $lat_diff = $map.points[$i].lat() - $map.points[$i - 1].lat();
+            var $lng_diff = $map.points[$i].lng() - $map.points[$i - 1].lng();
+            var $section = google.maps.geometry.spherical.computeDistanceBetween ($map.points[$i], $map.points[$i - 1]);
+            $map.progress_points.push(new google.maps.LatLng($map.points[$i].lat() + $lat_diff * $progress / $section,
+               $map.points[$i].lng() + $lng_diff * $progress / $section));
             break;
          }
       }
-      $wlrMap.progress_line.setPath($wlrMap.progress_points);
-      $wlrMap.progress_line.setMap($wlrMap.map);
+      $map.progress_line.setPath($map.progress_points);
+      $map.progress_line.setMap($map.map);
    },
    redrawLine: function() {
-      if ($wlrMap.polyline !== null) $wlrMap.polyline.setMap(null);
+      if ($map.polyline !== null) $map.polyline.setMap(null);
       $distance = 0;
-      if ($wlrMap.points.length > 1) {
-         $wlrMap.polyline.setPath($wlrMap.points);
-         $wlrMap.polyline.setMap($wlrMap.map);
-         for (var $i=1; $i<$wlrMap.points.length; ++$i) {
-            $distance += google.maps.geometry.spherical.computeDistanceBetween ($wlrMap.points[$i], $wlrMap.points[$i - 1]);
+      if ($map.points.length > 1) {
+         $map.polyline.setPath($map.points);
+         $map.polyline.setMap($map.map);
+         for (var $i=1; $i<$map.points.length; ++$i) {
+            $distance += google.maps.geometry.spherical.computeDistanceBetween ($map.points[$i], $map.points[$i - 1]);
          }
       }
-      var $path = $wlrMap.polyline.getPath();
+      var $path = $map.polyline.getPath();
       google.maps.event.addDomListener($path, 'insert_at', function() {
-         $wlrMap.updateMarkers();
-         $wlrMap.redrawLine();
+         $map.updateMarkers();
+         $map.redrawLine();
       });
       google.maps.event.addDomListener($path, 'set_at', function() {
-         $wlrMap.updateMarkers();
-         $wlrMap.redrawLine();
+         $map.updateMarkers();
+         $map.redrawLine();
       });
-      document.getElementById('js-distance').innerHTML = $wlrMap.distance_format($distance);
-      $wlrMap.redrawProgress();
+      document.getElementById('js-distance').innerHTML = $map.distance_format($distance);
+      $map.redrawProgress();
    },
    init: function() {
-      $wlrMap.loadRoutes();
-      var $map_width = $('#map-canvas').closest($wlrMapConfig.container).width();
+      $map.loadRoutes();
+      var $map_width = $('#map-canvas').closest($mapConfig.container).width();
       $('#map-canvas').css('width', Math.floor($map_width) + 'px');
       $('#map-canvas').css('height', Math.floor((3 * $map_width / 4)) + 'px');
-      if ($wlrMapConfig.autoload) {
-         $wlrMap.loadRoute(0);
+      if ($mapConfig.autoload) {
+         $map.loadRoute(0);
       }
    },
    googleInit: function() {
-      $wlrMap.polyline = new google.maps.Polyline({
+      $map.polyline = new google.maps.Polyline({
          path: [],
          strokeColor: 'red',
          strokeOpacity: .75,
          strokeWeight: 5,
          editable: true
       });
-      $wlrMap.progress_line = new google.maps.Polyline({
+      $map.progress_line = new google.maps.Polyline({
          path: [],
          strokeColor: 'yellow',
          strokeOpacity: .75,
@@ -233,7 +233,7 @@ var $wlrMap = {
          center: { lat: 52, lng: 0 },
          zoom: 8
       };
-      $wlrMap.map = new google.maps.Map(document.getElementById('map-canvas'), $mapOptions);
+      $map.map = new google.maps.Map(document.getElementById('map-canvas'), $mapOptions);
       var $drawOptions = {
          drawingMode: google.maps.drawing.OverlayType.MARKER,
          drawingControl: true,
@@ -242,58 +242,58 @@ var $wlrMap = {
             drawingModes: [google.maps.drawing.OverlayType.MARKER]
          }
       };
-      $wlrMap.drawingManager = new google.maps.drawing.DrawingManager($drawOptions);
-      $wlrMap.drawingManager.setMap($wlrMap.map);
-      google.maps.event.addListener($wlrMap.drawingManager, 'markercomplete', function($marker) {
-         if ($wlrMap.polyline.getEditable()) {
-            if ($wlrMap.markers.length === 2) {
-               var $old_marker = $wlrMap.markers.pop();
+      $map.drawingManager = new google.maps.drawing.DrawingManager($drawOptions);
+      $map.drawingManager.setMap($map.map);
+      google.maps.event.addListener($map.drawingManager, 'markercomplete', function($marker) {
+         if ($map.polyline.getEditable()) {
+            if ($map.markers.length === 2) {
+               var $old_marker = $map.markers.pop();
                $old_marker.setMap(null);
             }
-            $marker.setTitle(($wlrMap.markers.length === 0) ? 'Start' : 'Finish');
+            $marker.setTitle(($map.markers.length === 0) ? 'Start' : 'Finish');
             google.maps.event.addDomListener($marker, 'dragend', function() {
-               $wlrMap.points[(this.getTitle() === 'Start') ? 0 : $wlrMap.points.length - 1] = this.getPosition();
-               $wlrMap.redrawLine();
+               $map.points[(this.getTitle() === 'Start') ? 0 : $map.points.length - 1] = this.getPosition();
+               $map.redrawLine();
             });
-            $wlrMap.points.push($marker.getPosition());
-            $wlrMap.markers.push($marker);
-            $wlrMap.redrawLine();
+            $map.points.push($marker.getPosition());
+            $map.markers.push($marker);
+            $map.redrawLine();
          } else {
             $marker.setMap(null);
          }
       });
       google.maps.event.addDomListener(document.getElementById('js-zoom'), 'click', function() {
-         $wlrMap.zoomFit();
+         $map.zoomFit();
       });
       google.maps.event.addDomListener(document.getElementById('js-clear'), 'click', function() {
          if (confirm('Clear the whole route?')) {
-            $wlrMap.clearMarkers();
-            $wlrMap.points = [];
-            $wlrMap.redrawLine();
+            $map.clearMarkers();
+            $map.points = [];
+            $map.redrawLine();
          }
       });
       if ($.isFunction($.fn.on)) {
          $(document).on('click', '.js-load', function($e) {
             $e.preventDefault();
-            $wlrMap.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
+            $map.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
          });
          $(document).on('click', '.js-del', function($e) {
             $e.preventDefault();
             var $r = $(this).attr('id').replace(/[^0-9]/g, '');
             if (confirm('Delete ' + $('#js-load' + $r).text() + '?')) {
-               $wlrMap.deleteRoute($r);
+               $map.deleteRoute($r);
             }
          });
       } else {
          $('.js-load').live('click', function($e) {
             $e.preventDefault();
-            $wlrMap.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
+            $map.loadRoute($(this).attr('id').replace(/[^0-9]/g, ''));
          });
          $('.js-del').live('click', function($e) {
             $e.preventDefault();
             var $r = $(this).attr('id').replace(/[^0-9]/g, '');
             if (confirm('Delete ' + $('#js-load' + $r).text() + '?')) {
-               $wlrMap.deleteRoute($r);
+               $map.deleteRoute($r);
             }
          });
       }
@@ -302,8 +302,8 @@ var $wlrMap = {
          $('#js-message').text('Saving...');
          $.ajax('/lo/route-save.php', {
             data: {
-               routeid: $wlrMap.route_id,
-               route: google.maps.geometry.encoding.encodePath($wlrMap.points),
+               routeid: $map.route_id,
+               route: google.maps.geometry.encoding.encodePath($map.points),
                name: $('#js-name').val(),
                progress: $('#js-progress').val(),
                unit: ($('#js-unit').val() === 'km') ? 1 : 0
@@ -323,52 +323,52 @@ var $wlrMap = {
          });
       });
       google.maps.event.addDomListener(document.getElementById('js-view'), 'click', function() {
-         $wlrMap.redrawProgress();
+         $map.redrawProgress();
       });
       google.maps.event.addDomListener(document.getElementById('js-edit'), 'click', function() {
-         $wlrMap.toggleMode(!$wlrMap.polyline.getEditable());
+         $map.toggleMode(!$map.polyline.getEditable());
       });
-      google.maps.event.addDomListener($wlrMap.polyline, 'dblclick', function($mev){
+      google.maps.event.addDomListener($map.polyline, 'dblclick', function($mev){
          if ($mev.vertex !== undefined) {
-            $wlrMap.polyline.getPath().removeAt($mev.vertex);
-            $wlrMap.points = $wlrMap.polyline.getPath().getArray();
+            $map.polyline.getPath().removeAt($mev.vertex);
+            $map.points = $map.polyline.getPath().getArray();
             if ($mev.vertex === 0) {
-               if ($wlrMap.points.length > 0) {
-                  $wlrMap.markers[0].setPosition($wlrMap.points[0]);
-                  if ($wlrMap.points.length === 1) {
-                     $wlrMap.markers[1].setMap(null);
+               if ($map.points.length > 0) {
+                  $map.markers[0].setPosition($map.points[0]);
+                  if ($map.points.length === 1) {
+                     $map.markers[1].setMap(null);
                   }
                } else {
-                  $wlrMap.markers[0].setMap(null);
+                  $map.markers[0].setMap(null);
                }
-            } else if ($mev.vertex === $wlrMap.points.length) {
-               if ($wlrMap.points.length > 0) {
-                  if ($wlrMap.points.length === 1) {
-                     $wlrMap.markers[1].setMap(null);
+            } else if ($mev.vertex === $map.points.length) {
+               if ($map.points.length > 0) {
+                  if ($map.points.length === 1) {
+                     $map.markers[1].setMap(null);
                   } else {
-                     $wlrMap.markers[1].setPosition($wlrMap.points[$wlrMap.points.length - 1]);
+                     $map.markers[1].setPosition($map.points[$map.points.length - 1]);
                   }
                } else {
-                  $wlrMap.markers[1].setMap(null);
+                  $map.markers[1].setMap(null);
                }
             }
-            $wlrMap.redrawLine();
+            $map.redrawLine();
          }
       });
       google.maps.event.addDomListener(document.getElementById('js-unit'), 'change', function() {
-         $wlrMap.redrawLine();
+         $map.redrawLine();
       });
       $('#js-new').click(function() {
-         $wlrMap.route_id = 0;
+         $map.route_id = 0;
          $('#js-name').val('');
       });
    }
 }
-if ($wlrMapConfig.mobile) {
+if ($mapConfig.mobile) {
    $(document).on('pageshow', function() {
-      $wlrMap.init();
+      $map.init();
    });
 } else {
-   $wlrMap.init();
+   $map.init();
 }
-google.maps.event.addDomListener(window, 'load', $wlrMap.googleInit());
+google.maps.event.addDomListener(window, 'load', $map.googleInit());
