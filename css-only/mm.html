@@ -1,0 +1,1731 @@
+<style>
+  :root {
+    --bgCol: #ccc;
+    --gapCol: #666;
+    --col1: red;
+    --col2: yellow;
+    --col3: yellowgreen;
+    --col4: blue;
+    --col5: orange;
+    --col6: purple;
+    --pegSize: 6vh;
+    --clueSize: 4vh;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    counter-reset: guessCount 11;
+  }
+  form {
+    position: relative;
+    margin: 0 auto;
+    padding: calc(var(--pegSize) * 0.5) calc(var(--pegSize) * 2);
+    width: 50vh;
+    height: calc(90vh - var(--pegSize) * 1);
+    background-color: var(--bgCol);
+  }
+  input {
+    position: absolute;
+    left: -9999px;
+  }
+  label {
+    display: block;
+    cursor: pointer;
+  }
+  .peg label {
+    width: 100%;
+    height: 100%;
+  }
+  #pegs {
+    position: absolute;
+    top: 50%;
+    left: calc(var(--pegSize) * 0.5);
+    transform: translateY(-50%)
+  }
+  #pegs label {
+    margin: calc(var(--pegSize) * 0.25) 0 calc(var(--pegSize) * 0.25) calc(var(--pegSize) * 0.45);
+    position: relative;
+  }
+  #showNum:checked ~ form #pegs label::before,
+  #showNum:checked ~ form .peg::before,
+  [for="c0"]::before {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: var(--bgCol);
+    font-size: calc(var(--pegSize));
+    line-height: 100%;
+    text-align: center;
+  }
+  [for="c0"]::before {
+    content: "X";
+  }
+  #showNum:checked ~ form #a1c1:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c1:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c1:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c1:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c1"]::before,
+  #showNum:checked ~ form .guess [id$="p1c1"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c1"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c1"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c1"]:checked ~ .peg[id$="p4"]::before {
+    content: "1";
+  }
+  #showNum:checked ~ form #a1c2:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c2:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c2:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c2:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c2"]::before,
+  #showNum:checked ~ form .guess [id$="p1c2"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c2"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c2"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c2"]:checked ~ .peg[id$="p4"]::before {
+    content: "2";
+  }
+  #showNum:checked ~ form #a1c3:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c3:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c3:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c3:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c3"]::before,
+  #showNum:checked ~ form .guess [id$="p1c3"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c3"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c3"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c3"]:checked ~ .peg[id$="p4"]::before {
+    content: "3";
+  }
+  #showNum:checked ~ form #a1c4:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c4:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c4:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c4:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c4"]::before,
+  #showNum:checked ~ form .guess [id$="p1c4"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c4"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c4"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c4"]:checked ~ .peg[id$="p4"]::before {
+    content: "4";
+  }
+  #showNum:checked ~ form #a1c5:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c5:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c5:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c5:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c5"]::before,
+  #showNum:checked ~ form .guess [id$="p1c5"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c5"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c5"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c5"]:checked ~ .peg[id$="p4"]::before {
+    content: "5";
+  }
+  #showNum:checked ~ form #a1c6:checked ~ #answer #a1::before,
+  #showNum:checked ~ form #a2c6:checked ~ #answer #a2::before,
+  #showNum:checked ~ form #a3c6:checked ~ #answer #a3::before,
+  #showNum:checked ~ form #a4c6:checked ~ #answer #a4::before,
+  #showNum:checked ~ form [for="c6"]::before,
+  #showNum:checked ~ form .guess [id$="p1c6"]:checked ~ .peg[id$="p1"]::before,
+  #showNum:checked ~ form .guess [id$="p2c6"]:checked ~ .peg[id$="p2"]::before,
+  #showNum:checked ~ form .guess [id$="p3c6"]:checked ~ .peg[id$="p3"]::before,
+  #showNum:checked ~ form .guess [id$="p4c6"]:checked ~ .peg[id$="p4"]::before {
+    content: "6";
+  }
+  #c0:checked ~ #pegs [for="c0"]::after,
+  #c1:checked ~ #pegs [for="c1"]::after,
+  #c2:checked ~ #pegs [for="c2"]::after,
+  #c3:checked ~ #pegs [for="c3"]::after,
+  #c4:checked ~ #pegs [for="c4"]::after,
+  #c5:checked ~ #pegs [for="c5"]::after,
+  #c6:checked ~ #pegs [for="c6"]::after {
+    content: "";
+    position: absolute;
+    width: calc(var(--pegSize) * 0.05);
+    height: var(--pegSize);
+    left: calc(var(--pegSize) * -0.45);
+    top: 0;
+    border-left: calc(var(--pegSize) * 0.05) black solid;
+  }
+  #pegs label,
+  .peg {
+    width: var(--pegSize);
+    height: var(--pegSize);
+    border-radius: 50%;
+  }
+  .info {
+    position: absolute;
+    padding: var(--clueSize);
+    background: white;
+    border: calc(var(--pegSize) * 0.2) black solid;
+    border-radius: calc(var(--pegSize) * 0.5);
+    z-index: 1;
+  }
+  #info0,
+  [id="stop1"]:checked ~ #info1,
+  [name="a1"]:checked ~ #info2,
+  [name="a2"]:checked ~ #info3,
+  [name="a3"]:checked ~ #info4,
+  #guess10:checked ~ #loseMsg,
+  [name="win"]:checked ~ #winMsg {
+    visibility: visible;
+  }
+  .info,
+  [id="stop1"]:checked ~ #info0,
+  [name="a1"]:checked ~ #info1,
+  [name="a2"]:checked ~ #info2,
+  [name="a3"]:checked ~ #info3,
+  [name="a4"]:checked ~ #info4 {
+    visibility: hidden;
+  }
+  #info0 {
+    left: 6.5vh;
+    top: 20vh;
+  }
+  #info1 {
+    left: 0;
+    top: 49vh;
+  }
+  #info2 {
+    left: 3vh;
+    top: 10vh;
+  }
+  #info3 {
+    left: 23vh;
+    top: 10vh;
+  }
+  #info4 {
+    left: 1vh;
+    top: 17vh;
+  }
+  .ok {
+    position: relative;
+    width: calc(var(--pegSize) * 2);
+    height: calc(var(--pegSize) * 1);
+    margin: 0 auto;
+    background-color: slateblue;
+    border-radius: calc(var(--pegSize) * 0.5);
+    overflow: hidden;
+  }
+  .ok:hover {
+    background: slategrey;
+  }
+  .ok::before {
+    content: "OK";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: calc(var(--pegSize) * 0.5);
+    line-height: calc(var(--pegSize) * 1);
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+  }
+  .info p {
+    margin: 0 0 var(--clueSize);
+    font-size: calc(var(--pegSize) * 0.5);
+    text-align: center;
+  }
+  @keyframes mix {
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+  .mix {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    animation: mix 1s steps(6) infinite;
+  }
+  #unique:checked ~ form [id^="a"][id$="c1"]:checked ~ .info [for$="c1"],
+  #unique:checked ~ form [id^="a"][id$="c2"]:checked ~ .info [for$="c2"],
+  #unique:checked ~ form [id^="a"][id$="c3"]:checked ~ .info [for$="c3"],
+  #unique:checked ~ form [id^="a"][id$="c4"]:checked ~ .info [for$="c4"],
+  #unique:checked ~ form [id^="a"][id$="c5"]:checked ~ .info [for$="c5"],
+  #unique:checked ~ form [id^="a"][id$="c6"]:checked ~ .info [for$="c6"] {
+    display: none;
+  }
+  #unique:checked ~ form [id^="a1"]:checked ~ #info2 .mix {
+    animation-timing-function: steps(5);
+  }
+  #unique:checked ~ form [id^="a2"]:checked ~ #info3 .mix {
+    animation-timing-function: steps(4);
+  }
+  #unique:checked ~ form [id^="a3"]:checked ~ #info4 .mix {
+    animation-timing-function: steps(3);
+  }
+  .ok label {
+    width: 100%;
+    height: calc(var(--pegSize) * 1);
+  }
+  #stop1:checked ~ #info1 .mix,
+  [name="a1"]:checked ~ #info2 .mix,
+  [name="a2"]:checked ~ #info3 .mix,
+  [name="a3"]:checked ~ #info4 .mix {
+    animation-play-state: paused;
+  }
+  #c0:checked ~ #pegs [for="c0"],
+  #c1:checked ~ #pegs [for="c1"],
+  #c2:checked ~ #pegs [for="c2"],
+  #c3:checked ~ #pegs [for="c3"],
+  #c4:checked ~ #pegs [for="c4"],
+  #c5:checked ~ #pegs [for="c5"],
+  #c6:checked ~ #pegs [for="c6"] {
+    border-left-color: black;
+  }
+  [for="c0"],
+  .guess [id$="p1c0"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c0"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c0"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c0"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--gapCol);
+  }
+  #a1c1:checked ~ #answer #a1,
+  #a2c1:checked ~ #answer #a2,
+  #a3c1:checked ~ #answer #a3,
+  #a4c1:checked ~ #answer #a4,
+  [for="c1"],
+  .guess [id$="p1c1"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c1"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c1"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c1"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col1);
+  }
+  #a1c2:checked ~ #answer #a1,
+  #a2c2:checked ~ #answer #a2,
+  #a3c2:checked ~ #answer #a3,
+  #a4c2:checked ~ #answer #a4,
+  [for="c2"],
+  .guess [id$="p1c2"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c2"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c2"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c2"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col2);
+  }
+  #a1c3:checked ~ #answer #a1,
+  #a2c3:checked ~ #answer #a2,
+  #a3c3:checked ~ #answer #a3,
+  #a4c3:checked ~ #answer #a4,
+  [for="c3"],
+  .guess [id$="p1c3"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c3"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c3"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c3"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col3);
+  }
+  #a1c4:checked ~ #answer #a1,
+  #a2c4:checked ~ #answer #a2,
+  #a3c4:checked ~ #answer #a3,
+  #a4c4:checked ~ #answer #a4,
+  [for="c4"],
+  .guess [id$="p1c4"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c4"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c4"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c4"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col4);
+  }
+  #a1c5:checked ~ #answer #a1,
+  #a2c5:checked ~ #answer #a2,
+  #a3c5:checked ~ #answer #a3,
+  #a4c5:checked ~ #answer #a4,
+  [for="c5"],
+  .guess [id$="p1c5"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c5"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c5"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c5"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col5);
+  }
+  #a1c6:checked ~ #answer #a1,
+  #a2c6:checked ~ #answer #a2,
+  #a3c6:checked ~ #answer #a3,
+  #a4c6:checked ~ #answer #a4,
+  [for="c6"],
+  .guess [id$="p1c6"]:checked ~ .peg[id$="p1"],
+  .guess [id$="p2c6"]:checked ~ .peg[id$="p2"],
+  .guess [id$="p3c6"]:checked ~ .peg[id$="p3"],
+  .guess [id$="p4c6"]:checked ~ .peg[id$="p4"] {
+    background-color: var(--col6);
+  }
+  .clues {
+    position: relative;
+    display: flex;
+    min-width: calc(var(--clueSize) * 4);
+    height: var(--clueSize);
+  }
+  .clues::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: calc(var(--clueSize) * 4);
+    height: var(--clueSize);
+  }
+  .clues::before,
+  [for="showNum"]::before,
+  [for="unique"]::before {
+    background-image: radial-gradient(var(--gapCol) 50%, var(--bgCol) 50%);
+    background-position: 0 0;
+    background-size: var(--clueSize) var(--clueSize);
+  }
+  #guess1:checked ~ #g1 .clues::before,
+  #guess1 ~ [name="guess"]:checked ~ #g1 .clues::before,
+  #guess1 ~ [name="guess"]:checked ~ #g2 .clues::before,
+  #guess2 ~ [name="guess"]:checked ~ #g3 .clues::before,
+  #guess3 ~ [name="guess"]:checked ~ #g4 .clues::before,
+  #guess4 ~ [name="guess"]:checked ~ #g5 .clues::before,
+  #guess5 ~ [name="guess"]:checked ~ #g6 .clues::before,
+  #guess6 ~ [name="guess"]:checked ~ #g7 .clues::before,
+  #guess7 ~ [name="guess"]:checked ~ #g8 .clues::before,
+  #guess8 ~ [name="guess"]:checked ~ #g9 .clues::before,
+  #guess9 ~ [name="guess"]:checked ~ #g10 .clues::before,
+  #win1:checked ~ #g1 .clues::before,
+  #win2:checked ~ #g2 .clues::before,
+  #win3:checked ~ #g3 .clues::before,
+  #win4:checked ~ #g4 .clues::before,
+  #win5:checked ~ #g5 .clues::before,
+  #win6:checked ~ #g6 .clues::before,
+  #win7:checked ~ #g7 .clues::before,
+  #win8:checked ~ #g8 .clues::before,
+  #win9:checked ~ #g9 .clues::before,
+  #win10:checked ~ #g10 .clues::before {
+    z-index: 0;
+  }
+  .wrong {
+    width: 0;
+    max-width: 0;
+    height: var(--clueSize);
+    background-image: radial-gradient(white 50%, var(--bgCol) 50%);
+    background-position: 0 0;
+    background-size: var(--clueSize) var(--clueSize);
+    position: relative;
+  }
+  .correct {
+    position: absolute;
+    display: flex;
+    width: calc(var(--clueSize) * 9);
+    height: var(--clueSize);
+    left: 0;
+    overflow: hidden;
+  }
+  .correct div {
+    display: none;
+    width: var(--clueSize);
+    height: var(--clueSize);
+  }
+  .correct div,
+  #showNum:checked ~ form [for="showNum"]::before,
+  #unique:checked ~ form [for="unique"]::before {
+    background-image: radial-gradient(black 50%, var(--bgCol) 50%);
+  }
+  .correct label {
+    width: calc(var(--clueSize) * 4);
+    height: var(--clueSize);
+    pointer-events: none;
+  }
+  .correct [for^="win"] {
+    width: var(--clueSize);
+    height: var(--clueSize);
+  }
+  .guess {
+    display: flex;
+    align-items: center;
+    width: calc(var(--pegSize) * 5 + var(--clueSize) * 4);
+    padding-left: calc(var(--pegSize) * 0.45);
+    border-left: calc(var(--pegSize) * 0.05) transparent solid;
+    margin-left: calc(var(--pegSize) * 0.5);
+    margin-bottom: calc(var(--pegSize) * 0.25);
+  }
+  [id="g1"],
+  #guess1:checked ~ #g2,
+  #guess2:checked ~ #g3,
+  #guess3:checked ~ #g4,
+  #guess4:checked ~ #g5,
+  #guess5:checked ~ #g6,
+  #guess6:checked ~ #g7,
+  #guess7:checked ~ #g8,
+  #guess8:checked ~ #g9,
+  #guess9:checked ~ #g10 {
+    border-left-color: black;
+  }
+  [name="guess"]:checked ~ #g1 {
+    border-left-color: transparent;
+  }
+  .peg {
+    position: relative;
+    margin-right: calc(var(--pegSize) * 0.25);
+  }
+  .peg label {
+    display: none;
+    position: absolute;
+  }
+  .check {
+    position: absolute;
+    width: var(--clueSize);
+    height: var(--clueSize);
+    left: calc(var(--pegSize) * 8 + var(--clueSize) * 4);
+    border-radius: 50%;
+    background: slateblue;
+  }
+  .check::before {
+    content: "?";
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--bgCol);
+    font-size: var(--clueSize);
+    line-height: 100%;
+    font-weight: bold;
+    text-align: center;
+  }
+  .chosen:checked ~ .chosen:checked ~ .chosen:checked ~ .chosen:checked ~ .clues .correct label {
+    pointer-events: initial;
+  }
+  #answer {
+    display: flex;
+    position: relative;
+    width: calc(var(--pegSize) * 4.75);
+    margin-top: 2vh;
+    border-top: calc(var(--pegSize) * 0.05) black solid;
+    padding-top: 2vh;
+    margin-left: calc(var(--pegSize) * 1);
+  }
+  #answer :last-of-type {
+    margin-right: 0;
+  }
+  #answer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2vh;
+    width: 100%;
+    height: calc(100% - 2vh);
+    background-color: var(--gapCol);
+  }
+  #guess10:checked ~ #answer::after,
+  [name="win"]:checked ~ #answer::after {
+    visibility: hidden;
+  }
+  .cover {
+    position: absolute;
+    z-index: 1;
+  }
+  #coverT {
+    width: calc(100% - var(--pegSize) * 3);
+    height: 0;
+    right: 0;
+    top: calc(var(--pegSize) * 0.5);
+  }
+  #coverB {
+    width: calc(100% - var(--pegSize) * 3);
+    height: calc(var(--pegSize) * 11.25);
+    right: 0;
+    bottom: calc(var(--pegSize) * 2.25);
+  }
+  #coverL {
+    width: calc(var(--clueSize) * 4);
+    height: 10calc(var(--pegSize) * 13);
+    left: calc(var(--pegSize) * 8);
+    top: 0;
+  }
+  #coverR {
+    width: calc(var(--pegSize) * 1);
+    height: 100%;
+    right: 0;
+    top: 0;
+  }
+  #guess1:checked ~ #coverT {
+    height: calc(var(--pegSize) * 1.25);
+  }
+  #guess2:checked ~ #coverT {
+    height: calc(var(--pegSize) * 2.5);
+  }
+  #guess3:checked ~ #coverT {
+    height: calc(var(--pegSize) * 3.75);
+  }
+  #guess4:checked ~ #coverT {
+    height: calc(var(--pegSize) * 5);
+  }
+  #guess5:checked ~ #coverT {
+    height: calc(var(--pegSize) * 6.25);
+  }
+  #guess6:checked ~ #coverT {
+    height: calc(var(--pegSize) * 7.5);
+  }
+  #guess7:checked ~ #coverT {
+    height: calc(var(--pegSize) * 8.75);
+  }
+  #guess8:checked ~ #coverT {
+    height: calc(var(--pegSize) * 10);
+  }
+  #guess9:checked ~ #coverT {
+    height: calc(var(--pegSize) * 11.25);
+  }
+  #guess1:checked ~ #coverB {
+    height: calc(var(--pegSize) * 10);
+  }
+  #guess2:checked ~ #coverB {
+    height: calc(var(--pegSize) * 8.75);
+  }
+  #guess3:checked ~ #coverB {
+    height: calc(var(--pegSize) * 7.5);
+  }
+  #guess4:checked ~ #coverB {
+    height: calc(var(--pegSize) * 6.25);
+  }
+  #guess5:checked ~ #coverB {
+    height: calc(var(--pegSize) * 5);
+  }
+  #guess6:checked ~ #coverB {
+    height: calc(var(--pegSize) * 3.75);
+  }
+  #guess7:checked ~ #coverB {
+    height: calc(var(--pegSize) * 2.5);
+  }
+  #guess8:checked ~ #coverB {
+    height: calc(var(--pegSize) * 1.25);
+  }
+  #guess9:checked ~ #coverB {
+    height: calc(var(--pegSize) * 0);
+  }
+  #loseMsg,
+  #winMsg {
+    visibility: hidden;
+    position: absolute;
+    left: 0;
+    bottom: -10vh;
+    width: 100%;
+    height: 10vh;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 3.5vh;
+    line-height: 10vh;
+  }
+  #loseMsg p,
+  #winMsg p {
+    margin: 0;
+  }
+  #winMsg {
+    background-color: blue;
+  }
+  [name="guess"]:checked ~ [name="guess"] {
+    counter-increment: guessCount -1;
+  }
+  #winMsg span::before {
+    content: counter(guessCount);
+  }
+  #winMsg span::after {
+    content: "es";
+  }
+  #win1:checked ~ #winMsg span::after {
+    content: "";
+  }
+  [id^="a"][id$="c1"]:checked ~ .guess [id$="c1w"],
+  [id^="a"][id$="c2"]:checked ~ .guess [id$="c2w"],
+  [id^="a"][id$="c3"]:checked ~ .guess [id$="c3w"],
+  [id^="a"][id$="c4"]:checked ~ .guess [id$="c4w"],
+  [id^="a"][id$="c5"]:checked ~ .guess [id$="c5w"],
+  [id^="a"][id$="c6"]:checked ~ .guess [id$="c6w"] {
+    max-width: calc(var(--clueSize) * 1);
+  }
+  [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ .guess [id$="c1w"],
+  [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ .guess [id$="c2w"],
+  [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ .guess [id$="c3w"],
+  [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ .guess [id$="c4w"],
+  [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ .guess [id$="c5w"],
+  [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ .guess [id$="c6w"] {
+    max-width: calc(var(--clueSize) * 2);
+  }
+  [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ .guess [id$="c1w"],
+  [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ .guess [id$="c2w"],
+  [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ .guess [id$="c3w"],
+  [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ .guess [id$="c4w"],
+  [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ .guess [id$="c5w"],
+  [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ .guess [id$="c6w"] {
+    max-width: calc(var(--clueSize) * 3);
+  }
+  [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ [id^="a"][id$="c1"]:checked ~ .guess [id$="c1w"],
+  [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ [id^="a"][id$="c2"]:checked ~ .guess [id$="c2w"],
+  [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ [id^="a"][id$="c3"]:checked ~ .guess [id$="c3w"],
+  [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ [id^="a"][id$="c4"]:checked ~ .guess [id$="c4w"],
+  [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ [id^="a"][id$="c5"]:checked ~ .guess [id$="c5w"],
+  [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ [id^="a"][id$="c6"]:checked ~ .guess [id$="c6w"] {
+    max-width: calc(var(--clueSize) * 4);
+  }
+  .guess [id$="c1"]:checked ~ .clues [id$="c1w"],
+  .guess [id$="c2"]:checked ~ .clues [id$="c2w"],
+  .guess [id$="c3"]:checked ~ .clues [id$="c3w"],
+  .guess [id$="c4"]:checked ~ .clues [id$="c4w"],
+  .guess [id$="c5"]:checked ~ .clues [id$="c5w"],
+  .guess [id$="c6"]:checked ~ .clues [id$="c6w"] {
+    width: calc(var(--clueSize) * 1);
+  }
+  .guess [id$="c1"]:checked ~ [id$="c1"]:checked ~ .clues [id$="c1w"],
+  .guess [id$="c2"]:checked ~ [id$="c2"]:checked ~ .clues [id$="c2w"],
+  .guess [id$="c3"]:checked ~ [id$="c3"]:checked ~ .clues [id$="c3w"],
+  .guess [id$="c4"]:checked ~ [id$="c4"]:checked ~ .clues [id$="c4w"],
+  .guess [id$="c5"]:checked ~ [id$="c5"]:checked ~ .clues [id$="c5w"],
+  .guess [id$="c6"]:checked ~ [id$="c6"]:checked ~ .clues [id$="c6w"] {
+    width: calc(var(--clueSize) * 2);
+  }
+  .guess [id$="c1"]:checked ~ [id$="c1"]:checked ~ [id$="c1"]:checked ~ .clues [id$="c1w"],
+  .guess [id$="c2"]:checked ~ [id$="c2"]:checked ~ [id$="c2"]:checked ~ .clues [id$="c2w"],
+  .guess [id$="c3"]:checked ~ [id$="c3"]:checked ~ [id$="c3"]:checked ~ .clues [id$="c3w"],
+  .guess [id$="c4"]:checked ~ [id$="c4"]:checked ~ [id$="c4"]:checked ~ .clues [id$="c4w"],
+  .guess [id$="c5"]:checked ~ [id$="c5"]:checked ~ [id$="c5"]:checked ~ .clues [id$="c5w"],
+  .guess [id$="c6"]:checked ~ [id$="c6"]:checked ~ [id$="c6"]:checked ~ .clues [id$="c6w"] {
+    width: calc(var(--clueSize) * 3);
+  }
+  .guess [id$="c1"]:checked ~ [id$="c1"]:checked ~ [id$="c1"]:checked ~ [id$="c1"]:checked ~ .clues [id$="c1w"],
+  .guess [id$="c2"]:checked ~ [id$="c2"]:checked ~ [id$="c2"]:checked ~ [id$="c2"]:checked ~ .clues [id$="c2w"],
+  .guess [id$="c3"]:checked ~ [id$="c3"]:checked ~ [id$="c3"]:checked ~ [id$="c3"]:checked ~ .clues [id$="c3w"],
+  .guess [id$="c4"]:checked ~ [id$="c4"]:checked ~ [id$="c4"]:checked ~ [id$="c4"]:checked ~ .clues [id$="c4w"],
+  .guess [id$="c5"]:checked ~ [id$="c5"]:checked ~ [id$="c5"]:checked ~ [id$="c5"]:checked ~ .clues [id$="c5w"],
+  .guess [id$="c6"]:checked ~ [id$="c6"]:checked ~ [id$="c6"]:checked ~ [id$="c6"]:checked ~ .clues [id$="c6w"] {
+    width: calc(var(--clueSize) * 4);
+  }
+  #c0:checked ~ .guess [for$="c0"],
+  #c1:checked ~ .guess [for$="c1"],
+  #c2:checked ~ .guess [for$="c2"],
+  #c3:checked ~ .guess [for$="c3"],
+  #c4:checked ~ .guess [for$="c4"],
+  #c5:checked ~ .guess [for$="c5"],
+  #c6:checked ~ .guess [for$="c6"],
+  #a1c1:checked ~ .guess [id$="p1c1"]:checked ~ .clues [id$="p1r"],
+  #a1c2:checked ~ .guess [id$="p1c2"]:checked ~ .clues [id$="p1r"],
+  #a1c3:checked ~ .guess [id$="p1c3"]:checked ~ .clues [id$="p1r"],
+  #a1c4:checked ~ .guess [id$="p1c4"]:checked ~ .clues [id$="p1r"],
+  #a1c5:checked ~ .guess [id$="p1c5"]:checked ~ .clues [id$="p1r"],
+  #a1c6:checked ~ .guess [id$="p1c6"]:checked ~ .clues [id$="p1r"],
+  #a2c1:checked ~ .guess [id$="p2c1"]:checked ~ .clues [id$="p2r"],
+  #a2c2:checked ~ .guess [id$="p2c2"]:checked ~ .clues [id$="p2r"],
+  #a2c3:checked ~ .guess [id$="p2c3"]:checked ~ .clues [id$="p2r"],
+  #a2c4:checked ~ .guess [id$="p2c4"]:checked ~ .clues [id$="p2r"],
+  #a2c5:checked ~ .guess [id$="p2c5"]:checked ~ .clues [id$="p2r"],
+  #a2c6:checked ~ .guess [id$="p2c6"]:checked ~ .clues [id$="p2r"],
+  #a3c1:checked ~ .guess [id$="p3c1"]:checked ~ .clues [id$="p3r"],
+  #a3c2:checked ~ .guess [id$="p3c2"]:checked ~ .clues [id$="p3r"],
+  #a3c3:checked ~ .guess [id$="p3c3"]:checked ~ .clues [id$="p3r"],
+  #a3c4:checked ~ .guess [id$="p3c4"]:checked ~ .clues [id$="p3r"],
+  #a3c5:checked ~ .guess [id$="p3c5"]:checked ~ .clues [id$="p3r"],
+  #a3c6:checked ~ .guess [id$="p3c6"]:checked ~ .clues [id$="p3r"],
+  #a4c1:checked ~ .guess [id$="p4c1"]:checked ~ .clues [id$="p4r"],
+  #a4c2:checked ~ .guess [id$="p4c2"]:checked ~ .clues [id$="p4r"],
+  #a4c3:checked ~ .guess [id$="p4c3"]:checked ~ .clues [id$="p4r"],
+  #a4c4:checked ~ .guess [id$="p4c4"]:checked ~ .clues [id$="p4r"],
+  #a4c5:checked ~ .guess [id$="p4c5"]:checked ~ .clues [id$="p4r"],
+  #a4c6:checked ~ .guess [id$="p4c6"]:checked ~ .clues [id$="p4r"] {
+    display: block;
+  }
+  [for="reset"] {
+    position: absolute;
+    right: var(--pegSize);
+    bottom: var(--pegSize);
+    padding: 1vh;
+    font-size: calc(var(--pegSize) * 0.5);
+    text-align: center;
+    font-weight: bold;
+    background-color: red;
+    color: var(--bgCol);
+    border-radius: 1vh;
+  }
+  [for="reset"]:hover {
+    background-color: blue;
+  }
+  [for="showNum"],
+  [for="unique"] {
+    position: absolute;
+    height: var(--clueSize);
+    left: 8vh;
+    top: 72vh;
+    font-size: 2vh;
+    font-weight: bold;
+    line-height: var(--clueSize);
+  }
+  [for="unique"] {
+    left: 56vh;
+    top: 85vh;
+  }
+  [for="showNum"]::before,
+  [for="unique"]::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--clueSize) * -1);
+    width: var(--clueSize);
+    height: var(--clueSize);
+  }
+  #link {
+    position: absolute;
+  }
+  </style>
+  <p id="link"><a href="mm5.html">Try the 5-peg game</a></p>
+  <input type="checkbox" id="showNum" />
+  <input type="checkbox" id="unique" />
+  <form autocomplete="off">
+    <input type="checkbox" id="stop1" />
+    <input type="radio" name="a1" id="a1c1" />
+    <input type="radio" name="a1" id="a1c2" />
+    <input type="radio" name="a1" id="a1c3" />
+    <input type="radio" name="a1" id="a1c4" />
+    <input type="radio" name="a1" id="a1c5" />
+    <input type="radio" name="a1" id="a1c6" />
+    <input type="radio" name="a2" id="a2c1" />
+    <input type="radio" name="a2" id="a2c2" />
+    <input type="radio" name="a2" id="a2c3" />
+    <input type="radio" name="a2" id="a2c4" />
+    <input type="radio" name="a2" id="a2c5" />
+    <input type="radio" name="a2" id="a2c6" />
+    <input type="radio" name="a3" id="a3c1" />
+    <input type="radio" name="a3" id="a3c2" />
+    <input type="radio" name="a3" id="a3c3" />
+    <input type="radio" name="a3" id="a3c4" />
+    <input type="radio" name="a3" id="a3c5" />
+    <input type="radio" name="a3" id="a3c6" />
+    <input type="radio" name="a4" id="a4c1" />
+    <input type="radio" name="a4" id="a4c2" />
+    <input type="radio" name="a4" id="a4c3" />
+    <input type="radio" name="a4" id="a4c4" />
+    <input type="radio" name="a4" id="a4c5" />
+    <input type="radio" name="a4" id="a4c6" />
+    <input type="radio" name="peg" id="c0" />
+    <input type="radio" name="peg" id="c1" />
+    <input type="radio" name="peg" id="c2" />
+    <input type="radio" name="peg" id="c3" />
+    <input type="radio" name="peg" id="c4" />
+    <input type="radio" name="peg" id="c5" />
+    <input type="radio" name="peg" id="c6" />
+    <input type="radio" name="guess" id="guess1" />
+    <input type="radio" name="guess" id="guess2" />
+    <input type="radio" name="guess" id="guess3" />
+    <input type="radio" name="guess" id="guess4" />
+    <input type="radio" name="guess" id="guess5" />
+    <input type="radio" name="guess" id="guess6" />
+    <input type="radio" name="guess" id="guess7" />
+    <input type="radio" name="guess" id="guess8" />
+    <input type="radio" name="guess" id="guess9" />
+    <input type="radio" name="guess" id="guess10" />
+    <input type="checkbox" name="win" id="win1" />
+    <input type="checkbox" name="win" id="win2" />
+    <input type="checkbox" name="win" id="win3" />
+    <input type="checkbox" name="win" id="win4" />
+    <input type="checkbox" name="win" id="win5" />
+    <input type="checkbox" name="win" id="win6" />
+    <input type="checkbox" name="win" id="win7" />
+    <input type="checkbox" name="win" id="win8" />
+    <input type="checkbox" name="win" id="win9" />
+    <input type="checkbox" name="win" id="win10" />
+    <input type="reset" id="reset" value="Restart" />
+    <div id="pegs">
+      <label for="c1"></label>
+      <label for="c2"></label>
+      <label for="c3"></label>
+      <label for="c4"></label>
+      <label for="c5"></label>
+      <label for="c6"></label>
+      <label for="c0"></label>
+    </div>
+    <div class="guess" id="g1">
+      <input type="radio" name="g1p1" id="g1p1c0" checked="checked" />
+      <input type="radio" name="g1p1" id="g1p1c1" class="chosen" />
+      <input type="radio" name="g1p1" id="g1p1c2" class="chosen" />
+      <input type="radio" name="g1p1" id="g1p1c3" class="chosen" />
+      <input type="radio" name="g1p1" id="g1p1c4" class="chosen" />
+      <input type="radio" name="g1p1" id="g1p1c5" class="chosen" />
+      <input type="radio" name="g1p1" id="g1p1c6" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c0" checked="checked" />
+      <input type="radio" name="g1p2" id="g1p2c1" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c2" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c3" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c4" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c5" class="chosen" />
+      <input type="radio" name="g1p2" id="g1p2c6" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c0" checked="checked" />
+      <input type="radio" name="g1p3" id="g1p3c1" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c2" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c3" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c4" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c5" class="chosen" />
+      <input type="radio" name="g1p3" id="g1p3c6" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c0" checked="checked" />
+      <input type="radio" name="g1p4" id="g1p4c1" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c2" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c3" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c4" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c5" class="chosen" />
+      <input type="radio" name="g1p4" id="g1p4c6" class="chosen" />
+      <div class="peg" id="g1p1">
+        <label for="g1p1c0"></label>
+        <label for="g1p1c1"></label>
+        <label for="g1p1c2"></label>
+        <label for="g1p1c3"></label>
+        <label for="g1p1c4"></label>
+        <label for="g1p1c5"></label>
+        <label for="g1p1c6"></label>
+      </div>
+      <div class="peg" id="g1p2">
+        <label for="g1p2c0"></label>
+        <label for="g1p2c1"></label>
+        <label for="g1p2c2"></label>
+        <label for="g1p2c3"></label>
+        <label for="g1p2c4"></label>
+        <label for="g1p2c5"></label>
+        <label for="g1p2c6"></label>
+      </div>
+      <div class="peg" id="g1p3">
+        <label for="g1p3c0"></label>
+        <label for="g1p3c1"></label>
+        <label for="g1p3c2"></label>
+        <label for="g1p3c3"></label>
+        <label for="g1p3c4"></label>
+        <label for="g1p3c5"></label>
+        <label for="g1p3c6"></label>
+      </div>
+      <div class="peg" id="g1p4">
+        <label for="g1p4c0"></label>
+        <label for="g1p4c1"></label>
+        <label for="g1p4c2"></label>
+        <label for="g1p4c3"></label>
+        <label for="g1p4c4"></label>
+        <label for="g1p4c5"></label>
+        <label for="g1p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g1c1w"></div>
+        <div class="wrong" id="g1c2w"></div>
+        <div class="wrong" id="g1c3w"></div>
+        <div class="wrong" id="g1c4w"></div>
+        <div class="wrong" id="g1c5w"></div>
+        <div class="wrong" id="g1c6w"></div>
+        <div class="correct">
+          <div id="g1p1r"></div>
+          <div id="g1p2r"></div>
+          <div id="g1p3r"></div>
+          <div id="g1p4r"></div>
+          <label for="win1"></label>
+          <label for="guess1"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g2">
+      <input type="radio" name="g2p1" id="g2p1c0" checked="checked" />
+      <input type="radio" name="g2p1" id="g2p1c1" class="chosen" />
+      <input type="radio" name="g2p1" id="g2p1c2" class="chosen" />
+      <input type="radio" name="g2p1" id="g2p1c3" class="chosen" />
+      <input type="radio" name="g2p1" id="g2p1c4" class="chosen" />
+      <input type="radio" name="g2p1" id="g2p1c5" class="chosen" />
+      <input type="radio" name="g2p1" id="g2p1c6" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c0" checked="checked" />
+      <input type="radio" name="g2p2" id="g2p2c1" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c2" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c3" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c4" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c5" class="chosen" />
+      <input type="radio" name="g2p2" id="g2p2c6" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c0" checked="checked" />
+      <input type="radio" name="g2p3" id="g2p3c1" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c2" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c3" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c4" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c5" class="chosen" />
+      <input type="radio" name="g2p3" id="g2p3c6" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c0" checked="checked" />
+      <input type="radio" name="g2p4" id="g2p4c1" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c2" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c3" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c4" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c5" class="chosen" />
+      <input type="radio" name="g2p4" id="g2p4c6" class="chosen" />
+      <div class="peg" id="g2p1">
+        <label for="g2p1c0"></label>
+        <label for="g2p1c1"></label>
+        <label for="g2p1c2"></label>
+        <label for="g2p1c3"></label>
+        <label for="g2p1c4"></label>
+        <label for="g2p1c5"></label>
+        <label for="g2p1c6"></label>
+      </div>
+      <div class="peg" id="g2p2">
+        <label for="g2p2c0"></label>
+        <label for="g2p2c1"></label>
+        <label for="g2p2c2"></label>
+        <label for="g2p2c3"></label>
+        <label for="g2p2c4"></label>
+        <label for="g2p2c5"></label>
+        <label for="g2p2c6"></label>
+      </div>
+      <div class="peg" id="g2p3">
+        <label for="g2p3c0"></label>
+        <label for="g2p3c1"></label>
+        <label for="g2p3c2"></label>
+        <label for="g2p3c3"></label>
+        <label for="g2p3c4"></label>
+        <label for="g2p3c5"></label>
+        <label for="g2p3c6"></label>
+      </div>
+      <div class="peg" id="g2p4">
+        <label for="g2p4c0"></label>
+        <label for="g2p4c1"></label>
+        <label for="g2p4c2"></label>
+        <label for="g2p4c3"></label>
+        <label for="g2p4c4"></label>
+        <label for="g2p4c5"></label>
+        <label for="g2p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g2c1w"></div>
+        <div class="wrong" id="g2c2w"></div>
+        <div class="wrong" id="g2c3w"></div>
+        <div class="wrong" id="g2c4w"></div>
+        <div class="wrong" id="g2c5w"></div>
+        <div class="wrong" id="g2c6w"></div>
+        <div class="correct">
+          <div id="g2p1r"></div>
+          <div id="g2p2r"></div>
+          <div id="g2p3r"></div>
+          <div id="g2p4r"></div>
+          <label for="win2"></label>
+          <label for="guess2"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g3">
+      <input type="radio" name="g3p1" id="g3p1c0" checked="checked" />
+      <input type="radio" name="g3p1" id="g3p1c1" class="chosen" />
+      <input type="radio" name="g3p1" id="g3p1c2" class="chosen" />
+      <input type="radio" name="g3p1" id="g3p1c3" class="chosen" />
+      <input type="radio" name="g3p1" id="g3p1c4" class="chosen" />
+      <input type="radio" name="g3p1" id="g3p1c5" class="chosen" />
+      <input type="radio" name="g3p1" id="g3p1c6" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c0" checked="checked" />
+      <input type="radio" name="g3p2" id="g3p2c1" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c2" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c3" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c4" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c5" class="chosen" />
+      <input type="radio" name="g3p2" id="g3p2c6" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c0" checked="checked" />
+      <input type="radio" name="g3p3" id="g3p3c1" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c2" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c3" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c4" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c5" class="chosen" />
+      <input type="radio" name="g3p3" id="g3p3c6" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c0" checked="checked" />
+      <input type="radio" name="g3p4" id="g3p4c1" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c2" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c3" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c4" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c5" class="chosen" />
+      <input type="radio" name="g3p4" id="g3p4c6" class="chosen" />
+      <div class="peg" id="g3p1">
+        <label for="g3p1c0"></label>
+        <label for="g3p1c1"></label>
+        <label for="g3p1c2"></label>
+        <label for="g3p1c3"></label>
+        <label for="g3p1c4"></label>
+        <label for="g3p1c5"></label>
+        <label for="g3p1c6"></label>
+      </div>
+      <div class="peg" id="g3p2">
+        <label for="g3p2c0"></label>
+        <label for="g3p2c1"></label>
+        <label for="g3p2c2"></label>
+        <label for="g3p2c3"></label>
+        <label for="g3p2c4"></label>
+        <label for="g3p2c5"></label>
+        <label for="g3p2c6"></label>
+      </div>
+      <div class="peg" id="g3p3">
+        <label for="g3p3c0"></label>
+        <label for="g3p3c1"></label>
+        <label for="g3p3c2"></label>
+        <label for="g3p3c3"></label>
+        <label for="g3p3c4"></label>
+        <label for="g3p3c5"></label>
+        <label for="g3p3c6"></label>
+      </div>
+      <div class="peg" id="g3p4">
+        <label for="g3p4c0"></label>
+        <label for="g3p4c1"></label>
+        <label for="g3p4c2"></label>
+        <label for="g3p4c3"></label>
+        <label for="g3p4c4"></label>
+        <label for="g3p4c5"></label>
+        <label for="g3p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g3c1w"></div>
+        <div class="wrong" id="g3c2w"></div>
+        <div class="wrong" id="g3c3w"></div>
+        <div class="wrong" id="g3c4w"></div>
+        <div class="wrong" id="g3c5w"></div>
+        <div class="wrong" id="g3c6w"></div>
+        <div class="correct">
+          <div id="g3p1r"></div>
+          <div id="g3p2r"></div>
+          <div id="g3p3r"></div>
+          <div id="g3p4r"></div>
+          <label for="win3"></label>
+          <label for="guess3"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g4">
+      <input type="radio" name="g4p1" id="g4p1c0" checked="checked" />
+      <input type="radio" name="g4p1" id="g4p1c1" class="chosen" />
+      <input type="radio" name="g4p1" id="g4p1c2" class="chosen" />
+      <input type="radio" name="g4p1" id="g4p1c3" class="chosen" />
+      <input type="radio" name="g4p1" id="g4p1c4" class="chosen" />
+      <input type="radio" name="g4p1" id="g4p1c5" class="chosen" />
+      <input type="radio" name="g4p1" id="g4p1c6" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c0" checked="checked" />
+      <input type="radio" name="g4p2" id="g4p2c1" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c2" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c3" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c4" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c5" class="chosen" />
+      <input type="radio" name="g4p2" id="g4p2c6" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c0" checked="checked" />
+      <input type="radio" name="g4p3" id="g4p3c1" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c2" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c3" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c4" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c5" class="chosen" />
+      <input type="radio" name="g4p3" id="g4p3c6" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c0" checked="checked" />
+      <input type="radio" name="g4p4" id="g4p4c1" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c2" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c3" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c4" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c5" class="chosen" />
+      <input type="radio" name="g4p4" id="g4p4c6" class="chosen" />
+      <div class="peg" id="g4p1">
+        <label for="g4p1c0"></label>
+        <label for="g4p1c1"></label>
+        <label for="g4p1c2"></label>
+        <label for="g4p1c3"></label>
+        <label for="g4p1c4"></label>
+        <label for="g4p1c5"></label>
+        <label for="g4p1c6"></label>
+      </div>
+      <div class="peg" id="g4p2">
+        <label for="g4p2c0"></label>
+        <label for="g4p2c1"></label>
+        <label for="g4p2c2"></label>
+        <label for="g4p2c3"></label>
+        <label for="g4p2c4"></label>
+        <label for="g4p2c5"></label>
+        <label for="g4p2c6"></label>
+      </div>
+      <div class="peg" id="g4p3">
+        <label for="g4p3c0"></label>
+        <label for="g4p3c1"></label>
+        <label for="g4p3c2"></label>
+        <label for="g4p3c3"></label>
+        <label for="g4p3c4"></label>
+        <label for="g4p3c5"></label>
+        <label for="g4p3c6"></label>
+      </div>
+      <div class="peg" id="g4p4">
+        <label for="g4p4c0"></label>
+        <label for="g4p4c1"></label>
+        <label for="g4p4c2"></label>
+        <label for="g4p4c3"></label>
+        <label for="g4p4c4"></label>
+        <label for="g4p4c5"></label>
+        <label for="g4p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g4c1w"></div>
+        <div class="wrong" id="g4c2w"></div>
+        <div class="wrong" id="g4c3w"></div>
+        <div class="wrong" id="g4c4w"></div>
+        <div class="wrong" id="g4c5w"></div>
+        <div class="wrong" id="g4c6w"></div>
+        <div class="correct">
+          <div id="g4p1r"></div>
+          <div id="g4p2r"></div>
+          <div id="g4p3r"></div>
+          <div id="g4p4r"></div>
+          <label for="win4"></label>
+          <label for="guess4"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g5">
+      <input type="radio" name="g5p1" id="g5p1c0" checked="checked" />
+      <input type="radio" name="g5p1" id="g5p1c1" class="chosen" />
+      <input type="radio" name="g5p1" id="g5p1c2" class="chosen" />
+      <input type="radio" name="g5p1" id="g5p1c3" class="chosen" />
+      <input type="radio" name="g5p1" id="g5p1c4" class="chosen" />
+      <input type="radio" name="g5p1" id="g5p1c5" class="chosen" />
+      <input type="radio" name="g5p1" id="g5p1c6" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c0" checked="checked" />
+      <input type="radio" name="g5p2" id="g5p2c1" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c2" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c3" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c4" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c5" class="chosen" />
+      <input type="radio" name="g5p2" id="g5p2c6" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c0" checked="checked" />
+      <input type="radio" name="g5p3" id="g5p3c1" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c2" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c3" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c4" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c5" class="chosen" />
+      <input type="radio" name="g5p3" id="g5p3c6" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c0" checked="checked" />
+      <input type="radio" name="g5p4" id="g5p4c1" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c2" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c3" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c4" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c5" class="chosen" />
+      <input type="radio" name="g5p4" id="g5p4c6" class="chosen" />
+      <div class="peg" id="g5p1">
+        <label for="g5p1c0"></label>
+        <label for="g5p1c1"></label>
+        <label for="g5p1c2"></label>
+        <label for="g5p1c3"></label>
+        <label for="g5p1c4"></label>
+        <label for="g5p1c5"></label>
+        <label for="g5p1c6"></label>
+      </div>
+      <div class="peg" id="g5p2">
+        <label for="g5p2c0"></label>
+        <label for="g5p2c1"></label>
+        <label for="g5p2c2"></label>
+        <label for="g5p2c3"></label>
+        <label for="g5p2c4"></label>
+        <label for="g5p2c5"></label>
+        <label for="g5p2c6"></label>
+      </div>
+      <div class="peg" id="g5p3">
+        <label for="g5p3c0"></label>
+        <label for="g5p3c1"></label>
+        <label for="g5p3c2"></label>
+        <label for="g5p3c3"></label>
+        <label for="g5p3c4"></label>
+        <label for="g5p3c5"></label>
+        <label for="g5p3c6"></label>
+      </div>
+      <div class="peg" id="g5p4">
+        <label for="g5p4c0"></label>
+        <label for="g5p4c1"></label>
+        <label for="g5p4c2"></label>
+        <label for="g5p4c3"></label>
+        <label for="g5p4c4"></label>
+        <label for="g5p4c5"></label>
+        <label for="g5p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g5c1w"></div>
+        <div class="wrong" id="g5c2w"></div>
+        <div class="wrong" id="g5c3w"></div>
+        <div class="wrong" id="g5c4w"></div>
+        <div class="wrong" id="g5c5w"></div>
+        <div class="wrong" id="g5c6w"></div>
+        <div class="correct">
+          <div id="g5p1r"></div>
+          <div id="g5p2r"></div>
+          <div id="g5p3r"></div>
+          <div id="g5p4r"></div>
+          <label for="win5"></label>
+          <label for="guess5"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g6">
+      <input type="radio" name="g6p1" id="g6p1c0" checked="checked" />
+      <input type="radio" name="g6p1" id="g6p1c1" class="chosen" />
+      <input type="radio" name="g6p1" id="g6p1c2" class="chosen" />
+      <input type="radio" name="g6p1" id="g6p1c3" class="chosen" />
+      <input type="radio" name="g6p1" id="g6p1c4" class="chosen" />
+      <input type="radio" name="g6p1" id="g6p1c5" class="chosen" />
+      <input type="radio" name="g6p1" id="g6p1c6" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c0" checked="checked" />
+      <input type="radio" name="g6p2" id="g6p2c1" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c2" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c3" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c4" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c5" class="chosen" />
+      <input type="radio" name="g6p2" id="g6p2c6" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c0" checked="checked" />
+      <input type="radio" name="g6p3" id="g6p3c1" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c2" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c3" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c4" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c5" class="chosen" />
+      <input type="radio" name="g6p3" id="g6p3c6" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c0" checked="checked" />
+      <input type="radio" name="g6p4" id="g6p4c1" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c2" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c3" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c4" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c5" class="chosen" />
+      <input type="radio" name="g6p4" id="g6p4c6" class="chosen" />
+      <div class="peg" id="g6p1">
+        <label for="g6p1c0"></label>
+        <label for="g6p1c1"></label>
+        <label for="g6p1c2"></label>
+        <label for="g6p1c3"></label>
+        <label for="g6p1c4"></label>
+        <label for="g6p1c5"></label>
+        <label for="g6p1c6"></label>
+      </div>
+      <div class="peg" id="g6p2">
+        <label for="g6p2c0"></label>
+        <label for="g6p2c1"></label>
+        <label for="g6p2c2"></label>
+        <label for="g6p2c3"></label>
+        <label for="g6p2c4"></label>
+        <label for="g6p2c5"></label>
+        <label for="g6p2c6"></label>
+      </div>
+      <div class="peg" id="g6p3">
+        <label for="g6p3c0"></label>
+        <label for="g6p3c1"></label>
+        <label for="g6p3c2"></label>
+        <label for="g6p3c3"></label>
+        <label for="g6p3c4"></label>
+        <label for="g6p3c5"></label>
+        <label for="g6p3c6"></label>
+      </div>
+      <div class="peg" id="g6p4">
+        <label for="g6p4c0"></label>
+        <label for="g6p4c1"></label>
+        <label for="g6p4c2"></label>
+        <label for="g6p4c3"></label>
+        <label for="g6p4c4"></label>
+        <label for="g6p4c5"></label>
+        <label for="g6p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g6c1w"></div>
+        <div class="wrong" id="g6c2w"></div>
+        <div class="wrong" id="g6c3w"></div>
+        <div class="wrong" id="g6c4w"></div>
+        <div class="wrong" id="g6c5w"></div>
+        <div class="wrong" id="g6c6w"></div>
+        <div class="correct">
+          <div id="g6p1r"></div>
+          <div id="g6p2r"></div>
+          <div id="g6p3r"></div>
+          <div id="g6p4r"></div>
+          <label for="win6"></label>
+          <label for="guess6"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g7">
+      <input type="radio" name="g7p1" id="g7p1c0" checked="checked" />
+      <input type="radio" name="g7p1" id="g7p1c1" class="chosen" />
+      <input type="radio" name="g7p1" id="g7p1c2" class="chosen" />
+      <input type="radio" name="g7p1" id="g7p1c3" class="chosen" />
+      <input type="radio" name="g7p1" id="g7p1c4" class="chosen" />
+      <input type="radio" name="g7p1" id="g7p1c5" class="chosen" />
+      <input type="radio" name="g7p1" id="g7p1c6" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c0" checked="checked" />
+      <input type="radio" name="g7p2" id="g7p2c1" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c2" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c3" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c4" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c5" class="chosen" />
+      <input type="radio" name="g7p2" id="g7p2c6" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c0" checked="checked" />
+      <input type="radio" name="g7p3" id="g7p3c1" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c2" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c3" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c4" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c5" class="chosen" />
+      <input type="radio" name="g7p3" id="g7p3c6" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c0" checked="checked" />
+      <input type="radio" name="g7p4" id="g7p4c1" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c2" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c3" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c4" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c5" class="chosen" />
+      <input type="radio" name="g7p4" id="g7p4c6" class="chosen" />
+      <div class="peg" id="g7p1">
+        <label for="g7p1c0"></label>
+        <label for="g7p1c1"></label>
+        <label for="g7p1c2"></label>
+        <label for="g7p1c3"></label>
+        <label for="g7p1c4"></label>
+        <label for="g7p1c5"></label>
+        <label for="g7p1c6"></label>
+      </div>
+      <div class="peg" id="g7p2">
+        <label for="g7p2c0"></label>
+        <label for="g7p2c1"></label>
+        <label for="g7p2c2"></label>
+        <label for="g7p2c3"></label>
+        <label for="g7p2c4"></label>
+        <label for="g7p2c5"></label>
+        <label for="g7p2c6"></label>
+      </div>
+      <div class="peg" id="g7p3">
+        <label for="g7p3c0"></label>
+        <label for="g7p3c1"></label>
+        <label for="g7p3c2"></label>
+        <label for="g7p3c3"></label>
+        <label for="g7p3c4"></label>
+        <label for="g7p3c5"></label>
+        <label for="g7p3c6"></label>
+      </div>
+      <div class="peg" id="g7p4">
+        <label for="g7p4c0"></label>
+        <label for="g7p4c1"></label>
+        <label for="g7p4c2"></label>
+        <label for="g7p4c3"></label>
+        <label for="g7p4c4"></label>
+        <label for="g7p4c5"></label>
+        <label for="g7p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g7c1w"></div>
+        <div class="wrong" id="g7c2w"></div>
+        <div class="wrong" id="g7c3w"></div>
+        <div class="wrong" id="g7c4w"></div>
+        <div class="wrong" id="g7c5w"></div>
+        <div class="wrong" id="g7c6w"></div>
+        <div class="correct">
+          <div id="g7p1r"></div>
+          <div id="g7p2r"></div>
+          <div id="g7p3r"></div>
+          <div id="g7p4r"></div>
+          <label for="win7"></label>
+          <label for="guess7"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g8">
+      <input type="radio" name="g8p1" id="g8p1c0" checked="checked" />
+      <input type="radio" name="g8p1" id="g8p1c1" class="chosen" />
+      <input type="radio" name="g8p1" id="g8p1c2" class="chosen" />
+      <input type="radio" name="g8p1" id="g8p1c3" class="chosen" />
+      <input type="radio" name="g8p1" id="g8p1c4" class="chosen" />
+      <input type="radio" name="g8p1" id="g8p1c5" class="chosen" />
+      <input type="radio" name="g8p1" id="g8p1c6" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c0" checked="checked" />
+      <input type="radio" name="g8p2" id="g8p2c1" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c2" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c3" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c4" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c5" class="chosen" />
+      <input type="radio" name="g8p2" id="g8p2c6" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c0" checked="checked" />
+      <input type="radio" name="g8p3" id="g8p3c1" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c2" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c3" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c4" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c5" class="chosen" />
+      <input type="radio" name="g8p3" id="g8p3c6" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c0" checked="checked" />
+      <input type="radio" name="g8p4" id="g8p4c1" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c2" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c3" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c4" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c5" class="chosen" />
+      <input type="radio" name="g8p4" id="g8p4c6" class="chosen" />
+      <div class="peg" id="g8p1">
+        <label for="g8p1c0"></label>
+        <label for="g8p1c1"></label>
+        <label for="g8p1c2"></label>
+        <label for="g8p1c3"></label>
+        <label for="g8p1c4"></label>
+        <label for="g8p1c5"></label>
+        <label for="g8p1c6"></label>
+      </div>
+      <div class="peg" id="g8p2">
+        <label for="g8p2c0"></label>
+        <label for="g8p2c1"></label>
+        <label for="g8p2c2"></label>
+        <label for="g8p2c3"></label>
+        <label for="g8p2c4"></label>
+        <label for="g8p2c5"></label>
+        <label for="g8p2c6"></label>
+      </div>
+      <div class="peg" id="g8p3">
+        <label for="g8p3c0"></label>
+        <label for="g8p3c1"></label>
+        <label for="g8p3c2"></label>
+        <label for="g8p3c3"></label>
+        <label for="g8p3c4"></label>
+        <label for="g8p3c5"></label>
+        <label for="g8p3c6"></label>
+      </div>
+      <div class="peg" id="g8p4">
+        <label for="g8p4c0"></label>
+        <label for="g8p4c1"></label>
+        <label for="g8p4c2"></label>
+        <label for="g8p4c3"></label>
+        <label for="g8p4c4"></label>
+        <label for="g8p4c5"></label>
+        <label for="g8p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g8c1w"></div>
+        <div class="wrong" id="g8c2w"></div>
+        <div class="wrong" id="g8c3w"></div>
+        <div class="wrong" id="g8c4w"></div>
+        <div class="wrong" id="g8c5w"></div>
+        <div class="wrong" id="g8c6w"></div>
+        <div class="correct">
+          <div id="g8p1r"></div>
+          <div id="g8p2r"></div>
+          <div id="g8p3r"></div>
+          <div id="g8p4r"></div>
+          <label for="win8"></label>
+          <label for="guess8"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g9">
+      <input type="radio" name="g9p1" id="g9p1c0" checked="checked" />
+      <input type="radio" name="g9p1" id="g9p1c1" class="chosen" />
+      <input type="radio" name="g9p1" id="g9p1c2" class="chosen" />
+      <input type="radio" name="g9p1" id="g9p1c3" class="chosen" />
+      <input type="radio" name="g9p1" id="g9p1c4" class="chosen" />
+      <input type="radio" name="g9p1" id="g9p1c5" class="chosen" />
+      <input type="radio" name="g9p1" id="g9p1c6" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c0" checked="checked" />
+      <input type="radio" name="g9p2" id="g9p2c1" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c2" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c3" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c4" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c5" class="chosen" />
+      <input type="radio" name="g9p2" id="g9p2c6" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c0" checked="checked" />
+      <input type="radio" name="g9p3" id="g9p3c1" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c2" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c3" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c4" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c5" class="chosen" />
+      <input type="radio" name="g9p3" id="g9p3c6" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c0" checked="checked" />
+      <input type="radio" name="g9p4" id="g9p4c1" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c2" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c3" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c4" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c5" class="chosen" />
+      <input type="radio" name="g9p4" id="g9p4c6" class="chosen" />
+      <div class="peg" id="g9p1">
+        <label for="g9p1c0"></label>
+        <label for="g9p1c1"></label>
+        <label for="g9p1c2"></label>
+        <label for="g9p1c3"></label>
+        <label for="g9p1c4"></label>
+        <label for="g9p1c5"></label>
+        <label for="g9p1c6"></label>
+      </div>
+      <div class="peg" id="g9p2">
+        <label for="g9p2c0"></label>
+        <label for="g9p2c1"></label>
+        <label for="g9p2c2"></label>
+        <label for="g9p2c3"></label>
+        <label for="g9p2c4"></label>
+        <label for="g9p2c5"></label>
+        <label for="g9p2c6"></label>
+      </div>
+      <div class="peg" id="g9p3">
+        <label for="g9p3c0"></label>
+        <label for="g9p3c1"></label>
+        <label for="g9p3c2"></label>
+        <label for="g9p3c3"></label>
+        <label for="g9p3c4"></label>
+        <label for="g9p3c5"></label>
+        <label for="g9p3c6"></label>
+      </div>
+      <div class="peg" id="g9p4">
+        <label for="g9p4c0"></label>
+        <label for="g9p4c1"></label>
+        <label for="g9p4c2"></label>
+        <label for="g9p4c3"></label>
+        <label for="g9p4c4"></label>
+        <label for="g9p4c5"></label>
+        <label for="g9p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g9c1w"></div>
+        <div class="wrong" id="g9c2w"></div>
+        <div class="wrong" id="g9c3w"></div>
+        <div class="wrong" id="g9c4w"></div>
+        <div class="wrong" id="g9c5w"></div>
+        <div class="wrong" id="g9c6w"></div>
+        <div class="correct">
+          <div id="g9p1r"></div>
+          <div id="g9p2r"></div>
+          <div id="g9p3r"></div>
+          <div id="g9p4r"></div>
+          <label for="win9"></label>
+          <label for="guess9"></label>
+        </div>
+      </div>
+    </div>
+    <div class="guess" id="g10">
+      <input type="radio" name="g10p1" id="g10p1c0" checked="checked" />
+      <input type="radio" name="g10p1" id="g10p1c1" class="chosen" />
+      <input type="radio" name="g10p1" id="g10p1c2" class="chosen" />
+      <input type="radio" name="g10p1" id="g10p1c3" class="chosen" />
+      <input type="radio" name="g10p1" id="g10p1c4" class="chosen" />
+      <input type="radio" name="g10p1" id="g10p1c5" class="chosen" />
+      <input type="radio" name="g10p1" id="g10p1c6" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c0" checked="checked" />
+      <input type="radio" name="g10p2" id="g10p2c1" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c2" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c3" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c4" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c5" class="chosen" />
+      <input type="radio" name="g10p2" id="g10p2c6" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c0" checked="checked" />
+      <input type="radio" name="g10p3" id="g10p3c1" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c2" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c3" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c4" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c5" class="chosen" />
+      <input type="radio" name="g10p3" id="g10p3c6" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c0" checked="checked" />
+      <input type="radio" name="g10p4" id="g10p4c1" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c2" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c3" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c4" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c5" class="chosen" />
+      <input type="radio" name="g10p4" id="g10p4c6" class="chosen" />
+      <div class="peg" id="g10p1">
+        <label for="g10p1c0"></label>
+        <label for="g10p1c1"></label>
+        <label for="g10p1c2"></label>
+        <label for="g10p1c3"></label>
+        <label for="g10p1c4"></label>
+        <label for="g10p1c5"></label>
+        <label for="g10p1c6"></label>
+      </div>
+      <div class="peg" id="g10p2">
+        <label for="g10p2c0"></label>
+        <label for="g10p2c1"></label>
+        <label for="g10p2c2"></label>
+        <label for="g10p2c3"></label>
+        <label for="g10p2c4"></label>
+        <label for="g10p2c5"></label>
+        <label for="g10p2c6"></label>
+      </div>
+      <div class="peg" id="g10p3">
+        <label for="g10p3c0"></label>
+        <label for="g10p3c1"></label>
+        <label for="g10p3c2"></label>
+        <label for="g10p3c3"></label>
+        <label for="g10p3c4"></label>
+        <label for="g10p3c5"></label>
+        <label for="g10p3c6"></label>
+      </div>
+      <div class="peg" id="g10p4">
+        <label for="g10p4c0"></label>
+        <label for="g10p4c1"></label>
+        <label for="g10p4c2"></label>
+        <label for="g10p4c3"></label>
+        <label for="g10p4c4"></label>
+        <label for="g10p4c5"></label>
+        <label for="g10p4c6"></label>
+      </div>
+      <div class="check"></div>
+      <div class="clues">
+        <div class="wrong" id="g10c1w"></div>
+        <div class="wrong" id="g10c2w"></div>
+        <div class="wrong" id="g10c3w"></div>
+        <div class="wrong" id="g10c4w"></div>
+        <div class="wrong" id="g10c5w"></div>
+        <div class="wrong" id="g10c6w"></div>
+        <div class="correct">
+          <div id="g10p1r"></div>
+          <div id="g10p2r"></div>
+          <div id="g10p3r"></div>
+          <div id="g10p4r"></div>
+          <label for="win10"></label>
+          <label for="guess10"></label>
+        </div>
+      </div>
+    </div>
+    <div id="answer">
+      <div class="peg" id="a1"></div>
+      <div class="peg" id="a2"></div>
+      <div class="peg" id="a3"></div>
+      <div class="peg" id="a4"></div>
+    </div>
+    <div class="cover" id="coverT"></div>
+    <div class="cover" id="coverB"></div>
+    <div class="cover" id="coverL"></div>
+    <div class="cover" id="coverR"></div>
+    <div class="info" id="info0">
+      <p>Guess the secret code using the clues</p>
+      <div class="ok">
+        <label for="stop1"></label>
+      </div>
+    </div>
+    <div class="info" id="info1">
+      <p>Choose from the colours on the left</p>
+      <div class="ok">
+        <div class="mix">
+          <label for="a1c1"></label>
+          <label for="a1c2"></label>
+          <label for="a1c3"></label>
+          <label for="a1c4"></label>
+          <label for="a1c5"></label>
+          <label for="a1c6"></label>
+        </div>
+      </div>
+    </div>
+    <div class="info" id="info2">
+      <p>Place a line of 4 pegs to make your guess</p>
+      <div class="ok">
+        <div class="mix">
+          <label for="a2c2"></label>
+          <label for="a2c3"></label>
+          <label for="a2c4"></label>
+          <label for="a2c5"></label>
+          <label for="a2c6"></label>
+          <label for="a2c1"></label>
+        </div>
+      </div>
+    </div>
+    <div class="info" id="info3">
+      <p>Use the ? to check your guess</p>
+      <div class="ok">
+        <div class="mix">
+          <label for="a3c3"></label>
+          <label for="a3c4"></label>
+          <label for="a3c5"></label>
+          <label for="a3c6"></label>
+          <label for="a3c1"></label>
+          <label for="a3c2"></label>
+        </div>
+      </div>
+    </div>
+    <div class="info" id="info4">
+      <p>Dots show how many correct colours you have, black means they are in the correct place, white if they are in the wrong place</p>
+      <div class="ok">
+        <div class="mix">
+          <label for="a4c4"></label>
+          <label for="a4c5"></label>
+          <label for="a4c6"></label>
+          <label for="a4c1"></label>
+          <label for="a4c2"></label>
+          <label for="a4c3"></label>
+        </div>
+      </div>
+    </div>
+    <label for="reset">Restart</label>
+    <label for="showNum">Labels</label>
+    <label for="unique" title="Each colour can only appear once">Unique Colours</label>
+    <div id="loseMsg">
+      <p>Bad luck. Try again.</p>
+    </div>
+    <div id="winMsg">
+      <p>Well done! You took <span> guess</span>.</p>
+    </div>
+  </form>
