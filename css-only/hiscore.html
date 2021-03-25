@@ -1,0 +1,464 @@
+<style>
+@import 'https://fonts.googleapis.com/css?family=Press+Start+2P';
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Press Start 2P', sans-serif;
+  background-color: #333;
+  color: #ccc;
+}
+form {
+  margin: 0;
+  padding: 0;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+label {
+  display: block;
+  cursor: pointer;
+}
+@keyframes delaypause1 {0% {--delaypause: running;} 100% {--delaypause: running;}}
+@keyframes delaypause2 {0% {--delaypause: running;} 100% {--delaypause: running;}}
+#game {
+  position: relative;
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+  --delaypause: paused;
+  animation: none 0.1s;
+}
+#scoreText,
+#hiscoreText,
+#livesText {
+  position: absolute;
+  top: 2vmin;
+  left: 2vmin;
+  margin: 0;
+  padding: 0;
+  font-size: 4vmin;
+  text-transform: uppercase;
+}
+#scoreText {
+  left: initial;
+  right: 2vmin;
+}
+#score {
+  position: absolute;
+  top: 6vmin;
+  right: 2vmin;
+  display: flex;
+  width: 20vmin;
+  height: 5vmin;
+  overflow: hidden;
+}
+#livesText {
+  left: 40vmin;
+}
+#lives {
+  position: absolute;
+  width: 0;
+  height: 5vmin;
+  top: 6vmin;
+  margin: 0;
+  padding: 0;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAKUlEQVQYlWNgIAb8Z2D4/5+B4T86G0USGyZOAS5FON2BVRJZEVG+QgYA49g1y3xTdisAAAAASUVORK5CYII=);
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background-size: 5vmin 5vmin;
+  background-repeat: repeat-x;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#life1:checked ~ #game #lives {
+  width: 5vmin;
+}
+#life2:checked ~ #game #lives {
+  width: 10vmin;
+}
+#play:checked ~ #game #lives {
+  width: 15vmin;
+}
+#hiscores {
+  position: absolute;
+  left: 2vmin;
+  top: 6vmin;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style: none;
+  width: 20vmin;
+  height: 5vmin;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#lose:checked ~ #game #hiscores {
+  height: 25vmin;
+  left: 40vmin;
+  top: 20vmin;
+  transition: height 0.5s steps(1), left 0.5s steps(1), top 0.5s steps(1);
+}
+@keyframes hiscore {100% {order: -1000;}}
+#hiscores > li {
+  display: flex;
+  height: 5vmin;
+  margin: 0;
+  padding: 0;
+  animation-name: hiscore;
+  animation-duration: 100s;
+  animation-timing-function: steps(1000);
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+  overflow: hidden;
+}
+@keyframes score {100% {transform: translateY(-100%);}}
+#hiscores > li ul,
+#score ul {
+  counter-reset: score -1;
+  list-style: none;
+  width: 4vmin;
+  height: 50vmin;
+  margin: 0;
+  padding: 0;
+  animation-name: score;
+  animation-timing-function: steps(10);
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+#score ul {
+  animation-play-state: var(--delaypause);
+}
+#ready:checked ~ #game #score ul {
+  animation-name: none;
+}
+.tens {
+  animation-duration: 1s;
+}
+.hundreds {
+  animation-duration: 10s;
+}
+.thousands {
+  animation-duration: 100s;
+}
+.tenthousands {
+  animation-duration: 1000s;
+}
+#hiscores > li ul li,
+#score li {
+  height: 5vmin;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+#hiscores > li ul li::before,
+#score li::before {
+  counter-increment: score;
+  content: counter(score);
+  display: block;
+  font-size: 4vmin;
+  line-height: 5vmin;
+  text-align: center;
+}
+#gameover {
+  position: absolute;
+  width: 50vmin;
+  height: 10vmin;
+  left: 25vmin;
+  top: 60vmin;
+  visibility: hidden;
+}
+@keyframes next {100% {z-index: 0;}}
+#gameover > div {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  animation-name: next;
+  animation-duration: 1000s;
+  animation-timing-function: steps(10000);
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+#gameover > div label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #333;
+  border: 0.5vmin #ccc solid;
+  font-size: 3vmin;
+  line-height: 10vmin;
+  text-align: center;
+}
+#gameover > div [for^="s"] {
+  color: yellow;
+  border-color: yellow;
+}
+#s1:checked ~ form [for="s1"],
+#s2:checked ~ form [for="s2"],
+#s3:checked ~ form [for="s3"],
+#s4:checked ~ form [for="s4"],
+#s5:checked ~ form [for="s5"],
+#s6:checked ~ form [for="s6"] {
+  visibility: hidden;
+}
+[id$="-1"]:checked ~ #game [for$="-1"],
+[for$="-2"] {
+  visibility: hidden;
+}
+[id$="-1"]:checked ~ #game [for$="-2"] {
+  visibility: visible;
+}
+#s1:checked ~ form #hiscores #h1,
+#s2:checked ~ form #hiscores #h2,
+#s3:checked ~ form #hiscores #h3,
+#s4:checked ~ form #hiscores #h4,
+#s5:checked ~ form #hiscores #h5,
+#s6:checked ~ form #hiscores #h6,
+#s1:checked ~ form #hiscores #h1 ul,
+#s2:checked ~ form #hiscores #h2 ul,
+#s3:checked ~ form #hiscores #h3 ul,
+#s4:checked ~ form #hiscores #h4 ul,
+#s5:checked ~ form #hiscores #h5 ul,
+#s6:checked ~ form #hiscores #h6 ul,
+#s1:checked ~ form #go1,
+#s2:checked ~ form #go2,
+#s3:checked ~ form #go3,
+#s4:checked ~ form #go4,
+#s5:checked ~ form #go5,
+#s6:checked ~ form #go6 {
+  animation-play-state: var(--delaypause);
+}
+[name="score"]:checked ~ form [id$="-1"]:checked ~ #game {
+  animation-name: delaypause1;
+}
+[name="score"]:checked ~ form [id$="-2"]:checked ~ #game {
+  animation-name: delaypause2;
+}
+[name="score"]:checked ~ form [id^="point50-"]:checked ~ #game {
+  animation-duration: 0.5s;
+}
+[for^="point"],
+[for="life1"],
+[for="life2"],
+[for="lose"] {
+  transition: visibility 0s steps(1) 0.5s;
+}
+[for^="point"],
+[for="play"],
+[for="life1"],
+[for="life2"],
+[for="lose"],
+#info {
+  position: absolute;
+  width: 20vmin;
+  height: 20vmin;
+  left: 20vmin;
+  top: 20vmin;
+  border: 0.5vmin #ccc solid;
+  text-align: center;
+  font-size: 5vmin;
+  line-height: 20vmin;
+}
+#info {
+  width: 56vmin;
+  height: auto;
+  padding: 2vmin;
+  left: 20vmin;
+  top: 75vmin;
+  font-size: 2vmin;
+  line-height: 3vmin;
+}
+[for^="point50"] {
+  left: 60vmin;
+}
+[for="play"],
+[for="life1"],
+[for="life2"],
+[for="lose"] {
+  width: 60vmin;
+  left: 20vmin;
+  top: 45vmin;
+  visibility: hidden;
+}
+[for="play"] {
+  top: 20vmin;
+}
+#ready:checked ~ #game [for="play"],
+#play:checked ~ #game [for="life2"],
+#life2:checked ~ #game [for="life1"],
+#life1:checked ~ #game [for="lose"] {
+  visibility: visible;
+}
+#ready:checked ~ #game [for^="point"],
+#lose:checked ~ #game [for^="point"],
+#lose:checked ~ #game #hiscoreText,
+#lose:checked ~ #game #livesText {
+  visibility: hidden;
+}
+#lose:checked ~ #game #gameover {
+  visibility: visible;
+}
+#s1:checked ~ form #ready:checked ~ #game #h1,
+#s2:checked ~ form #ready:checked ~ #game #h2,
+#s3:checked ~ form #ready:checked ~ #game #h3,
+#s4:checked ~ form #ready:checked ~ #game #h4,
+#s5:checked ~ form #ready:checked ~ #game #h5,
+#s6:checked ~ form #ready:checked ~ #game #h6,
+#s1:checked ~ form #ready:checked ~ #game #h1 ul,
+#s2:checked ~ form #ready:checked ~ #game #h2 ul,
+#s3:checked ~ form #ready:checked ~ #game #h3 ul,
+#s4:checked ~ form #ready:checked ~ #game #h4 ul,
+#s5:checked ~ form #ready:checked ~ #game #h5 ul,
+#s6:checked ~ form #ready:checked ~ #game #h6 ul,
+#s1:checked ~ form #ready:checked ~ #game #go1,
+#s2:checked ~ form #ready:checked ~ #game #go2,
+#s3:checked ~ form #ready:checked ~ #game #go3,
+#s4:checked ~ form #ready:checked ~ #game #go4,
+#s5:checked ~ form #ready:checked ~ #game #go5,
+#s6:checked ~ form #ready:checked ~ #game #go6 {
+  animation-name: none;
+}
+#s1:checked ~ form #lose:checked ~ #game #h1 li,
+#s2:checked ~ form #lose:checked ~ #game #h2 li,
+#s3:checked ~ form #lose:checked ~ #game #h3 li,
+#s4:checked ~ form #lose:checked ~ #game #h4 li,
+#s5:checked ~ form #lose:checked ~ #game #h5 li,
+#s6:checked ~ form #lose:checked ~ #game #h6 li {
+  color: yellow;
+}
+@keyframes delayleft {0% {--delayleft: 0;} 100% {--delayleft: -100vw; left: 20vmin;}}
+#browsercheck {
+  position: absolute;
+  width: 60vmin;
+  height: 10vmin;
+  left: -100vw;
+  top: 40vmin;
+  text-align: center;
+  animation: delayleft 1s steps(1) forwards;
+  pointer-events: none;
+}
+#browsercheck p {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 4vmin;
+  transform: translateX(var(--delayleft));
+}
+</style>
+<input type="radio" name="score" id="s1" />
+<input type="radio" name="score" id="s2" />
+<input type="radio" name="score" id="s3" />
+<input type="radio" name="score" id="s4" />
+<input type="radio" name="score" id="s5" />
+<input type="radio" name="score" id="s6" checked="checked" />
+<form autocomplete="off">
+<input type="radio" name="state" id="ready" checked="checked" />
+<input type="radio" name="state" id="play" />
+<input type="radio" name="state" id="life1" />
+<input type="radio" name="state" id="life2" />
+<input type="radio" name="state" id="lose" />
+<input type="radio" name="points" id="point10-1" />
+<input type="radio" name="points" id="point10-2" />
+<input type="radio" name="points" id="point50-1" />
+<input type="radio" name="points" id="point50-2" />
+<input type="reset" id="reset" />
+<div id="game">
+<p id="hiscoreText">High</p>
+<ol id="hiscores">
+<li id="h1">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+<li id="h2">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+<li id="h3">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+<li id="h4">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+<li id="h5">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+<li id="h6">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</li>
+</ol>
+<p id="livesText">Lives</p>
+<p id="lives"></p>
+<p id="scoreText">Score</p>
+<div id="score">
+<ul class="tenthousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="thousands"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="hundreds"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul class="tens"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+<ul><li></li></ul>
+</div>
+<p id="info">Use the buttons to play the 'game'. Score points, lose some lives. Top 5 scores will be stored in a table.</p>
+<label for="point10-1">+10</label>
+<label for="point10-2">+10</label>
+<label for="point50-1">+50</label>
+<label for="point50-2">+50</label>
+<label for="play">Play</label>
+<label for="life2">Lose Life</label>
+<label for="life1">Lose Life</label>
+<label for="lose">Lose Life</label>
+<div id="gameover">
+<div id="go1">
+<label for="reset">Restart</label>
+<label for="s1">New Highscore</label>
+</div>
+<div id="go2">
+<label for="reset">Restart</label>
+<label for="s2">New Highscore</label>
+</div>
+<div id="go3">
+<label for="reset">Restart</label>
+<label for="s3">New Highscore</label>
+</div>
+<div id="go4">
+<label for="reset">Restart</label>
+<label for="s4">New Highscore</label>
+</div>
+<div id="go5">
+<label for="reset">Restart</label>
+<label for="s5">New Highscore</label>
+</div>
+<div id="go6">
+<label for="reset">Restart</label>
+<label for="s6">New Highscore</label>
+</div>
+</div>
+<div id="browsercheck"><p>Your browser may not support this demo</p></div>
+</div>
+</form>
