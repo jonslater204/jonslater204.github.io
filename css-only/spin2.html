@@ -1,0 +1,124 @@
+<style>
+body {
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+  padding: 0;
+  background: silver;
+  position: relative;
+}
+@keyframes turn {
+  0% {transform: rotate(0turn);}
+  20% {transform: rotate(0turn);}
+  25% {transform: rotate(0.25turn);}
+  45% {transform: rotate(0.25turn);}
+  50% {transform: rotate(0.5turn);}
+  70% {transform: rotate(0.5turn);}
+  75% {transform: rotate(0.75turn);}
+  95% {transform: rotate(0.75turn);}
+  100% {transform: rotate(1turn);}
+}
+@keyframes spin {
+  100% {transform: rotate(1turn);}
+}
+div {
+  position: absolute;
+  border-radius: 50%;
+}
+.frame {
+  width: 40vmin;
+  height: 40vmin;
+  left: 5vmin;
+  top: 10vmin;
+  overflow: hidden;
+  animation: turn 12s ease infinite;
+}
+.frame:last-of-type {
+  left: 55vmin;
+}
+.outer {
+  width: 60vmin;
+  height: 60vmin;
+  left: -10vmin;
+  top: 0;
+  background: conic-gradient(#00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+  animation: spin 0.5s linear infinite;
+}
+.frame:last-of-type .outer {
+  top: -20vmin;
+}
+.ring {
+  width: 39vmin;
+  height: 39vmin;
+  left: 0.5vmin;
+  top: 0.5vmin;
+  background: yellow;
+  background: conic-gradient(#00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+  animation: spin 0.5s linear infinite;
+}
+.middle {
+  width: 24vmin;
+  height: 24vmin;
+  left: 8vmin;
+  top: 8vmin;
+  overflow: hidden;
+}
+.inner {
+  width: 44vmin;
+  height: 44vmin;
+  left: -10vmin;
+  top: -16vmin;
+  background: conic-gradient(#00f, #0ff, #0f0, #ff0, #f00, #f0f, #00f);
+  animation: spin 0.5s linear infinite;
+}
+.frame:last-of-type .inner {
+  top: -4vmin;
+}
+.centre {
+  width: 23vmin;
+  height: 23vmin;
+  left: 0.5vmin;
+  top: 0.5vmin;
+  background: silver;
+}
+.frame:last-of-type .centre {
+  transform: rotate(0.5turn);
+}
+.centre::before,
+.centre::after {
+  content: "";
+  position: absolute;
+  left: 8vmin;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.centre::before {
+  width: 10vmin;
+  height: 4vmin;
+  background: #666;
+}
+.centre::after {
+  width: 0;
+  height: 0;
+  left: 4vmin;
+  border-right: 6vmin #666 solid;
+  border-top: 6vmin transparent solid;
+  border-bottom: 6vmin transparent solid;
+}
+</style>
+<div class="frame">
+  <div class="outer"></div>
+  <div class="ring"></div>
+  <div class="middle">
+    <div class="inner"></div>
+    <div class="centre"></div>
+  </div>
+</div>
+<div class="frame">
+  <div class="outer"></div>
+  <div class="ring"></div>
+  <div class="middle">
+    <div class="inner"></div>
+    <div class="centre"></div>
+  </div>
+</div>
