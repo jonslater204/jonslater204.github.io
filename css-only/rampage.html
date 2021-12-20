@@ -1,0 +1,1644 @@
+<!doctype html>
+<html>
+<head>
+<title>Rampage</title>
+</head>
+<body>
+<style>
+@import 'https://fonts.googleapis.com/css?family=Press+Start+2P';
+body {
+  --timer: 300s; /* This is the difficulty. The game will end after at least 20% of this time. */
+  --building_1_w: 2;
+  --building_1_h: 6;
+  --building_1_col: grey;
+  --building_2_w: 4;
+  --building_2_h: 7;
+  --building_2_col: pink;
+  --building_3_w: 3;
+  --building_3_h: 5;
+  --building_3_col: salmon;
+  --space: 5vmin;
+  --button_w: 4vmin;
+  --button_h: calc(var(--button_w) * 2);
+  width: 100vw;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 0;
+  background: darkblue;
+  overflow: hidden;
+  font-family: 'Press Start 2P', sans-serif;
+}
+input {
+  position: absolute;
+  left: -9999px;
+}
+label {
+  display: block;
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+form {
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  user-select: none;
+}
+#game {
+  --l: 0;
+  --t: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#title {
+  width: 100%;
+  height: calc(100% - var(--button_w) * 8);
+  background: black;
+}
+h1 {
+  margin: 0;
+  padding: 0;
+  color: yellow;
+  text-transform: uppercase;
+  font-weight: normal;
+  text-align: center;
+  font-size: 10vmin;
+  line-height: 20vmin;
+  position: relative;
+  text-shadow: red -0.4vmin 0.2vmin, red -0.8vmin 0.4vmin, red -1.2vmin 0.6vmin, red -1.6vmin 0.8vmin;
+}
+h1::after {
+  content: "";
+  position: absolute;
+  width: 12vmin;
+  height: 7vmin;
+  left: 48vmin;
+  top: 3vmin;
+  background-size: 100%;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+#title fieldset {
+  display: flex;
+  justify-content: space-around;
+  width: 75vmin;
+  margin: 3vmin auto;
+}
+#title [for^="mon"] {
+  width: 19.2vmin;
+  height: 21.6vmin;
+  background-size: contain;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+  position: relative;
+}
+#title [for^="mon"]::after {
+  position: absolute;
+  width: 100%;
+  bottom: -4vmin;
+  font-size: 3vmin;
+  line-height: 3vmin;
+  text-align: center;
+  color: white;
+}
+[for="mon1"] {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABICAYAAABGOvOzAAAFhklEQVR4nNVabZLrIAzjkrkkl+T9SJM1RpINYdO3O8OkpflAsiybzJZSWvvWqEeB4911fBF0qz/j+m6P75DxReB27igjKe8Q8SJ4D9qDt8f3iPgyeEUCU8yfIQABt8AYaHa87vUnCFBRjsBe4x0SXiLAA2Sg2fAmuo+EF6QfAZ0hYb8Svgx+dtgq8d8RoBweSTkiJvKEPSRsBq9cXzU6CCQian8a/BJ41NQMRLQKibD3iki6jl8jADUrKFII7D33OUYq8STsUcEGAhh4D7y1OhDhCeiuaRWmD0uT1wnwCxvy3UYYjWrOc/MWfEeiUNpXCEDgYb4HRPi5jhinCvu854a4Ifo2P1NkJElg4JHRrqfBhuijhqeLOvIApoZgKPCvEaBKHnL9IYoro46qYob4KgGoM0NuvgM8VNVjQ3wYfdTAWKOywxpmVyYDyVMya592ayQsEsB6dS9RRIj9nq4OBPxzEibB+5yzD1WRSkU4UxWA/C25Xo3bCPDR9YxTw9vhAaQsIjOeL40LBEDX92MjePoMoAAUFE3EQuR9vacKQKQsgkf7ARR9RcIyAb7dRQ9BUUq3ww6Qn48iG7058uUyRcDQ0TlA6kUHWhRshUE00T3sImfeKvm1YXMU4Jn0leH4BRV3RJ0cGse1mFaGRSIlMgWgFLZkDASoG6Ebq8UUM5r7jiLVecsHfDcE0CgN/FovEkqWxYiECPwNiJBwiHk7mHqiNGDrlwRsVQCJpJeo9xVlshEJXgEodUtGQgw8MkDEfESwNcahYqjeouJnIwWwbrEggBEJg6MD4Mrc2AI7AlQ36StJq/D+zKDtMwsCr240RK2O31l5U3ndXZsBT8qp8gxEfGHRUfLPtL6+9HjJd44vGiQKmuwNmAf4SgAJYKkQKYCBhzI3hnQZpP3tNk1GitgdRkaYUkCGhCHyZDHKuc/KcF7TV4ufueH+QgGRf6EqsFcBJvoQuJNpGOGKlcDUxyrOlAJU6ZIkKPDOGK/F+IjbYdNgIMuTKMAr37nLYEYBqnTZY8Yb7gcD2Q/pUA0AkGZqjSxwUAHqxCivfMmLwPuoRKbWKc6X3UT0FaZOASskzEbeEtcRIXzAqtMTlCVgqwJYKsCqUEeyoDlGPUAFJATl71cVYAeVP2iIVEMDUwJUkIG4mluzVMCMAaIbw4h6+apujhEAiEDnZU1bKkCVwAg8i97w+wp4kvesND5WQJQ3VAHCwCJwKQKAL6DnZRTQlWMm/5nyEilASX8At0pC0Bf8vgeo6GfBuWGboq5pAiSoFGbqlgrIKIEqAMgfAgmAe38arnVEqEiztIAvRHYp4FpYB6jWdhwV7v6Gl6hmQBIeKGBIAXbBEwV48NffcdRW6znu32s1b4/Pc1pr5wvU4/zNnj/4wlMFZJhbUcD9qvsCZMFNfLbgURrMlPFBASiiM2mhujgb4VprGnT5KMEDjxQwY4DUBGeIoE7vCLhl/gHnybiA2s+95BtOgUD+jxTwyAg/i/OR83lv1eE/X6BHksYqMKNWqoAVIzyKboeRCV7Rb62d86V3e5YaHQEA/CMFZC8OFSBI8CXOlrWOKHveZYIHeEfo9htZDwjL4KwByjQgftC9/jYDEdGB90RPgk8rYJYM3/nZccq6DmCZbyCyEPBs7vt0lgRk2US/qY2P9QuoEkIEi7py/2iuI2AVdCoNxJ69K59qw1TB+W6/MbN2X/aLn3xihFkS2LPYFpeBf7LGTgFZ2ewiwRLhCUHyHtJASD+LY6oRmmW58wTkC8AMkTJY5Fnbm5G/P8J/kXnqCZYIamLE1JTxWfAruY+OdDc4AzaTbxR8RMwG8FIBq0zOkjBIWpW4BfCrgSlqsTtUwfLak6HmdwBnJFAC2OIVGaseoY671Mie/w/rFvBtE82IOwAAAABJRU5ErkJggg==);
+}
+[for="mon2"] {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABICAYAAABGOvOzAAAFL0lEQVR4nOWaUZLbMAxDdUlf0pdUPxq5NAyAlNaxp+1mNEnjSCIeQVrZbWut9/97vB7A2+PFzfveeu/t/wTQ93YAeBfCi5mPAN6D8ORmW+ttA+HRBZ/r/yaArZ3GyQV7uLa33h51w1Pi93Z+HhB2EN7DZ/4pAFHkfnbD6f147a8GwETi807ex9fj8VcBQJFRWPsMvN7ItUdK4i57O/H4uokxPjMeonecxmsAWDDM7ihmAGDPcU5cp7UrBATyGIBMMHs/WjlCiJ/DnsBKwjlrGcQKANbIsF5ZZl3TQ6fg3C3Z6xEASjwGhkKwxpmVM3DugbfXrwKoZJNdr0BgtlfZZlC+CsBljDUmtHVlTgSEotxZAp03BWHW/qzxnJoQBInBxQzj+SDOyfZBJyCcrzuACUcLY8DuDNDgc25tBhDnPeYAJwjdkEEwa8dgKIjXHFANkgnDc0Hj67Eg7UnyKwAihER873/eo5kawWIHN+v1XnDBKbYnAGwk4A4DA20EAHGBW4+CXRK/2gOqEFTG2Dp4RI5rzoj/CgAWqOgHbAFqV3y/hTUrn3MJubUEUKg7CFUHc0OWVXfbk878KQAlVEHIYKiTHDs+K9F49meOPB3BVwGowCubZs9oeXQB7oOi1bNKxo8AZMHMimYixZ3g9LkqBNWjpgCozM+QP05kRFC8rtZk8+Jnsq/ElzhWASBRtvFqWVSzWn04B0gIM/WfZaAq/icinXgWxxIAvB2xJsgCV2JdH7njUeoBUwACBJdJBSEGwzJdFT9THkvi04OQEb+3e7M4KxpBy1tgWymBzhdgDlAWXMn+zB0m6zUx9h3fn70NVnqCuxNkfcBZ2Y1q5hmEA0TlDIA0s82zQJ2VYZ2t97713jsKUmu7hFE3sLO/ykARQm9NB60gwJ5jjQjgsl5FvHPuCQATf7GM2ZwEf/w4O4r5rbXeAwD6VTiLsQJhWnwWxCfQ7aT/978r9h3wBoCuALgyrYxjjssKAojDBSEAdAYBRhRsAbBSnQFwzHF2wkURgArCAWCZDPNKAKriMXYJIIOQlQE0lRIAMW4FMO2A8iQBIVy/C4C1P4uHJSkFkIllPcAFFW5htwNwmZ8VXwJQgYJlBGXAHKHElwBkmUcADkhZLHNBAmG2DJj4AwBxmWyo0z1gtf4ZkIky2GGNcvZVDLP2LwOwFiIAiAvw9RAfIUgATLzqR7c3QVYGWRYKABiEaQCqDzC3TgNQE9UmwgUoerzuH+EdSuDiBlX7av/Zkihl3jU9tWH8tgXChujLMwE1ZX+XeZnQlR7ANi6WQcUBqf2V81YaYllwxf6iDKK4KJpBuGS/t9z+1d403QNwM3eNlUC/AogQxvN4XQZQcYIrhykHqPrP7AcAUDSKZyCYk0oNL8v8SV9mf7WwA8NKAISyEeFIBziBDESqzZVAVutZJoILsPbZaPD6Ip4BV4JdkpYAqEWKAA6Bn9sgFY9HX5X9qhvLPaBSK5XFkz5wuh0KAJtrgJWSVMmwALKFs/pStSkAnDIdnZEBYLWfwXAlk5aAIskWZ5sFAPGbofs5vgJnACpZd8IvAJSIKlnXB7Z2EY+BIIQ4d6nWXWlKANlkF4gDMBphFI8PdT0rPwc/q39aAk58BoW5YkCIv8pSj3i9cu/P4nPlYHtAlt0s87h5/PtfFBdHvJYBUJmu9IUyALexguUygP+Zga3L/saQlWHWg6YAsD4wY8HMCZV5FRdm+7m9Sg6o9IMnR+bKzPYq+ykAVx5ZQKqkZgS4uVmDc1kP4xd/vgyMxXN1uAAAAABJRU5ErkJggg==);
+}
+[for="mon3"] {
+  background-image: url(data:image/png;base64,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);
+}
+#mon1:checked ~ form [for="mon1"],
+#mon2:checked ~ form [for="mon2"],
+#mon3:checked ~ form [for="mon3"] {
+  outline: blue solid 5vmin;
+}
+[for="play"],
+[for="reset"] {
+  width: 30vmin;
+  margin: 10vmin auto;
+  padding: 2vmin;
+  border: 0.5vmin white solid;
+  font-size: 3vmin;
+  line-height: 3vmin;
+  text-align: center;
+  color: white;
+}
+#play:checked ~ #game #title {
+  display: none;
+}
+#play:checked ~ #game #city {
+  display: block;
+}
+#city {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - var(--button_w) * 8 - 7vmin);
+  top: 0;
+  background: blue;
+  border-top: 7vmin black solid;
+  display: none;
+  z-index: 1;
+}
+#info {
+  position: absolute;
+  width: 33vmin;
+  height: 5vmin;
+  top: -7vmin;
+  border: 1vmin darkgreen solid;
+  border-left-width: 66vmin;
+}
+#info::before {
+  position: absolute;
+  width: 33vmin;
+  right: 34vmin;
+  color: white;
+  text-align: right;
+  font-size: 3vmin;
+  line-height: 5vmin;
+}
+[id="mon1"]:checked ~ form #info::before,
+#title [for="mon1"]::after {
+  content: "George";
+}
+[id="mon2"]:checked ~ form #info::before,
+#title [for="mon2"]::after {
+  content: "Lizzie";
+}
+[id="mon3"]:checked ~ form #info::before,
+#title [for="mon3"]::after {
+  content: "Ralph";
+}
+#meter {
+  position: relative;
+  width: calc(500vmin / 3);
+  height: 5vmin;
+  left: calc(-400vmin / 3);
+  background: black;
+  display: flex;
+  align-items: flex-start;
+  z-index: -1;
+  transition: margin 0.5s linear, padding 0.5s linear;
+}
+@keyframes health {
+  100% {
+    width: 0;
+  }
+}
+[id^="health"] {
+  width: calc(100vmin / 3);
+  height: 100%;
+  background: #a50;
+  animation: none var(--timer) steps(500);
+  animation-fill-mode: forwards;
+}
+#mon2:checked ~ form [id^="health"] {
+  background: #0a0;
+}
+#mon3:checked ~ form [id^="health"] {
+  background: #55a;
+}
+#play:checked ~ #game [id^="health"] {
+  animation-name: health;
+}
+[id^="bg"] {
+  position: absolute;
+  bottom: 0;
+  background: navy;
+}
+#bg1 {
+  width: 25vmin;
+  height: 32vmin;
+  left: 10vmin;
+}
+#bg2 {
+  width: 30vmin;
+  height: 40vmin;
+  left: 40vmin;
+}
+#bg3 {
+  width: 20vmin;
+  height: 50vmin;
+  left: 60vmin;
+  border-radius: 2vmin 2vmin 0 0;
+}
+#bg3::after {
+  content: "";
+  position: absolute;
+  width: 2vmin;
+  height: 7vmin;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background: inherit;
+  border-radius: 1vmin 1vmin 0 0;
+}
+#bg4 {
+  width: 10vmin;
+  height: 28vmin;
+  left: 85vmin;
+}
+[id^="building"] {
+  position: absolute;
+  width: calc(var(--space) * var(--w));
+  height: calc(var(--space) * var(--h));
+  bottom: calc(var(--space) * 2);
+}
+[id^="building"] .floors {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: calc(100% - var(--space));
+  border-bottom: var(--space) var(--building_1_col) solid;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  animation: none 3s linear 3s;
+  animation-fill-mode: forwards;
+}
+.floors::after {
+  content: "";
+  position: absolute;
+  width: 3vmin;
+  height: 3vmin;
+  background: darkslategrey;
+  bottom: calc(var(--space) * -1);
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1vmin 1vmin 0 0;
+}
+#building2 .floors {
+  border-bottom-color: var(--building_2_col);
+}
+#building3 .floors {
+  border-bottom-color: var(--building_3_col);
+}
+@keyframes demolish {
+  100% {
+    transform: translateY(101%);
+  }
+}
+#d1:checked ~ #game [id="building1"] .floors,
+#d2:checked ~ #game [id="building2"] .floors,
+#d3:checked ~ #game [id="building3"] .floors {
+  animation-name: demolish;
+}
+[id^="building"]::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: calc(var(--space) * 0.1);
+  left: -2vmin;
+  bottom: 0;
+  padding: 0 2vmin;
+  background: grey;
+  border-radius: 2vmin;
+  box-shadow: darkgrey 0px -4px 0px 4px, silver 0 -8px 0 8px, white 0 -12px 0 12px, whitesmoke 0 -16px 0 16px;
+  opacity: 0;
+  animation: none 5s steps(1) 1s;
+}
+#d1:checked ~ #game [id="building1"]::after,
+#d2:checked ~ #game [id="building2"]::after,
+#d3:checked ~ #game [id="building3"]::after {
+  animation-name: show;
+}
+[class^="window_"] {
+  width: calc(var(--space) * 0.8);
+  height: calc(var(--space) * 0.8);
+  background: skyblue;
+  border: calc(var(--space) * 0.1) var(--building_1_col) solid;
+  position: relative;
+  transform: scaleX(1.03) scaleY(1.03); /* Some browsers have gaps between the windows, so this helps. */
+}
+#building2 [class^="window_"] {
+  border-color: var(--building_2_col);
+}
+#building3 [class^="window_"] {
+  border-color: var(--building_3_col);
+}
+@keyframes show {
+  1% {
+    opacity: 1;
+  }
+}
+/**
+ * Why are you hitting yourself?
+ * The window has the punch animation to avoid managing extra animation-names on the sprite.
+ */
+[class^="window_"]::after {
+  content: "";
+  position: absolute;
+  width: 4vmin;
+  height: 2vmin;
+  left: -1vmin;
+  top: 1vmin;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0;
+  animation: none 0.5s steps(1);
+}
+[class^="window_"]::after,
+h1::after {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AAAAnklEQVQ4ja2TUQ7AIAhDe0kuySW7HzW14rI4ScgiM6+FMeBO0PJqkAmSLfOeCBWeAQbORXwEzDDnDbwTWQBajwbsGZXzdq4EGJYKDnWbs5A7H0LtHgBCAerQ4QpexpPz/f4EQCjAQT4ar/X7PoGpAwdUXag7f7/rfnzHL+AKvlmM9WfbwTpE4VEBvux4tTlePwGPDir4MbDq4LfLl3gAAq1kAJC2vH8AAAAASUVORK5CYII=);
+}
+#mon2:checked ~ form [class^="window_"]::after {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AAAAhUlEQVQ4jbWT2Q3AMAhDvSRLdkn3JwcCk6pKgoSU89nkAPaDRR4J4gFBENbAbGMHRCacARxEVqVV5WfnvS8FzGUEWZHe/YSRvT9YfvHjNncQA9TCXBAY4CHg4ZXIV1sdX6pAOVwlCtF0n3+gFjcL9+mxKGXlcuMDafCxn6mBR+Ma2AtcixeTJPta23FX9wAAAABJRU5ErkJggg==);
+}
+#mon3:checked ~ form [class^="window_"]::after {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AAAAp0lEQVQ4ja2TYQ6FMAiDe8lekkv2/ZggMlzM3kjIMjRfiyBwJlTyaEgGSTbSzokow40QgW2R+glkLM4v8JvIBMh10mR2J2mz8+veCQSAHJnB/sxdhhAxOQ8hGx0CEDIgO6xwr/s7dbAu4B2FQAY8HNpTpJ4u4sCcbQfdWTvJ8KjzBmaxmOMKuoK/LMb8s62AddAF/H3Hu82p9R1wdNDBt4FdB3+7XMQPriDFSZAbnz8AAAAASUVORK5CYII=);
+}
+@keyframes shoot {
+  100% {
+    background-position-x: calc(var(--space) * 0.8 * -3);
+  }
+}
+#building1 .window_l_f3,
+#building2 .window_r_f2,
+#building3 .window_l_f4 {
+  background-size: calc(var(--space) * 0.8 * 3) calc(var(--space) * 0.8);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAAAYCAYAAABZY7uwAAAB+0lEQVRYhe2X0a3DMAhFGYZlGIZlvF6GoR8NDjg4ibH7qicVia80XDgGnAJ8x2T3nwUmzCzM/IPUMWH6GqQ/05PAh94fgCTE7vlMgcIFNd5HQQkXdJ4QFCaQrdAdJCGukLJaNWeN9UlIAgCCBCvEZCskhHALyeqNQkKK4RCmJ6BrTmQ1oAtIgjQFyR8oGl/cTZW4E8E8IPWbnSRboROkQU0hfr+vh7IVOupZPHI1uIpNBBekS0iuIAtpQLPC0XiaP9PbYSGkKqA+sTgBDCDYO7OB5LUGASlQJJBCMRz1BPh+Ua2Y8VQ8C8ntpebUtZCnWs1vu3BUB4/4R3IZt6NFCMOJR4DaEdC4hcCNWFKj1trrHDuG7iVt6ce+J936BKR6eg4QHwUppAk4UOGYOuxN1sv91GZXbaiut1d0GoNFhB3qrnQ6ICUBnS4BCwdv8g7Hx94YmrBekfaEzVITuxAHCumOsV2aTNen/AhQAs6jhG3hFlLvo3EWkF3YFlIWEJrOaZe91RqJ2S1CAxYj0MJZAch27gR8gKBzmmU/u/h9EQH1aLTSgKJYCikDP4KjOza5Eq6LaMdtAswpdhQ/evZQ4wTngU7awtNsWn7q26RNuhP7k3DWdlBQwDJAk7EdnPZLP4KztINu/NuxHRyA7t+hlfn/K3NwAv8ZLIbxAhrZBK3TTcqtAAAAAElFTkSuQmCC);
+  animation: shoot 9s steps(3) infinite;
+}
+#building2 .window_l_f5,
+#building3 .window_r_f2 {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAQCAYAAAD52jQlAAAAr0lEQVQ4jaWT2Q0DIQxEKYZmXMw042JoJsWQjw2Jj8FLEksjxPUYy6a1/2L+ciHK7Y+hdp2d8RcgbaoRxD8QgQAmgC34DXyouFH6JSUPLDFoAlqnEWYdjqHUaUp5aTm0WnsBll1WQOZe+raIV+CVYnRbAQ10X22IT03JnLjkQOmflmHQ3VoFdWBWLFaoO6ADM1fI7o6grteIo9Ts1e+h4DudAlsjP4TBvgE68IHKeALjkmyljuNu/QAAAABJRU5ErkJggg==);
+}
+#building2 .window_r_f2 {
+  animation-delay: -2s;
+}
+#building3 .window_l_f4 {
+  animation-delay: -7s;
+}
+[class^="window_"]:nth-child(2n) {
+  border-right-width: calc(var(--space) * (var(--w) + 0.1 - 2));
+  transform: scaleX(-1.03) scaleY(1.03);
+}
+#building1 {
+  --w: var(--building_1_w);
+  --h: var(--building_1_h);
+  left: calc(var(--space) * 4);
+}
+#building2 {
+  --w: var(--building_2_w);
+  --h: var(--building_2_h);
+  left: calc(var(--space) * 9);
+}
+#building3 {
+  --w: var(--building_3_w);
+  --h: var(--building_3_h);
+  left: calc(var(--space) * 15);
+}
+#monster {
+  position: absolute;
+  width: calc(var(--space) * 2);
+  height: calc(var(--space) * 2);
+  left: calc(var(--space) * -0.5);
+  bottom: 0;
+  transform: translate(calc(var(--space) * var(--l)), calc(var(--space) * (-2 - var(--t))));
+  transition: transform 0.5s ease, bottom 0.5s ease;
+}
+@keyframes kill {
+  1% {
+    background-size: calc(var(--space) * 10) calc(var(--space) * 4);
+  }
+}
+@keyframes hide {
+  1% {
+    visibility: hidden;
+  }
+}
+[id^="kill"] {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+[id^="kill"] > div {
+  width: 100%;
+  height: 100%;
+  animation: none 0.5s steps(1);
+}
+[id^="kill"]::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-size: 0 0;
+  animation: none 0.5s steps(1);
+}
+#kill1::after,
+#kill2::after,
+#kill3::after {
+  background-position: calc(var(--space) * -2 * 2) calc(var(--space) * 2);
+}
+#kill4::after {
+  background-position: calc(var(--space) * -2 * 1) 0;
+}
+#kill5::after {
+  background-position: calc(var(--space) * -2 * 3) 0;
+}
+[id="d1"]:checked ~ #game #kill1::after,
+[id="d2"]:checked ~ #game #kill2::after,
+[id="d3"]:checked ~ #game #kill3::after,
+[id="e4"]:checked ~ #game #kill4::after,
+[id="e5"]:checked ~ #game #kill5::after {
+  animation-name: kill;
+}
+[id="d1"]:checked ~ #game #kill1 > div,
+[id="d2"]:checked ~ #game #kill2 > div,
+[id="d3"]:checked ~ #game #kill3 > div,
+[id="e4"]:checked ~ #game #kill4 > div,
+[id="e5"]:checked ~ #game #kill5 > div {
+  animation-name: hide;
+}
+@keyframes block {
+  1% {
+    visibility: visible;
+  }
+}
+[id^="block"] {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 5vmin);
+  bottom: 0;
+  visibility: hidden;
+  animation: none 4s steps(1);
+}
+#menu:checked ~ #game #block1 {
+  visibility: visible;
+}
+#d1:checked ~ #game #block1,
+#d2:checked ~ #game #block2,
+#d3:checked ~ #game #block3 {
+  animation-name: block;
+}
+#monster #dir {
+  width: 100%;
+  height: 100%;
+}
+#monster #sprite {
+  --anim_d: 0;
+  width: 100%;
+  height: 100%;
+  background-position: calc(var(--space) * 2 * 0) 0;
+  background-size: calc(var(--space) * 10) calc(var(--space) * 4);
+  animation: none 0.5s steps(1);
+}
+#monster #sprite,
+[id^="kill"]::after {
+  background-image: url(data:image/png;base64,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);
+}
+#mon2:checked ~ form #monster #sprite,
+#mon2:checked ~ form [id^="kill"]::after {
+  background-image: url(data:image/png;base64,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);
+}
+#mon3:checked ~ form #monster #sprite,
+#mon3:checked ~ form [id^="kill"]::after {
+  background-image: url(data:image/png;base64,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);
+}
+@keyframes punch1 {
+  1% {
+    background-position-x: calc(var(--space) * -2 * var(--anim_d));
+  }
+}
+@keyframes punch2 {
+  1% {
+    background-position-x: calc(var(--space) * -2 * var(--anim_d));
+  }
+}
+[id$="_1"]:checked ~ #game #monster #sprite {
+  animation-name: punch1;
+}
+[id$="_2"]:checked ~ #game #monster #sprite {
+  animation-name: punch2;
+}
+[id^="pu_"]:checked ~ #game #monster #sprite {
+  --anim_d: 1;
+}
+[id^="pr_"]:checked ~ #game #monster #sprite,
+[id$="_l"]:checked ~ [id^="pl_"]:checked ~ #game #monster #sprite {
+  --anim_d: 2;
+}
+[id^="pd_"]:checked ~ #game #monster #sprite {
+  --anim_d: 3;
+}
+[id^="pl_"]:checked ~ #game #monster #sprite,
+[id$="_l"]:checked ~ [id^="pr_"]:checked ~ #game #monster #sprite {
+  --anim_d: 4;
+}
+#road {
+  position: absolute;
+  width: 100vmin;
+  height: 9vmin;
+  bottom: 0;
+  background: darkslategrey;
+  border-top: 1vmin silver solid;
+}
+#controls {
+  position: absolute;
+  width: 100%;
+  height: calc(var(--button_w) * 8);
+  left: 0;
+  bottom: 0;
+  background: mediumseagreen;
+  z-index: 1;
+  touch-action: manipulation;
+}
+#controls fieldset {
+  width: 8vmin;
+  height: 2vmin;
+  margin: 0.5vmin auto;
+  padding: 0.25vmin;
+  border: 0.5vmin black solid;
+  border-radius: 2vmin;
+  display: flex;
+  justify-content: space-around;
+}
+#controls fieldset::before {
+    content: "";
+    position: absolute;
+    background: antiquewhite;
+    border-radius: 1vmin;
+    width: 8vmin;
+    height: 2vmin;
+}
+#controls fieldset label {
+  width: 2vmin;
+  height: 2vmin;
+  border-radius: 50%;
+  position: relative;
+}
+#c1:checked ~ form [for="c1"],
+#c2:checked ~ form [for="c2"],
+#c3:checked ~ form [for="c3"] {
+  background: darkgoldenrod;
+}
+#controls fieldset::after {
+  content: "\00ab Choose control style";
+  position: absolute;
+  right: 2.5vmin;
+  font-size: 2vmin;
+}
+[id="play"]:checked ~ #game #controls fieldset::after {
+  display: none;
+}
+#move {
+  position: absolute;
+  width: calc(var(--button_w) * 6);
+  height: calc(var(--button_w) * 6);
+  left: calc(var(--button_w) * 1);
+  top: calc(var(--button_w) * 1.25);
+  overflow: hidden;
+}
+[class^="button_"] {
+  position: absolute;
+  width: var(--button_h);
+  height: var(--button_w);
+  overflow: hidden;
+}
+.button_u {
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+.button_r {
+  right: calc(var(--button_w) / -2);
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+.button_d {
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%) rotate(180deg);
+}
+.button_l {
+  left: calc(var(--button_w) / -2);
+  top: 50%;
+  transform: translateY(-50%) rotate(270deg);
+}
+#move [class^="button_"]::after {
+  content: "";
+  position: absolute;
+  background: white;
+  width: 6vmin;
+  height: 6vmin;
+  border-radius: 1vmin;
+  transform: translateX(1vmin) translateY(1vmin) rotate(45deg);
+}
+#punch [class^="button_"] {
+  background: repeating-radial-gradient(brown 0%, brown 70%, transparent 70%, transparent 100%);
+  background-size: calc(var(--button_w) / 1.5) calc(var(--button_w) / 1.5);
+  border-radius: 1.5vmin;
+}
+#punch [class^="button_"]::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 75%;
+  background: brown;
+  bottom: 0;
+}
+#move .labels {
+  position: absolute;
+  width: calc(var(--button_w) * 40);
+  height: calc(var(--button_w) * 33);
+  left: calc(var(--button_w) * (var(--l) * -2 + 2));
+  bottom: calc(var(--button_w) * (var(--t) * -6 + 2));
+}
+[id="move"] label {
+  width: var(--button_w);
+  height: var(--button_h);
+}
+#walk {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+[id^="climb"] {
+  position: absolute;
+  width: calc(var(--button_w) * 2 * (var(--w) + 2));
+  height: calc(var(--button_w) * 6 * var(--h));
+  bottom: calc(var(--button_w) * 2);
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+#climb1 {
+  --w: var(--building_1_w);
+  --h: var(--building_1_h);
+  left: calc(var(--button_w) * 2 * 3);
+}
+#climb2 {
+  --w: var(--building_2_w);
+  --h: var(--building_2_h);
+  left: calc(var(--button_w) * 2 * 8);
+}
+#climb3 {
+  --w: var(--building_3_w);
+  --h: var(--building_3_h);
+  left: calc(var(--button_w) * 2 * 14);
+}
+[id^="climb"] label {
+  width: var(--button_h);
+  height: var(--button_w);
+}
+[id^="climb"] .roof {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: var(--button_h);
+}
+[id^="climb"] .roof label {
+  width: var(--button_w);
+  height: var(--button_h);
+}
+[id^="climb"] .roof label:nth-child(-n + 2) {
+  margin-right: var(--button_w);
+}
+[id^="climb"] .roof label:nth-last-child(-n + 2) {
+  margin-left: var(--button_w);
+}
+[id^="climb"] > label:nth-child(2),
+[id^="climb"] > label:nth-child(3) {
+  margin-top: calc(var(--button_w) * 2);
+}
+[id^="climb"] > label:nth-child(2n + 1) {
+  margin-left: calc(var(--button_h) * var(--w));
+}
+[id^="climb"] > label:nth-child(4n) {
+  margin-top: calc(var(--button_w) * 4);
+}
+[id^="climb"] > label:nth-child(4n + 1) {
+  margin-top: calc(var(--button_w) * 4);
+}
+#move::after,
+#punch::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--button_w) * 4);
+  height: calc(var(--button_w) * 4);
+  left: calc(var(--button_w) * 1);
+  top: calc(var(--button_w) * 1);
+  background: mediumseagreen;
+}
+#move [class^="block_"] {
+  position: absolute;
+  width: calc(var(--button_w) * 2);
+  height: calc(var(--button_w) * 2);
+  background: mediumseagreen;
+}
+#punch [class^="block_"] {
+  position: absolute;
+  width: calc(var(--button_w) * 1);
+  height: calc(var(--button_w) * 1);
+  background: mediumseagreen;
+}
+#controls .block_tl {
+  left: 0;
+  top: 0;
+}
+#controls .block_tr {
+  right: 0;
+  top: 0;
+}
+#controls .block_br {
+  right: 0;
+  bottom: 0;
+}
+#controls .block_bl {
+  left: 0;
+  bottom: 0;
+}
+#punch::after {
+  width: calc(var(--button_w) * 2);
+  height: calc(var(--button_w) * 2);
+  left: calc(var(--button_w) * 1);
+  top: calc(var(--button_w) * 1);
+}
+#punch {
+  position: absolute;
+  width: calc(var(--button_w) * 4);
+  height: calc(var(--button_w) * 4);
+  right: calc(var(--button_w) * 2);
+  top: calc(var(--button_w) * 2.25);
+  overflow: hidden;
+}
+#c2:checked ~ form #move,
+#c2:checked ~ form #punch {
+  left: 50%;
+  transform: translateX(-50%);
+}
+#c3:checked ~ form #move {
+  left: unset;
+  right: calc(var(--button_w) * 1);
+}
+#c3:checked ~ form #punch {
+  left: calc(var(--button_w) * 2);
+  right: unset;
+}
+#punch .labels {
+  position: absolute;
+  width: calc(var(--button_w) * 4 * 20);
+  height: calc(var(--button_w) * 4 * 7);
+  left: calc(var(--button_w) * var(--l) * -4);
+  bottom: calc(var(--button_w) * (var(--t) - 1) * -4);
+  pointer-events: none;
+}
+[id="punch"] label {
+  width: var(--button_w);
+  height: var(--button_h);
+}
+/* Alternate the labels so we can alternate the animations. */
+[id$="_1"]:checked ~ #game [for$="_1"],
+form [for$="_2"] {
+  display: none;
+}
+[id$="_1"]:checked ~ #game [for$="_2"] {
+  display: block;
+}
+[id="punch"] > [for^="pu_"],
+[id="punch"] > [for^="pr_"],
+[id="punch"] > [for^="pd_"],
+[id="punch"] > [for^="pl_"] {
+  position: absolute;
+}
+[id="punch"] > [for^="pu_"],
+[id="punch"] > [for^="pd_"] {
+  width: var(--button_h);
+  height: var(--button_w);
+  left: 50%;
+  transform: translateX(-50%);
+}
+[id="punch"] > [for^="pd_"] {
+  bottom: 0;
+}
+[id="punch"] > [for^="pr_"],
+[id="punch"] > [for^="pl_"] {
+  top: 50%;
+  transform: translateY(-50%);
+}
+[id="punch"] > [for^="pr_"] {
+  right: 0;
+}
+#punch .roof {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: calc(var(--button_w) * 4);
+  position: relative;
+}
+[id="punch"] .roof [for^="pu_"],
+[id="punch"] .roof [for^="pr_"],
+[id="punch"] .roof [for^="pd_"] {
+  position: absolute;
+  width: 100%;
+}
+[id="punch"] .roof [for^="pu_"],
+[id="punch"] .roof [for^="pd_"] {
+  height: var(--button_w);
+  top: 0;
+}
+[id="punch"] .roof [for^="pd_"] {
+  top: unset;
+  bottom: 0;
+}
+[id="punch"] .roof [for^="pr_"] {
+  top: var(--button_w);
+}
+[id="punch"] .roof [for^="pl_"] {
+  position: relative;
+  z-index: 1;
+  width: var(--button_w);
+  margin-top: var(--button_w);
+  margin-left: calc(var(--button_w) * 3);
+}
+[id^="m0_"]:checked ~ #game {--l: 0;}
+[id^="m1_"]:checked ~ #game {--l: 1;}
+[id^="m2_"]:checked ~ #game {--l: 2;}
+[id^="m3_"]:checked ~ #game {--l: 3;}
+[id^="m4_"]:checked ~ #game {--l: 4;}
+[id^="m5_"]:checked ~ #game {--l: 5;}
+[id^="m6_"]:checked ~ #game {--l: 6;}
+[id^="m7_"]:checked ~ #game {--l: 7;}
+[id^="m8_"]:checked ~ #game {--l: 8;}
+[id^="m9_"]:checked ~ #game {--l: 9;}
+[id^="m10_"]:checked ~ #game {--l: 10;}
+[id^="m11_"]:checked ~ #game {--l: 11;}
+[id^="m12_"]:checked ~ #game {--l: 12;}
+[id^="m13_"]:checked ~ #game {--l: 13;}
+[id^="m14_"]:checked ~ #game {--l: 14;}
+[id^="m15_"]:checked ~ #game {--l: 15;}
+[id^="m16_"]:checked ~ #game {--l: 16;}
+[id^="m17_"]:checked ~ #game {--l: 17;}
+[id^="m18_"]:checked ~ #game {--l: 18;}
+[id^="m19_"]:checked ~ #game {--l: 19;}
+[id*="_1_"]:checked ~ #game {--t: 1;}
+[id*="_2_"]:checked ~ #game {--t: 2;}
+[id*="_3_"]:checked ~ #game {--t: 3;}
+[id*="_4_"]:checked ~ #game {--t: 4;}
+[id*="_5_"]:checked ~ #game {--t: 5;}
+[id*="_6_"]:checked ~ #game {--t: 6;}
+[id*="_7_"]:checked ~ #game {--t: 7;}
+[id$="_l"]:checked ~ #game #monster #dir {transform: scaleX(-1);}
+[id*="_c_"]:checked ~ #game #monster {bottom: calc(var(--space) * -0.5)}
+[id*="_c_"]:checked ~ #game #monster #sprite {background-position-y: calc(var(--space) * -2);}
+[id$="_1"]:checked ~ #game [for$="_1"],
+[id$="_2"]:checked ~ #game [for$="_2"] {
+  display: none;
+}
+/* Show the smashed window. */
+#w1_l_f1:checked ~ #game #building1 .window_l_f1, #w1_r_f1:checked ~ #game #building1 .window_r_f1,
+#w1_l_f2:checked ~ #game #building1 .window_l_f2, #w1_r_f2:checked ~ #game #building1 .window_r_f2,
+#w1_l_e1_f3:checked ~ #game #building1 .window_l_f3, #w1_r_f3:checked ~ #game #building1 .window_r_f3,
+#w1_l_f4:checked ~ #game #building1 .window_l_f4, #w1_r_f4:checked ~ #game #building1 .window_r_f4,
+#w1_l_f5:checked ~ #game #building1 .window_l_f5, #w1_r_f5:checked ~ #game #building1 .window_r_f5,
+#w2_l_f1:checked ~ #game #building2 .window_l_f1, #w2_r_f1:checked ~ #game #building2 .window_r_f1,
+#w2_l_f2:checked ~ #game #building2 .window_l_f2, #w2_r_e2_f2:checked ~ #game #building2 .window_r_f2,
+#w2_l_f3:checked ~ #game #building2 .window_l_f3, #w2_r_f3:checked ~ #game #building2 .window_r_f3,
+#w2_l_f4:checked ~ #game #building2 .window_l_f4, #w2_r_f4:checked ~ #game #building2 .window_r_f4,
+#w2_l_h1_f5:checked ~ #game #building2 .window_l_f5, #w2_r_f5:checked ~ #game #building2 .window_r_f5,
+#w2_l_f6:checked ~ #game #building2 .window_l_f6, #w2_r_f6:checked ~ #game #building2 .window_r_f6,
+#w3_l_f1:checked ~ #game #building3 .window_l_f1, #w3_r_f1:checked ~ #game #building3 .window_r_f1,
+#w3_l_f2:checked ~ #game #building3 .window_l_f2, #w3_r_h2_f2:checked ~ #game #building3 .window_r_f2,
+#w3_l_f3:checked ~ #game #building3 .window_l_f3, #w3_r_f3:checked ~ #game #building3 .window_r_f3,
+#w3_l_e3_f4:checked ~ #game #building3 .window_l_f4, #w3_r_f4:checked ~ #game #building3 .window_r_f4,
+#d1:checked ~ #game #building1 [class^="window_"],
+#d2:checked ~ #game #building2 [class^="window_"],
+#d3:checked ~ #game #building3 [class^="window_"] {
+  background: transparent;
+  border-left-style: dotted;
+}
+#w1_l_f1:checked ~ #game #building1 .window_l_f1::after, #w1_r_f1:checked ~ #game #building1 .window_r_f1::after,
+#w1_l_f2:checked ~ #game #building1 .window_l_f2::after, #w1_r_f2:checked ~ #game #building1 .window_r_f2::after,
+#w1_l_e1_f3:checked ~ #game #building1 .window_l_f3::after, #w1_r_f3:checked ~ #game #building1 .window_r_f3::after,
+#w1_l_f4:checked ~ #game #building1 .window_l_f4::after, #w1_r_f4:checked ~ #game #building1 .window_r_f4::after,
+#w1_l_f5:checked ~ #game #building1 .window_l_f5::after, #w1_r_f5:checked ~ #game #building1 .window_r_f5::after,
+#w2_l_f1:checked ~ #game #building2 .window_l_f1::after, #w2_r_f1:checked ~ #game #building2 .window_r_f1::after,
+#w2_l_f2:checked ~ #game #building2 .window_l_f2::after, #w2_r_e2_f2:checked ~ #game #building2 .window_r_f2::after,
+#w2_l_f3:checked ~ #game #building2 .window_l_f3::after, #w2_r_f3:checked ~ #game #building2 .window_r_f3::after,
+#w2_l_f4:checked ~ #game #building2 .window_l_f4::after, #w2_r_f4:checked ~ #game #building2 .window_r_f4::after,
+#w2_l_h1_f5:checked ~ #game #building2 .window_l_f5::after, #w2_r_f5:checked ~ #game #building2 .window_r_f5::after,
+#w2_l_f6:checked ~ #game #building2 .window_l_f6::after, #w2_r_f6:checked ~ #game #building2 .window_r_f6::after,
+#w3_l_f1:checked ~ #game #building3 .window_l_f1::after, #w3_r_f1:checked ~ #game #building3 .window_r_f1::after,
+#w3_l_f2:checked ~ #game #building3 .window_l_f2::after, #w3_r_h2_f2:checked ~ #game #building3 .window_r_f2::after,
+#w3_l_f3:checked ~ #game #building3 .window_l_f3::after, #w3_r_f3:checked ~ #game #building3 .window_r_f3::after,
+#w3_l_e3_f4:checked ~ #game #building3 .window_l_f4::after, #w3_r_f4:checked ~ #game #building3 .window_r_f4::after {
+  animation-name: show;
+}
+[id^="smash"] {
+  position: absolute;
+  width: calc(var(--button_w) * 4 * var(--w) + var(--button_w) * 6);
+  height: calc(var(--button_w) * 4 * var(--h));
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  pointer-events: none;
+}
+#smash1 {
+  --w: var(--building_1_w);
+  --h: var(--building_1_h);
+  left: calc(var(--button_w) * 4 * 3 + var(--button_w));
+}
+#smash2 {
+  --w: var(--building_2_w);
+  --h: var(--building_2_h);
+  left: calc(var(--button_w) * 4 * 8 + var(--button_w));
+}
+#smash3 {
+  --w: var(--building_3_w);
+  --h: var(--building_3_h);
+  left: calc(var(--button_w) * 4 * 14 + var(--button_w));
+}
+#punch label {
+  pointer-events: auto;
+}
+[id^="smash"] > :nth-child(8n),
+[id^="smash"] > :nth-child(8n + 1),
+[id^="smash"] > :nth-child(8n + 2),
+[id^="smash"] > :nth-child(8n + 3) {
+  width: 100%;
+  height: var(--button_w);
+}
+[id^="smash"] > :nth-child(8n + 4),
+[id^="smash"] > :nth-child(8n + 5) {
+  margin-left: calc(var(--button_w) * 2);
+}
+[id^="smash"] > :nth-child(8n + 6),
+[id^="smash"] > :nth-child(8n + 7) {
+  margin-left: calc(100% - var(--button_w) * 6);
+}
+@keyframes pter {
+  5% {transform: translate(calc(var(--space) * -3), 0);}
+  12% {transform: translate(calc(var(--space) * -3), 0);}
+  17% {transform: translate(calc(var(--space) * -5), 0);}
+  24% {transform: translate(calc(var(--space) * -5), 0);}
+  29% {transform: translate(calc(var(--space) * -8), calc(var(--space) * -2));}
+  36% {transform: translate(calc(var(--space) * -8), calc(var(--space) * -2));}
+  41% {transform: translate(calc(var(--space) * -11), calc(var(--space) * -2));}
+  48% {transform: translate(calc(var(--space) * -11), calc(var(--space) * -2));}
+  53% {transform: translate(calc(var(--space) * -15), calc(var(--space) * -1));}
+  60% {transform: translate(calc(var(--space) * -15), calc(var(--space) * -1));}
+  65% {transform: translate(calc(var(--space) * -16), calc(var(--space) * -1));}
+  72% {transform: translate(calc(var(--space) * -16), calc(var(--space) * -1));}
+  88% {transform: translate(calc(var(--space) * -21), calc(var(--space) * -1));}
+  100% {transform: translate(calc(var(--space) * -21), calc(var(--space) * -1));}
+}
+/* Animating left/top seems better for clicking labels. */
+@keyframes pter_label {
+  5% {left: calc(var(--button_w) * -12); top: 0;}
+  12% {left: calc(var(--button_w) * -12); top: 0;}
+  17% {left: calc(var(--button_w) * -20); top: 0;}
+  24% {left: calc(var(--button_w) * -20); top: 0;}
+  29% {left: calc(var(--button_w) * -32); top: calc(var(--button_w) * -8);}
+  36% {left: calc(var(--button_w) * -32); top: calc(var(--button_w) * -8);}
+  41% {left: calc(var(--button_w) * -44); top: calc(var(--button_w) * -8);}
+  48% {left: calc(var(--button_w) * -44); top: calc(var(--button_w) * -8);}
+  53% {left: calc(var(--button_w) * -60); top: calc(var(--button_w) * -4);}
+  60% {left: calc(var(--button_w) * -60); top: calc(var(--button_w) * -4);}
+  65% {left: calc(var(--button_w) * -64); top: calc(var(--button_w) * -4);}
+  72% {left: calc(var(--button_w) * -64); top: calc(var(--button_w) * -4);}
+  88% {left: calc(var(--button_w) * -84); top: calc(var(--button_w) * -4);}
+  100% {left: calc(var(--button_w) * -84); top: calc(var(--button_w) * -4);}
+}
+@keyframes tank {
+  100% {
+    transform: translateX(calc(var(--space) * -21));
+  }
+}
+@keyframes tank_label {
+  100% {
+    left: calc(var(--button_w) * -84);
+  }
+}
+#pter,
+#tank {
+  position: absolute;
+  width: var(--space);
+  height: calc(var(--space) * 0.5);
+  left: calc(var(--space) * 20);
+  top: calc(var(--space) * 3);
+  animation: none 14s linear infinite;
+  transition: visibility 1s steps(1) 1s;
+}
+@keyframes blades {
+  50% {
+    background-position-x: calc(var(--space) * -1);
+  }
+}
+#pter::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: calc(var(--space) * 2) var(--space);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAEp0lEQVR4nO1cUZaDIAycw/QyHobLeBgvs4dhP3ahISQRtVbQzHu8bStIJxmS6BaB8xGFtvs8yzLvHX81dtvgnzMd170NLKJHRIBlmWMIoXsDMFDx7uI/ivBbVukhIh0bQnTssswxNa3PGhJncg6gxyjQ4JwjBijE1VEUMB2/1m/HPL3wLkBV+enQ/6ka4tOQvk8UHA+h39556LkvswNXNQ9Nn54r5XwaRq9MBZoQtdR32PmvSRbBFTbQlH2a81/Tu3WQA7esegh9N89F+dPzfdv5quIN8ofmS6Tj/+sQwpXhT4tAZxW7FX8igHzub4mgIMqq2eLzDzioUj1V/ompRoXAt7Wi313vaPx3nO8QRCcLx80xW+bjxK8kD+b09B0EG2hjN8/XE/9q0pUc1/pFpf6i6i92voiG6v4W/LWwbvWXDLHapiATZ/nu21Dn3VDoDcuf57nW/tV4qU2hbL2Rt2DY4zb8tziffkkzjPFwZvUZbOWnMXfhX4T8NcLVZxqhpPT01+przHslmmwyOv/djoewAjhpTrI38mTuKpwbdrkNf6va1I5l44QQ8q1arBQ2PSofgiOVVo25Cf+MLV+iIM+NMCJ52A6v+t6QfzMyeRCDaQZIxrkLeTj/N6mfeYrz9DYAN0IIIUYgTi9URkDbSusRj+ZfhL6feYo/86SughDCH/lJNcBoeDr/t9JDCHGekFcAlDAohUAMqn48nH9V+MComu9W+MD5o5k8FANMr7+GMQ3wdP51oWM1S/3EEMX5v8hlDx7NvyBHCx/6Gg3kaSNG6Jo8nL9MQGorYU9Sfffk4fx1FcMgT/uPGPYIns7fDmcNIQ8ghiDvR8HT+QMwiK7kOqAkO0zYY3g6fwDbFE/HWO9HwtP5Z1i5kB/nY+6Ap/N3OGxktdPdQx1v7XZ8CBE4dcuYo2e445+LHO6bOi/NxZAXTp2jyPMnnd8FcDYOOC/n/A0D3KG9YacAIq/w+XkkZ28QgHQN7RHhLHDnaWFdeuKVJoKdApCOD/9rmiHAnUidKThYdAYXAHU4f88g3VrVPqepxwVxFhpu4qgRIvWPQExVP3ldNeu+unTf3Z3fN6SHI6bVn5u2jQqCQAB3fq9QizVJANL+eDAHkzF8nnxOrwc+i/wULvLDxwLa5zDCeFqtyVmpBtBWPHOqVl/4FcGnwTc5kl++Fn2UBzWrzqcCiIssAMjOB3utPp3McRzFqtecrwkDQgSg++OT4+LyFgEXQGM4d6efBeH37hLo6s9VPT0OobDLAkhNiATGnI4vQVvd7Scgl3hSjs8RYEFOCe78jmE8jl11WEQtADDnp/fu/I7BnstLUaSJSEM7CfGA4HyaAsqbQY7eoBR8Eai2QtGDhXNphZ9Xfi0AR49gVX9CfiCCKQLhpk6UIoELoHuI1/zSZkiguCLIOZ7fAOK5f8MvgxwXokoDSiv68Ot8XiMAfwJwEYwDy/l8VcuXgv8CoBsl2RWCo0O0OJ5GgdX/7iWRCLtlHR0hO2ztgQi0ceezvfE8VTgGQVMEsP63v/KgBEfnMMN6425Z/tcxGFRHr+R8wEP/bbBlxdMx1nvHgFi9EoDn+iHwC2uD1gsA4E5jAAAAAElFTkSuQmCC);
+  animation: blades 0.2s steps(1) infinite;
+}
+#e4:checked ~ #game #pter::after {
+  animation-name: none;
+  background-position-y: bottom;
+}
+#tank {
+  top: calc(var(--space) * 10);
+  background-size: var(--space) var(--space);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAExElEQVR4nNVZW5KEIAzMYbyMh+F6cz32Q8HQdEJw1HFTldLFCOnOA8YVOSSD3i243hNrupJTSjmldKtTy7rNuybJy7pdU0p5Tfesuc8bkurM5USsSzPXsh7g9bWQc8maUsHHCdCqyTjp1Ga/LlnWpQGLawV1Sr7NqG+IqFFek3TgS6SZwvzsWVhmo++CEZ8IXKSrcQ80gtekiVByHgPfgRIJ9Qma9hEC0B7fI2s9RgAlwsyKnYAaSULGAJxZBqNyuBO8FpOIlFJDQEfGuQbYkvsCAop0RJSIo2Kqi4zLgmbIywgo0jYxKAMRnsbTBKj5LEd+RUCR3lkgwAOfUmquYqc/BfhY/e/OuTYeAeGowxzsRCks+748RG0CzhsTW3t167DqAVZ667+zEBIM4Po91lvOkOHuyXrh0JZmNMMRCYxkvLJ7Rkz8DLFvVQzs6EBjkgDp63Z4BKNI01kQaaKBtYzok5o7Vb/GHj5lP9hNvIiPyrYnQZ3WopEbRSLgwGmNrjPwTeO3wUfSdzoblJbmpZsYS/Wz2RgiwIu8PuXpesdtB/uBZV9PjOL3lSgQizCPuJaAAOj/qDow7F4nQAd+No3/oSoB8Hjw+O9qHK1BYBdgX36Mr0E2YT8gkvm4rHS8k7pPU6DkSDoi5lfjsi7dVyuCi0pj1HzgsKJq/FD59XjBoQlQJJjSAC739JPXC0HrcfbdckhAMdB9wPwSPFv3vxpXGskAoREnkzBi3jaOqp77Yn6R0SwSorDufj1+mgBNAk6u2dasv3HcICcuTaThqvvFN1fP2auvU+DPyrpMLcRsn3P2jOQPdw6BB4jQQLMafDcBKEDIjPPMNhvjo/cukdlJvfQNgdijrUmsY957E/6ckpw/ktdl09mX12V7fwdVHYa5mmfFNpD+j5ZHdbKQ4RBCUxlJYPOKHASAbaQ87iVjd7BRMma+B5mgnc75IKiOOXNGsuMegehHtAjLgqoZnhGiRNuS+TcDY1eatRnOoR3JSiWg2BNKn5Ae/AzBl8nMpGY0RQFBQAgWG6WXJWT8Voku0PUFrdkBrxWfMzUaqeW3V46nZSY9KQkavI4+I0SDZtupA/a2RplF2h0Bo41N0mqcSIIew6zIn7bnWISTXnQJ4GaBCvbT/t0Q8entGHgv2gy8p2gDZxWXkLozsGhhZD1F4DUqGpBNgDBySOq3RPKoM3sxnh8SARkhhEWFRVuNNU7R7JCDWHJcDvmGGeJlhYBRV8+j2s8Ahu0IRnTFKg8kZOTXTPayo30kfbq0Kynppq2d4kJtSBmVe1Z+EUIYeVLY97KiOEo7e7BZsb1/dEbA90fAOzs7cF9JE3UPtAWebXtY60WtJs1SXT9Xvl4qHmiBq3nis0rCIoH1mwk9DxbuLbDWu+Fj7uiMgCQ4ZMziukVCPQLB63OEEPK6/nFN1G8hI5SaCLbZTp2DUDcP9KN8jgiCwt8ZPJuRI30/CJCE83vq7fNPiPerrEtVQsAxj8oEB0wDHNd4ggQrOswGo8u+OzZzGVmA61ZxmuQjMloMvx7pd+p7+ItON8pZh/CH2uz7lozS0XrYpD6MucSJbzcL7NbuP3rOUjnqUGMbadRvEvy3F5aAKZj6Vim8nZCv0/eOjv4H2XtxhTtyCWkAAAAASUVORK5CYII=);
+  animation-duration: 12s;
+  animation-delay: 0.5s;
+}
+#e5:checked ~ #game #tank {
+  background-position-y: bottom;
+}
+label[for="e4"],
+label[for="e5"] {
+  position: absolute;
+  width: var(--button_h);
+  height: var(--button_w);
+  left: 0;
+  top: 0;
+  transform: translate(calc(var(--button_w) * 81), calc(var(--button_w) * 8));
+  animation: none 14s linear infinite;
+}
+label[for="e5"] {
+  transform: translate(calc(var(--button_w) * 81), calc(var(--button_w) * 31));
+  animation-duration: 12s;
+  animation-timing-function: steps(21);
+}
+[id="play"]:checked ~ #game #pter {
+  animation-name: pter;
+}
+[id="play"]:checked ~ #game label[for="e4"] {
+  animation-name: pter_label;
+}
+[id="play"]:checked ~ #game #tank {
+  animation-name: tank;
+}
+[id="play"]:checked ~ #game label[for="e5"] {
+  animation-name: tank_label;
+}
+[id="e4"]:checked ~ #game [for="e4"],
+[id="e4"]:checked ~ #game #pter,
+[id="e5"]:checked ~ #game [for="e5"],
+[id="e5"]:checked ~ #game #tank {
+  visibility: hidden;
+  animation-play-state: paused;
+}
+/**
+ * Labels for inputs that track the buildings that have been demolished.
+ * Swap them in when there is one window left in a building.
+ * Then we can smash the last window and demolish the building with one click.
+ */
+[for="d1"],
+[for="d2"],
+[for="d3"] {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+[id^="w1_"]:not(:checked) ~ #game [for^="w1_"],
+[id^="w2_"]:not(:checked) ~ #game [for^="w2_"],
+[id^="w3_"]:not(:checked) ~ #game [for^="w3_"] {
+  display: none;
+}
+[id^="w1_"]:not(:checked) ~ #game [for="d1"],
+[id^="w2_"]:not(:checked) ~ #game [for="d2"],
+[id^="w3_"]:not(:checked) ~ #game [for="d3"] {
+  display: block;
+}
+[id^="w1_"]:not(:checked) ~ [id^="w1_"]:not(:checked) ~ #game [for^="w1_"],
+[id^="w2_"]:not(:checked) ~ [id^="w2_"]:not(:checked) ~ #game [for^="w2_"],
+[id^="w3_"]:not(:checked) ~ [id^="w3_"]:not(:checked) ~ #game [for^="w3_"] {
+  display: block;
+}
+[id^="w1_"]:not(:checked) ~ [id^="w1_"]:not(:checked) ~ #game [for="d1"],
+[id^="w2_"]:not(:checked) ~ [id^="w2_"]:not(:checked) ~ #game [for="d2"],
+[id^="w3_"]:not(:checked) ~ [id^="w3_"]:not(:checked) ~ #game [for="d3"],
+[id="d1"]:checked ~ #game #climb1,
+[id="d1"]:checked ~ #game #smash1,
+[id="d2"]:checked ~ #game #climb2,
+[id="d2"]:checked ~ #game #smash2,
+[id="d3"]:checked ~ #game #climb3,
+[id="d3"]:checked ~ #game #smash3 {
+  display: none;
+}
+[id="w1_l_f1"]:checked ~ #game [for="w1_l_f1"], [id="w1_r_f1"]:checked ~ #game [for="w1_r_f1"],
+[id="w1_l_f2"]:checked ~ #game [for="w1_l_f2"], [id="w1_r_f2"]:checked ~ #game [for="w1_r_f2"],
+[id="w1_l_e1_f3"]:checked ~ #game [for="w1_l_e1_f3"], [id="w1_r_f3"]:checked ~ #game [for="w1_r_f3"],
+[id="w1_l_f4"]:checked ~ #game [for="w1_l_f4"], [id="w1_r_f4"]:checked ~ #game [for="w1_r_f4"],
+[id="w1_l_f5"]:checked ~ #game [for="w1_l_f5"], [id="w1_r_f5"]:checked ~ #game [for="w1_r_f5"],
+[id="w2_l_f1"]:checked ~ #game [for="w2_l_f1"], [id="w2_r_f1"]:checked ~ #game [for="w2_r_f1"],
+[id="w2_l_f2"]:checked ~ #game [for="w2_l_f2"], [id="w2_r_e2_f2"]:checked ~ #game [for="w2_r_e2_f2"],
+[id="w2_l_f3"]:checked ~ #game [for="w2_l_f3"], [id="w2_r_f3"]:checked ~ #game [for="w2_r_f3"],
+[id="w2_l_f4"]:checked ~ #game [for="w2_l_f4"], [id="w2_r_f4"]:checked ~ #game [for="w2_r_f4"],
+[id="w2_l_h1_f5"]:checked ~ #game [for="w2_l_h1_f5"], [id="w2_r_f5"]:checked ~ #game [for="w2_r_f5"],
+[id="w2_l_f6"]:checked ~ #game [for="w2_l_f6"], [id="w2_r_f6"]:checked ~ #game [for="w2_r_f6"],
+[id="w3_l_f1"]:checked ~ #game [for="w3_l_f1"], [id="w3_r_f1"]:checked ~ #game [for="w3_r_f1"],
+[id="w3_l_f2"]:checked ~ #game [for="w3_l_f2"], [id="w3_r_h2_f2"]:checked ~ #game [for="w3_r_h2_f2"],
+[id="w3_l_f3"]:checked ~ #game [for="w3_l_f3"], [id="w3_r_f3"]:checked ~ #game [for="w3_r_f3"],
+[id="w3_l_e3_f4"]:checked ~ #game [for="w3_l_e3_f4"], [id="w3_r_f4"]:checked ~ #game [for="w3_r_f4"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+[id="w1_l_f1"]:not(:checked) ~ #game [for="w1_l_f1"] + label, [id="w1_r_f1"]:not(:checked) ~ #game [for="w1_r_f1"] + label,
+[id="w1_l_f2"]:not(:checked) ~ #game [for="w1_l_f2"] + label, [id="w1_r_f2"]:not(:checked) ~ #game [for="w1_r_f2"] + label,
+[id="w1_l_e1_f3"]:not(:checked) ~ #game [for="w1_l_e1_f3"] + label, [id="w1_r_f3"]:not(:checked) ~ #game [for="w1_r_f3"] + label,
+[id="w1_l_f4"]:not(:checked) ~ #game [for="w1_l_f4"] + label, [id="w1_r_f4"]:not(:checked) ~ #game [for="w1_r_f4"] + label,
+[id="w1_l_f5"]:not(:checked) ~ #game [for="w1_l_f5"] + label, [id="w1_r_f5"]:not(:checked) ~ #game [for="w1_r_f5"] + label,
+[id="w2_l_f1"]:not(:checked) ~ #game [for="w2_l_f1"] + label, [id="w2_r_f1"]:not(:checked) ~ #game [for="w2_r_f1"] + label,
+[id="w2_l_f2"]:not(:checked) ~ #game [for="w2_l_f2"] + label, [id="w2_r_e2_f2"]:not(:checked) ~ #game [for="w2_r_e2_f2"] + label,
+[id="w2_l_f3"]:not(:checked) ~ #game [for="w2_l_f3"] + label, [id="w2_r_f3"]:not(:checked) ~ #game [for="w2_r_f3"] + label,
+[id="w2_l_f4"]:not(:checked) ~ #game [for="w2_l_f4"] + label, [id="w2_r_f4"]:not(:checked) ~ #game [for="w2_r_f4"] + label,
+[id="w2_l_h1_f5"]:not(:checked) ~ #game [for="w2_l_h1_f5"] + label, [id="w2_r_f5"]:not(:checked) ~ #game [for="w2_r_f5"] + label,
+[id="w2_l_f6"]:not(:checked) ~ #game [for="w2_l_f6"] + label, [id="w2_r_f6"]:not(:checked) ~ #game [for="w2_r_f6"] + label,
+[id="w3_l_f1"]:not(:checked) ~ #game [for="w3_l_f1"] + label, [id="w3_r_f1"]:not(:checked) ~ #game [for="w3_r_f1"] + label,
+[id="w3_l_f2"]:not(:checked) ~ #game [for="w3_l_f2"] + label, [id="w3_r_h2_f2"]:not(:checked) ~ #game [for="w3_r_h2_f2"] + label,
+[id="w3_l_f3"]:not(:checked) ~ #game [for="w3_l_f3"] + label, [id="w3_r_f3"]:not(:checked) ~ #game [for="w3_r_f3"] + label,
+[id="w3_l_e3_f4"]:not(:checked) ~ #game [for="w3_l_e3_f4"] + label, [id="w3_r_f4"]:not(:checked) ~ #game [for="w3_r_f4"] + label {
+  visibility: visible;
+  pointer-events: auto;
+}
+/**
+ * Slide down to the ground as the building collapses.
+ * When we get there, our next movement input will not have the climbing flag (_c_).
+ * This avoids any specificity battles over the monster's position/graphic.
+ */
+[id^="m3_c_"]:checked ~ [id="d1"]:checked ~ #game,
+[id^="m6_c_"]:checked ~ [id="d1"]:checked ~ #game,
+[id^="m8_c_"]:checked ~ [id="d2"]:checked ~ #game,
+[id^="m13_c_"]:checked ~ [id="d2"]:checked ~ #game,
+[id^="m14_c_"]:checked ~ [id="d3"]:checked ~ #game,
+[id^="m18_c_"]:checked ~ [id="d3"]:checked ~ #game {
+  --t: 0;
+}
+[id^="m3_c_"]:checked ~ [id="d1"]:checked ~ #game #monster,
+[id^="m6_c_"]:checked ~ [id="d1"]:checked ~ #game #monster,
+[id^="m8_c_"]:checked ~ [id="d2"]:checked ~ #game #monster,
+[id^="m13_c_"]:checked ~ [id="d2"]:checked ~ #game #monster,
+[id^="m14_c_"]:checked ~ [id="d3"]:checked ~ #game #monster,
+[id^="m18_c_"]:checked ~ [id="d3"]:checked ~ #game #monster {
+  bottom: 0;
+  transition-delay: 3s, 3s;
+  transition-duration: 1s, 1s;
+}
+[id^="m3_c_"]:checked ~ [id="d1"]:checked ~ #game #monster #sprite,
+[id^="m6_c_"]:checked ~ [id="d1"]:checked ~ #game #monster #sprite,
+[id^="m8_c_"]:checked ~ [id="d2"]:checked ~ #game #monster #sprite,
+[id^="m13_c_"]:checked ~ [id="d2"]:checked ~ #game #monster #sprite,
+[id^="m14_c_"]:checked ~ [id="d3"]:checked ~ #game #monster #sprite,
+[id^="m18_c_"]:checked ~ [id="d3"]:checked ~ #game #monster #sprite {
+  background-position-y: 0;
+  transition: background-position-y 0s steps(1) 4s;
+}
+#complete {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 32vmin);
+  top: 0;
+  visibility: hidden;
+  z-index: 1;
+}
+/* All buildings demolished. */
+#d1:checked ~ #d2:checked ~ #d3:checked ~ #game #complete {
+  visibility: visible;
+  transition: visibility 0s steps(1) 6s
+}
+/* As the hit animations play, and #hits expands, the gameover screen
+ * will get pushed over and eventually wrap into view.
+ */
+#damage {
+  position: absolute;
+  width: 230vmin;
+  height: 200vmin;
+  top: -100vmin;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 2;
+}
+#hits {
+  max-width: 130vmin;
+  height: 100vmin;
+  margin: 0 15vmin 0 15.1vmin;
+  display: flex;
+  overflow: hidden;
+}
+@keyframes hit {
+  100% {
+    width: 100vmin;
+  }
+}
+#hits [id^="hit"] {
+  width: 0;
+  height: 100vmin;
+  animation: none var(--timer) steps(500);
+  animation-fill-mode: forwards;
+}
+#play:checked ~ #game #hits [id^="hit"] {
+  animation-name: hit;
+}
+/* When enemies are defeated they no longer contribute to making #gameover appear. */
+[id*="_e1_"]:checked ~ #game #health1,
+[id*="_e1_"]:checked ~ #game #hit1,
+[id="d1"]:checked ~ #game #health1,
+[id="d1"]:checked ~ #game #hit1,
+[id*="_e2_"]:checked ~ #game #health2,
+[id*="_e2_"]:checked ~ #game #hit2,
+[id="d2"]:checked ~ #game #health2,
+[id="d2"]:checked ~ #game #hit2,
+[id*="_e3_"]:checked ~ #game #health3,
+[id*="_e3_"]:checked ~ #game #hit3,
+[id="d3"]:checked ~ #game #health3,
+[id="d3"]:checked ~ #game #hit3,
+[id="e4"]:checked ~ #game #health4,
+[id="e4"]:checked ~ #game #hit4,
+[id="e5"]:checked ~ #game #health5,
+[id="e5"]:checked ~ #game #hit5,
+[id="d1"]:checked ~ [id="d2"]:checked ~ [id="d3"]:checked ~ #game #health4,
+[id="d1"]:checked ~ [id="d2"]:checked ~ [id="d3"]:checked ~ #game #hit4,
+[id="d1"]:checked ~ [id="d2"]:checked ~ [id="d3"]:checked ~ #game #health5,
+[id="d1"]:checked ~ [id="d2"]:checked ~ [id="d3"]:checked ~ #game #hit5 {
+  animation-play-state: paused;
+}
+[id*="_h1_"]:checked ~ #game #meter,
+[id="d2"]:checked ~ #game #meter {
+  padding-left: 5vmin;
+}
+[id*="_h2_"]:checked ~ #game #meter,
+[id="d3"]:checked ~ #game #meter {
+  margin-left: 5vmin;
+}
+[id*="_h1_"]:checked ~ #game #hits {
+  margin-left: 0.1vmin;
+}
+[id*="_h2_"]:checked ~ #game #hits {
+  margin-right: 0;
+}
+#gameover {
+  width: 100vmin;
+  height: 100vmin;
+  pointer-events: auto;
+}
+h2 {
+  margin: 7vmin 0 0;
+  background: rgba(128, 128, 128, 0.5);
+  font-size: 6vmin;
+  line-height: 61vmin;
+  color: yellow;
+  font-weight: normal;
+  text-align: center;
+}
+#gameover h2 {
+  background: black;
+}
+[for="reset"] {
+  position: relative;
+  top: -24vmin;
+  background: black;
+}
+@media screen and (min-width: 600px) and (min-height: 600px) {
+  body {
+    image-rendering: pixelated; image-rendering: crisp-edges;
+  }
+}
+</style>
+<input type="radio" name="control" id="c1" checked="checked" /><input type="radio" name="control" id="c2" /><input type="radio" name="control" id="c3" />
+<input type="radio" name="mon" id="mon1" checked="checked" /><input type="radio" name="mon" id="mon2" /><input type="radio" name="mon" id="mon3" />
+<form autocomplete="off">
+<input type="radio" name="state" id="menu" checked="checked" /><input type="radio" name="state" id="play" />
+<input type="radio" name="move" id="m0_l" /><input type="radio" name="move" id="m0_r" checked="checked" />
+<input type="radio" name="move" id="m1_l" /><input type="radio" name="move" id="m1_r" />
+<input type="radio" name="move" id="m2_l" /><input type="radio" name="move" id="m2_r" />
+<input type="radio" name="move" id="m3_l" /><input type="radio" name="move" id="m3_r" />
+<input type="radio" name="move" id="m4_l" /><input type="radio" name="move" id="m4_r" />
+<input type="radio" name="move" id="m5_l" /><input type="radio" name="move" id="m5_r" />
+<input type="radio" name="move" id="m6_l" /><input type="radio" name="move" id="m6_r" />
+<input type="radio" name="move" id="m7_l" /><input type="radio" name="move" id="m7_r" />
+<input type="radio" name="move" id="m8_l" /><input type="radio" name="move" id="m8_r" />
+<input type="radio" name="move" id="m9_l" /><input type="radio" name="move" id="m9_r" />
+<input type="radio" name="move" id="m10_l" /><input type="radio" name="move" id="m10_r" />
+<input type="radio" name="move" id="m11_l" /><input type="radio" name="move" id="m11_r" />
+<input type="radio" name="move" id="m12_l" /><input type="radio" name="move" id="m12_r" />
+<input type="radio" name="move" id="m13_l" /><input type="radio" name="move" id="m13_r" />
+<input type="radio" name="move" id="m14_l" /><input type="radio" name="move" id="m14_r" />
+<input type="radio" name="move" id="m15_l" /><input type="radio" name="move" id="m15_r" />
+<input type="radio" name="move" id="m16_l" /><input type="radio" name="move" id="m16_r" />
+<input type="radio" name="move" id="m17_l" /><input type="radio" name="move" id="m17_r" />
+<input type="radio" name="move" id="m18_l" /><input type="radio" name="move" id="m18_r" />
+<input type="radio" name="move" id="m19_l" /><input type="radio" name="move" id="m19_r" />
+<input type="radio" name="move" id="m4_6_l" /><input type="radio" name="move" id="m4_6_r" />
+<input type="radio" name="move" id="m5_6_l" /><input type="radio" name="move" id="m5_6_r" />
+<input type="radio" name="move" id="m3_c_6_r" /><input type="radio" name="move" id="m6_c_6_l" />
+<input type="radio" name="move" id="m3_c_5_r" /><input type="radio" name="move" id="m6_c_5_l" />
+<input type="radio" name="move" id="m3_c_4_r" /><input type="radio" name="move" id="m6_c_4_l" />
+<input type="radio" name="move" id="m3_c_3_r" /><input type="radio" name="move" id="m6_c_3_l" />
+<input type="radio" name="move" id="m3_c_2_r" /><input type="radio" name="move" id="m6_c_2_l" />
+<input type="radio" name="move" id="m3_c_1_r" /><input type="radio" name="move" id="m6_c_1_l" />
+<input type="radio" name="move" id="m9_7_l" /><input type="radio" name="move" id="m9_7_r" />
+<input type="radio" name="move" id="m10_7_l" /><input type="radio" name="move" id="m10_7_r" />
+<input type="radio" name="move" id="m11_7_l" /><input type="radio" name="move" id="m11_7_r" />
+<input type="radio" name="move" id="m12_7_l" /><input type="radio" name="move" id="m12_7_r" />
+<input type="radio" name="move" id="m8_c_7_r" /><input type="radio" name="move" id="m13_c_7_l" />
+<input type="radio" name="move" id="m8_c_6_r" /><input type="radio" name="move" id="m13_c_6_l" />
+<input type="radio" name="move" id="m8_c_5_r" /><input type="radio" name="move" id="m13_c_5_l" />
+<input type="radio" name="move" id="m8_c_4_r" /><input type="radio" name="move" id="m13_c_4_l" />
+<input type="radio" name="move" id="m8_c_3_r" /><input type="radio" name="move" id="m13_c_3_l" />
+<input type="radio" name="move" id="m8_c_2_r" /><input type="radio" name="move" id="m13_c_2_l" />
+<input type="radio" name="move" id="m8_c_1_r" /><input type="radio" name="move" id="m13_c_1_l" />
+<input type="radio" name="move" id="m15_5_l" /><input type="radio" name="move" id="m15_5_r" />
+<input type="radio" name="move" id="m16_5_l" /><input type="radio" name="move" id="m16_5_r" />
+<input type="radio" name="move" id="m17_5_l" /><input type="radio" name="move" id="m17_5_r" />
+<input type="radio" name="move" id="m14_c_5_r" /><input type="radio" name="move" id="m18_c_5_l" />
+<input type="radio" name="move" id="m14_c_4_r" /><input type="radio" name="move" id="m18_c_4_l" />
+<input type="radio" name="move" id="m14_c_3_r" /><input type="radio" name="move" id="m18_c_3_l" />
+<input type="radio" name="move" id="m14_c_2_r" /><input type="radio" name="move" id="m18_c_2_l" />
+<input type="radio" name="move" id="m14_c_1_r" /><input type="radio" name="move" id="m18_c_1_l" />
+<input type="radio" name="punch" id="pu_1" /><input type="radio" name="punch" id="pu_2" />
+<input type="radio" name="punch" id="pr_1" /><input type="radio" name="punch" id="pr_2" />
+<input type="radio" name="punch" id="pd_1" /><input type="radio" name="punch" id="pd_2" />
+<input type="radio" name="punch" id="pl_1" /><input type="radio" name="punch" id="pl_2" />
+<input type="radio" name="w1_l_f1" id="w1_l_f1" /><input type="radio" name="w1_r_f1" id="w1_r_f1" />
+<input type="radio" name="w1_l_f2" id="w1_l_f2" /><input type="radio" name="w1_r_f2" id="w1_r_f2" />
+<input type="radio" name="w1_l_f3" id="w1_l_e1_f3" /><input type="radio" name="w1_r_f3" id="w1_r_f3" />
+<input type="radio" name="w1_l_f4" id="w1_l_f4" /><input type="radio" name="w1_r_f4" id="w1_r_f4" />
+<input type="radio" name="w1_l_f5" id="w1_l_f5" /><input type="radio" name="w1_r_f5" id="w1_r_f5" />
+<input type="radio" name="d1" id="d1" />
+<input type="radio" name="w2_l_f1" id="w2_l_f1" /><input type="radio" name="w2_r_f1" id="w2_r_f1" />
+<input type="radio" name="w2_l_f2" id="w2_l_f2" /><input type="radio" name="w2_r_f2" id="w2_r_e2_f2" />
+<input type="radio" name="w2_l_f3" id="w2_l_f3" /><input type="radio" name="w2_r_f3" id="w2_r_f3" />
+<input type="radio" name="w2_l_f4" id="w2_l_f4" /><input type="radio" name="w2_r_f4" id="w2_r_f4" />
+<input type="radio" name="w2_l_h1_f5" id="w2_l_h1_f5" /><input type="radio" name="w2_r_f5" id="w2_r_f5" />
+<input type="radio" name="w2_l_f6" id="w2_l_f6" /><input type="radio" name="w2_r_f6" id="w2_r_f6" />
+<input type="radio" name="d2" id="d2" />
+<input type="radio" name="w3_l_f1" id="w3_l_f1" /><input type="radio" name="w3_r_f1" id="w3_r_f1" />
+<input type="radio" name="w3_l_f2" id="w3_l_f2" /><input type="radio" name="w3_r_h2_f2" id="w3_r_h2_f2" />
+<input type="radio" name="w3_l_f3" id="w3_l_f3" /><input type="radio" name="w3_r_f3" id="w3_r_f3" />
+<input type="radio" name="w3_l_e3_f4" id="w3_l_e3_f4" /><input type="radio" name="w3_r_f4" id="w3_r_f4" />
+<input type="radio" name="d3" id="d3" />
+<input type="radio" name="e4" id="e4" />
+<input type="radio" name="e5" id="e5" />
+<div id="game">
+<div id="title">
+<h1>Rampage</h1>
+<fieldset>
+<label for="mon1"></label><label for="mon2"></label><label for="mon3"></label>
+</fieldset>
+<label for="play">Play</label>
+</div>
+<div id="city">
+<div id="info">
+<div id="meter">
+<div id="health1"></div><div id="health2"></div><div id="health3"></div><div id="health4"></div><div id="health5"></div>
+</div>
+</div>
+<div id="bg1"></div><div id="bg2"></div><div id="bg3"></div><div id="bg4"></div>
+<div id="building1">
+<div class="floors">
+<div class="window_l_f5"></div><div class="window_r_f5"></div>
+<div class="window_l_f4"></div><div class="window_r_f4"></div>
+<div class="window_l_f3"></div><div class="window_r_f3"></div>
+<div class="window_l_f2"></div><div class="window_r_f2"></div>
+<div class="window_l_f1"></div><div class="window_r_f1"></div>
+</div>
+</div>
+<div id="building2">
+<div class="floors">
+<div class="window_l_f6"></div><div class="window_r_f6"></div>
+<div class="window_l_f5"></div><div class="window_r_f5"></div>
+<div class="window_l_f4"></div><div class="window_r_f4"></div>
+<div class="window_l_f3"></div><div class="window_r_f3"></div>
+<div class="window_l_f2"></div><div class="window_r_f2"></div>
+<div class="window_l_f1"></div><div class="window_r_f1"></div>
+</div>
+</div>
+<div id="building3">
+<div class="floors">
+<div class="window_l_f4"></div><div class="window_r_f4"></div>
+<div class="window_l_f3"></div><div class="window_r_f3"></div>
+<div class="window_l_f2"></div><div class="window_r_f2"></div>
+<div class="window_l_f1"></div><div class="window_r_f1"></div>
+</div>
+</div>
+<div id="road"></div>
+<div id="monster">
+<div id="dir">
+<div id="kill1"><div id="kill2"><div id="kill3"><div id="kill4"><div id="kill5"><div>
+<div id="sprite"></div>
+</div></div></div></div></div></div>
+</div>
+</div>
+<div id="pter"></div>
+<div id="tank"></div>
+</div>
+<div id="controls">
+<fieldset>
+<label for="c1"></label><label for="c2"></label><label for="c3"></label>
+</fieldset>
+<div id="move">
+<div class="button_u"></div><div class="button_r"></div><div class="button_d"></div><div class="button_l"></div>
+<div class="labels">
+<div id="walk">
+<label for="m0_l"></label><label for="m0_r"></label>
+<label for="m1_l"></label><label for="m1_r"></label>
+<label for="m2_l"></label><label for="m2_r"></label>
+<label for="m3_l"></label><label for="m3_r"></label>
+<label for="m4_l"></label><label for="m4_r"></label>
+<label for="m5_l"></label><label for="m5_r"></label>
+<label for="m6_l"></label><label for="m6_r"></label>
+<label for="m7_l"></label><label for="m7_r"></label>
+<label for="m8_l"></label><label for="m8_r"></label>
+<label for="m9_l"></label><label for="m9_r"></label>
+<label for="m10_l"></label><label for="m10_r"></label>
+<label for="m11_l"></label><label for="m11_r"></label>
+<label for="m12_l"></label><label for="m12_r"></label>
+<label for="m13_l"></label><label for="m13_r"></label>
+<label for="m14_l"></label><label for="m14_r"></label>
+<label for="m15_l"></label><label for="m15_r"></label>
+<label for="m16_l"></label><label for="m16_r"></label>
+<label for="m17_l"></label><label for="m17_r"></label>
+<label for="m18_l"></label><label for="m18_r"></label>
+<label for="m19_l"></label><label for="m19_r"></label>
+</div>
+<div id="climb1">
+<div class="roof">
+<label for="m3_c_5_r"></label>
+<label for="m4_6_l"></label>
+<label for="m5_6_r"></label>
+<label for="m6_c_5_l"></label>
+</div>
+<label for="m4_6_r"></label><label for="m5_6_l"></label>
+<label for="m3_c_4_r"></label><label for="m6_c_4_l"></label>
+<label for="m3_c_5_r"></label><label for="m6_c_5_l"></label>
+<label for="m3_c_3_r"></label><label for="m6_c_3_l"></label>
+<label for="m3_c_4_r"></label><label for="m6_c_4_l"></label>
+<label for="m3_c_2_r"></label><label for="m6_c_2_l"></label>
+<label for="m3_c_3_r"></label><label for="m6_c_3_l"></label>
+<label for="m3_c_1_r"></label><label for="m6_c_1_l"></label>
+<label for="m3_c_2_r"></label><label for="m6_c_2_l"></label>
+<label for="m3_r"></label><label for="m6_l"></label>
+<label for="m3_c_1_r"></label><label for="m6_c_1_l"></label>
+</div>
+<div id="climb2">
+<div class="roof">
+<label for="m8_c_6_r"></label>
+<label for="m9_7_l"></label>
+<label for="m10_7_l"></label><label for="m10_7_r"></label>
+<label for="m11_7_l"></label><label for="m11_7_r"></label>
+<label for="m12_7_r"></label>
+<label for="m13_c_6_l"></label>
+</div>
+<label for="m9_7_r"></label><label for="m12_7_l"></label>
+<label for="m8_c_5_r"></label><label for="m13_c_5_l"></label>
+<label for="m8_c_6_r"></label><label for="m13_c_6_l"></label>
+<label for="m8_c_4_r"></label><label for="m13_c_4_l"></label>
+<label for="m8_c_5_r"></label><label for="m13_c_5_l"></label>
+<label for="m8_c_3_r"></label><label for="m13_c_3_l"></label>
+<label for="m8_c_4_r"></label><label for="m13_c_4_l"></label>
+<label for="m8_c_2_r"></label><label for="m13_c_2_l"></label>
+<label for="m8_c_3_r"></label><label for="m13_c_3_l"></label>
+<label for="m8_c_1_r"></label><label for="m13_c_1_l"></label>
+<label for="m8_c_2_r"></label><label for="m13_c_2_l"></label>
+<label for="m8_r"></label><label for="m13_l"></label>
+<label for="m8_c_1_r"></label><label for="m13_c_1_l"></label>
+</div>
+<div id="climb3">
+<div class="roof">
+<label for="m14_c_4_r"></label>
+<label for="m15_5_l"></label>
+<label for="m16_5_l"></label><label for="m16_5_r"></label>
+<label for="m17_5_r"></label>
+<label for="m18_c_4_l"></label>
+</div>
+<label for="m15_5_r"></label><label for="m17_5_l"></label>
+<label for="m14_c_3_r"></label><label for="m18_c_3_l"></label>
+<label for="m14_c_4_r"></label><label for="m18_c_4_l"></label>
+<label for="m14_c_2_r"></label><label for="m18_c_2_l"></label>
+<label for="m14_c_3_r"></label><label for="m18_c_3_l"></label>
+<label for="m14_c_1_r"></label><label for="m18_c_1_l"></label>
+<label for="m14_c_2_r"></label><label for="m18_c_2_l"></label>
+<label for="m14_r"></label><label for="m18_l"></label>
+<label for="m14_c_1_r"></label><label for="m18_c_1_l"></label>
+</div>
+</div>
+<div class="block_tl"></div><div class="block_tr"></div><div class="block_br"></div><div class="block_bl"></div>
+</div>
+<div id="punch">
+<div class="button_u"></div><div class="button_r"></div><div class="button_d"></div><div class="button_l"></div>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="pr_1"></label><label for="pr_2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<div class="labels">
+<div id="smash1">
+<div class="roof">
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="pr_1"></label><label for="pr_2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+</div>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w1_l_f5"></label><label for="d1"></label><label for="w1_r_f5"></label><label for="d1"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w1_l_f4"></label><label for="d1"></label><label for="w1_r_f4"></label><label for="d1"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w1_l_e1_f3"></label><label for="d1"></label><label for="w1_r_f3"></label><label for="d1"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w1_l_f2"></label><label for="d1"></label><label for="w1_r_f2"></label><label for="d1"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w1_l_f1"></label><label for="d1"></label><label for="w1_r_f1"></label><label for="d1"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+</div>
+<div id="smash2">
+<div class="roof">
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="pr_1"></label><label for="pr_2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+</div>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_f6"></label><label for="d2"></label><label for="w2_r_f6"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_h1_f5"></label><label for="d2"></label><label for="w2_r_f5"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_f4"></label><label for="d2"></label><label for="w2_r_f4"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_f3"></label><label for="d2"></label><label for="w2_r_f3"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_f2"></label><label for="d2"></label><label for="w2_r_e2_f2"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w2_l_f1"></label><label for="d2"></label><label for="w2_r_f1"></label><label for="d2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+</div>
+<div id="smash3">
+<div class="roof">
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="pr_1"></label><label for="pr_2"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+<label for="pl_1"></label><label for="pl_2"></label>
+</div>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w3_l_e3_f4"></label><label for="d3"></label><label for="w3_r_f4"></label><label for="d3"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w3_l_f3"></label><label for="d3"></label><label for="w3_r_f3"></label><label for="d3"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w3_l_f2"></label><label for="d3"></label><label for="w3_r_h2_f2"></label><label for="d3"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+<label for="pu_1"></label><label for="pu_2"></label>
+<label for="w3_l_f1"></label><label for="d3"></label><label for="w3_r_f1"></label><label for="d3"></label>
+<label for="pd_1"></label><label for="pd_2"></label>
+</div>
+<label for="e4"></label>
+<label for="e5"></label>
+</div>
+<div class="block_tl"></div><div class="block_tr"></div><div class="block_br"></div><div class="block_bl"></div>
+</div>
+<div id="block1"></div>
+<div id="block2"></div>
+<div id="block3"></div>
+</div>
+<div id="complete">
+<h2>Congratulations</h2>
+<label for="reset">Restart</label>
+</div>
+<div id="damage">
+<div id="hits">
+<div id="hit1"></div><div id="hit2"></div><div id="hit3"></div><div id="hit4"></div><div id="hit5"></div>
+</div>
+<div id="gameover">
+<h2>Game Over</h2>
+<label for="reset">Restart</label>
+</div>
+</div>
+</div>
+<input type="reset" id="reset" />
+</form>
+</body>
+</html>
