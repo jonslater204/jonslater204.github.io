@@ -1,0 +1,257 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 4vmin;
+  text-align: center;
+}
+h1 {
+  margin: 2vmin;
+  font-size: 7vmin;
+  line-height: 6vmin;
+}
+.o {
+  display: inline-block;
+  width: 5.5vmin;
+  height: 5.5vmin;
+  vertical-align: baseline;
+  background: #c00;
+  border-radius: 50%;
+  color: transparent;
+}
+.o:first-of-type {
+  filter: brightness(140%);
+}
+form {
+  margin: 0 auto;
+  padding: 0;
+  width: 50vmin;
+  height: 50vmin;
+  position: relative;
+}
+input {
+  position: absolute;
+  left: -999vw;
+}
+#game {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#game > div {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+@keyframes colours {
+  100% {
+    filter: hue-rotate(1turn);
+  }
+}
+#game label {
+  border-radius: 50%;
+  background: #c00;
+  cursor: pointer;
+  animation: colours 0.1s linear infinite;
+}
+#game > div > label,
+.corrects {
+  width: 22%;
+  height: 22%;
+}
+@keyframes shuffle {
+  100% {
+    order: 31;
+  }
+}
+.corrects {
+  order: 1;
+  animation: shuffle 0.15s steps(16) infinite;
+  position: relative;
+}
+#start_b:checked ~ #game .corrects {filter: brightness(150%);}
+#correct_1_a:checked ~ #game .corrects{filter: brightness(65%);}
+#correct_2_b:checked ~ #game .corrects {filter: brightness(140%);}
+#correct_3_a:checked ~ #game .corrects {filter: brightness(70%);}
+#correct_4_b:checked ~ #game .corrects {filter: brightness(130%);}
+#correct_5_a:checked ~ #game .corrects {filter: brightness(75%);}
+#correct_6_b:checked ~ #game .corrects {filter: brightness(120%);}
+#correct_7_a:checked ~ #game .corrects {filter: brightness(80%);}
+#correct_8_b:checked ~ #game .corrects {filter: brightness(110%);}
+#correct_9_a:checked ~ #game .corrects {filter: brightness(85%);}
+.corrects label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+#game label:nth-of-type(1) {order: 2;}
+#game label:nth-of-type(2) {order: 4;}
+#game label:nth-of-type(3) {order: 6;}
+#game label:nth-of-type(4) {order: 8;}
+#game label:nth-of-type(5) {order: 10;}
+#game label:nth-of-type(6) {order: 12;}
+#game label:nth-of-type(7) {order: 14;}
+#game label:nth-of-type(8) {order: 16;}
+#game label:nth-of-type(9) {order: 18;}
+#game label:nth-of-type(10) {order: 20;}
+#game label:nth-of-type(11) {order: 22;}
+#game label:nth-of-type(12) {order: 24;}
+#game label:nth-of-type(13) {order: 26;}
+#game label:nth-of-type(14) {order: 28;}
+#game label:nth-of-type(15) {order: 30;}
+.cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: rgba(255, 255, 255, 0.75);
+}
+.cover p {
+  font-size: 4vmin;
+}
+#gameover,
+#win,
+#init_a ~ :checked ~ #init {
+  display: none;
+}
+#init_a ~ :checked ~ #score::before {
+  content: "Score: ";
+}
+[for="start_b"],
+[for="reset"] {
+  padding: 2vmin;
+  border-radius: 2vmin;
+  cursor: pointer;
+  background: #666;
+  color: white;
+  font-size: 4vmin;
+  font-weight: bold;
+}
+[id$="_a"]:checked ~ #game #b,
+[id$="_b"]:checked ~ #game #a {
+  visibility: visible;
+}
+#start_b:checked ~ #game [for="correct_1_a"],
+#correct_1_a:checked ~ #game [for="correct_2_b"],
+#correct_2_b:checked ~ #game [for="correct_3_a"],
+#correct_3_a:checked ~ #game [for="correct_4_b"],
+#correct_4_b:checked ~ #game [for="correct_5_a"],
+#correct_5_a:checked ~ #game [for="correct_6_b"],
+#correct_6_b:checked ~ #game [for="correct_7_a"],
+#correct_7_a:checked ~ #game [for="correct_8_b"],
+#correct_8_b:checked ~ #game [for="correct_9_a"],
+#correct_9_a:checked ~ #game [for="correct_10_b"] {
+  z-index: 1;
+}
+[id$="_a"]:checked ~ #game #b label,
+[id$="_b"]:checked ~ #game #a label,
+[id$="_a"]:checked ~ #game #b div,
+[id$="_b"]:checked ~ #game #a div {
+  animation-play-state: paused;
+}
+#start_b:checked ~ #score::after {content: "0";}
+#correct_1_a:checked ~ #score::after {content: "1";}
+#correct_2_b:checked ~ #score::after {content: "2";}
+#correct_3_a:checked ~ #score::after {content: "3";}
+#correct_4_b:checked ~ #score::after {content: "4";}
+#correct_5_a:checked ~ #score::after {content: "5";}
+#correct_6_b:checked ~ #score::after {content: "6";}
+#correct_7_a:checked ~ #score::after {content: "7";}
+#correct_8_b:checked ~ #score::after {content: "8";}
+#correct_9_a:checked ~ #score::after {content: "9";}
+#correct_10_b:checked ~ #score::after {content: "10";}
+#wrong:checked ~ #gameover,
+#correct_10_b:checked ~ #win {
+  display: block;
+}
+</style>
+<h1><span class="o">O</span>dd T<span class="o">O</span>ne <span class="o">O</span>ut</h1>
+<form autocomplete="off">
+<input type="reset" id="reset">
+<input type="radio" name="wrong" id="wrong">
+<input type="radio" name="correct" id="init_a" checked>
+<input type="radio" name="correct" id="start_b">
+<input type="radio" name="correct" id="correct_1_a">
+<input type="radio" name="correct" id="correct_2_b">
+<input type="radio" name="correct" id="correct_3_a">
+<input type="radio" name="correct" id="correct_4_b">
+<input type="radio" name="correct" id="correct_5_a">
+<input type="radio" name="correct" id="correct_6_b">
+<input type="radio" name="correct" id="correct_7_a">
+<input type="radio" name="correct" id="correct_8_b">
+<input type="radio" name="correct" id="correct_9_a">
+<input type="radio" name="correct" id="correct_10_b">
+<div id="game">
+<div id="a">
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<div class="corrects">
+<label for="correct_1_a"></label>
+<label for="correct_3_a"></label>
+<label for="correct_5_a"></label>
+<label for="correct_7_a"></label>
+<label for="correct_9_a"></label>
+</div>
+</div>
+<div id="b">
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<label for="wrong"></label>
+<div class="corrects">
+<label for="correct_2_b"></label>
+<label for="correct_4_b"></label>
+<label for="correct_6_b"></label>
+<label for="correct_8_b"></label>
+<label for="correct_10_b"></label>
+</div>
+</div>
+</div>
+<div id="init" class="cover">
+<p>Find which circle is different</p>
+<label for="start_b">Start</label>
+</div>
+<div id="gameover" class="cover">
+<p>Game Over</p>
+<label for="reset">Restart</label>
+</div>
+<div id="win" class="cover">
+<p>10 out of 10 !</p>
+<label for="reset">Restart</label>
+</div>
+<p id="score"></p>
+</form>
