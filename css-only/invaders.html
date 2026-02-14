@@ -5,7 +5,7 @@ input {position: absolute; left: -100vw;}
 label {display: block; cursor: pointer; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
 p {margin: 0; padding: 0;}
 #title,
-form {position: absolute; width: 100vmin; height: 100vmin; left: 50%; top: 0; transform: translateX(-50%); background: black; overflow: hidden;}
+form {position: absolute; width: 100vmin; height: 100vmin; left: 50%; top: 0; transform: translateX(-50%); background: black; overflow: hidden; --checkpause: paused;}
 #title {display: none;}
 #title #text {perspective: 15vmin;}
 #title h1 {position: absolute; left: 0; top: -2.5vmin; color: magenta; margin: 10vmin 0 2vmin; font-size: 12vmin; line-height: 15vmin; transform: rotateX(-10deg);}
@@ -418,9 +418,16 @@ div[id^="ufo"]::before,
 [id^="hit"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ [id^="hit"]:checked ~ #game {animation-name: delaypause1;}
 [id^="hit"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ [id^="hit"]:checked ~ #game {animation-name: delaypause2;}
 [id^="hit"]:checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ :checked ~ [id^="hit"]:checked ~ #game {animation-name: delaypause1;}
+/*
 @keyframes delaycheck {0% {--delaycheck: 0;} 100% {--delaycheck: 100vw; left: 0;}}
 #browsercheck {position: absolute; top: 35vmin; left: -100vw; width: 100vmin; height: 20vmin; animation: delaycheck 1s steps(1) forwards; pointer-events: none;}
-#browsercheck div {position: absolute; top: 0; left: var(--delaycheck); width: 100%; height: 100%; background: black; font-size: 2vmin; pointer-events: initial;}
+#browsercheck div {position: absolute; top: 0; left: var(--delaycheck, 0); width: 100%; height: 100%; background: black; font-size: 2vmin; pointer-events: initial;}
+*/
+@keyframes checkpause {0% {left: 100vw; --checkpause: running;} 100% {left: 0; --checkpause: running;}}
+@keyframes checkmove {0% {left: 0;} 100% {left: -100vw;}}
+#browsercheck {position: absolute; top: 35vmin; left: 100vw; width: 100vmin; height: 20vmin; animation: checkpause 1s steps(1) forwards; pointer-events: none;}
+#browsercheck div {position: absolute; top: 0; width: 100%; height: 100%; background: black; font-size: 2vmin; pointer-events: initial; animation: checkmove 1s steps(1) forwards; animation-play-state: var(--checkpause);}
+
 #browsercheck a:link,
 #browsercheck a:visited,
 #browsercheck a:hover,
